@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>404 | hikki photography</title>
+  <meta name="robots" content="noindex"/>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="/site.css"/>
+  <script src="/site.js" defer></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --hk-bar-alpha: 0.92; } /* 黑底頁 header 唔透灰 */
+    html, body { height: 100%; background: #000; color: var(--hk-ivory); overflow: hidden; }
+    body { font-family: var(--hk-font-mono); }
+    .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
+    main {
+      position: fixed; inset: 0; height: 100dvh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: calc(var(--hk-bar-h) + 20px) var(--hk-pad-x) 40px;
+    }
+    h1 {
+      font-family: var(--hk-font-sans); font-weight: bold;
+      font-size: clamp(64px, 14vw, 180px); line-height: 0.9; letter-spacing: -0.02em;
+      color: var(--hk-ivory);
+    }
+    p { margin-top: 20px; font-size: clamp(14px, 2vw, 18px); line-height: 1.7; }
+    a { color: var(--hk-ivory); text-decoration: underline; }
+    a:hover { color: var(--hk-gold); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 id="t">404,</h1>
+    <p id="s">signal lost. recalibrating...<br><a href="/">&gt; return to index</a> <span class="blink-block">■</span></p>
+  </main>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var C = window.HikkiCrack;
+      if (C) C.startOn([].concat(C.collect(document.getElementById('t')), C.collect(document.getElementById('s'))));
+    });
+  </script>
+</body>
+</html>

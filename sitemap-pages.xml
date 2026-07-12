@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <!-- Home / About -->
+  <url>
+    <loc>https://hikki.ca/</loc>
+    <lastmod>2025-09-04T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- Gallery -->
+  <url>
+    <loc>https://hikki.ca/gallery.html</loc>
+    <lastmod>2025-09-04T00:00:00Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- Contact -->
+  <url>
+    <loc>https://hikki.ca/contact.html</loc>
+    <lastmod>2025-09-04T00:00:00Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+</urlset>

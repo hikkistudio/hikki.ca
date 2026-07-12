@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"/>
+  <title>Gallery | hikki photography</title>
+
+  <link rel="canonical" href="https://hikki.ca/gallery.html"/>
+
+  <meta name="description" content="hikki photography gallery — weddings, portraits, pets and cities across vancouver, hong kong and macau. honest, human, emotional photography."/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+  <meta name="author" content="hikki photography & philosophy"/>
+  <meta name="theme-color" content="#000000"/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:title" content="gallery | hikki photography"/>
+  <meta property="og:description" content="weddings, portraits, pets and cities — honest, human, emotional photography."/>
+  <meta property="og:url" content="https://hikki.ca/gallery.html"/>
+  <meta property="og:image" content="https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="site.css"/>
+  <script src="site.js" defer></script>
+  <script src="gallery-data.js"></script>
+
+  <style>
+    :root {
+      --mono: "Courier New", Courier, monospace;
+      --ja: "Noto Serif JP", serif;
+      --ivory: #f4f2f0;
+      --ink: #000;
+      --max-bound: 1440px;
+      /* 黑底頁：header 提高不透明度，免磨砂混黑變灰 */
+      --hk-bar-alpha: 0.92;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html {
+      scroll-behavior: smooth;
+      overscroll-behavior-x: none;
+      touch-action: pan-y;
+      background: #000;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--mono);
+      background: #000;
+      color: var(--ink);
+      -webkit-text-size-adjust: 100%;
+      padding-top: var(--hk-bar-h);
+    }
+
+    /* 強制 CJK 字體權重 */
+    [lang="ja"], .ja { font-family: var(--ja) !important; font-weight: 200 !important; }
+
+    body.scroll-lock {
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    .blink-block { display: inline-block; animation: blink3 3s infinite; }
+    @keyframes blink3 { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
+
+    /* ===== 篩選欄 (Filter Bar) ===== */
+    .filter-bar {
+      width: 100%; background: #000; border-bottom: 1px solid #000;
+      position: sticky; top: var(--hk-bar-h); z-index: 5;
+      display: flex; align-items: center; gap: 10px; padding: 10px 40px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-btn {
+      appearance: none; border: 0; background: none;
+      color: var(--ivory); padding: 4px 0; font-size: 14px;
+      cursor: pointer; font-family: var(--mono);
+      border-bottom: 1px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .filter-btn:hover { color: #f1c232; }
+    .filter-btn.active { border-bottom-color: var(--ivory); }
+    .fsep { color: rgba(244,242,240,.45); margin: 0 10px; font-size: 14px; user-select: none; }
+
+    /* ===== 藝廊與遮罩動畫 ===== */
+    .gallery-wrapper {
+      max-width: var(--max-bound); margin: 0 auto; 
+      padding: 20px 40px; 
+    }
+
+    .gallery {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;
+    }
+
+    .ph {
+      position: relative;
+      flex: 0 0 calc(25% - 7.5px);
+      aspect-ratio: 2/3; overflow: hidden; background: #111;
+      cursor: pointer;
+      /* 離屏格仔唔使 render，長列表捲動更順 */
+      content-visibility: auto;
+      contain-intrinsic-size: auto 300px;
+    }
+
+    .ph img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .ph img.loaded { opacity: 1; transform: translateY(0); }
+
+    /* --- Recalibrating Masking --- */
+    .ph-mask {
+      position: absolute; inset: 0; background: #000; color: var(--ivory);
+      display: flex; align-items: center; justify-content: center; font-family: var(--mono);
+      user-select: none; pointer-events: none; opacity: 1; transition: opacity 0.25s ease;
+      z-index: 2;
+    }
+    .ph-mask::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(255,255,255,.08), rgba(255,255,255,0) 60%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 3px);
+      mix-blend-mode: overlay; opacity: .25;
+      animation: scan 3.2s linear infinite;
+    }
+    @keyframes scan { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
+    .ph-mask.fade { opacity: 0; }
+    .ph-txt { position: relative; text-align: center; white-space: pre; font-size: 11px; line-height: 1.25; opacity: .95; }
+    .ph-txt .blink { opacity: .45; animation: blinkFast 1.8s ease-in-out infinite; }
+    @keyframes blinkFast { 0%, 100% { opacity: .35; } 50% { opacity: .95; } }
+
+    /* --- 偽元素座標發光點 --- */
+    .ph[data-has-mask="true"]::before {
+      content: ""; position: absolute; pointer-events: none; width: 6px; height: 6px; border-radius: 999px; background: #f4f2f0;
+      transform: translate(calc(var(--dot-x, 50%) - 50%), calc(var(--dot-y, 50%) - 50%)); 
+      box-shadow: 0 0 10px #f4f2f0; opacity: .85; z-index: 3; transition: opacity 0.25s ease;
+    }
+    
+    .ph.is-loaded::before { opacity: 0; }
+
+    /* ===== 分頁控制 ===== */
+    .load-more-wrap { display: flex; justify-content: center; padding: 40px 0; }
+    .load-more-btn {
+      appearance: none; border: 0; background: none;
+      color: var(--ivory); padding: 10px 0; cursor: pointer;
+      font-family: var(--mono); font-size: 14px;
+      transition: color .2s;
+    }
+    .load-more-btn:hover { color: #f1c232; }
+
+    /* ===== Lightbox ===== */
+    .overlay {
+      position: fixed; inset: 0; display: flex; justify-content: center; align-items: center;
+      background: rgba(0,0,0,.95); z-index: 10002; opacity: 0; visibility: hidden;
+      transition: opacity .3s, visibility .3s;
+    }
+    .overlay.open { opacity: 1; visibility: visible; }
+    .overlay img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+    .close-btn {
+      position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px;
+      cursor: pointer; padding: 10px; z-index: 10003;
+    }
+
+    /* ===== 手機版 (Mobile Portrait) ===== */
+    @media (max-width: 767px) {
+      .filter-bar { top: var(--hk-bar-h); padding: 10px 16px; }
+
+      .gallery-wrapper { padding: 2px 10px 10px; }
+      .ph { flex: 0 0 calc(50% - 5px); }
+    }
+
+    /* 平板電腦 */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .ph { flex: 0 0 calc(33.33% - 6.7px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="filter-bar" role="toolbar" aria-label="gallery filters">
+    <button class="filter-btn" data-filter="souls">souls</button><span class="fsep">/</span><button class="filter-btn" data-filter="times">times</button><span class="fsep">/</span><button class="filter-btn" data-filter="cities">cities</button><span class="fsep">/</span><button class="filter-btn" data-filter="friends">friends</button>
+  </div>
+
+  <main class="gallery-wrapper">
+    <div class="gallery" id="mainGallery">
+      </div>
+    <div class="load-more-wrap">
+      <button id="loadMore" class="load-more-btn">&gt;load more</button>
+    </div>
+  </main>
+
+  <div class="overlay" id="lightbox" aria-modal="true" role="dialog">
+    <span class="close-btn" id="closeLightbox">&times;</span>
+    <img src="" alt="expanded view" id="lightboxImg">
+  </div>
+
+  <script>
+    /* IMAGE_DATA 由 gallery-data.js 提供 */
+
+    const BATCH_SIZE = 24;
+    let currentOffset = 0;
+    const activeFilters = new Set(); /* 多選：空 = 全部 */
+
+    // 生成澳門限定的地理座標
+    function getMacauCoords() {
+      const lat = (22.10 + Math.random() * 0.13).toFixed(6);
+      const lon = (113.49 + Math.random() * 0.12).toFixed(6);
+      return { lat, lon };
+    }
+
+    function getSeededOrder() {
+      const today = new Date().toISOString().slice(0, 10);
+      const seed = today.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a; }, 0);
+      return IMAGE_DATA.map((_, i) => i).sort((a, b) => {
+        const hashA = Math.sin(seed + a) * 10000;
+        const hashB = Math.sin(seed + b) * 10000;
+        return (hashA - Math.floor(hashA)) - (hashB - Math.floor(hashB));
+      });
+    }
+
+    const shuffledOrder = getSeededOrder();
+    const galleryEl = document.getElementById('mainGallery');
+    const loadMoreBtn = document.getElementById('loadMore');
+    const isNarrow = window.innerWidth <= 480;
+
+    function renderBatch() {
+      const filtered = shuffledOrder.filter(idx => {
+        if (!activeFilters.size) return true;
+        return IMAGE_DATA[idx].cat.some(c => activeFilters.has(c));
+      });
+
+      const nextBatch = filtered.slice(currentOffset, currentOffset + BATCH_SIZE);
+      const frag = document.createDocumentFragment(); /* 一次過插入，避免 24 次 reflow */
+
+      nextBatch.forEach((idx, i) => {
+        const item = IMAGE_DATA[idx];
+        const container = document.createElement('div');
+        container.className = 'ph';
+        container.dataset.hasMask = 'true';
+        
+        // 鑄造遮罩所需的神經網路（DOM）
+        const { lat, lon } = getMacauCoords();
+        const tail = isNarrow ? 'recalibrating' : 'recalibrating...';
+        const labelText = `${lat}\n${lon}\n${tail}`;
+        
+        container.style.setProperty('--dot-x', Math.round(Math.random() * 64 + 18) + '%');
+        container.style.setProperty('--dot-y', Math.round(Math.random() * 64 + 18) + '%');
+        container.dataset.phLabel = labelText;
+
+        const mask = document.createElement('div');
+        mask.className = 'ph-mask';
+        mask.innerHTML = `<div class="ph-txt">${lat}\n${lon}\n<span class="blink">${tail}</span></div>`;
+        
+        const img = new Image();
+        img.alt = `hikki photography - ${item.cat.join(', ')}`;
+        img.decoding = 'async';
+        img.loading = (currentOffset + i < 8) ? 'eager' : 'lazy';
+        if (currentOffset + i < 8) img.setAttribute('fetchpriority', 'high');
+        img.src = PHOTO_DIR + item.src; /* 屬性設齊先至 set src，lazy/priority 先生效 */
+        
+        // 絕對湮滅法則：加載完成後移除遮罩節點
+        const cleanUp = () => {
+          img.classList.add('loaded');
+          container.classList.add('is-loaded');
+          mask.classList.add('fade');
+          setTimeout(() => mask.remove(), 250); 
+        };
+
+        if (img.complete && img.naturalWidth > 0) {
+          cleanUp();
+        } else {
+          img.onload = cleanUp;
+          img.onerror = () => {
+            // 發生 404 死圖時，觸發物理性隔離，將瀏覽器預設破圖隱藏
+            img.style.display = 'none';
+            // 遮罩永久保留，並解除 onclick，防止開啟死連結 Lightbox
+            container.onclick = null;
+          };
+        }
+        
+        img.onclick = () => openLightbox(img.src);
+        
+        container.appendChild(img);
+        container.appendChild(mask);
+        frag.appendChild(container);
+      });
+
+      galleryEl.appendChild(frag);
+      currentOffset += BATCH_SIZE;
+      loadMoreBtn.style.display = (currentOffset >= filtered.length) ? 'none' : 'inline-flex';
+    }
+
+    // 篩選邏輯（多選 toggle）
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.onclick = () => {
+        const f = btn.dataset.filter;
+        if (activeFilters.has(f)) {
+          activeFilters.delete(f);
+          btn.classList.remove('active');
+        } else {
+          activeFilters.add(f);
+          btn.classList.add('active');
+        }
+        currentOffset = 0;
+        galleryEl.innerHTML = '';
+        renderBatch();
+      };
+    });
+
+    loadMoreBtn.onclick = renderBatch;
+
+    // Lightbox 實作
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    function openLightbox(src) {
+      lightboxImg.src = src;
+      lightbox.classList.add('open');
+      document.body.classList.add('scroll-lock');
+    }
+    document.getElementById('closeLightbox').onclick = () => {
+      lightbox.classList.remove('open');
+      document.body.classList.remove('scroll-lock');
+    };
+
+    renderBatch();
+  </script>
+</body>
+</html>

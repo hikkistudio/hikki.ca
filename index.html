@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>hikki photography</title>
+
+  <link rel="canonical" href="https://hikki.ca/">
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+
+  <meta name="description" content="hikki photography &amp; philosophy — filmic portraits, weddings, and cities. Emotions, not imitate perfection. Based in Vancouver, Victoria, Hong Kong, and Macau."/>
+  <meta name="theme-color" content="#000000"/>
+  <meta name="author" content="hikki photography & philosophy"/>
+
+  <meta name="application-name" content="hikki photography | hikki photo"/>
+  <meta name="apple-mobile-web-app-title" content="hikki photography"/>
+  <meta property="og:see_also" content="https://www.instagram.com/hikki_with_her_camera"/>
+  <meta property="og:locale:alternate" content="en_US"/>
+  <meta property="og:locale:alternate" content="zh_TW"/>
+  <meta property="og:locale:alternate" content="ja_JP"/>
+
+  <meta property="og:title" content="hikki photography"/>
+  <meta property="og:description" content="portraits, weddings, and cities — emotions over perfection."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://hikki.ca/"/>
+  <meta property="og:site_name" content="hikki photography &amp; philosophy"/>
+  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta property="og:image:alt" content="hikki photography — portraits, weddings, and city stories"/>
+  <meta property="og:locale" content="zh_HK"/>
+
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="hikki photography"/>
+  <meta name="twitter:description" content="portraits, weddings, and cities — emotions over perfection."/>
+  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
+
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
+
+  <link rel="preload" as="image" href="hero_poster.jpg"/>
+  <link rel="stylesheet" href="site.css"/>
+  <script src="site.js" defer></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      background: #000;
+      color: #000;
+      overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+    }
+    body { font-family: var(--hk-font-sans); }
+
+    [lang="ja"] { font-family: var(--hk-font-ja); font-weight: 200; }
+    [lang="en"] { font-family: var(--hk-font-mono); }
+
+    .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
+
+    .bg-video {
+      position: fixed; inset: 0; width: 100%;
+      height: 100vh; height: 100dvh;
+      object-fit: cover; z-index: 0; background: #000; pointer-events: none;
+    }
+
+    /* ===== 單屏 hero ===== */
+    .hero {
+      position: fixed; inset: 0; z-index: 1;
+      height: 100vh; height: 100dvh;
+      display: flex; flex-direction: column; justify-content: flex-start;
+      padding: calc(var(--hk-bar-h) + clamp(12px, 2.5vh, 32px)) var(--hk-pad-x) clamp(16px, 3vh, 36px);
+      max-width: 1440px; margin: 0 auto; width: 100%;
+      left: 50%; transform: translateX(-50%);
+    }
+
+    h1 {
+      position: relative; left: -0.14ch;
+      font-size: clamp(72px, min(14.5vw, 24vh), 230px);
+      line-height: 0.82; font-weight: bold; letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    h2 {
+      font-size: clamp(28px, min(4.6vw, 7vh), 58px);
+      line-height: 1.15; text-decoration: underline; letter-spacing: -0.01em;
+      margin-top: 6px;
+    }
+
+    .grid-container {
+      display: grid; grid-template-columns: auto 1fr;
+      grid-template-areas: "left chinese";
+      column-gap: clamp(20px, 4vw, 60px);
+      margin-top: clamp(18px, 4vh, 56px);
+      align-items: start;
+    }
+    .left { grid-area: left; }
+    .left h3 {
+      position: relative; left: -0.1ch;
+      font-family: var(--hk-font-mono);
+      font-weight: 100; font-size: clamp(20px, 2.2vw, 30px); line-height: 1.1;
+      white-space: nowrap; letter-spacing: -0.01em;
+    }
+    .locations {
+      margin-top: clamp(12px, 2.5vh, 24px); list-style: none;
+      font-family: var(--hk-font-mono);
+      font-size: clamp(14px, 1.5vw, 20px); line-height: 1.15; letter-spacing: -0.005em;
+    }
+    .locations li { white-space: nowrap; }
+    .locations li + li { margin-top: 4px; }
+
+    .chinese {
+      grid-area: chinese;
+      font-family: var(--hk-font-ja); font-weight: 200;
+      font-size: clamp(13px, 1.2vw, 16px); line-height: 1.6;
+      max-width: 420px; letter-spacing: 0;
+      justify-self: end; text-align: left;
+    }
+    .chinese .english { display: block; margin-top: 1ch; font-family: var(--hk-font-mono); letter-spacing: -0.005em; }
+
+    .copyright {
+      margin-top: auto; padding-top: 12px;
+      font-family: var(--hk-font-mono); font-size: clamp(10px, 1vw, 13px);
+    }
+
+    /* mobile 專用兩行大字（桌面隱藏） */
+    .m-slogan { display: none; }
+
+    /* ===== 手機直向：MONOLOG 形態 ===== */
+    @media (max-width: 767px) and (orientation: portrait) {
+      .hero {
+        left: 0; transform: none;
+        padding: calc(var(--hk-bar-h) + 20px) 24px calc(20px + env(safe-area-inset-bottom, 0px));
+      }
+      /* 桌面大字組合收起，改用底部兩行（只限 hero，勿掃到 menu） */
+      .hero h1, .hero h2 { display: none; }
+
+      /* MONOLOG 式：座標置中，四邊留白，詩唔顯示 */
+      .grid-container {
+        display: flex; flex-direction: column;
+        margin: auto 0;            /* 上下留白自動均分＝垂直置中 */
+        align-items: center;       /* 成塊水平置中 */
+      }
+      .left { text-align: left; }  /* 塊內靠左：h3 同 > 及座標對齊 */
+      .left h3 { font-size: 14px; white-space: normal; }
+      .locations {
+        font-size: 11px; margin-top: 14px;
+      }
+      .chinese { display: none; }
+
+      .m-slogan {
+        display: block; padding-top: 20px;
+        position: relative; left: -0.06ch;         /* 整體微微向左 */
+      }
+      .m-slogan .big {
+        font-size: min(15vw, 84px);                 /* 縮少少，保證逗號完整 */
+        line-height: 0.88; font-weight: bold; letter-spacing: -0.025em;
+        position: relative; left: -0.05em;          /* 與 not perfection 視覺對齊 */
+      }
+      .m-slogan .small {
+        font-size: min(5.8vw, 28px);
+        line-height: 1.15; font-weight: bold; letter-spacing: -0.01em;
+        text-decoration: underline; margin-top: 2px;  /* 兩行距離收窄 */
+      }
+      .copyright { display: none; }
+    }
+
+    /* 手機橫向 / 矮屏：容錯，允許滾動 */
+    @media (max-height: 480px) {
+      html, body { overflow: auto; }
+      .hero { position: relative; height: auto; min-height: 100dvh; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"hikki photography","url":"https://hikki.ca/"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"Brand","@id":"https://hikki.ca/#brand","name":"hikki photography & philosophy","alternateName":["hikki","hikki photography","hikki photo"],"url":"https://hikki.ca/","logo":"https://hikki.ca/favicon.png","sameAs":["https://www.instagram.com/hikki_with_her_camera"]},
+    {"@type":"Organization","@id":"https://hikki.ca/#org","name":"hikki photography & philosophy","url":"https://hikki.ca/","logo":"https://hikki.ca/favicon.png","brand":{"@id":"https://hikki.ca/#brand"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer service","email":"alex@hikki.ca","telephone":"+1-250-986-9516","areaServed":["CA","HK","MO","US"],"availableLanguage":["en","zh","ja"]}]},
+    {"@type":"LocalBusiness","@id":"https://hikki.ca/#business","name":"hikki photography","alternateName":["hikki","hikki photography","hikki photo"],"url":"https://hikki.ca/","image":"https://hikki.ca/hero_poster.jpg","priceRange":"$$","areaServed":["Greater Vancouver","Victoria","Hong Kong","Macau"],"address":{"@type":"PostalAddress","addressLocality":"Vancouver","addressRegion":"BC","addressCountry":"CA"},"telephone":"+1-250-986-9516","email":"alex@hikki.ca","brand":{"@id":"https://hikki.ca/#brand"}},
+    {"@type":"Person","@id":"https://hikki.ca/#founder","name":"Dallas Lau","alternateName":["Hikki","Hikki Photo"],"jobTitle":"Photographer","worksFor":{"@id":"https://hikki.ca/#business"},"url":"https://hikki.ca/","sameAs":["https://www.instagram.com/hikki_with_her_camera"]},
+    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-gallery","name":"gallery","url":"https://hikki.ca/gallery.html"},
+    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-jewel","name":"jeweldesign","url":"https://hikki.ca/jewel.html"},
+    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-iching","name":"I Ching","url":"https://hikki.ca/iching.html"},
+    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-macau17","name":"Macau17","url":"https://hikki.ca/game.html"}]}
+  </script>
+</head>
+<body>
+
+  <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster="hero_poster.jpg">
+    <source src="hero.webm" type="video/webm">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+
+  <main class="hero">
+    <h1>EMOTIONS,</h1>
+    <h2>not imitate perfection.</h2>
+
+    <div class="grid-container">
+      <div class="left">
+        <h3>hikki photography &amp; philosophy</h3>
+        <ul class="locations" aria-label="service areas and live coordinates">
+          <li>&gt;</li>
+          <li>Vancouver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;49.263431&nbsp;|&nbsp;-123.012508</li>
+          <li>Victoria&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;48.468213&nbsp;|&nbsp;-123.330938</li>
+          <li>Hong&nbsp;Kong&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;22.445293&nbsp;|&nbsp;&nbsp;114.031586</li>
+          <li>Macau&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;22.198510&nbsp;|&nbsp;&nbsp;113.536389&nbsp;<span class="blink-block">■</span></li>
+        </ul>
+      </div>
+
+      <div class="chinese" lang="ja">
+        &gt;<br>&gt;<br>
+        光在她睫毛下方折成一道道細影，微微顫動。她輕聲如耳語。穿透空氣的疲倦，像白襯衫上的海水乾了又濕。<br>
+        <span class="english" lang="en">
+          Light breaks beneath her lashes—<br>thin shadows trembling.<br>She whisper.<br>like salt drying<br>on a white shirt,<br>soon to be wet again. <span class="blink-block">■</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="m-slogan" aria-hidden="true">
+      <div class="big">EMOTIONS,</div>
+      <div class="small">not perfection.</div>
+    </div>
+
+    <div class="copyright" lang="en">© 2026 hikki photography &amp; philosophy. <span class="blink-block">■</span></div>
+  </main>
+
+  <script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var $ = function (sel, root) { return (root || document).querySelector(sel); };
+    var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
+
+    /* ===== 解碼動畫（首屏文字） ===== */
+    var C = window.HikkiCrack;
+    if (C) {
+      C.startOn([].concat(
+        C.collect($('.hero h1')),
+        C.collect($('.hero h2')),
+        C.collect($('.chinese')),
+        C.collect($('.m-slogan'))
+      ));
+    }
+
+    /* ===== Geolocation 座標漂移 ===== */
+    (function () {
+      var BOUNDS = {
+        'Vancouver': { lat: [49.198, 49.315], lon: [-123.224, -123.022] },
+        'Victoria':  { lat: [48.401, 48.477], lon: [-123.401, -123.307] },
+        'Hong':      { lat: [22.1333, 22.5833], lon: [113.8167, 114.5167] },
+        'Macau':     { lat: [22.06, 22.23], lon: [113.52, 113.68] }
+      };
+      var TICK_MIN = 40, TICK_MAX = 120, CHANGES_MIN = 1, CHANGES_MAX = 3;
+      var rint = function (a, b) { return a + Math.floor(Math.random() * (b - a + 1)); };
+
+      var COORD_RE = /([+-]?\d+(?:\.\d+)?)\s*\|\s*([+-]?\d+(?:\.\d+)?)/;
+
+      function mapTextNodes(el) {
+        var nodes = [], index = 0;
+        var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (n) { return n.nodeValue ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }
+        });
+        while (w.nextNode()) {
+          var node = w.currentNode, len = node.nodeValue.length;
+          nodes.push({ node: node, start: index, len: len });
+          index += len;
+        }
+        return { nodes: nodes, totalLen: index };
+      }
+      function writeFlat(flat, map) {
+        for (var i = 0; i < map.nodes.length; i++) {
+          var seg = map.nodes[i];
+          seg.node.nodeValue = flat.slice(seg.start, seg.start + seg.len);
+        }
+      }
+      function parseCoords(flat) {
+        var m = flat.match(COORD_RE);
+        if (!m || m.index == null) return null;
+        var start = m.index, latStr = m[1], lonStr = m[2];
+        return {
+          latStr: latStr, lonStr: lonStr,
+          latStart: start + m[0].indexOf(latStr), latLen: latStr.length,
+          lonStart: start + m[0].lastIndexOf(lonStr), lonLen: lonStr.length
+        };
+      }
+      function decs(s) { var i = s.indexOf('.'); return i >= 0 ? (s.length - i - 1) : 0; }
+
+      $$('.locations li').forEach(function (li) {
+        var map = mapTextNodes(li);
+        var base = li.textContent, cur = base;
+        var pos = parseCoords(base);
+        if (!pos) return;
+        var city = (base.split(/\s+/)[0] || '').trim();
+        var latDecs = decs(pos.latStr), lonDecs = decs(pos.lonStr);
+
+        function step() {
+          if (document.hidden) return;
+          var b = BOUNDS[city];
+          if (!b) return;
+          var latNew = (b.lat[0] + Math.random() * (b.lat[1] - b.lat[0])).toFixed(latDecs);
+          var lonNew = (b.lon[0] + Math.random() * (b.lon[1] - b.lon[0])).toFixed(lonDecs);
+          var picks = rint(CHANGES_MIN, CHANGES_MAX);
+          var chars = cur.split('');
+          function replaceSome(start, len, target) {
+            var idxs = [];
+            for (var i = 0; i < len; i++) { if (target[i] >= '0' && target[i] <= '9') idxs.push(i); }
+            for (var i2 = idxs.length - 1; i2 > 0; i2--) {
+              var j = (Math.random() * (i2 + 1)) | 0;
+              var t = idxs[i2]; idxs[i2] = idxs[j]; idxs[j] = t;
+            }
+            var take = Math.min(picks, idxs.length);
+            for (var k = 0; k < take; k++) chars[start + idxs[k]] = target[idxs[k]];
+          }
+          replaceSome(pos.latStart, pos.latLen, latNew.padStart(pos.latLen, ' '));
+          replaceSome(pos.lonStart, pos.lonLen, lonNew.padStart(pos.lonLen, ' '));
+          cur = chars.join('');
+          writeFlat(cur, map);
+        }
+        (function loop() {
+          step();
+          setTimeout(loop, TICK_MIN + Math.random() * (TICK_MAX - TICK_MIN));
+        })();
+      });
+    })();
+  });
+  </script>
+</body>
+</html>

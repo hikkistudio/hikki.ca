@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>jeweldesign | hikki photography</title>
+
+  <link rel="canonical" href="https://hikki.ca/jewel.html">
+  <!-- coming soon：內容未上線前唔俾 search engine 收錄 -->
+  <meta name="robots" content="noindex,follow"/>
+  <meta name="description" content="jeweldesign — a hikki photography & philosophy side project. coming soon."/>
+  <meta name="theme-color" content="#000000"/>
+
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="site.css"/>
+  <script src="site.js" defer></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --hk-bar-alpha: 0.92; } /* 黑底頁 header 唔透灰 */
+    html, body {
+      height: 100%;
+      background: #000; color: var(--hk-ivory);
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+    body { font-family: var(--hk-font-mono); }
+    .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
+
+    main {
+      position: fixed; inset: 0;
+      height: 100vh; height: 100dvh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: calc(var(--hk-bar-h) + 20px) var(--hk-pad-x) 40px;
+      max-width: 1440px; margin: 0 auto; width: 100%;
+      left: 50%; transform: translateX(-50%);
+    }
+    h1 {
+      font-family: var(--hk-font-sans);
+      font-size: clamp(48px, 10vw, 140px);
+      line-height: 0.9; font-weight: bold; letter-spacing: -0.02em;
+      color: var(--hk-ivory);
+      position: relative; left: -0.07ch;
+    }
+    .sub {
+      margin-top: 24px;
+      font-size: clamp(14px, 2vw, 20px); line-height: 1.7;
+    }
+    @media (max-width: 767px) and (orientation: portrait) {
+      main { left: 0; transform: none; padding-left: 24px; padding-right: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>jeweldesign</h1>
+    <p class="sub" id="sub">&gt;<br>coming soon.<br>craft in progress — stones, silver, and stories. <span class="blink-block">■</span></p>
+  </main>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var C = window.HikkiCrack;
+      if (C) C.startOn([].concat(
+        C.collect(document.querySelector('main h1')),
+        C.collect(document.getElementById('sub'))
+      ));
+    });
+  </script>
+</body>
+</html>
