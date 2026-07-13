@@ -30,7 +30,6 @@
   ];
 
   var MANIFESTO_HTML =
-    '<p>We are hikki. We photograph time, souls and cities.</p>' +
     '<p>Somewhere along the way, photography learned to lie—magic-moment presets, AI faces, filters that sand away everything true. We are not interested.</p>' +
     '<p>A photograph should feel like the moment it was made: the quiet light that belongs to you and the people you love, not the person you pretend to be.</p>' +
     '<p>Emotions, not imitate perfection.<br>Job invitations are welcomed. <span class="hk-blink">■</span></p>';

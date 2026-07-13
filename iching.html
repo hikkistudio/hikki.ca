@@ -224,7 +224,7 @@
     @media (max-width: 767px) and (orientation: portrait) {
       main { padding: calc(var(--hk-bar-h) + 14px) 18px 14px; }
       .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 10px; align-items: start; }
-      .left { justify-content: center; }
+      .left { justify-content: flex-start; } /* 轉盤同下方內容一齊靠左 */
       .pad { width: auto; grid-template-columns: repeat(4, auto); grid-template-rows: repeat(3, auto); gap: 6px 22px; }
       /* 4 欄：三組數橫排，■ 喺右邊直行中間 */
       .digit { width: 52px; height: 52px; }
