@@ -90,9 +90,9 @@
     }
 
     .grid-container {
-      display: grid; grid-template-columns: auto 1fr;
-      grid-template-areas: "left chinese";
-      column-gap: clamp(20px, 4vw, 60px);
+      display: grid; grid-template-columns: auto auto 1fr;
+      grid-template-areas: "left chinese .";
+      column-gap: clamp(16px, 2.6vw, 44px);
       margin-top: clamp(18px, 4vh, 56px);
       align-items: start;
     }
@@ -116,7 +116,7 @@
       font-family: var(--hk-font-ja); font-weight: 200;
       font-size: clamp(13px, 1.2vw, 16px); line-height: 1.6;
       max-width: 420px; letter-spacing: 0;
-      justify-self: end; text-align: left;
+      justify-self: start; text-align: left;
     }
     .chinese .english { display: block; margin-top: 1ch; font-family: var(--hk-font-mono); letter-spacing: -0.005em; }
 

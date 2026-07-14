@@ -101,12 +101,13 @@
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .hk-menu { background: rgba(244, 242, 240, 0.96); }
 }
-/* 超大螢幕：blur 面積太大，改近實色 + 輕 blur，保順滑 */
-@media (min-width: 1720px) {
+/* 桌面：全屏 backdrop-filter 疊 header 嗰層係卡頓元兇——
+   改近實色零 blur（0.94 不透明度下觀感幾乎一樣），手機保留磨砂 */
+@media (min-width: 768px) {
   .hk-menu {
-    background: rgba(244, 242, 240, 0.9);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    background: rgba(244, 242, 240, 0.94);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 .hk-menu.open { opacity: 1; visibility: visible; pointer-events: auto; }

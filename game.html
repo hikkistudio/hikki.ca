@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="site.css"/>
   <script src="site.js" defer></script>
   <script src="game-data.js"></script>
+  <script src="bg-frege.js" defer></script>
   <script src="game-logos.js"></script>
 
   <style>
@@ -61,18 +62,13 @@
     @keyframes blink3 { 0%,50%,100%{opacity:1} 25%,75%{opacity:0} }
     @keyframes blinkFast { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-    /* ===== 桌面背景：影片 + 磨砂黑玻璃 ===== */
-    .bg-video{
-      position:fixed; inset:0; width:100%; height:100vh; height:100dvh;
-      object-fit:cover; z-index:0; pointer-events:none;
-      filter: saturate(.85) brightness(.55);
+    /* ===== 桌面背景：Frege 生成式推理樹（同 iching 共用） ===== */
+    .bg-data{
+      position:fixed; inset:0; z-index:0;
+      pointer-events:none; user-select:none; -webkit-user-select:none;
+      overflow:hidden;
     }
-    .bg-glass{
-      position:fixed; inset:0; z-index:1; pointer-events:none;
-      background: rgba(5,0,4,.58);
-      -webkit-backdrop-filter: blur(22px) saturate(1.1);
-      backdrop-filter: blur(22px) saturate(1.1);
-    }
+    .bg-data svg{ display:block; width:100%; height:100%; }
 
     @keyframes boxGlow{
       0%,100%{ box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 6px rgba(0,255,102,.10); }
@@ -386,7 +382,7 @@
 
     /* ===== 手機：黑底 + 機身留邊（手稿式） ===== */
     @media (max-width: 767px){
-      .bg-video, .bg-glass{ display:none; }
+      .bg-data{ display:none; }
       .stagewrap{ padding: calc(var(--hk-bar-h) + 10px) 10px 14px; align-items:stretch; }
       .device{
         width:100%;
@@ -413,10 +409,7 @@
 </head>
 
 <body>
-  <video class="bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-    <source src="ichingbg.mp4" type="video/mp4">
-  </video>
-  <div class="bg-glass" aria-hidden="true"></div>
+  <div class="bg-data" id="bgData" aria-hidden="true"></div>
 
   <main class="stagewrap">
     <div class="device" id="device">
@@ -535,8 +528,6 @@
     document.getElementById('lightLayer').style.background =
       'radial-gradient(120% 90% at ' + x + '% -12%, hsl(' + h + ' 100% 55% / 0.22), transparent 55%),' +
       'radial-gradient(85% 60% at 92% 112%, hsl(' + h + ' 100% 55% / 0.13), transparent 60%)';
-    const v = document.querySelector('.bg-video');
-    if (v) v.style.filter = 'saturate(.85) brightness(.5) hue-rotate(' + ((GUEST.hue||0) * 0.6) + 'deg)';
   })();
 
   /* ===== 參數面板 + 爻訊號計 ===== */
