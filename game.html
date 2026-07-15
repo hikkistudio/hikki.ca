@@ -146,6 +146,13 @@
         0 0 8px rgba(0,255,102,.14);   /* 靜態燈箱光，唔逐幀重繪 */
       overflow:hidden;
     }
+    /* 低調掃描線（覆蓋 dlg / info / ad；win-face 有自己嘅角括號 ::after，
+       故其掃描線改喺 canvas 內繪製） */
+    .win::after{
+      content:""; position:absolute; inset:0; pointer-events:none; z-index:4;
+      background: repeating-linear-gradient(to bottom,
+        rgba(0,0,0,.16) 0 1px, transparent 1px 3px);
+    }
 
     /* --- 第一層：對話（≈40%） --- */
     .win-dlg{ height: 252px; }
@@ -677,6 +684,9 @@
         ctx.fillStyle='rgba(0,255,102,0.15)';
         ctx.fillRect(0,0,cw,ch);
         ctx.globalCompositeOperation='source-over';
+        /* 低調掃描線（同其他螢幕一致：每 3px 一條暗線） */
+        ctx.fillStyle='rgba(0,0,0,0.16)';
+        for(let y=0;y<ch;y+=3) ctx.fillRect(0,y,cw,1);
       }
       draw();
     }

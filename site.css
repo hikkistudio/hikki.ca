@@ -17,6 +17,17 @@
   :root { --hk-bar-h: 52px; }
 }
 
+/* ===== 全站：禁反白 / 禁選取 / 禁圖片拖拽 / 禁雙擊縮放 =====
+   （game 按鈕、對話選項、iching、jewel 戒指等互動元素照樣接收 tap/click，
+     唔受 user-select 影響；如個別位需要選字，加 class="hk-selectable"） */
+html { touch-action: manipulation; }               /* 禁雙擊放大 */
+body {
+  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+  -webkit-touch-callout: none;                      /* iOS 長按選單 */
+}
+img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag: none; }
+.hk-selectable, .hk-selectable * { -webkit-user-select: text; user-select: text; }
+
 .hk-blink { display: inline-block; animation: hkBlink 3s infinite; }
 @keyframes hkBlink { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
 
@@ -89,7 +100,7 @@
   position: fixed; inset: 0; z-index: 9980;
   display: flex; flex-direction: column;
   padding: calc(var(--hk-bar-h) + clamp(16px, 3vh, 40px)) var(--hk-pad-x) clamp(20px, 3.5vh, 36px);
-  background: rgba(244, 242, 240, 0.72);
+  background: rgba(244, 242, 240, 0.9);        /* 更 milky */
   /* blur 半徑係 GPU 成本大戶：26px→12px，觀感接近，大屏唔再卡 */
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
   backdrop-filter: blur(12px) saturate(1.2);
@@ -99,13 +110,13 @@
   transition: opacity .28s ease, visibility .28s ease;
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .hk-menu { background: rgba(244, 242, 240, 0.96); }
+  .hk-menu { background: rgba(244, 242, 240, 0.98); }
 }
 /* 桌面：全屏 backdrop-filter 疊 header 嗰層係卡頓元兇——
-   改近實色零 blur（0.94 不透明度下觀感幾乎一樣），手機保留磨砂 */
+   改近實色零 blur（觀感幾乎一樣），手機保留磨砂 */
 @media (min-width: 768px) {
   .hk-menu {
-    background: rgba(244, 242, 240, 0.94);
+    background: rgba(244, 242, 240, 0.975);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
@@ -192,11 +203,13 @@
 .hk-about.open .hk-about-body p:nth-of-type(5) { transition-delay: .50s; }
 .hk-about.open .hk-about-body p:nth-of-type(6) { transition-delay: .60s; }
 
+/* about 交叉：同 menu 右上角嘅 × 同款（mono、同字號、右上角） */
 .hk-about-close {
-  position: absolute; top: clamp(8px, 1.6vh, 14px); right: calc(var(--hk-pad-x) - 8px);
+  position: absolute; top: clamp(8px, 1.6vh, 14px); right: var(--hk-pad-x);
   appearance: none; background: none; border: 0; cursor: pointer;
-  color: var(--hk-ivory); font-size: 24px; line-height: 1; /* 與 headerbar 的 × 同大小 */
-  padding: 8px; touch-action: manipulation;
+  font-family: var(--hk-font-mono); font-weight: 400;
+  color: var(--hk-ivory); font-size: 24px; line-height: 1;
+  padding: 6px 0 6px 12px; touch-action: manipulation;
 }
 .hk-about-close:hover { color: var(--hk-gold); }
 

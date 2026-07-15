@@ -6,6 +6,18 @@
 (function () {
   'use strict';
 
+  /* ===== 全站禁縮放（pinch / 雙擊 / ctrl+滾輪）=====
+     model-viewer / game 用原始 touch 事件做自己嘅縮放，唔受影響。 */
+  document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('gesturechange', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('gestureend', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('wheel', function (e) { if (e.ctrlKey || e.metaKey) e.preventDefault(); }, { passive: false });
+  (function () {                                    /* 雙指以上手勢＝縮放意圖，攔截 */
+    document.addEventListener('touchmove', function (e) {
+      if (e.touches && e.touches.length > 1 && !e.target.closest('model-viewer, canvas')) e.preventDefault();
+    }, { passive: false });
+  })();
+
   /* ===== 語錄（全站唯一一份） ===== */
   var SENTENCES = [
     "of time, souls and cities.", "know thyself.", "静かな光。", "10% off for rescued animals.", "yyj > yvr",
@@ -145,7 +157,7 @@
           '<li><a href="gallery.html">gallery</a></li>' +
           '<li><a href="jewel.html">jeweldesign</a></li>' +
           '<li><a href="iching.html">iching</a></li>' +
-          '<li><a href="game.html">macau17</a></li>' +
+          '<li><a href="game.html">macau17 (beta)</a></li>' +
         '</ul>' +
         '<div class="hk-menu-contact">' +
           '<h2 class="hk-contact-head">contact</h2>' +
