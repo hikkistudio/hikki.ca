@@ -11,6 +11,8 @@
      name       顯示名（speaker 預設用呢個）
      occupation / age / star   側欄顯示
      hue        肖像色相偏移（0 = 原本 magenta；每人唔同就有唔同色調）
+     portrait   （可選）頭像路徑；預設慣例 = portraits/<id>.png。
+                搵唔到檔案時自動顯示 recalibrating placeholder 動畫。
      script     對話節點陣列，由頭播到尾
 
    ◆ 對話節點格式（單線劇情，可以有分岐再匯合）：

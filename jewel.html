@@ -72,11 +72,13 @@
       user-select: none; -webkit-user-select: none; pointer-events: none;
     }
     .haiku {
-      margin-top: clamp(2px, 0.6vh, 8px);
+      margin-top: clamp(0px, 0.3vh, 4px);        /* 更貼近標題 */
       font-family: var(--hk-font-ja); font-weight: 200;
-      font-size: clamp(14px, 1.6vw, 20px); line-height: 1.9;
-      letter-spacing: 0.08em; text-align: left;
+      font-size: clamp(13px, 1.62vw, 23px); line-height: 1.5;   /* 桌面放大（比原 20px 大） */
+      letter-spacing: 0.04em; text-align: left;
       color: rgba(244,242,240,.82);
+      max-width: 40%;                             /* 喺 reima 之後、g 勾子之前收筆 */
+      white-space: nowrap;
     }
 
     /* 模型：填滿整個 hero，攞盡展示空間 */
@@ -130,7 +132,7 @@
     .left  { grid-area: sub; }
     .specs { grid-area: specs; }
 
-    /* ASCII 燈箱（用 game 嘅 LOGOS，但顏色跟文字＝ivory），同資訊欄同闊 */
+    /* ASCII 燈箱（用 game 嘅 LOGOS，ivory 色）；置中、與資訊欄同闊、底部對齊 */
     .ad {
       grid-area: ad; position: relative; overflow: hidden;
       width: 100%; height: 88px; align-self: end;
@@ -138,11 +140,11 @@
     .ad-wrap { position: absolute; inset: 0; }
     .ad-logo {
       position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%);
       transform-origin: 50% 50%;
       white-space: pre; margin: 0; line-height: 1;
       font-family: var(--hk-font-mono); font-size: 8px;
-      color: rgba(244,242,240,.5);        /* 同文字一樣 ivory */
+      color: rgba(244,242,240,.5);
       pointer-events: none;
     }
     .sub {
@@ -151,10 +153,11 @@
       letter-spacing: -0.01em; text-decoration: underline;
       color: var(--hk-ivory); max-width: 15em;
     }
-    .switch { margin-top: 14px; font-size: 13px; }
+    /* 戒指名單：字細一級（13→12），移到左欄最底、再挪低少少 */
+    .switch { margin-top: 12px; font-size: 12px; position: relative; top: 6px; }
     .switch button {
       appearance: none; border: 0; background: none; cursor: pointer;
-      font-family: var(--hk-font-mono); font-size: 13px;
+      font-family: var(--hk-font-mono); font-size: 12px;
       color: rgba(244,242,240,.55); padding: 4px 0;
       border-bottom: 1px solid transparent;
       transition: color .2s, border-color .2s;
@@ -163,7 +166,6 @@
     .switch button:hover { color: var(--hk-gold); }
     .switch button.on { color: var(--hk-ivory); border-bottom-color: var(--hk-ivory); }
     .switch .sep { color: rgba(244,242,240,.35); margin: 0 8px; }
-    .hint { margin-top: 8px; font-size: 11px; color: rgba(244,242,240,.5); }
 
     .specs {
       width: 100%;
@@ -191,7 +193,7 @@
       }
       .hero { flex: 1 1 auto; min-height: 0; }     /* grow：戒指佔上方大部分 */
       h1 { font-size: min(16vw, 96px); white-space: normal; text-align: left; line-height: 0.88; }
-      .haiku { font-size: 13px; line-height: 1.85; }
+      .haiku { font-size: 11px; line-height: 1.6; max-width: 46%; }   /* 手機縮小、貼近標題、g 勾子前收筆 */
       .meta-row {
         flex: 0 0 auto; min-height: 0;
         grid-template-columns: 1fr auto;
@@ -201,12 +203,14 @@
         gap: 10px 14px;
         align-items: end; align-content: end;
       }
-      .left { align-self: start; }                 /* 副標題頂同資訊欄頂平齊 */
+      /* 左欄撐滿高度：副標題釘頂（同資訊欄頂平齊），戒指名單推到底
+         （與右邊球體容器底部平齊） */
+      .left { align-self: stretch; display: flex; flex-direction: column; }
       .sub { font-size: 16px; max-width: none; line-height: 1.2; }
-      .switch { margin-top: 8px; font-size: 12px; }
+      .switch { margin-top: auto; font-size: 12px; }
       .switch .sep { display: none; }              /* 手機唔用 / 分隔 */
       .switch button { display: block; }           /* 戒指名直排 */
-      .hint { display: none; }
+      .switch { top: 0; }                          /* 手機唔用桌面嘅挪低 */
       .specs { font-size: 9.5px; line-height: 1.75; }
       .ad { width: min(46vw, 210px); height: 60px; justify-self: end; align-self: end; }
       /* 版權：整個下方結構升起，版權留喺頁面底部 */
@@ -220,8 +224,8 @@
     <div class="hero">
       <div class="mv-wrap">
         <model-viewer id="mv"
-          src="models/ring-camellia.glb"
-          alt="hand-carved silver ring — camellia"
+          src="models/ring-signet.glb"
+          alt="hand-carved silver ring — signet"
           camera-controls
           auto-rotate auto-rotate-delay="3500" rotation-per-second="14deg"
           interaction-prompt="none"
@@ -245,9 +249,8 @@
       <div class="left">
         <h2 class="sub" id="sub">every piece designed, cast &amp; polished to perfect — all by local masters.</h2>
         <div class="switch" id="switch">
-          <button class="on" data-ring="camellia">&gt;no.63-G camellia</button><span class="sep">/</span><button data-ring="signet">&gt;no.103-F signet</button>
+          <button data-ring="camellia">&gt;no.63-G camellia</button><span class="sep">/</span><button class="on" data-ring="signet">&gt;no.103-F signet</button>
         </div>
-        <p class="hint">&gt;drag to rotate · pinch to zoom <span class="blink-block">■</span></p>
       </div>
       <div class="ad" aria-hidden="true"><div class="ad-wrap" id="adWrap"></div></div>
       <div class="specs" id="specs"></div>
@@ -346,13 +349,18 @@
       if (!wrap || typeof LOGOS === 'undefined' || !LOGOS.length) return;
       var idx = (Math.random() * LOGOS.length) | 0, el;
       function make(txt) { var p = document.createElement('pre'); p.className = 'ad-logo'; p.textContent = txt; return p; }
+      /* 量度式 fit：以基準字號量實際 render 尺寸，反推可完整收納嘅字號。
+         任何大致長方形嘅 ASCII 都塞得落，唔會被裁走。 */
       function fit(pre) {
         var r = wrap.getBoundingClientRect();
-        pre.style.transform = 'translate(-50%,-50%) scale(1)';
-        var s = Math.min((r.width * 0.95) / Math.max(1, pre.scrollWidth),
-                         (r.height * 0.95) / Math.max(1, pre.scrollHeight));
-        s = Math.max(0.4, Math.min(1.3, s));
-        pre.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+        var cw = Math.max(1, r.width), ch = Math.max(1, r.height);
+        var BASE = 12;
+        pre.style.transform = 'translate(-50%,-50%)';
+        pre.style.fontSize = BASE + 'px';
+        var w = Math.max(1, pre.scrollWidth), h = Math.max(1, pre.scrollHeight);
+        var fs = BASE * Math.min((cw * 0.96) / w, (ch * 0.96) / h);
+        fs = Math.max(2.5, Math.min(fs, 13));
+        pre.style.fontSize = fs + 'px';
       }
       el = make(LOGOS[idx]); wrap.appendChild(el);
       requestAnimationFrame(function () { fit(el); });
@@ -366,15 +374,12 @@
       window.addEventListener('resize', function () { if (el) requestAnimationFrame(function () { fit(el); }); });
     })();
 
-    /* 開場：標題+小標題解碼，規格入場 */
+    /* 開場：只解碼主標題（副標題唔要解碼動畫） */
     var C = window.HikkiCrack;
     if (C) {
-      C.startOn([].concat(
-        C.collect(document.getElementById('title')),
-        C.collect(document.getElementById('sub'))
-      ));
+      C.startOn(C.collect(document.getElementById('title')));
     }
-    setSpecs('camellia');
+    setSpecs('signet');
   });
   </script>
 </body>

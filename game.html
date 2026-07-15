@@ -225,19 +225,24 @@
     }
     .runner-hint.show{ opacity:.9; }
 
-    /* GameBoy 像素更新過場 */
-    .lcd-wipe{
-      position:absolute; inset:0; z-index:6; pointer-events:none;
+    /* ===== CRT 開關過場：三個螢幕統一，塌成一條亮線再展開（順滑） ===== */
+    /* 機械式捲簾過場：似舊系統掃描重整，唔閃光、唔刺激，具層次 */
+    .crt-cover{
+      position:absolute; left:0; right:0; top:0; height:100%; z-index:7; pointer-events:none;
+      transform: translateY(-101%); opacity:0;
       background:
-        repeating-linear-gradient(to bottom, #0a2413 0 5px, #04140a 5px 10px),
-        repeating-linear-gradient(to right, rgba(0,255,102,.05) 0 5px, transparent 5px 10px);
-      clip-path: inset(0 0 100% 0);
+        repeating-linear-gradient(0deg, rgba(0,0,0,.36) 0 2px, rgba(4,22,11,.10) 2px 4px),
+        linear-gradient(180deg, #06210f 0%, #041209 55%, #020a05 100%);
+      border-bottom:1px solid rgba(0,255,102,.5);
+      box-shadow: 0 1px 0 rgba(0,255,102,.38), 0 7px 12px -5px rgba(0,255,102,.22);
     }
-    .lcd-wipe.run{ animation: lcdWipe .7s steps(11, end); }
-    @keyframes lcdWipe{
-      0%   { clip-path: inset(0 0 100% 0); }
-      50%  { clip-path: inset(0 0 0 0); }
-      100% { clip-path: inset(100% 0 0 0); }
+    .crt-cover.run{ animation: crtRoll .66s linear both; }
+    @keyframes crtRoll{
+      0%   { opacity:1; transform: translateY(-101%); }
+      46%  { opacity:1; transform: translateY(0%); }
+      54%  { opacity:1; transform: translateY(0%); }
+      92%  { opacity:1; transform: translateY(92%); }
+      100% { opacity:0; transform: translateY(101%); }
     }
 
     /* --- 第二層：頭像 + 資訊（≈30%） --- */
@@ -251,16 +256,38 @@
       text-shadow: 0 0 8px rgba(0,255,102,.35);
     }
     .coffee-ascii[hidden]{ display:none; }
-    .win-face::before{
-      content:""; position:absolute; top:4px; left:4px; width:10px; height:10px;
-      border-top:1px solid var(--mag); border-left:1px solid var(--mag); z-index:3; pointer-events:none;
-    }
-    .win-face::after{
-      content:""; position:absolute; bottom:4px; right:4px; width:10px; height:10px;
-      border-bottom:1px solid var(--mag); border-right:1px solid var(--mag); z-index:3; pointer-events:none;
-    }
 
-    .win-info{ padding: 10px 12px 8px; display:flex; flex-direction:column; gap:4px; font-family: var(--f-ui); }
+    /* 頭像框載入失敗 placeholder（gallery recalibrating 同款） */
+    .face-recal{
+      position:absolute; inset:0; z-index:3; background:#020a05; color: var(--mid);
+      display:flex; align-items:center; justify-content:center; overflow:hidden;
+      font-family: var(--f-num); font-size:8px; line-height:1.35; text-align:center; white-space:pre;
+    }
+    .face-recal[hidden]{ display:none; }
+    .face-recal::before{
+      content:""; position:absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(0,255,102,.06), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(0,255,102,.05) 0 1px, transparent 1px 3px);
+      animation: faceScan 3.2s linear infinite;
+    }
+    @keyframes faceScan { 0%{ transform: translateY(0); } 100%{ transform: translateY(-6px); } }
+    /* signal lost… 三點輪流出現循環（固定闊度，唔會推郁旁邊座標） */
+    .face-recal .rc-dots{ display:inline-block; width:1.6em; text-align:left; }
+    .face-recal .rc-dots::after{ content:'.'; animation: rcDots 1.4s steps(1,end) infinite; }
+    @keyframes rcDots{ 0%,100%{ content:'.'; } 33%{ content:'..'; } 66%{ content:'...'; } }
+
+    .win-info{ position:relative; font-family: var(--f-ui); }
+    .info-online{ position:absolute; inset:0; padding: 10px 12px 8px; display:flex; flex-direction:column; gap:4px; }
+    .info-online[hidden]{ display:none; }
+    /* 離線模式：粒子球體 */
+    .info-offline{ position:absolute; inset:0; background:#020a05; }
+    .info-offline[hidden]{ display:none; }
+    .info-offline canvas{ width:100%; height:100%; display:block; }
+    .info-offline .off-tag{
+      position:absolute; left:8px; bottom:6px; z-index:2; pointer-events:none;
+      font-family: var(--f-num); font-size:8px; letter-spacing:.14em; color: var(--dim);
+    }
     .param{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
     .p-lab{ font-size:9.5px; font-weight:600; letter-spacing:.2em; color: var(--dim); }
     .p-val{ font-family: var(--f-num); font-size:15px; color: var(--mid); }
@@ -451,7 +478,7 @@
           <div class="runner-hint show" id="pressSpaceLabel">▶ SPACE / TAP TO JUMP</div>
         </div>
 
-        <div class="lcd-wipe" id="lcdWipe" aria-hidden="true"></div>
+        <div class="crt-cover" id="crtDlg" aria-hidden="true"></div>
       </div>
 
       <div class="pcb-trace" aria-hidden="true"><i class="tk"></i><i class="hz"></i><span>04-M ⌁ R12</span><i class="tn"></i></div>
@@ -461,24 +488,33 @@
         <div class="win win-face" id="portraitBox">
           <canvas id="pixelPortrait" width="560" height="420"></canvas>
           <pre class="coffee-ascii" id="coffeeAnim" hidden></pre>
+          <div class="face-recal" id="faceRecal" hidden aria-hidden="true"></div>
+          <div class="crt-cover" id="crtFace" aria-hidden="true"></div>
         </div>
         <div class="win win-info">
-          <div class="params-compact">
-            <div class="pc"><span class="p-lab">TIME</span><span class="p-val" id="pTime">--:--</span></div>
-            <div class="pc"><span class="p-lab">YEAR</span><span class="p-val" id="pYear">2117</span></div>
-            <div class="pc"><span class="p-lab">BPM</span><span class="p-val warm" id="pBpm">--</span></div>
-            <div class="pc"><span class="p-lab">LINK</span><span class="p-val" id="pLink">--%</span></div>
-          </div>
-          <div class="sig2">
-            <div class="sig2-head">
-              <span>HEX-SCAN</span>
-              <span id="sigIdx">K.W.(--) <span class="hexch">䷀</span></span>
-              <span id="sigPct">--%</span>
+          <div class="info-online" id="infoOnline">
+            <div class="params-compact">
+              <div class="pc"><span class="p-lab">TIME</span><span class="p-val" id="pTime">--:--</span></div>
+              <div class="pc"><span class="p-lab">YEAR</span><span class="p-val" id="pYear">2117</span></div>
+              <div class="pc"><span class="p-lab">BPM</span><span class="p-val warm" id="pBpm">--</span></div>
+              <div class="pc"><span class="p-lab">LINK</span><span class="p-val" id="pLink">--%</span></div>
             </div>
-            <div class="sig2-rows" id="linkHex" aria-hidden="true"></div>
-            <div class="sig2-dump" id="sigDump">0x-- -- -- -- -- --</div>
+            <div class="sig2">
+              <div class="sig2-head">
+                <span>HEX-SCAN</span>
+                <span id="sigIdx">K.W.(--) <span class="hexch">䷀</span></span>
+                <span id="sigPct">--%</span>
+              </div>
+              <div class="sig2-rows" id="linkHex" aria-hidden="true"></div>
+              <div class="sig2-dump" id="sigDump">0x-- -- -- -- -- --</div>
+            </div>
+            <div class="guest-tag" id="guestTag">GUEST // --</div>
           </div>
-          <div class="guest-tag" id="guestTag">GUEST // --</div>
+          <div class="info-offline" id="infoOffline" hidden>
+            <canvas id="sphereCanvas"></canvas>
+            <span class="off-tag">SIGNAL ⋅ OFFLINE</span>
+          </div>
+          <div class="crt-cover" id="crtInfo" aria-hidden="true"></div>
         </div>
       </div>
 
@@ -656,10 +692,18 @@
     }
     window.addEventListener('resize', fit);
 
+    /* 頭像：portraits/<id>.png（或角色 portrait 欄覆寫）；搵唔到就出 recalibrating placeholder */
+    const faceRecal = document.getElementById('faceRecal');
+    window.faceOk = false;
+    (function showRecal(){
+      const lat = (22.10 + Math.random()*0.13).toFixed(3);
+      const lon = (113.49 + Math.random()*0.12).toFixed(3);
+      faceRecal.innerHTML = 'signal lost<span class="rc-dots"></span> ' + lat + ' | ' + lon;
+    })();
     const img = new Image();
-    img.src = 'guest-portrait.png';
-    img.onload = ()=>start(img);
-    img.onerror = ()=>{ fit(); ctx.fillStyle="#03180b"; ctx.fillRect(0,0,canvas.width,canvas.height); };
+    img.src = GUEST.portrait || ('portraits/' + GUEST.id + '.png');
+    img.onload = ()=>{ window.faceOk = true; if (MODE!=='run'){ faceRecal.hidden = true; canvas.style.display='block'; } start(img); };
+    img.onerror = ()=>{ window.faceOk = false; if (MODE!=='run') faceRecal.hidden = false; };
 
     function start(img){
       let t=0;
@@ -684,9 +728,7 @@
         ctx.fillStyle='rgba(0,255,102,0.15)';
         ctx.fillRect(0,0,cw,ch);
         ctx.globalCompositeOperation='source-over';
-        /* 低調掃描線（同其他螢幕一致：每 3px 一條暗線） */
-        ctx.fillStyle='rgba(0,0,0,0.16)';
-        for(let y=0;y<ch;y+=3) ctx.fillRect(0,y,cw,1);
+        /* 掃描線由 .win::after 統一處理（win-face 冇咗角括號 ::after，已被覆蓋） */
       }
       draw();
     }
@@ -794,14 +836,18 @@
       p.textContent = content;
       return p;
     }
+    /* 量度式 fit：以基準字號量實際 render 尺寸，反推可完整收納嘅字號。
+       任何大致長方形嘅 ASCII 都塞得落，唔會被裁走。 */
     function fitPre(pre){
       const r = wrapper.getBoundingClientRect();
       const cw = Math.max(1, r.width), ch = Math.max(1, r.height);
-      pre.style.transform = 'translate(-50%, -50%) scale(1)';
+      const BASE = 12;
+      pre.style.transform = 'translate(-50%, -50%)';   /* 唔再靠 scale */
+      pre.style.fontSize = BASE + 'px';
       const w = Math.max(1, pre.scrollWidth), h = Math.max(1, pre.scrollHeight);
-      let sc = Math.min((cw*0.95)/w, (ch*0.95)/h);
-      sc = Math.max(0.5, Math.min(1.35, sc));   /* 鎖定縮放範圍：唔會忽大忽細 */
-      pre.style.transform = 'translate(-50%, -50%) scale(' + sc + ')';
+      let fs = BASE * Math.min((cw * 0.96) / w, (ch * 0.96) / h);
+      fs = Math.max(2.5, Math.min(fs, 15));            /* 容許縮到好細以塞落複雜圖，亦封頂避免過大 */
+      pre.style.fontSize = fs + 'px';
     }
     currentIdx = (Math.random()*LOGOS.length)|0;
     currentEl = createPre(LOGOS[currentIdx]);
@@ -842,32 +888,153 @@
     })();
   })();
 
-  /* ===== COMM 掣：對話 ⇄ 跑步 ===== */
+  /* ===== 資訊欄離線：粒子旋轉球體（純 2D canvas、只旋轉、慳資源） ===== */
+  const sphere = (function(){
+    const c = document.getElementById('sphereCanvas');
+    if (!c) return { start(){}, stop(){}, resize(){} };
+    const ctx = c.getContext('2d');
+    const N = 460;
+    const pts = [];
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    for (let i=0;i<N;i++){
+      const y = 1 - (i/(N-1))*2;
+      const r = Math.sqrt(Math.max(0,1-y*y));
+      const th = golden*i;
+      pts.push([Math.cos(th)*r, y, Math.sin(th)*r]);
+    }
+    /* 亂碼字元池 + 每點 glitch 狀態 */
+    const GCH = '01<>/\\+=*#%│┤╢╖アカサソムラ0xΔ§';
+    const glitch = new Float32Array(N);         /* 剩餘毫秒（>0 = 正 glitch） */
+    const gttl0  = new Float32Array(N);         /* 該次 glitch 初始時長（做淡入淡出） */
+    const gchar  = new Int16Array(N);           /* 目前顯示嘅字元 index */
+    const gnext  = new Float32Array(N);         /* 距下次換字嘅毫秒 */
+    let activeCount = 0;                         /* 同時 glitch 緊嘅點數（控制 1–3 處） */
+    let W=0, H=0, DPR=1;
+    function resize(){
+      const rect = c.getBoundingClientRect();
+      DPR = Math.min(2, window.devicePixelRatio || 1);
+      W = Math.max(1, Math.floor(rect.width));
+      H = Math.max(1, Math.floor(rect.height));
+      c.width = W*DPR; c.height = H*DPR;
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    let ang=0, raf=0, running=false, last=0;
+    function frame(now){
+      if (!running) return;
+      raf = requestAnimationFrame(frame);
+      if (document.hidden) { last = now; return; }
+      const dt = last ? Math.min(0.05, (now-last)/1000) : 0.016;
+      last = now;
+      ang += dt*0.10;                            /* 更慢轉 */
+      /* 隨機喺球面挑點變亂碼：同時保持 1–3 處，每處撐 0.5–2 秒、慢慢換字（似解碼） */
+      if (activeCount < 3 && Math.random() < 0.03){
+        let idx = (Math.random()*N)|0, tries = 0;
+        while (glitch[idx] > 0 && tries < 8){ idx = (Math.random()*N)|0; tries++; }
+        if (glitch[idx] <= 0){
+          const ttl = 500 + Math.random()*1500;                 /* 0.5–2s */
+          glitch[idx] = ttl; gttl0[idx] = ttl;
+          gchar[idx] = (Math.random()*GCH.length)|0;
+          gnext[idx] = 110 + Math.random()*90;                  /* 慢啲換字 */
+        }
+      }
+      ctx.clearRect(0,0,W,H);
+      const cx=W/2, cy=H/2, R=Math.min(W,H)*0.36;
+      const sa=Math.sin(ang), ca=Math.cos(ang);
+      const st=Math.sin(0.42), ct=Math.cos(0.42);
+      const glOn = [];
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      const dtms = dt*1000;
+      for (let i=0;i<N;i++){
+        const p=pts[i];
+        const x1 = p[0]*ca - p[2]*sa;
+        const z1 = p[0]*sa + p[2]*ca;
+        const y1 = p[1]*ct - z1*st;
+        const z2 = p[1]*st + z1*ct;
+        const depth = (z2+1)/2;                 /* 0 背面 → 1 正面 */
+        const persp = 0.78 + depth*0.32;
+        const px = cx + x1*R*persp;
+        const py = cy - y1*R*persp;
+        if (glitch[i] > 0){
+          glitch[i] -= dtms;
+          gnext[i]  -= dtms;
+          if (gnext[i] <= 0){ gchar[i] = (Math.random()*GCH.length)|0; gnext[i] = 110 + Math.random()*90; }
+          glOn.push([px, py, depth, i]);        /* 延後畫字，減少 font 切換 */
+          continue;
+        }
+        const sz = 0.6 + depth*1.7;
+        ctx.globalAlpha = 0.12 + depth*0.72;
+        ctx.fillStyle = '#00ff66';
+        ctx.fillRect(px - sz/2, py - sz/2, sz, sz);
+      }
+      activeCount = glOn.length;
+      /* 畫 glitch 字元（字元穩定約 110–200ms 先換，並淡入淡出，順滑似解碼） */
+      for (let k=0;k<glOn.length;k++){
+        const g = glOn[k], depth = g[2], i = g[3];
+        const ttl = glitch[i], elapsed = gttl0[i] - ttl;
+        const fade = Math.min(1, elapsed/160, ttl/220);         /* 淡入 160ms、淡出 220ms */
+        const fs = 6 + depth*5;
+        ctx.font = fs + "px 'Share Tech Mono', monospace";
+        ctx.globalAlpha = Math.max(0, (0.5 + depth*0.5) * fade);
+        ctx.fillStyle = '#9dffc6';
+        ctx.fillText(GCH[gchar[i]], g[0], g[1]);
+      }
+      ctx.globalAlpha = 1;
+    }
+    return {
+      start(){ if (running) return; resize(); running=true; last=0; raf=requestAnimationFrame(frame); },
+      stop(){ running=false; cancelAnimationFrame(raf); },
+      resize
+    };
+  })();
+
+  /* ===== COMM 掣：對話 ⇄ 跑步；資訊欄 online ⇄ offline 球體 ===== */
   let MODE = 'talk';
   const commBtn = document.getElementById('commBtn');
   const dlgPane = document.getElementById('dlgPane');
   const runnerPane = document.getElementById('runnerPane');
-  const lcdWipe = document.getElementById('lcdWipe');
   const tkState = document.getElementById('tkState');
+  const faceRecalEl = document.getElementById('faceRecal');
+  const infoOnline = document.getElementById('infoOnline');
+  const infoOffline = document.getElementById('infoOffline');
+  const crtDlg = document.getElementById('crtDlg');
+  const crtFace = document.getElementById('crtFace');
+  const crtInfo = document.getElementById('crtInfo');
 
+  function crtRun(el){ if(!el) return; el.classList.remove('run'); void el.offsetWidth; el.classList.add('run'); }
+
+  const MID = 320;   /* 捲簾完全遮蓋嗰刻（crtRoll 50% ≈ .66s×.5） */
   function setMode(m){
     if (m === MODE) return;
     MODE = m;
-    lcdWipe.classList.remove('run');
-    void lcdWipe.offsetWidth;
-    lcdWipe.classList.add('run');
-    setTimeout(()=>{
-      const off = (m === 'run');
-      commBtn.classList.toggle('off', off);
-      dlgPane.hidden = off;
-      runnerPane.hidden = !off;
-      portraitCanvas.style.display = off ? 'none' : 'block';
-      coffeeEl.hidden = !off;
+    const off = (m === 'run');
+    commBtn.classList.toggle('off', off);
+    /* 三個螢幕逐格捲簾（70ms 錯開，做出層次） */
+    const swapDlg = ()=>{
+      dlgPane.hidden = off; runnerPane.hidden = !off;
       tkState.textContent = off ? 'COMM OFF' : 'IN PROGRESS';
       if (off) runnerResize();
-    }, 320);
+    };
+    const swapFace = ()=>{
+      if (off){ portraitCanvas.style.display='none'; faceRecalEl.hidden=true; coffeeEl.hidden=false; }
+      else {
+        coffeeEl.hidden = true;
+        if (window.faceOk){ portraitCanvas.style.display='block'; faceRecalEl.hidden=true; }
+        else { portraitCanvas.style.display='none'; faceRecalEl.hidden=false; }
+      }
+    };
+    const swapInfo = ()=>{
+      infoOnline.hidden = off; infoOffline.hidden = !off;
+      if (off) sphere.start(); else sphere.stop();
+    };
+    /* 單層計時器（避免巢狀 setTimeout；順滑又穩陣）：
+       捲簾逐格 70ms 錯開落，各自喺遮蓋中點 (MID) 換內容 */
+    const covers = [crtDlg, crtFace, crtInfo];
+    const swaps  = [swapDlg, swapFace, swapInfo];
+    covers.forEach((cover, i)=> setTimeout(()=> crtRun(cover), i*70));
+    swaps.forEach((swap, i)=> setTimeout(swap, i*70 + MID));
   }
   commBtn.addEventListener('click', ()=> setMode(MODE==='talk' ? 'run' : 'talk'));
+  window.addEventListener('resize', ()=>{ if (MODE==='run') sphere.resize(); });
 
   /* ===== Runner v2（COMM OFF 時喺對話窗） ===== */
   let runnerResize = ()=>{};
@@ -892,6 +1059,7 @@
     const COYOTE=0.09, BUFFER=0.12;
     const BASE_SPEED=225, MAX_SPEED=330, RAMP=3.5;
     const GROUND=10;
+    const LAMP_H=24;                             /* 燈柱統一高度（全場最高，可跳過） */
     const groundY=()=>H-GROUND;
 
     let auto=true, playerVis=false, lastMan=0, passed=0, speed=BASE_SPEED, deadFlash=0;
@@ -909,7 +1077,6 @@
       if(on){ passed=0; speed=BASE_SPEED; elScore.textContent="05:F9:66:1A//0x0000000"; }
     }
     setAuto(true);
-    const trail=[];
     function pressJump(){ player.buffer=BUFFER; lastMan=performance.now(); if(auto) setAuto(false); }
     function releaseJump(){ if(!player.gr && player.vy>CUT) player.vy=CUT; }
 
@@ -941,10 +1108,12 @@
 
     function spawn(){
       const roll=Math.random();
-      if(roll<0.45){
-        obst.push({kind:'lamp', x:W+10, w:2.5, h:18+Math.random()*10, passed:false});
+      if(roll<0.32){
+        obst.push({kind:'lamp', x:W+10, w:2.5, h:LAMP_H, passed:false});           /* 統一高度、最高 */
+      } else if(roll<0.60){
+        obst.push({kind:'block', x:W+10, w:14+Math.random()*18, h:10+Math.random()*8, passed:false});  /* 木箱 < 燈柱 */
       } else if(roll<0.85){
-        obst.push({kind:'block', x:W+10, w:14+Math.random()*18, h:10+Math.random()*9, passed:false});
+        obst.push({kind:'moto', x:W+10, w:26+Math.random()*7, h:13+Math.random()*3, passed:false});    /* 澳門電單車 < 燈柱 */
       } else {
         const w1=10+Math.random()*8;
         obst.push({kind:'block', x:W+10, w:w1, h:9+Math.random()*5, passed:false});
@@ -987,7 +1156,7 @@
       }
       if(player.squash>0) player.squash-=dt;
 
-      if(Math.random()<0.25) rain.push({x:Math.random()*W, y:-8, v:260+Math.random()*90});
+      if(Math.random()<0.5) rain.push({x:Math.random()*W, y:-8, v:260+Math.random()*90});
       rain.forEach(r=>{ r.y+=r.v*dt; r.x-=r.v*0.18*dt; });
       rain=rain.filter(r=>r.y<H+8);
       dust.forEach(d=>{ d.x+=d.vx*dt; d.y+=d.vy*dt; d.vy+=300*dt; d.t-=dt; });
@@ -1036,25 +1205,49 @@
         ctx.stroke();
       }
 
-      /* rain（輕） */
-      ctx.strokeStyle='rgba(0,255,102,0.16)';
+      /* rain（一條 batched stroke，慳資源） */
+      ctx.strokeStyle='rgba(0,255,102,0.22)';
+      ctx.lineWidth=1;
       ctx.beginPath();
-      rain.forEach(r=>{ ctx.moveTo(r.x, r.y); ctx.lineTo(r.x-1.4, r.y+4); });
+      rain.forEach(r=>{ ctx.moveTo(r.x, r.y); ctx.lineTo(r.x-1.6, r.y+6); });
       ctx.stroke();
 
-      /* 障礙 v2：pylon 燈柱 / crate X 撐箱 */
+      /* 障礙：pylon 燈柱 / 木箱 / 澳門電單車 */
       const blinkOn = ((now/300)|0) % 2 === 0;
       obst.forEach(o=>{
         const oy=gy-o.h;
         if(o.kind==='lamp'){
-          /* pylon：柱 + 楔形底 + 頂燈閃 */
+          /* pylon：柱 + 楔形底 + 頂部白燈（穩定唔閃） */
           ctx.fillStyle=MAGENTA;
           ctx.fillRect(o.x, oy+3, o.w, o.h-3);
           ctx.beginPath();
           ctx.moveTo(o.x-3, gy); ctx.lineTo(o.x+o.w+3, gy); ctx.lineTo(o.x+o.w/2, gy-5);
           ctx.closePath(); ctx.fill();
-          ctx.fillStyle = blinkOn ? '#b4ffd2' : '#0b6132';
-          ctx.fillRect(o.x-1.5, oy, o.w+3, 3);         /* 頂燈 */
+          ctx.fillStyle='#eafff2';                     /* 白燈光：穩定、唔再閃動 */
+          ctx.fillRect(o.x-1.5, oy, o.w+3, 3);
+        } else if(o.kind==='moto'){
+          /* 澳門電單車：兩輪 + 車身 + 座位 + 頭燈（flat 綠線） */
+          const r=3, wy=gy-r, wl=o.x+5, wr=o.x+o.w-5, topY=gy-o.h;
+          ctx.fillStyle=MAGENTA; ctx.strokeStyle=MAGENTA; ctx.lineWidth=1.3;
+          /* 車身輪廓（前踏板 → 座位墊） */
+          ctx.beginPath();
+          ctx.moveTo(o.x+1, gy-6);
+          ctx.lineTo(o.x+3, topY+3);
+          ctx.lineTo(o.x+7, topY+3);
+          ctx.lineTo(o.x+o.w-10, gy-7);
+          ctx.lineTo(o.x+o.w-10, topY);
+          ctx.lineTo(o.x+o.w-1, topY);
+          ctx.lineTo(o.x+o.w-1, gy-6);
+          ctx.closePath(); ctx.fill();
+          /* 車輪 */
+          ctx.beginPath(); ctx.arc(wl,wy,r,0,7); ctx.fill();
+          ctx.beginPath(); ctx.arc(wr,wy,r,0,7); ctx.fill();
+          ctx.fillStyle='#020a05';
+          ctx.beginPath(); ctx.arc(wl,wy,1.1,0,7); ctx.fill();
+          ctx.beginPath(); ctx.arc(wr,wy,1.1,0,7); ctx.fill();
+          /* 龍頭 + 頭燈 */
+          ctx.beginPath(); ctx.moveTo(o.x+3, topY+3); ctx.lineTo(o.x+1, topY-2); ctx.stroke();
+          ctx.fillStyle='#eafff2'; ctx.fillRect(o.x-1, topY-3, 2, 2);
         } else {
           /* crate：框 + X 撐 + 底部 hazard 帶 + 角 tick */
           ctx.strokeStyle=MAGENTA; ctx.lineWidth=1.5;
@@ -1085,23 +1278,10 @@
       ctx.fillStyle='rgba(0,255,102,0.5)';
       dust.forEach(d=>ctx.fillRect(d.x, d.y, 2, 2));
 
-      /* 主角：10px 方塊 + 殘影 */
+      /* 主角：純正方形（無殘影、無變形、無眼） */
       if(playerVis){
-        trail.push({x:player.x, y:player.y});
-        if(trail.length>6) trail.shift();
-        for(let i=0;i<trail.length-1;i++){
-          ctx.fillStyle='rgba(0,255,102,' + (0.05 + i*0.035) + ')';
-          ctx.fillRect(trail[i].x - (trail.length-1-i)*4, gy-trail[i].y-10, 10, 10);
-        }
-        const dead=deadFlash>0;
-        const sy2=player.squash>0 ? 0.72 : 1;
-        const ph=10*sy2, pw=10/sy2;
-        ctx.fillStyle=dead ? '#fff' : MAGENTA;
-        ctx.fillRect(player.x, gy-player.y-ph, pw, ph);
-        ctx.fillStyle='#020a05';
-        ctx.fillRect(player.x+3, gy-player.y-ph+3, 3, 3); /* 方塊眼 */
-      } else {
-        trail.length=0;
+        ctx.fillStyle=(deadFlash>0) ? '#fff' : MAGENTA;
+        ctx.fillRect(player.x, gy-player.y-10, 10, 10);
       }
 
       /* 死亡全屏綠閃 */
@@ -1124,16 +1304,10 @@
       ctx.moveTo(W-PAD+0.5,0); ctx.lineTo(W-PAD+0.5,H);
       ctx.stroke();
       ctx.font='7px "Share Tech Mono", monospace';
-      /* 左欄：hex dump 直排 + 粗角 + 小格 */
-      ctx.fillStyle=MAGENTA;
-      ctx.fillRect(4, 4, 14, 3);
-      ctx.fillRect(4, 4, 3, 14);
+      /* 左欄：hex dump 直排 */
       ctx.fillStyle='rgba(0,255,102,0.55)';
       junkL.forEach((t,i)=>ctx.fillText(t, 7, 30+i*11));
-      ctx.strokeStyle='rgba(0,255,102,0.3)';
-      ctx.strokeRect(6.5, H-26.5, 10, 10);
-      ctx.fillRect(9, H-24, 5, 5);
-      /* 右欄：速度計 + 高度標 + junk */
+      /* 右欄：速度計 + junk */
       const gH=H*0.5, gX=W-PAD/2-2;
       ctx.strokeStyle='rgba(0,255,102,0.4)';
       ctx.strokeRect(gX-2.5, 8.5, 5, gH);
@@ -1143,12 +1317,6 @@
       for(let i=0;i<=4;i++){ ctx.fillRect(gX+4, 8+gH*i/4, 4, 1); }
       ctx.fillStyle='rgba(0,255,102,0.55)';
       junkR.forEach((t,i)=>ctx.fillText(t, W-PAD+5, gH+26+i*11));
-      /* 高度標：跟主角 y */
-      ctx.fillStyle=MAGENTA;
-      ctx.fillRect(W-PAD+2, gy-player.y-3, 6, 2);
-      ctx.fillStyle=MAGENTA;
-      ctx.fillRect(W-18, 4, 14, 3);
-      ctx.fillRect(W-7, 4, 3, 14);
     }
     requestAnimationFrame(loop);
   })();

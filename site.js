@@ -18,6 +18,18 @@
     }, { passive: false });
   })();
 
+  /* ===== 全站 ■ 閃動相位對齊 =====
+     所有 .blink-block / .hk-blink 對齊同一個 3s 全域時間格，
+     令動態插入嘅方塊（header、jewel 規格）都同步。頁面可再 call window.hkSyncBlink()。 */
+  window.hkSyncBlink = function () {
+    var delay = -(performance.now() % 3000) + 'ms';
+    var els = document.querySelectorAll('.blink-block, .hk-blink');
+    for (var i = 0; i < els.length; i++) {
+      var e = els[i];
+      e.style.animationDelay = delay;
+    }
+  };
+
   /* ===== 語錄（全站唯一一份） ===== */
   var SENTENCES = [
     "of time, souls and cities.", "know thyself.", "静かな光。", "10% off for rescued animals.", "yyj > yvr",
@@ -172,7 +184,7 @@
       '<div class="hk-about" id="hkAbout" role="dialog" aria-modal="true" aria-label="about hikki photography" aria-hidden="true">' +
         '<button type="button" class="hk-about-close" id="hkAboutClose" aria-label="close">&times;</button>' +
         '<div class="hk-about-body" id="hkAboutBody">' + MANIFESTO_HTML + '</div>' +
-        '<div class="hk-about-foot" id="hkAboutFoot">Nightcity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;36.245993&nbsp;|&nbsp;-115.980127&nbsp;<span class="hk-blink">■</span></div>' +
+        '<div class="hk-about-foot" id="hkAboutFoot">Nightcity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;36.245993&nbsp;|&nbsp;-115.980127</div>' +
       '</div>';
     while (frag.firstChild) document.body.insertBefore(frag.firstChild, document.body.firstChild);
   }
@@ -310,6 +322,8 @@
     buildUI();
     startRotator();
     wireMenu();
+    window.hkSyncBlink();          /* 對齊 header 及靜態 ■ */
+    setTimeout(window.hkSyncBlink, 900);  /* 再對齊延遲插入嘅 ■（如 jewel 規格） */
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

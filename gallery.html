@@ -45,13 +45,13 @@
       scroll-behavior: smooth;
       overscroll-behavior-x: none;
       touch-action: pan-y;
-      background: #000;
+      background: #161616;                 /* 與 jewel 黑統一 */
       overflow-x: hidden;
     }
 
     body {
       font-family: var(--mono);
-      background: #000;
+      background: #161616;                 /* 與 jewel 黑統一 */
       color: var(--ink);
       -webkit-text-size-adjust: 100%;
       padding-top: var(--hk-bar-h);
@@ -72,7 +72,7 @@
 
     /* ===== 篩選欄 (Filter Bar) ===== */
     .filter-bar {
-      width: 100%; background: #000; border-bottom: 1px solid #000;
+      width: 100%; background: #161616; border-bottom: 1px solid #161616;
       position: sticky; top: var(--hk-bar-h); z-index: 5;
       display: flex; align-items: center; gap: 10px; padding: 10px 40px;
       overflow-x: auto; -webkit-overflow-scrolling: touch;
@@ -153,9 +153,10 @@
       appearance: none; border: 0; background: none;
       color: var(--ivory); padding: 10px 0; cursor: pointer;
       font-family: var(--mono); font-size: 14px;
-      transition: color .2s;
+      border-bottom: 1px solid transparent;      /* hover 底線，與全站連結一致 */
+      transition: color .2s, border-color .2s;
     }
-    .load-more-btn:hover { color: #f1c232; }
+    .load-more-btn:hover { color: #f1c232; border-bottom-color: #f1c232; }
 
     /* ===== Lightbox ===== */
     .overlay {
@@ -165,10 +166,15 @@
     }
     .overlay.open { opacity: 1; visibility: visible; }
     .overlay img { max-width: 90vw; max-height: 85vh; object-fit: contain; }
+    /* 交叉：與 menu / about 的 × 同款（mono、24px、ivory、hover 金） */
     .close-btn {
-      position: absolute; top: 20px; right: 20px; color: #fff; font-size: 30px;
-      cursor: pointer; padding: 10px; z-index: 10003;
+      position: absolute; top: 12px; right: var(--hk-pad-x, 40px);
+      color: var(--ivory); font-family: var(--mono); font-weight: 400;
+      font-size: 24px; line-height: 1;
+      cursor: pointer; padding: 6px 0 6px 12px; z-index: 10003;
+      transition: color .2s;
     }
+    .close-btn:hover { color: #f1c232; }
 
     /* ===== 手機版 (Mobile Portrait) ===== */
     @media (max-width: 767px) {
@@ -194,7 +200,7 @@
     <div class="gallery" id="mainGallery">
       </div>
     <div class="load-more-wrap">
-      <button id="loadMore" class="load-more-btn">&gt; Continue extraction</button>
+      <button id="loadMore" class="load-more-btn">&gt;extract</button>
     </div>
   </main>
 
