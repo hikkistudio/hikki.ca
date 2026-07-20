@@ -56,7 +56,7 @@
   var MANIFESTO_HTML =
     '<p>Somewhere along the way, photography learned to lie—magic-moment presets, AI faces, filters that sand away everything true. We are not interested.</p>' +
     '<p>A photograph should feel like the moment it was made: the quiet light that belongs to you and the people you love, not the person you pretend to be.</p>' +
-    '<p>Emotions, not imitate perfection.<br>Job invitations are welcomed. <span class="hk-blink">■</span></p>';
+    '<p>Emotions, not imitate perfection.<br><p><br>Job invitations are welcomed. <span class="hk-blink">■</span></p>';
 
   var isCJK = function (s) { return /[一-鿿぀-ヿ가-힯]/.test(s); };
 
@@ -179,7 +179,7 @@
             '<li><a href="https://www.instagram.com/hikki_with_her_camera" target="_blank" rel="noopener noreferrer me">@hikki_with_her_camera</a></li>' +
           '</ul>' +
         '</div>' +
-        '<div class="hk-menu-copy">© 2026 hikki photography &amp; philosophy. <span class="hk-blink">■</span></div>' +
+        '<div class="hk-menu-copy">© 2026 hikki photography &amp; philosophy.</div>' +
       '</nav>' +
       '<div class="hk-about" id="hkAbout" role="dialog" aria-modal="true" aria-label="about hikki photography" aria-hidden="true">' +
         '<button type="button" class="hk-about-close" id="hkAboutClose" aria-label="close">&times;</button>' +
@@ -187,6 +187,13 @@
         '<div class="hk-about-foot" id="hkAboutFoot">Nightcity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;36.245993&nbsp;|&nbsp;-115.980127</div>' +
       '</div>';
     while (frag.firstChild) document.body.insertBefore(frag.firstChild, document.body.firstChild);
+
+    /* 當前頁指示：menu 對應項旁一粒細 ■ */
+    var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    var links = document.querySelectorAll('.hk-menu-list a');
+    for (var i = 0; i < links.length; i++) {
+      if ((links[i].getAttribute('href') || '').toLowerCase() === here) links[i].classList.add('now');
+    }
   }
 
   /* ===== Rotator（純 CSS transition，無 GSAP） ===== */
@@ -196,12 +203,16 @@
     var span = box.querySelector('span');
     var last = -1;
 
+    /* 動畫用 inline 顯式 transition：唔依賴 stylesheet cascade，
+       亦唔受 prefers-reduced-motion 豁免規則影響（rotator 係內容） */
+    var TR = 'opacity .22s ease, transform .22s ease';
     function step() {
       if (document.hidden) return;
       var i;
       do { i = (Math.random() * SENTENCES.length) | 0; } while (i === last);
       last = i;
       var txt = SENTENCES[i];
+      span.style.transition = TR;
       span.style.opacity = '0';
       span.style.transform = 'translateY(-12px)';
       setTimeout(function () {
@@ -212,10 +223,10 @@
         span.style.transform = 'translateY(12px)';
         // 強制 reflow，令下一步 transition 生效
         void span.offsetHeight;
-        span.style.transition = '';
+        span.style.transition = TR;
         span.style.opacity = '1';
         span.style.transform = 'translateY(0)';
-      }, 230);
+      }, 240);
     }
     setInterval(step, 4000);
   }

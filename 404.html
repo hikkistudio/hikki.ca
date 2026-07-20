@@ -6,12 +6,12 @@
   <title>404 | hikki photography</title>
   <meta name="robots" content="noindex"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css"/>
-  <script src="/site.js" defer></script>
+  <link rel="stylesheet" href="/site.css?v=5"/>
+  <script src="/site.js?v=5" defer></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --hk-bar-alpha: 0.92; } /* 黑底頁 header 唔透灰 */
-    html, body { height: 100%; background: #000; color: var(--hk-ivory); overflow: hidden; }
+    html, body { height: 100%; background: #161616; color: var(--hk-ivory); overflow: hidden; }
     body { font-family: var(--hk-font-mono); }
     .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
     main {
@@ -24,7 +24,23 @@
       font-size: clamp(64px, 14vw, 180px); line-height: 0.9; letter-spacing: -0.02em;
       color: var(--hk-ivory);
     }
-    p { margin-top: 20px; font-size: clamp(14px, 2vw, 18px); line-height: 1.7; }
+    /* signal lost… 三點輪流循環（同 game 頭像框同款） */
+    .sig { margin-top: 20px; font-size: clamp(13px, 1.8vw, 16px); line-height: 1.7; color: rgba(244,242,240,.8); }
+    .sig .dots { display: inline-block; width: 1.6em; text-align: left; }
+    .sig .dots::after { content: '.'; animation: dots404 1.4s steps(1,end) infinite; }
+    @keyframes dots404 { 0%,100%{ content:'.'; } 33%{ content:'..'; } 66%{ content:'...'; } }
+    /* 引文：搜索失敗時，儀器由雜訊入面撈到嘅一句 */
+    .quote {
+      margin-top: clamp(20px, 4vh, 40px);
+      font-family: var(--hk-font-ja); font-weight: 200;
+      font-size: clamp(15px, 2.2vw, 21px); line-height: 1.9;
+      color: rgba(244,242,240,.62); max-width: 30em;
+    }
+    .quote small {
+      display: block; margin-top: 6px;
+      font-family: var(--hk-font-mono); font-size: 11px; color: rgba(244,242,240,.35);
+    }
+    .ret { margin-top: clamp(20px, 4vh, 36px); font-size: clamp(14px, 2vw, 18px); }
     a { color: var(--hk-ivory); text-decoration: underline; }
     a:hover { color: var(--hk-gold); }
   </style>
@@ -32,12 +48,45 @@
 <body>
   <main>
     <h1 id="t">404,</h1>
-    <p id="s">signal lost. recalibrating...<br><a href="/">&gt; return to index</a> <span class="blink-block">■</span></p>
+    <p class="sig">recalibrating<span class="dots"></span><br><span id="coords">22.198510 | 113.536389</span></p>
+    <p class="quote" id="q"></p>
+    <p class="ret"><a href="/">&gt;return to index</a> <span class="blink-block">■</span></p>
   </main>
   <script>
     window.addEventListener('DOMContentLoaded', function () {
+      /* 雜訊入面撈到嘅一句（《燈火》） */
+      var QUOTES = [
+        '一處無人知道我曾經到過的地方。',
+        '風從不在預定的方向出現，亦不在應該的時間停下。',
+        '案件石沉大海。',
+        '沒有移民紀錄，沒有租屋紀錄，沒有涉案紀錄。',
+        '世間萬物，都終將被拋棄。',
+        '睇晒，唔等於明晒。',
+        '佢像一個根本未曾在澳門生活過的人。'
+      ];
+      var q = document.getElementById('q');
+      q.innerHTML = QUOTES[(Math.random() * QUOTES.length) | 0] +
+        '<small>— 燈火</small>';
+
       var C = window.HikkiCrack;
-      if (C) C.startOn([].concat(C.collect(document.getElementById('t')), C.collect(document.getElementById('s'))));
+      if (C) C.startOn([].concat(C.collect(document.getElementById('t')), C.collect(q)));
+
+      /* 座標漂移：一位一位咁跳（似搜索緊） */
+      var el = document.getElementById('coords');
+      (function drift(){
+        if (!document.hidden) {
+          var s = el.textContent.split('');
+          var idxs = [];
+          for (var i = 0; i < s.length; i++) if (s[i] >= '0' && s[i] <= '9') idxs.push(i);
+          var take = 1 + ((Math.random() * 2) | 0);
+          for (var k = 0; k < take && idxs.length; k++) {
+            var p = idxs.splice((Math.random() * idxs.length) | 0, 1)[0];
+            s[p] = String((Math.random() * 10) | 0);
+          }
+          el.textContent = s.join('');
+        }
+        setTimeout(drift, 60 + Math.random() * 120);
+      })();
     });
   </script>
 </body>

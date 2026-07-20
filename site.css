@@ -136,6 +136,12 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
   touch-action: manipulation;
 }
 .hk-menu-list a:hover, .hk-menu-list button:hover { color: var(--hk-red); }
+/* 當前頁：項目旁一粒 ■，與字體同大（同 logo 同步閃） */
+.hk-menu-list a.now::after {
+  content: "■"; display: inline-block;
+  font-size: inherit; line-height: 1; margin-left: 0.35em;
+  animation: hkBlink 3s infinite;
+}
 
 /* Contact block（menu 下半部）——壓縮到保證成頁一屏裝晒 */
 .hk-menu-contact { margin-top: clamp(12px, 2.2vh, 28px); }
@@ -236,7 +242,7 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
   .hk-about-close { top: 2px; font-size: 22px; }
 }
 
-/* 減少動態：尊重系統設定 */
+/* 減少動態：尊重系統設定（rotator 係內容輪換，唔喺豁免之列） */
 @media (prefers-reduced-motion: reduce) {
-  .hk-rotator > span, .hk-menu, .hk-about { transition: none; }
+  .hk-menu, .hk-about { transition: none; }
 }

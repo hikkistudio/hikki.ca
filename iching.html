@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css"/>
-  <script src="site.js" defer></script>
-  <script src="bg-frege.js" defer></script>
+  <link rel="stylesheet" href="site.css?v=5"/>
+  <script src="site.js?v=5" defer></script>
+  <script src="bg-frege.js?v=5" defer></script>
 
   <style>
     :root {
@@ -128,6 +128,21 @@
       font-size: 15px; line-height: 2; max-width: 480px;
     }
     .intro .en { font-family: var(--font-mono); font-size: 12px; }
+    /* 起卦記錄：最近三次（未起卦前顯示） */
+    .ic-hist {
+      margin-top: 18px;
+      font-family: var(--font-mono); font-size: 12px; line-height: 1.9;
+      color: rgba(244,242,240,.45);
+    }
+    .ic-hist b { font-weight: 400; color: rgba(244,242,240,.7); font-family: var(--font-ja); }
+    .ic-hist .ic-copy {
+      appearance: none; border: 0; background: none; cursor: pointer;
+      font-family: var(--font-mono); font-size: 11px;
+      color: rgba(244,242,240,.35); margin-left: 12px; padding: 2px 0;
+      border-bottom: 1px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .ic-hist .ic-copy:hover { color: #f1c232; border-bottom-color: #f1c232; }
 
     /* 卦象圖形：平直，背後透光（燈箱感） */
     .figs { display: flex; gap: clamp(28px, 5vw, 80px); align-items: flex-start; }
@@ -294,6 +309,7 @@
                 ><br>
             點擊卦爻以閱讀爻詞。<br>
           </p>
+          <div class="ic-hist" id="icHist" hidden></div>
         </div>
 
         <div class="result" id="result" hidden>
@@ -640,6 +656,44 @@
       return parts.join('｜');
     }
 
+    /* 未起卦前：>log 顯示最近三次記錄（點擊卦爻…一句下方），每卦帶 >copy */
+    (function icHistory(){
+      try {
+        const hist = JSON.parse(localStorage.getItem('ic_hist') || '[]');
+        if (!Array.isArray(hist) || !hist.length) return;
+        const el = document.getElementById('icHist');
+        el.textContent = '';
+        const head = document.createElement('div');
+        head.textContent = '>log';
+        el.appendChild(head);
+        hist.forEach(h => {
+          const row = document.createElement('div');
+          const line = h.d + '　' + h.m + (h.c ? ' → ' + h.c : '');
+          const txt = document.createElement('span');
+          txt.innerHTML = h.d + '　<b>' + h.m + '</b>' + (h.c ? ' → <b>' + h.c + '</b>' : '');
+          row.appendChild(txt);
+          const cp = document.createElement('button');
+          cp.type = 'button';
+          cp.className = 'ic-copy';
+          cp.textContent = '>copy';
+          cp.addEventListener('click', () => {
+            const done = () => { cp.textContent = '>copied'; setTimeout(() => { cp.textContent = '>copy'; }, 1200); };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(line).then(done, done);
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = line; document.body.appendChild(ta);
+              ta.select(); try { document.execCommand('copy'); } catch (e) {}
+              ta.remove(); done();
+            }
+          });
+          row.appendChild(cp);
+          el.appendChild(row);
+        });
+        el.hidden = false;
+      } catch (e) {}
+    })();
+
     let starDriftTimer = 0;
 
     function renderResult(){
@@ -659,6 +713,15 @@
       document.getElementById('metaMain').textContent = metaText(mainHex);
       document.getElementById('nameChanged').textContent = changedHex ? changedHex.gua : '（資料未配對）';
       document.getElementById('metaChanged').textContent = changedHex ? metaText(changedHex) : '';
+
+      /* 記錄最近三卦（下次未起卦前顯示） */
+      try {
+        const hist = JSON.parse(localStorage.getItem('ic_hist') || '[]');
+        const d = new Date();
+        const ds = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+        hist.unshift({ d: ds, m: mainHex.gua || '', c: changedHex ? changedHex.gua : '' });
+        localStorage.setItem('ic_hist', JSON.stringify(hist.slice(0, 3)));
+      } catch (e) {}
 
       /* 星宿 RA/DEC（跟本卦） */
       const sp = starParts(mainHex);

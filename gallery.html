@@ -24,9 +24,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css"/>
-  <script src="site.js" defer></script>
-  <script src="gallery-data.js"></script>
+  <link rel="stylesheet" href="site.css?v=5"/>
+  <script src="site.js?v=5" defer></script>
+  <script src="gallery-data.js?v=5"></script>
 
   <style>
     :root {
@@ -158,6 +158,16 @@
     }
     .load-more-btn:hover { color: #f1c232; border-bottom-color: #f1c232; }
 
+    /* ===== Booking：作品之後嘅出口 ===== */
+    .booking-wrap { display: flex; justify-content: center; padding: 0 0 56px; }
+    .booking-link {
+      color: rgba(244,242,240,.55); text-decoration: none;
+      font-family: var(--mono); font-size: 13px; padding: 6px 0;
+      border-bottom: 1px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .booking-link:hover { color: #f1c232; border-bottom-color: #f1c232; }
+
     /* ===== Lightbox ===== */
     .overlay {
       position: fixed; inset: 0; display: flex; justify-content: center; align-items: center;
@@ -175,6 +185,22 @@
       transition: color .2s;
     }
     .close-btn:hover { color: #f1c232; }
+
+    /* 燈箱左右導覽：同 × 同款（mono、ivory、hover 金） */
+    .lb-nav {
+      appearance: none; background: none; border: 0; cursor: pointer;
+      position: absolute; top: 50%; transform: translateY(-50%);
+      color: var(--ivory); font-family: var(--mono); font-size: 34px; line-height: 1;
+      padding: 18px 14px; z-index: 10003;
+      transition: color .2s; touch-action: manipulation;
+    }
+    .lb-nav:hover { color: #f1c232; }
+    .lb-prev { left: clamp(4px, 2vw, 28px); }
+    .lb-next { right: clamp(4px, 2vw, 28px); }
+    @media (max-width: 767px) {
+      /* 手機以 swipe 為主，箭咀收細留喺邊 */
+      .lb-nav { font-size: 26px; padding: 14px 8px; }
+    }
 
     /* ===== 手機版 (Mobile Portrait) ===== */
     @media (max-width: 767px) {
@@ -202,11 +228,16 @@
     <div class="load-more-wrap">
       <button id="loadMore" class="load-more-btn">&gt;extract</button>
     </div>
+    <div class="booking-wrap">
+      <a class="booking-link" href="mailto:alex@hikki.ca?subject=request%20a%20session">&gt;request a session</a>
+    </div>
   </main>
 
   <div class="overlay" id="lightbox" aria-modal="true" role="dialog">
     <span class="close-btn" id="closeLightbox">&times;</span>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="previous">&lsaquo;</button>
     <img src="" alt="expanded view" id="lightboxImg">
+    <button class="lb-nav lb-next" id="lbNext" aria-label="next">&rsaquo;</button>
   </div>
 
   <script>
@@ -265,6 +296,12 @@
         const mask = document.createElement('div');
         mask.className = 'ph-mask';
         mask.innerHTML = `<div class="ph-txt">${lat}\n${lon}\n<span class="blink">${tail}</span></div>`;
+        if (item.ph) {
+          /* 朦朧色底：遮罩後面透出張相嘅鬼影，似信號逐漸接通 */
+          mask.style.backgroundImage = `linear-gradient(rgba(0,0,0,.74), rgba(0,0,0,.74)), url(${item.ph})`;
+          mask.style.backgroundSize = 'cover';
+          mask.style.backgroundPosition = 'center';
+        }
         
         const img = new Image();
         img.alt = `hikki photography - ${item.cat.join(', ')}`;
@@ -324,18 +361,66 @@
 
     loadMoreBtn.onclick = renderBatch;
 
-    // Lightbox 實作
+    // Lightbox 實作（左右導覽 + 鍵盤 + swipe + 預載隔籬張）
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightboxImg');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    let lbList = [], lbIdx = 0;
+
+    function lbPreload(i) {
+      for (const j of [i - 1, i + 1]) {
+        const k = (j + lbList.length) % lbList.length;
+        if (lbList[k]) { const im = new Image(); im.src = lbList[k]; }
+      }
+    }
+    function lbShow(i) {
+      if (!lbList.length) return;
+      lbIdx = (i + lbList.length) % lbList.length;   /* 圈住行 */
+      lightboxImg.src = lbList[lbIdx];
+      lbPreload(lbIdx);
+    }
     function openLightbox(src) {
-      lightboxImg.src = src;
+      /* 導覽清單 = 而家喺頁面上、冇死圖嘅相（跟住 filter 同已 extract 嘅次序） */
+      lbList = [...document.querySelectorAll('#mainGallery .ph img')]
+        .filter(im => im.style.display !== 'none')
+        .map(im => im.src);
+      lbShow(Math.max(0, lbList.indexOf(src)));
+      const solo = lbList.length < 2;
+      lbPrev.style.display = solo ? 'none' : 'block';
+      lbNext.style.display = solo ? 'none' : 'block';
       lightbox.classList.add('open');
       document.body.classList.add('scroll-lock');
     }
-    document.getElementById('closeLightbox').onclick = () => {
+    function closeLightbox() {
       lightbox.classList.remove('open');
       document.body.classList.remove('scroll-lock');
-    };
+    }
+    document.getElementById('closeLightbox').onclick = closeLightbox;
+    lbPrev.onclick = (e) => { e.stopPropagation(); lbShow(lbIdx - 1); };
+    lbNext.onclick = (e) => { e.stopPropagation(); lbShow(lbIdx + 1); };
+    /* 撳相以外嘅暗位＝閂 */
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') lbShow(lbIdx - 1);
+      else if (e.key === 'ArrowRight') lbShow(lbIdx + 1);
+      else if (e.key === 'Escape') closeLightbox();
+    });
+
+    /* swipe：橫掃換相（豎向讓返俾系統） */
+    let tX = 0, tY = 0;
+    lightbox.addEventListener('touchstart', (e) => {
+      tX = e.changedTouches[0].clientX; tY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - tX;
+      const dy = e.changedTouches[0].clientY - tY;
+      if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        lbShow(lbIdx + (dx < 0 ? 1 : -1));
+      }
+    }, { passive: true });
 
     renderBatch();
   </script>

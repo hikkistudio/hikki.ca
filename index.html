@@ -40,8 +40,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
   <link rel="preload" as="image" href="hero_poster.jpg"/>
-  <link rel="stylesheet" href="site.css"/>
-  <script src="site.js" defer></script>
+  <link rel="stylesheet" href="site.css?v=5"/>
+  <script src="site.js?v=5" defer></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -244,6 +244,21 @@
         C.collect($('.m-slogan'))
       ));
     }
+
+    /* ===== 標語彩蛋：撳一下，crack 一次再組返 ===== */
+    (function () {
+      if (!C) return;
+      var busy = false;
+      function recrack(el) {
+        if (busy || !el) return;
+        busy = true;
+        C.startOn(C.collect(el), { budgetMs: 700 });
+        setTimeout(function () { busy = false; }, 900);
+      }
+      var h1 = $('.hero h1'), big = $('.m-slogan');
+      if (h1) h1.addEventListener('click', function () { recrack(h1); });
+      if (big) big.addEventListener('click', function () { recrack(big); });
+    })();
 
     /* ===== Geolocation 座標漂移 ===== */
     (function () {

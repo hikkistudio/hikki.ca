@@ -21,12 +21,34 @@ build-gallery.py — hikki.ca gallery 相片管理工具
 import os
 import re
 import sys
+import base64
+import io
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PHOTO_DIR = os.path.join(ROOT, 'photos')
 DATA_FILE = os.path.join(ROOT, 'gallery-data.js')
 
 EXTS = ('.webp', '.jpg', '.jpeg', '.png')
+
+# 朦朧色底：每張相生成 10px 闊 JPEG base64（~0.3KB/張），
+# recalibrating 遮罩後面透出，相「浮現」而唔係「彈出」。
+PH_W = 10
+PH_Q = 30
+
+def tiny_placeholder(path):
+    try:
+        from PIL import Image
+    except ImportError:
+        return ''
+    try:
+        im = Image.open(path).convert('RGB')
+        h = max(1, round(im.height * PH_W / im.width))
+        im = im.resize((PH_W, h), Image.BILINEAR)
+        buf = io.BytesIO()
+        im.save(buf, 'JPEG', quality=PH_Q, optimize=True)
+        return 'data:image/jpeg;base64,' + base64.b64encode(buf.getvalue()).decode('ascii')
+    except Exception:
+        return ''
 
 RULES = [
     ('times',   r'wedding|bride|bridesmate|vow|prewedding|family|party|birthday|thanksgiving|anniversary'),
@@ -61,19 +83,23 @@ def main():
     added = []
     removed = []
     lines = []
-    # 舊記錄按原順序保留；photos/ 冇檔案嘅死記錄直接剪走（會列出）
+    def entry(name, cats_js):
+        ph = tiny_placeholder(os.path.join(PHOTO_DIR, name))
+        ph_js = f', ph: "{ph}"' if ph else ''
+        return f'  {{ src: "{name}", cat: [{cats_js}]{ph_js} }},'
+    # 舊記錄按原順序保留（分類唔郁，色底每次重新生成）；死記錄剪走（會列出）
     for name, cats in existing.items():
         if name not in fileset:
             removed.append(name)
             continue
-        lines.append(f'  {{ src: "{name}", cat: [{cats}] }},')
+        lines.append(entry(name, cats))
     # 新檔案
     for f in files:
         if f in existing:
             continue
         cats = guess_cats(f)
         cats_js = ', '.join(f'"{c}"' for c in cats)
-        lines.append(f'  {{ src: "{f}", cat: [{cats_js}] }},')
+        lines.append(entry(f, cats_js))
         added.append((f, cats))
 
     out = (

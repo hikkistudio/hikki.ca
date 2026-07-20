@@ -24,11 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Share+Tech+Mono&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css"/>
-  <script src="site.js" defer></script>
-  <script src="game-data.js"></script>
-  <script src="bg-frege.js" defer></script>
-  <script src="game-logos.js"></script>
+  <link rel="stylesheet" href="site.css?v=5"/>
+  <script src="site.js?v=5" defer></script>
+  <script src="game-data.js?v=5"></script>
+  <script src="cast/manifest.js?v=5"></script>
+  <script src="bg-frege.js?v=5" defer></script>
+  <script src="game-logos.js?v=5"></script>
 
   <style>
     :root{
@@ -272,7 +273,8 @@
       animation: faceScan 3.2s linear infinite;
     }
     @keyframes faceScan { 0%{ transform: translateY(0); } 100%{ transform: translateY(-6px); } }
-    /* signal lost… 三點輪流出現循環（固定闊度，唔會推郁旁邊座標） */
+    .face-recal .rc-in{ white-space:pre; text-align:center; line-height:1.6; }
+    /* recalibrating… 三點輪流出現循環（固定闊度，文字唔會郁） */
     .face-recal .rc-dots{ display:inline-block; width:1.6em; text-align:left; }
     .face-recal .rc-dots::after{ content:'.'; animation: rcDots 1.4s steps(1,end) infinite; }
     @keyframes rcDots{ 0%,100%{ content:'.'; } 33%{ content:'..'; } 66%{ content:'...'; } }
@@ -379,6 +381,41 @@
       transform: translateY(1px);
     }
     .comm-paint{ font-size:10.5px; letter-spacing:.3em; }
+
+    /* SND：機械滑掣（凹槽＋金屬滑塊＋狀態燈）
+       開＝滑塊喺右、左端綠燈露出；熄聲＝滑塊滑返左、遮住盞燈 */
+    .snd-btn{
+      appearance:none; border:0; cursor:pointer; padding:0;
+      margin-top:7px;
+      width:32px; height:13px; border-radius:7px;
+      position:relative; touch-action:manipulation;
+      background: linear-gradient(180deg, #55505c, #3f3a46);
+      box-shadow:
+        inset 0 1px 3px rgba(0,0,0,.6),
+        inset 0 -1px 1px rgba(255,255,255,.14),
+        0 1px 0 rgba(255,255,255,.35);           /* 凹槽下緣反光 */
+    }
+    .snd-btn::before{                            /* 狀態燈（槽內左端） */
+      content:""; position:absolute; top:50%; left:6px;
+      width:4px; height:4px; border-radius:50%; transform:translateY(-50%);
+      background:#41e883;
+      box-shadow: 0 0 4px rgba(65,232,131,.9), 0 0 9px rgba(65,232,131,.4);
+      transition: background .2s, box-shadow .2s;
+    }
+    .snd-btn.muted::before{ background:#2c2831; box-shadow:none; }
+    .snd-btn::after{                             /* 金屬滑塊 */
+      content:""; position:absolute; top:1.5px; left:17px;
+      width:13px; height:10px; border-radius:5px;
+      background: radial-gradient(circle at 38% 28%, #e3dfe8, #b0abb7 55%, #8e8996);
+      box-shadow:
+        0 1px 2px rgba(0,0,0,.55),
+        inset 0 1px 1px rgba(255,255,255,.6),
+        inset 0 -1px 1px rgba(0,0,0,.25);
+      transition: left .16s cubic-bezier(.4,0,.2,1);
+    }
+    .snd-btn.muted::after{ left:1.5px; }
+    .snd-btn:active::after{ filter: brightness(.9); }
+    .snd-paint{ margin-top:3px; font-size:8px; letter-spacing:.24em; }
 
     /* 機殼底部銘牌 */
     .brandline{
@@ -526,6 +563,8 @@
         <div class="comm-wrap">
           <button class="comm-btn" id="commBtn" type="button" aria-label="comm on/off" title="COMM"></button>
           <span class="paint comm-paint">COMM</span>
+          <button class="snd-btn" id="sndBtn" type="button" aria-label="sound on/off"></button>
+          <span class="paint snd-paint">SND</span>
         </div>
       </div>
 
@@ -547,31 +586,63 @@
     document.addEventListener('gestureend', (e)=>{ e.preventDefault(); }, {passive:false});
   })();
 
-  /* ===== 今日嘅記憶片段（每日 seed 輪換；?guest=id 可指定） ===== */
-  const GUEST = (function(){
-    const list = (typeof CHARACTERS !== 'undefined' && CHARACTERS.length)
-      ? CHARACTERS
-      : [{ id:'kagami', name:'kagami', occupation:'', age:'', star:'', hue:0, script:[{ text:'……' }] }];
+  /* ===== 記憶片段（每次載入隨機重抽；?guest=id 可指定）
+         劇本池 = game-data.js 嘅 CHARACTERS + cast/ 資料夾（燈火角色）。 ===== */
+  const POOL = ((typeof CHARACTERS !== 'undefined' && CHARACTERS.length) ? CHARACTERS : []).concat(window.CAST || []);
+  function pickGuest(){
+    if (!POOL.length) return { id:'offline', name:'M17', occupation:'', age:'', star:'', hue:0, script:[{ text:'……信號未接通。cast/ 資料夾入面冇角色。' }] };
     const q = new URLSearchParams(location.search).get('guest');
-    const byId = q && list.find(c => c.id === q);
+    const byId = q && POOL.find(c => c.id === q);
     if (byId) return byId;
-    const today = new Date().toISOString().slice(0, 10);
-    let seed = 0;
-    for (const ch of today) seed = ((seed << 5) - seed + ch.charCodeAt(0)) | 0;
-    return list[Math.abs(seed) % list.length];
-  })();
+    return POOL[(Math.random() * POOL.length) | 0];
+  }
+  let GUEST = pickGuest();
+  let MODE = 'talk';                 /* talk ⇄ run（COMM 掣）；提早聲明俾各模組用 */
+  const GUEST_HOOKS = [];            /* 依賴 GUEST 嘅模組註冊 refresh；轉台時逐個執行 */
 
-  document.getElementById('guestTag').textContent =
-    'GUEST // ' + GUEST.name + ' · ' + (GUEST.occupation||'') + ' · ' + (GUEST.age||'');
+  /* ===== 記憶交叉：記住你見過邊個（俾劇本嘅 gate 節點用） ===== */
+  const MET_STORE = (function(){
+    let m = [];
+    try { m = JSON.parse(localStorage.getItem('m17_met') || '[]'); } catch(e){}
+    const stored = new Set(Array.isArray(m) ? m : []);
+    return {
+      visit(id){
+        const had = stored.has(id);
+        stored.add(id);
+        try { localStorage.setItem('m17_met', JSON.stringify([...stored])); } catch(e){}
+        /* 本次會面唔算「已見過」自己（避免 gate 自我觸發） */
+        const gate = new Set(stored);
+        if (!had) gate.delete(id);
+        return gate;
+      }
+    };
+  })();
+  let MET = MET_STORE.visit(GUEST.id);
+
+  /* GUEST 標籤：淨顯示名；撳一下轉台去池入面下一位（唔使 reload） */
+  const guestTagEl = document.getElementById('guestTag');
+  function applyGuestTag(){ guestTagEl.textContent = 'GUEST // ' + GUEST.name; }
+  applyGuestTag();
+  GUEST_HOOKS.push(applyGuestTag);
+  if (POOL.length > 1) {
+    guestTagEl.style.cursor = 'pointer';
+    guestTagEl.title = 'next guest';
+    guestTagEl.addEventListener('click', ()=>{
+      const i = POOL.findIndex(c => c.id === GUEST.id);
+      switchGuest(POOL[(i + 1) % POOL.length]);
+    });
+  }
 
   /* ===== 光照：每位角色一種環境光 ===== */
-  (function light(){
+  function applyLight(){
     const h = (140 + (GUEST.hue || 0)) % 360;
     const x = 12 + ((GUEST.hue || 0) % 70);
     document.getElementById('lightLayer').style.background =
       'radial-gradient(120% 90% at ' + x + '% -12%, hsl(' + h + ' 100% 55% / 0.22), transparent 55%),' +
       'radial-gradient(85% 60% at 92% 112%, hsl(' + h + ' 100% 55% / 0.13), transparent 60%)';
-  })();
+  }
+  applyLight();
+  GUEST_HOOKS.push(applyLight);
 
   /* ===== 參數面板 + 爻訊號計 ===== */
   (function params(){
@@ -589,9 +660,14 @@
     }
     clock(); setInterval(clock, 10000);
 
-    let bpmBase = 58;
-    for (const ch of GUEST.id) bpmBase += ch.charCodeAt(0) % 7;
-    let bpm = bpmBase, link = 94;
+    let bpmBase = 58, bpm = 58, link = 94;
+    function bpmForGuest(){
+      bpmBase = 58;
+      for (const ch of GUEST.id) bpmBase += ch.charCodeAt(0) % 7;
+      bpm = bpmBase;
+    }
+    bpmForGuest();
+    GUEST_HOOKS.push(bpmForGuest);
 
     const YAO_LAB = ['初','二','三','四','五','上'];
     const sigIdx = document.getElementById('sigIdx');
@@ -683,7 +759,6 @@
   (function pixelPortrait(){
     const canvas = portraitCanvas;
     const ctx = canvas.getContext('2d');
-    canvas.style.filter = 'hue-rotate(' + (GUEST.hue || 0) + 'deg)';
 
     function fit(){
       const r = canvas.parentElement.getBoundingClientRect();
@@ -694,24 +769,22 @@
 
     /* 頭像：portraits/<id>.png（或角色 portrait 欄覆寫）；搵唔到就出 recalibrating placeholder */
     const faceRecal = document.getElementById('faceRecal');
-    window.faceOk = false;
-    (function showRecal(){
+    let curImg = null, loopOn = false, t = 0;
+    const off = document.createElement('canvas');
+    const octx = off.getContext('2d');
+
+    function showRecal(){
       const lat = (22.10 + Math.random()*0.13).toFixed(3);
       const lon = (113.49 + Math.random()*0.12).toFixed(3);
-      faceRecal.innerHTML = 'signal lost<span class="rc-dots"></span> ' + lat + ' | ' + lon;
-    })();
-    const img = new Image();
-    img.src = GUEST.portrait || ('portraits/' + GUEST.id + '.png');
-    img.onload = ()=>{ window.faceOk = true; if (MODE!=='run'){ faceRecal.hidden = true; canvas.style.display='block'; } start(img); };
-    img.onerror = ()=>{ window.faceOk = false; if (MODE!=='run') faceRecal.hidden = false; };
+      /* 包喺單一容器入面：.face-recal 係 flex，散件會俾佢一行排開 */
+      faceRecal.innerHTML = '<div class="rc-in">recalibrating<span class="rc-dots"></span>\n' + lat + ' | ' + lon + '</div>';
+    }
 
-    function start(img){
-      let t=0;
-      const off=document.createElement('canvas');
-      const octx=off.getContext('2d');
-      function draw(){
+    function startLoop(){
+      if (loopOn) return; loopOn = true;
+      (function draw(){
         requestAnimationFrame(draw);
-        if (canvas.style.display === 'none' || document.hidden) return;
+        if (!curImg || canvas.style.display === 'none' || document.hidden) return;
         t++;
         if (t % 2) return;               /* 30fps 夠晒，慳一半 GPU */
         fit();
@@ -720,18 +793,42 @@
         const PIX=64;
         off.width=PIX;
         off.height=Math.max(1, Math.round(PIX*(ch/cw)));
-        const sc=Math.max(cw/img.width, ch/img.height);
-        octx.drawImage(img,(img.width-cw/sc)/2,(img.height-ch/sc)/2,cw/sc,ch/sc,0,0,off.width,off.height);
+        const sc=Math.max(cw/curImg.width, ch/curImg.height);
+        octx.drawImage(curImg,(curImg.width-cw/sc)/2,(curImg.height-ch/sc)/2,cw/sc,ch/sc,0,0,off.width,off.height);
         ctx.imageSmoothingEnabled=false;
         ctx.drawImage(off,0,0,off.width,off.height, Math.sin(t/60)*0.5, Math.cos(t/50)*0.5, cw, ch);
         ctx.globalCompositeOperation='overlay';
         ctx.fillStyle='rgba(0,255,102,0.15)';
         ctx.fillRect(0,0,cw,ch);
         ctx.globalCompositeOperation='source-over';
-        /* 掃描線由 .win::after 統一處理（win-face 冇咗角括號 ::after，已被覆蓋） */
-      }
-      draw();
+        /* 掃描線由 .win::after 統一處理 */
+      })();
     }
+
+    /* 可重入：轉台時由 GUEST_HOOKS 再 call */
+    function loadPortrait(){
+      canvas.style.filter = 'hue-rotate(' + (GUEST.hue || 0) + 'deg)';
+      curImg = null;
+      window.faceOk = false;
+      showRecal();
+      if (MODE !== 'run'){ canvas.style.display = 'none'; faceRecal.hidden = false; }
+      const want = GUEST.id;
+      const img = new Image();
+      img.src = GUEST.portrait || ('portraits/' + GUEST.id + '.png');
+      img.onload = ()=>{
+        if (want !== GUEST.id) return;   /* 載入中途又轉咗台 */
+        window.faceOk = true; curImg = img;
+        if (MODE !== 'run'){ faceRecal.hidden = true; canvas.style.display = 'block'; }
+        startLoop();
+      };
+      img.onerror = ()=>{
+        if (want !== GUEST.id) return;
+        window.faceOk = false;
+        if (MODE !== 'run') faceRecal.hidden = false;
+      };
+    }
+    loadPortrait();
+    GUEST_HOOKS.push(loadPortrait);
   })();
 
   /* ===== 解碼（快版；CJK 等闊 scramble） ===== */
@@ -754,10 +851,93 @@
     return {startOn};
   })();
 
-  /* ===== Dialogue engine（劇本喺 game-data.js） ===== */
-  const script = GUEST.script;
-  let idx=0;
-  const idMap={}; script.forEach((n,i)=>{ if(n.id) idMap[n.id]=i; });
+  /* ===== SFX：極簡合成音（柔和低頻、全部經 lowpass、軟起音；冇音檔） ===== */
+  const SFX = (function(){
+    let ac = null, bus = null;
+    let muted = false;
+    try { muted = localStorage.getItem('m17_snd') === '0'; } catch(e){}
+    function ensure(){
+      if (ac) { if (ac.state === 'suspended') ac.resume(); return; }
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ac = new AC();
+      bus = ac.createGain(); bus.gain.value = 0.14;
+      const lp = ac.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 1500; lp.Q.value = 0.5;   /* 全局磨圓，唔會尖 */
+      bus.connect(lp); lp.connect(ac.destination);
+    }
+    function tone(f0, f1, dur, vol, type){
+      if (!ac || muted || document.hidden) return;
+      const t = ac.currentTime;
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type || 'sine';
+      o.frequency.setValueAtTime(f0, t);
+      if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.012);   /* 軟起音，避免爆聲 */
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(bus);
+      o.start(t); o.stop(t + dur + 0.02);
+    }
+    function noise(dur, vol, fc){
+      if (!ac || muted || document.hidden) return;
+      const t = ac.currentTime;
+      const n = Math.floor(ac.sampleRate * dur);
+      const buf = ac.createBuffer(1, n, ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1) * (1 - i/n);
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = fc || 400;
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(lp); lp.connect(g); g.connect(bus);
+      src.start(t);
+    }
+    return {
+      ensure,
+      get muted(){ return muted; },
+      setMuted(m){
+        muted = m;
+        try { localStorage.setItem('m17_snd', m ? '0' : '1'); } catch(e){}
+      },
+      tick(){ tone(196, 174, 0.07, 0.05); },               /* 對話推進 */
+      pick(){ tone(220, 262, 0.10, 0.07); },               /* 揀選項 */
+      comm(){ tone(120, 84, 0.16, 0.12); },                /* COMM 紅掣 */
+      roll(){ noise(0.42, 0.05, 380); },                   /* 捲簾過場 */
+      jump(){ tone(150, 210, 0.12, 0.05, 'triangle'); },   /* runner 跳 */
+      land(){ tone(95, 78, 0.09, 0.045); },
+      lost(){ tone(140, 58, 0.5, 0.08); }                  /* signal lost */
+    };
+  })();
+  /* 首次互動先解鎖（autoplay 政策）；之後每次互動順手 resume */
+  ['pointerdown','keydown','touchstart'].forEach(ev =>
+    document.addEventListener(ev, () => SFX.ensure(), { passive: true }));
+
+  /* SND 開關：記住設定（localStorage） */
+  (function sndToggle(){
+    const b = document.getElementById('sndBtn');
+    if (!b) return;
+    function paint(){ b.classList.toggle('muted', SFX.muted); }
+    paint();
+    b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      SFX.setMuted(!SFX.muted);
+      paint();
+      if (!SFX.muted) { SFX.ensure(); SFX.tick(); }   /* 開返聲即刻俾個回饋 */
+    });
+  })();
+
+  /* ===== Dialogue engine（劇本喺 cast/） ===== */
+  let script, idMap, idx = 0;
+  function loadScript(){
+    script = GUEST.script;
+    idMap = {};
+    script.forEach((n,i)=>{ if(n.id) idMap[n.id]=i; });
+    idx = 0;
+    show(0);
+  }
 
   const elSpk=document.getElementById('speaker');
   const elTxt=document.getElementById('dialogueText');
@@ -769,7 +949,7 @@
     const b=document.createElement('button');
     b.className='choice-btn';
     b.textContent=label;
-    b.onclick=(e)=>{ e.stopPropagation(); onPick(); };
+    b.onclick=(e)=>{ e.stopPropagation(); SFX.pick(); onPick(); };
     b.addEventListener('pointerdown', (e)=>{ e.stopPropagation(); }, {passive:false});
     b.addEventListener('touchstart', (e)=>{ e.stopPropagation(); }, {passive:false});
     elCh.appendChild(b);
@@ -780,6 +960,7 @@
     elCh.innerHTML="";
     elBtn.style.display="block";
     if(n.type==="jump"){ idx=idMap[n.target]; show(idx); return; }
+    if(n.type==="gate"){ idx=idMap[ MET.has(n.met) ? n.then : n.else ]; show(idx); return; }
     elSpk.textContent = n.speaker || (n.type ? "—" : GUEST.name);
     elTxt.textContent = n.text||"";
     Crack.startOn(elTxt);
@@ -798,12 +979,14 @@
     if(n.type!=="choice" && n.type!=="end"){
       idx=Math.min(script.length-1, idx+1);
       show(idx);
+      SFX.tick();
     }
   }
 
   elBtn.onclick=next;
   document.body.onkeydown=(e)=>{ if(e.key==='Enter' && MODE==='talk') next(); };
-  show(0);
+  loadScript();
+  GUEST_HOOKS.push(loadScript);
 
   function shouldAdvanceFromEvent(e){
     if (MODE !== 'talk') return false;
@@ -987,8 +1170,8 @@
     };
   })();
 
-  /* ===== COMM 掣：對話 ⇄ 跑步；資訊欄 online ⇄ offline 球體 ===== */
-  let MODE = 'talk';
+  /* ===== COMM 掣：對話 ⇄ 跑步；資訊欄 online ⇄ offline 球體
+         （MODE 已喺頂部聲明） ===== */
   const commBtn = document.getElementById('commBtn');
   const dlgPane = document.getElementById('dlgPane');
   const runnerPane = document.getElementById('runnerPane');
@@ -1008,6 +1191,7 @@
     MODE = m;
     const off = (m === 'run');
     commBtn.classList.toggle('off', off);
+    SFX.roll();
     /* 三個螢幕逐格捲簾（70ms 錯開，做出層次） */
     const swapDlg = ()=>{
       dlgPane.hidden = off; runnerPane.hidden = !off;
@@ -1033,8 +1217,34 @@
     covers.forEach((cover, i)=> setTimeout(()=> crtRun(cover), i*70));
     swaps.forEach((swap, i)=> setTimeout(swap, i*70 + MID));
   }
-  commBtn.addEventListener('click', ()=> setMode(MODE==='talk' ? 'run' : 'talk'));
+  commBtn.addEventListener('click', ()=>{ SFX.comm(); setMode(MODE==='talk' ? 'run' : 'talk'); });
   window.addEventListener('resize', ()=>{ if (MODE==='run') sphere.resize(); });
+
+  /* ===== 轉台：唔使 reload——捲簾遮蓋嗰刻直接換人 ===== */
+  function switchGuest(next){
+    if (!next || next.id === GUEST.id) return;
+    SFX.roll();
+    [crtDlg, crtFace, crtInfo].forEach((c, i)=> setTimeout(()=> crtRun(c), i*70));
+    setTimeout(()=>{
+      GUEST = next;
+      MET = MET_STORE.visit(GUEST.id);
+      /* 轉台一律返回對話模式 */
+      MODE = 'talk';
+      commBtn.classList.remove('off');
+      dlgPane.hidden = false; runnerPane.hidden = true;
+      coffeeEl.hidden = true;
+      infoOnline.hidden = false; infoOffline.hidden = true;
+      sphere.stop();
+      tkState.textContent = 'IN PROGRESS';
+      GUEST_HOOKS.forEach(fn => fn());
+      /* URL 同步（refresh 會留喺同一位身上） */
+      try {
+        const u = new URL(location.href);
+        u.searchParams.set('guest', GUEST.id);
+        history.replaceState(null, '', u);
+      } catch(e) {}
+    }, MID);
+  }
 
   /* ===== Runner v2（COMM OFF 時喺對話窗） ===== */
   let runnerResize = ()=>{};
@@ -1064,7 +1274,7 @@
 
     let auto=true, playerVis=false, lastMan=0, passed=0, speed=BASE_SPEED, deadFlash=0;
     const PAD=40;                                /* 左右極繁側欄闊度 */
-    const player={x:PAD+24, y:0, vy:0, gr:true, coyote:0, buffer:0, squash:0};
+    const player={x:PAD+24, y:0, vy:0, gr:true, coyote:0, buffer:0};
     let junkT=0, junkL=[], junkR=[];
     let obst=[], rain=[], dust=[], distToNext=240;
 
@@ -1077,7 +1287,7 @@
       if(on){ passed=0; speed=BASE_SPEED; elScore.textContent="05:F9:66:1A//0x0000000"; }
     }
     setAuto(true);
-    function pressJump(){ player.buffer=BUFFER; lastMan=performance.now(); if(auto) setAuto(false); }
+    function pressJump(){ player.buffer=BUFFER; lastMan=performance.now(); if(auto) setAuto(false); SFX.jump(); }
     function releaseJump(){ if(!player.gr && player.vy>CUT) player.vy=CUT; }
 
     function onDown(e){
@@ -1150,11 +1360,11 @@
         player.y+=player.vy*dt;
         player.vy+=G*dt;
         if(player.y<=0){
-          player.y=0; player.vy=0; player.gr=true; player.squash=0.09;
+          player.y=0; player.vy=0; player.gr=true;
+          if(playerVis) SFX.land();
           for(let k=0;k<4;k++) dust.push({x:player.x+4, y:groundY(), vx:-40-Math.random()*60, vy:-(20+Math.random()*40), t:0.35});
         }
       }
-      if(player.squash>0) player.squash-=dt;
 
       if(Math.random()<0.5) rain.push({x:Math.random()*W, y:-8, v:260+Math.random()*90});
       rain.forEach(r=>{ r.y+=r.v*dt; r.x-=r.v*0.18*dt; });
@@ -1179,7 +1389,8 @@
         const px=player.x, pw=8;
         if(obst.some(o=> px<o.x+o.w && px+pw>o.x && player.y<o.h)){
           deadFlash=0.5;
-          elOver.textContent='SIGNAL LOST'; elOver.classList.add('show');
+          SFX.lost();
+          elOver.textContent='Recalibrating...'; elOver.classList.add('show');
         }
       }
       if(deadFlash>0){
