@@ -24,9 +24,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=5"/>
-  <script src="site.js?v=5" defer></script>
-  <script src="gallery-data.js?v=5"></script>
+  <link rel="stylesheet" href="site.css?v=6"/>
+  <script src="site.js?v=6" defer></script>
+  <script src="gallery-data.js?v=6"></script>
 
   <style>
     :root {
@@ -168,6 +168,19 @@
     }
     .booking-link:hover { color: #f1c232; border-bottom-color: #f1c232; }
 
+    /* 統一版權標示（頁底） */
+    .site-copy {
+      text-align: center; padding: 0 0 28px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: -0.005em;
+      color: rgba(244,242,240,.5);
+    }
+    /* 燈箱左下角版權 */
+    .lb-copy {
+      position: absolute; left: clamp(16px, 3vw, 40px); bottom: 14px;
+      font-family: var(--mono); font-size: 11px; letter-spacing: -0.005em;
+      color: rgba(244,242,240,.5); pointer-events: none; z-index: 10003;
+    }
+
     /* ===== Lightbox ===== */
     .overlay {
       position: fixed; inset: 0; display: flex; justify-content: center; align-items: center;
@@ -231,6 +244,7 @@
     <div class="booking-wrap">
       <a class="booking-link" href="mailto:alex@hikki.ca?subject=request%20a%20session">&gt;request a session</a>
     </div>
+    <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </main>
 
   <div class="overlay" id="lightbox" aria-modal="true" role="dialog">
@@ -238,6 +252,7 @@
     <button class="lb-nav lb-prev" id="lbPrev" aria-label="previous">&lsaquo;</button>
     <img src="" alt="expanded view" id="lightboxImg">
     <button class="lb-nav lb-next" id="lbNext" aria-label="next">&rsaquo;</button>
+    <span class="lb-copy">© 2026 hikki photography &amp; philosophy.</span>
   </div>
 
   <script>

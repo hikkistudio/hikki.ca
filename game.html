@@ -24,12 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Share+Tech+Mono&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=5"/>
-  <script src="site.js?v=5" defer></script>
-  <script src="game-data.js?v=5"></script>
-  <script src="cast/manifest.js?v=5"></script>
-  <script src="bg-frege.js?v=5" defer></script>
-  <script src="game-logos.js?v=5"></script>
+  <link rel="stylesheet" href="site.css?v=6"/>
+  <script src="site.js?v=6" defer></script>
+  <script src="game-data.js?v=6"></script>
+  <script src="cast/manifest.js?v=6"></script>
+  <script src="bg-frege.js?v=6" defer></script>
+  <script src="game-logos.js?v=6"></script>
 
   <style>
     :root{
@@ -417,6 +417,13 @@
     .snd-btn:active::after{ filter: brightness(.9); }
     .snd-paint{ margin-top:3px; font-size:8px; letter-spacing:.24em; }
 
+    /* 統一版權標示（機身下方置中） */
+    .site-copy{
+      text-align:center; margin:18px 0 26px;
+      font-family: var(--f-num); font-size:11px; letter-spacing:-0.005em;
+      color: rgba(244,242,240,.45);
+    }
+
     /* 機殼底部銘牌 */
     .brandline{
       display:flex; align-items:baseline; justify-content:space-between;
@@ -575,6 +582,7 @@
         <span class="brand-meta">MOD. M17-2117 · MACAU</span>
       </div>
     </div>
+    <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </main>
 
 <script>

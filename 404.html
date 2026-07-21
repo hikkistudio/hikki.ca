@@ -6,8 +6,8 @@
   <title>404 | hikki photography</title>
   <meta name="robots" content="noindex"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css?v=5"/>
-  <script src="/site.js?v=5" defer></script>
+  <link rel="stylesheet" href="/site.css?v=6"/>
+  <script src="/site.js?v=6" defer></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --hk-bar-alpha: 0.92; } /* 黑底頁 header 唔透灰 */
@@ -43,6 +43,12 @@
     .ret { margin-top: clamp(20px, 4vh, 36px); font-size: clamp(14px, 2vw, 18px); }
     a { color: var(--hk-ivory); text-decoration: underline; }
     a:hover { color: var(--hk-gold); }
+    /* 統一版權標示（左下角） */
+    .site-copy {
+      position: absolute; left: var(--hk-pad-x); bottom: 16px;
+      font-family: var(--hk-font-mono); font-size: 11px; letter-spacing: -0.005em;
+      color: rgba(244,242,240,.5); pointer-events: none;
+    }
   </style>
 </head>
 <body>
@@ -51,6 +57,7 @@
     <p class="sig">recalibrating<span class="dots"></span><br><span id="coords">22.198510 | 113.536389</span></p>
     <p class="quote" id="q"></p>
     <p class="ret"><a href="/">&gt;return to index</a> <span class="blink-block">■</span></p>
+    <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </main>
   <script>
     window.addEventListener('DOMContentLoaded', function () {

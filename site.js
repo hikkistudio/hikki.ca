@@ -250,14 +250,14 @@
       document.documentElement.style.overflow = open ? 'hidden' : '';
       if (open) Crack.startOn(Crack.collect(menu.querySelector('.hk-menu-list')), { budgetMs: 400 });
     }
-    /* 面板底邊對齊 menu 入面 contact 上方嘅虛線 */
+    /* 面板底邊精確對齊 menu 最後一項（macau17）嗰條虛線——齊整 */
     function sizeAbout() {
-      var contact = menu.querySelector('.hk-menu-contact');
+      var list = menu.querySelector('.hk-menu-list');
       var bar = document.querySelector('.hk-bar');
-      if (!contact || !bar) return;
+      if (!list || !bar) return;
       var barBottom = bar.getBoundingClientRect().bottom;
-      var lineTop = contact.getBoundingClientRect().top; // 虛線就喺 contact 區塊上方
-      var h = lineTop - barBottom;
+      var lineBottom = list.getBoundingClientRect().bottom; // 最後一項嘅 border-bottom
+      var h = lineBottom - barBottom;
       if (h > 160) about.style.height = h + 'px';
       else about.style.removeProperty('height'); // 量唔到就用 CSS fallback
     }
