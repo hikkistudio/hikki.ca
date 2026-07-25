@@ -170,7 +170,7 @@
           '<li><a href="jewel.html">jeweldesign</a></li>' +
           '<li><a href="iching.html">iching</a></li>' +
           '<li><a href="game.html">macau17 (beta)</a></li>' +
-          '<li><a href="rain.html">rain</a></li>' +
+          '<li><a href="rainfall.html">rainfall (beta)</a></li>' +
         '</ul>' +
         '<div class="hk-menu-contact">' +
           '<h2 class="hk-contact-head">contact</h2>' +
