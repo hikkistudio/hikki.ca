@@ -22,9 +22,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=6"/>
-  <script src="site.js?v=6" defer></script>
-  <script src="game-logos.js?v=6"></script>
+  <link rel="stylesheet" href="site.css?v=14"/>
+  <script src="site.js?v=14" defer></script>
+  <script src="game-logos.js?v=14"></script>
   <!-- Google model-viewer（自托管，冇第三方依賴） -->
   <script type="module" src="model-viewer.min.js"></script>
 
@@ -106,17 +106,17 @@
     }
     .load-hex i {
       display: block; height: 7px;
-      background: rgba(247,134,31,.14);
+      background: rgba(231,76,60,.14);
       transition: background .3s ease, box-shadow .3s ease;
     }
     .load-hex i.on {
-      background: #f7861f;                                   /* 橙 */
-      box-shadow: 0 0 5px rgba(247,134,31,.6), 0 0 18px rgba(247,134,31,.28); /* 燈箱透光 */
+      background: #e74c3c;                                   /* 橙 */
+      box-shadow: 0 0 5px rgba(231,76,60,.6), 0 0 18px rgba(231,76,60,.28); /* 燈箱透光 */
     }
     .load-pct {
       margin-top: 12px;
       font-family: var(--hk-font-mono); font-size: 12px; letter-spacing: 0.04em;
-      color: #f7861f; text-align: center;
+      color: #e74c3c; text-align: center;
     }
 
     /* 下段：左小標題+切換｜中 ASCII 燈箱｜右規格
@@ -175,10 +175,12 @@
       text-align: left;
     }
 
+    /* specs 內「ask roger for detail」＝ enq 觸發（橙字，由 site.js 委派） */
+    .specs .hk-enq { color: #e74c3c; text-decoration: none; }
     /* 版權：桌面在 pinch-to-zoom 下面（bottom-left），手機在頁面底部 */
     .copyright {
       position: relative; z-index: 4;
-      margin-top: clamp(8px, 1.4vh, 14px);
+      margin-top: clamp(6px, 1vh, 10px);
       font-family: var(--hk-font-mono); font-size: 11px; letter-spacing: -0.005em;
       color: rgba(244,242,240,.5);
     }
@@ -299,6 +301,7 @@
       setTimeout(function () {
         specsEl.innerHTML = RINGS[key].specs
           .replace(/[&<>]/g, function (m) { return { '&':'&amp;','<':'&lt;','>':'&gt;' }[m]; })
+          .replace('contact for detail', '<a class="hk-enq" data-enq-source="jewel">contact for detail</a>')
           .replace('■', '<span class="blink-block">■</span>');
       }, 620);
     }

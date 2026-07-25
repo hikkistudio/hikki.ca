@@ -38,7 +38,7 @@
       { type: "jump", target: "a_self" },
       { id: "a_truck", text: "五噸半，冇車牌，左軚。司機當場死亡。" },
       { text: "同前兩單，都唔同人。……呢樣先至有趣。" },
-      { text: "signal lost" }
+      { id: "a_self", type: "end", text: "signal lost" }
     ]
   };
   (window.CAST = window.CAST || []).push(C);

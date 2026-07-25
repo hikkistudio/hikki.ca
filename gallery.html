@@ -24,9 +24,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=6"/>
-  <script src="site.js?v=6" defer></script>
-  <script src="gallery-data.js?v=6"></script>
+  <link rel="stylesheet" href="site.css?v=14"/>
+  <script src="site.js?v=14" defer></script>
+  <script src="gallery-data.js?v=14"></script>
 
   <style>
     :root {
@@ -151,7 +151,7 @@
     .load-more-wrap { display: flex; justify-content: center; padding: 40px 0; }
     .load-more-btn {
       appearance: none; border: 0; background: none;
-      color: var(--ivory); padding: 10px 0; cursor: pointer;
+      color: var(--ivory); padding: 4px 0; cursor: pointer;   /* 底線貼近文字，與 filter/booking 一致 */
       font-family: var(--mono); font-size: 14px;
       border-bottom: 1px solid transparent;      /* hover 底線，與全站連結一致 */
       transition: color .2s, border-color .2s;
@@ -168,12 +168,14 @@
     }
     .booking-link:hover { color: #f1c232; border-bottom-color: #f1c232; }
 
-    /* 統一版權標示（頁底） */
+    /* 統一版權標示（頁底，左對齊圖片牆左緣） */
     .site-copy {
-      text-align: center; padding: 0 0 28px;
+      max-width: var(--max-bound); margin: 0 auto;
+      padding: 0 40px 28px; text-align: left;
       font-family: var(--mono); font-size: 11px; letter-spacing: -0.005em;
       color: rgba(244,242,240,.5);
     }
+    @media (max-width: 767px) { .site-copy { padding: 0 10px 20px; } }
     /* 燈箱左下角版權 */
     .lb-copy {
       position: absolute; left: clamp(16px, 3vw, 40px); bottom: 14px;
@@ -227,6 +229,7 @@
     @media (min-width: 768px) and (max-width: 1199px) {
       .ph { flex: 0 0 calc(33.33% - 6.7px); }
     }
+
   </style>
 </head>
 <body>
@@ -242,7 +245,7 @@
       <button id="loadMore" class="load-more-btn">&gt;extract</button>
     </div>
     <div class="booking-wrap">
-      <a class="booking-link" href="mailto:alex@hikki.ca?subject=request%20a%20session">&gt;request a session</a>
+      <a class="booking-link hk-enq" href="#" data-enq-source="session" role="button">&gt;request a session</a>
     </div>
     <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </main>

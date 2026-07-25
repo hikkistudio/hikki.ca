@@ -24,16 +24,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Share+Tech+Mono&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=6"/>
-  <script src="site.js?v=6" defer></script>
-  <script src="game-data.js?v=6"></script>
-  <script src="cast/manifest.js?v=6"></script>
-  <script src="bg-frege.js?v=6" defer></script>
-  <script src="game-logos.js?v=6"></script>
+  <link rel="stylesheet" href="site.css?v=14"/>
+  <script src="site.js?v=14" defer></script>
+  <script src="game-data.js?v=14"></script>
+  <script src="cast/manifest.js?v=14"></script>
+  <script src="bg-frege.js?v=14" defer></script>
+  <script src="game-logos.js?v=14"></script>
 
   <style>
     :root{
       --bg:#050004;
+      --scr-rgb:0,255,102;                        /* 螢幕主色 RGB（ATC 模式改橙） */
       --mag:#00ff66;
       --mid:#1fca6a;
       --dim:#0b6132;
@@ -45,6 +46,13 @@
       --f-cjk:'Noto Serif TC', serif;
 
       --hk-bar-alpha: 0.92;
+    }
+    /* ATC：全機介面由綠轉橙（與 iching 變爻同色系） */
+    .device.atc{
+      --scr-rgb:231,76,60;
+      --mag:#e74c3c;
+      --mid:#e0503f;
+      --dim:#6e2018;
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -72,10 +80,10 @@
     .bg-data svg{ display:block; width:100%; height:100%; }
 
     @keyframes boxGlow{
-      0%,100%{ box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 6px rgba(0,255,102,.10); }
-      45%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 11px rgba(0,255,102,.22); }
-      47%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 3px rgba(0,255,102,.05); }
-      52%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 10px rgba(0,255,102,.18); }
+      0%,100%{ box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 6px rgba(var(--scr-rgb),.10); }
+      45%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 11px rgba(var(--scr-rgb),.22); }
+      47%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 3px rgba(var(--scr-rgb),.05); }
+      52%    { box-shadow: inset 0 3px 9px rgba(0,0,0,.85), inset 0 0 0 1px #000, 0 1px 0 rgba(255,255,255,.45), 0 0 10px rgba(var(--scr-rgb),.18); }
     }
 
     /* ===== 機殼：wingman 式淺灰機身 + 像素 dither ===== */
@@ -144,7 +152,7 @@
         inset 0 3px 9px rgba(0,0,0,.85),
         inset 0 0 0 1px #000,
         0 1px 0 rgba(255,255,255,.45),
-        0 0 8px rgba(0,255,102,.14);   /* 靜態燈箱光，唔逐幀重繪 */
+        0 0 8px rgba(var(--scr-rgb),.14);   /* 靜態燈箱光，唔逐幀重繪 */
       overflow:hidden;
     }
     /* 低調掃描線（覆蓋 dlg / info / ad；win-face 有自己嘅角括號 ::after，
@@ -161,11 +169,10 @@
       display:flex; gap:12px; align-items:center;
       font-family: var(--f-num); font-size:9.5px; letter-spacing:.08em;
       color: var(--dim); white-space:nowrap; overflow:hidden;
-      border-bottom: 1px solid rgba(0,255,102,.16);
+      border-bottom: 1px solid rgba(var(--scr-rgb),.16);
       padding: 6px 18px 5px 10px;
     }
     .scr-ticker .hot{ color: var(--mid); }
-    .scr-ticker .rec{ color: var(--led); animation: blinkFast 1.6s infinite; }
     .scr-ticker .hexch{ font-family: serif; }
 
     .dlg{ position:absolute; inset:26px 0 0 0; padding: 10px 14px 12px; cursor:pointer; }
@@ -173,7 +180,7 @@
     .speaker{
       font-family: var(--f-ui); font-weight:600; font-size:16px;
       letter-spacing:.14em; text-transform:uppercase;
-      color: var(--mag); text-shadow: 0 0 8px rgba(0,255,102,.5);
+      color: var(--mag); text-shadow: 0 0 8px rgba(var(--scr-rgb),.5);
     }
     .dialogue-text{
       margin-top:7px;
@@ -190,7 +197,7 @@
       color: var(--mid); text-align:left; padding:4px 0;
       touch-action: manipulation;
     }
-    .choice-btn:hover{ color: var(--mag); text-shadow:0 0 6px rgba(0,255,102,.5); }
+    .choice-btn:hover{ color: var(--mag); text-shadow:0 0 6px rgba(var(--scr-rgb),.5); }
     .next-indicator{
       position:absolute; bottom:10px; right:12px;
       width:10px; height:10px; background: var(--mag);
@@ -234,8 +241,8 @@
       background:
         repeating-linear-gradient(0deg, rgba(0,0,0,.36) 0 2px, rgba(4,22,11,.10) 2px 4px),
         linear-gradient(180deg, #06210f 0%, #041209 55%, #020a05 100%);
-      border-bottom:1px solid rgba(0,255,102,.5);
-      box-shadow: 0 1px 0 rgba(0,255,102,.38), 0 7px 12px -5px rgba(0,255,102,.22);
+      border-bottom:1px solid rgba(var(--scr-rgb),.5);
+      box-shadow: 0 1px 0 rgba(var(--scr-rgb),.38), 0 7px 12px -5px rgba(var(--scr-rgb),.22);
     }
     .crt-cover.run{ animation: crtRoll .66s linear both; }
     @keyframes crtRoll{
@@ -254,7 +261,7 @@
       display:flex; align-items:center; justify-content:center;
       font-family: var(--f-num); font-size:13px; line-height:13px;
       white-space:pre; color: var(--mid); background:#020a05;
-      text-shadow: 0 0 8px rgba(0,255,102,.35);
+      text-shadow: 0 0 8px rgba(var(--scr-rgb),.35);
     }
     .coffee-ascii[hidden]{ display:none; }
 
@@ -268,8 +275,8 @@
     .face-recal::before{
       content:""; position:absolute; inset:0;
       background:
-        linear-gradient(to bottom, rgba(0,255,102,.06), transparent 60%),
-        repeating-linear-gradient(0deg, rgba(0,255,102,.05) 0 1px, transparent 1px 3px);
+        linear-gradient(to bottom, rgba(var(--scr-rgb),.06), transparent 60%),
+        repeating-linear-gradient(0deg, rgba(var(--scr-rgb),.05) 0 1px, transparent 1px 3px);
       animation: faceScan 3.2s linear infinite;
     }
     @keyframes faceScan { 0%{ transform: translateY(0); } 100%{ transform: translateY(-6px); } }
@@ -296,7 +303,7 @@
     .p-val.warm{ color:#ff5b4d; text-shadow:0 0 6px rgba(255,60,48,.4); }
     .guest-tag{
       margin-top:auto; padding-top:5px;
-      border-top:1px solid rgba(0,255,102,.18);
+      border-top:1px solid rgba(var(--scr-rgb),.18);
       font-size:8.5px; font-weight:600; letter-spacing:.12em; color: var(--dim);
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
@@ -317,7 +324,7 @@
     /* 參數：壓縮成 2×2（資訊欄上半） */
     .params-compact{
       display:grid; grid-template-columns:1fr 1fr; gap:2px 10px;
-      padding-bottom:6px; border-bottom:1px solid rgba(0,255,102,.16);
+      padding-bottom:6px; border-bottom:1px solid rgba(var(--scr-rgb),.16);
     }
     .pc{ display:flex; align-items:baseline; justify-content:space-between; gap:6px; }
     .pc .p-val{ font-size:12.5px; }
@@ -341,15 +348,15 @@
     /* iching 式粗爻＋燈箱透光 */
     .sig2-rows .yao .ln{ display:flex; gap:24%; height:5px; }
     .sig2-rows .yao .ln b{
-      flex:1; background: rgba(0,255,102,.88);
-      box-shadow: 0 0 4px rgba(0,255,102,.55), 0 0 12px rgba(0,255,102,.2);
+      flex:1; background: rgba(var(--scr-rgb),.88);
+      box-shadow: 0 0 4px rgba(var(--scr-rgb),.55), 0 0 12px rgba(var(--scr-rgb),.2);
     }
-    .sig2-rows .yao.hi .ln b{ background:#a8ffcd; box-shadow:0 0 6px rgba(0,255,102,.8), 0 0 16px rgba(0,255,102,.3); }
+    .sig2-rows .yao.hi .ln b{ background:#a8ffcd; box-shadow:0 0 6px rgba(var(--scr-rgb),.8), 0 0 16px rgba(var(--scr-rgb),.3); }
     .sig2-rows .yao .nv{ text-align:center; color: var(--mid); }
     .sig2-dump{
       font-family: var(--f-num); font-size:7.5px; letter-spacing:.06em;
       color: var(--dim); white-space:nowrap; overflow:hidden;
-      border-top:1px solid rgba(0,255,102,.14); padding-top:3px; margin-top:3px;
+      border-top:1px solid rgba(var(--scr-rgb),.14); padding-top:3px; margin-top:3px;
     }
 
     /* COMM 掣：凹槽 + 柔光紅 LED */
@@ -415,13 +422,84 @@
     }
     .snd-btn.muted::after{ left:1.5px; }
     .snd-btn:active::after{ filter: brightness(.9); }
-    .snd-paint{ margin-top:3px; font-size:8px; letter-spacing:.24em; }
 
-    /* 統一版權標示（機身下方置中） */
+    /* SND / ATC 兩個滑掣：標籤喺左，掣喺右，直排 */
+    .toggle-col{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; margin-top:7px; }
+    .toggle-row{ display:flex; align-items:center; gap:7px; }
+    .toggle-row .snd-btn{ margin-top:0; }
+    .tg-lab{ font-size:8px; letter-spacing:.24em; }
+
+    /* ATC：預設 off（掣喺左、燈熄）；on = 橙模式（掣喺右、橙燈） */
+    .atc-btn::after{ left:1.5px; }
+    .atc-btn.on::after{ left:17px; }
+    .atc-btn::before{ background:#2c2831; box-shadow:none; }
+    .atc-btn.on::before{ background:#e74c3c; box-shadow:0 0 4px rgba(255,138,60,.9), 0 0 9px rgba(255,138,60,.45); }
+
+    /* ===== 信號衰減：見得越多次，畫面越蝕 ===== */
+    .device[data-decay="2"] .win{ filter: contrast(1.06) brightness(.96); }
+    .device[data-decay="3"] .win{ filter: contrast(1.12) brightness(.9) saturate(.85); }
+    .device[data-decay="4"] .win{ filter: contrast(1.2) brightness(.82) saturate(.7); }
+    /* 螢幕多一層游動雜訊（越蝕越明顯） */
+    .device.decayed .win::before{
+      content:""; position:absolute; inset:0; z-index:5; pointer-events:none;
+      background: repeating-linear-gradient(0deg,
+        rgba(var(--scr-rgb),.05) 0 1px, transparent 1px 4px);
+      opacity:.5; animation: decayDrift 2.6s linear infinite;
+    }
+    .device[data-decay="3"] .win::before{ opacity:.75; }
+    .device[data-decay="4"] .win::before{ opacity:1; animation-duration:1.5s; }
+    @keyframes decayDrift{ 0%{ transform: translateY(0); } 100%{ transform: translateY(-8px); } }
+    /* recalibrating 蔓延：頭像框以外，資訊欄同對話都滲雜訊 */
+    .device[data-decay="4"] .dialogue-text{ opacity:.88; }
+
+    /* ===== M17 故障：RUINER 式連續粗體 REBOOT ===== */
+    .m17-crash{
+      position:fixed; inset:0; z-index:99999;
+      background:#0a0204; cursor:pointer;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      overflow:hidden; user-select:none;
+    }
+    .m17-crash .band{
+      width:100%; white-space:nowrap; overflow:hidden;
+      font-family: var(--f-ui), sans-serif; font-weight:900; font-style:italic;
+      font-size: clamp(30px, 7.2vw, 82px); line-height:.96; letter-spacing:-0.02em;
+      color:#e74c3c; text-transform:uppercase;
+      text-shadow: 0 0 16px rgba(231,76,60,.75), 0 0 44px rgba(231,76,60,.4);
+    }
+    /* 內層 inline-block：闊度＝內容闊度，-50% 啱啱好一個完整循環＝無縫滾動 */
+    .m17-crash .roll{
+      display:inline-block; white-space:nowrap; will-change:transform;
+      animation: crashSlide 26s linear infinite;
+    }
+    .m17-crash .band:nth-child(even) .roll{ animation-direction: reverse; }
+    .m17-crash .band:nth-child(even){ opacity:.62; }
+    .m17-crash .band:nth-child(3n){ color:#ff7a63; opacity:.85; }
+    @keyframes crashSlide{ from{ transform: translate3d(0,0,0); } to{ transform: translate3d(-50%,0,0); } }
+    .m17-crash .band i{ font-style:italic; padding-right:.35em; }
+    /* 掃描線（唔再抽搐，避免卡感） */
+    .m17-crash::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,.42) 0 2px, transparent 2px 4px);
+    }
+    .m17-crash .hint{
+      position:absolute; bottom: clamp(28px, 8vh, 70px); left:0; right:0; text-align:center;
+      font-family: var(--f-num), monospace; font-weight:400; font-style:normal;
+      font-size:12px; letter-spacing:.34em; color:#ffb3a8; text-shadow:none;
+      animation: blinkFast 1.6s ease-in-out infinite;
+    }
+
+    /* 統一版權標示：桌面釘喺背景左下角、與儀器左緣對齊
+       （儀器由 stagewrap flex 置中，左緣 = (100vw − 儀器闊)/2） */
     .site-copy{
-      text-align:center; margin:18px 0 26px;
+      position:fixed; z-index:1;
+      left: calc(50vw - min(320px, 48.5vw)); bottom:16px;
+      text-align:left; margin:0;
       font-family: var(--f-num); font-size:11px; letter-spacing:-0.005em;
       color: rgba(244,242,240,.45);
+    }
+    @media (max-width: 767px){
+      /* 手機：儀器滿版，版權置中喺最底 */
+      .site-copy{ left:50%; transform:translateX(-50%); bottom:4px; text-align:center; font-size:10px; }
     }
 
     /* 機殼底部銘牌 */
@@ -501,7 +579,6 @@
         <div class="scr-ticker" id="ticker">
           <span>SCANN_OPT 2.4</span>
           <span class="hot" id="tkFrag">MEM-FRAG <span class="hexch">䷂</span> 010110</span>
-          <span class="rec">● REC</span>
           <span class="junk" data-fmt="d">δ(t) .0041</span>
           <span class="junk hot" data-fmt="p">∂ψ -1e-7</span>
           <span class="junk" data-fmt="f">FFT 2k48</span>
@@ -570,8 +647,10 @@
         <div class="comm-wrap">
           <button class="comm-btn" id="commBtn" type="button" aria-label="comm on/off" title="COMM"></button>
           <span class="paint comm-paint">COMM</span>
-          <button class="snd-btn" id="sndBtn" type="button" aria-label="sound on/off"></button>
-          <span class="paint snd-paint">SND</span>
+          <div class="toggle-col">
+            <div class="toggle-row"><span class="paint tg-lab">SND</span><button class="snd-btn" id="sndBtn" type="button" aria-label="sound on/off"></button></div>
+            <div class="toggle-row"><span class="paint tg-lab">ATC</span><button class="snd-btn atc-btn" id="atcBtn" type="button" aria-label="amber tint on/off"></button></div>
+          </div>
         </div>
       </div>
 
@@ -582,8 +661,8 @@
         <span class="brand-meta">MOD. M17-2117 · MACAU</span>
       </div>
     </div>
-    <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </main>
+  <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
 
 <script>
   (function lockZoom(){
@@ -608,6 +687,39 @@
   let MODE = 'talk';                 /* talk ⇄ run（COMM 掣）；提早聲明俾各模組用 */
   const GUEST_HOOKS = [];            /* 依賴 GUEST 嘅模組註冊 refresh；轉台時逐個執行 */
 
+  /* ===== 一部會壞嘅機：每次載入 10% 故障。部機本身係個不可靠敘事者。 =====
+     全屏 RUINER 式連續粗體字；撳一下＝重啟（reload）。 */
+  (function crash(){
+    if (new URLSearchParams(location.search).get('crash') !== '1' && Math.random() >= 0.10) return;
+    const WORDS = ['REBOOT', 'M17 FAULT', 'NO SIGNAL', 'REBOOT', '訊號中斷', 'REBOOT'];
+    const el = document.createElement('div');
+    el.className = 'm17-crash';
+    el.setAttribute('role', 'alertdialog');
+    el.setAttribute('aria-label', 'system fault — tap to reboot');
+    let html = '';
+    for (let r = 0; r < 9; r++){
+      /* 內容喺 .roll 內重複兩次：-50% 就啱啱好行完一份＝無縫 */
+      let line = '';
+      for (let k = 0; k < 14; k++) line += '<i>' + WORDS[(r + k) % WORDS.length] + '</i>';
+      html += '<div class="band"><span class="roll" style="animation-delay:' +
+              (-r * 2.7).toFixed(2) + 's">' + line + line + '</span></div>';
+    }
+    html += '<div class="hint">TAP TO REBOOT</div>';
+    el.innerHTML = html;
+    const boot = ()=>{
+      const u = new URL(location.href);
+      u.searchParams.delete('crash');
+      u.searchParams.set('rb', String(Date.now()).slice(-5));   /* 避免重啟又即刻再壞 */
+      location.href = u.href;
+    };
+    el.addEventListener('click', boot);
+    el.addEventListener('keydown', boot);
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.body.appendChild(el);
+      document.documentElement.style.overflow = 'hidden';
+    });
+  })();
+
   /* ===== 記憶交叉：記住你見過邊個（俾劇本嘅 gate 節點用） ===== */
   const MET_STORE = (function(){
     let m = [];
@@ -626,6 +738,29 @@
     };
   })();
   let MET = MET_STORE.visit(GUEST.id);
+
+  /* ===== 信號衰減：記住見過每位角色幾多次。記憶係有損嘅。 =====
+     visits 1 = 清晰；2 = 開始有雜訊；3 = 缺句；4+ = 嚴重蝕。 */
+  const DECAY_STORE = (function(){
+    let m = {};
+    try { m = JSON.parse(localStorage.getItem('m17_visits') || '{}') || {}; } catch(e){}
+    return {
+      bump(id){
+        m[id] = (m[id] || 0) + 1;
+        try { localStorage.setItem('m17_visits', JSON.stringify(m)); } catch(e){}
+        return m[id];
+      },
+      get(id){ return m[id] || 0; }
+    };
+  })();
+  let DECAY = 0;                     /* 0 = 冇損；越大越蝕（由 applyDecay 更新） */
+  function decayLevel(n){ return Math.max(0, Math.min(4, n - 1)); }
+  function applyDecay(){
+    DECAY = decayLevel(DECAY_STORE.bump(GUEST.id));
+    const dev = document.getElementById('device');
+    dev.dataset.decay = String(DECAY);
+    dev.classList.toggle('decayed', DECAY >= 2);
+  }
 
   /* GUEST 標籤：淨顯示名；撳一下轉台去池入面下一位（唔使 reload） */
   const guestTagEl = document.getElementById('guestTag');
@@ -806,7 +941,7 @@
         ctx.imageSmoothingEnabled=false;
         ctx.drawImage(off,0,0,off.width,off.height, Math.sin(t/60)*0.5, Math.cos(t/50)*0.5, cw, ch);
         ctx.globalCompositeOperation='overlay';
-        ctx.fillStyle='rgba(0,255,102,0.15)';
+        ctx.fillStyle='rgba(' + PAL.rgb + ',0.15)';
         ctx.fillRect(0,0,cw,ch);
         ctx.globalCompositeOperation='source-over';
         /* 掃描線由 .win::after 統一處理 */
@@ -859,7 +994,9 @@
     return {startOn};
   })();
 
-  /* ===== SFX：極簡合成音（柔和低頻、全部經 lowpass、軟起音；冇音檔） ===== */
+  /* ===== SFX：機械式合成音（似菲林相機 click——短促、清朗、唔尖；冇音檔） =====
+     核心係「click」＝極短 bandpass 雜訊爆發（近乎瞬間起音）＝機械按鍵/快門聲。
+     全局 highpass 去走「石頭」低頻濁音，lowpass 4.2k 收走刺耳高頻＝清朗但唔尖。 */
   const SFX = (function(){
     let ac = null, bus = null;
     let muted = false;
@@ -869,25 +1006,44 @@
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return;
       ac = new AC();
-      bus = ac.createGain(); bus.gain.value = 0.14;
-      const lp = ac.createBiquadFilter();
-      lp.type = 'lowpass'; lp.frequency.value = 1500; lp.Q.value = 0.5;   /* 全局磨圓，唔會尖 */
-      bus.connect(lp); lp.connect(ac.destination);
+      bus = ac.createGain(); bus.gain.value = 0.16;
+      const hp = ac.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 180;  /* 去石頭濁音 */
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass';  lp.frequency.value = 4200; lp.Q.value = 0.4; /* 收刺耳 */
+      bus.connect(hp); hp.connect(lp); lp.connect(ac.destination);
     }
-    function tone(f0, f1, dur, vol, type){
+    /* 機械 click：短 bandpass 雜訊，瞬間起音、快速衰減 */
+    function click(f, q, dur, vol, drop, when){
+      if (!ac || muted || document.hidden) return;
+      const t = (when || ac.currentTime);
+      const n = Math.max(1, Math.floor(ac.sampleRate * dur));
+      const buf = ac.createBuffer(1, n, ac.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1);
+      const src = ac.createBufferSource(); src.buffer = buf;
+      const bp = ac.createBiquadFilter(); bp.type = 'bandpass';
+      bp.frequency.setValueAtTime(f, t); bp.Q.value = q;
+      if (drop) bp.frequency.exponentialRampToValueAtTime(Math.max(90, f - drop), t + dur);
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.0012);   /* 近乎瞬間＝click */
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      src.connect(bp); bp.connect(g); g.connect(bus);
+      src.start(t); src.stop(t + dur + 0.01);
+    }
+    /* 柔和 tone：只俾 signal lost 用（下滑一聲，帶情緒） */
+    function tone(f0, f1, dur, vol){
       if (!ac || muted || document.hidden) return;
       const t = ac.currentTime;
       const o = ac.createOscillator(), g = ac.createGain();
-      o.type = type || 'sine';
-      o.frequency.setValueAtTime(f0, t);
-      if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      o.type = 'sine'; o.frequency.setValueAtTime(f0, t);
+      if (f1) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(vol, t + 0.012);   /* 軟起音，避免爆聲 */
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       o.connect(g); g.connect(bus);
       o.start(t); o.stop(t + dur + 0.02);
     }
-    function noise(dur, vol, fc){
+    function whirr(dur, vol){                                 /* 菲林過片：一段沙沙聲 */
       if (!ac || muted || document.hidden) return;
       const t = ac.currentTime;
       const n = Math.floor(ac.sampleRate * dur);
@@ -895,12 +1051,12 @@
       const d = buf.getChannelData(0);
       for (let i = 0; i < n; i++) d[i] = (Math.random()*2 - 1) * (1 - i/n);
       const src = ac.createBufferSource(); src.buffer = buf;
-      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = fc || 400;
+      const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 0.8;
       const g = ac.createGain();
       g.gain.setValueAtTime(0.0001, t);
-      g.gain.exponentialRampToValueAtTime(vol, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-      src.connect(lp); lp.connect(g); g.connect(bus);
+      src.connect(bp); bp.connect(g); g.connect(bus);
       src.start(t);
     }
     return {
@@ -910,13 +1066,14 @@
         muted = m;
         try { localStorage.setItem('m17_snd', m ? '0' : '1'); } catch(e){}
       },
-      tick(){ tone(196, 174, 0.07, 0.05); },               /* 對話推進 */
-      pick(){ tone(220, 262, 0.10, 0.07); },               /* 揀選項 */
-      comm(){ tone(120, 84, 0.16, 0.12); },                /* COMM 紅掣 */
-      roll(){ noise(0.42, 0.05, 380); },                   /* 捲簾過場 */
-      jump(){ tone(150, 210, 0.12, 0.05, 'triangle'); },   /* runner 跳 */
-      land(){ tone(95, 78, 0.09, 0.045); },
-      lost(){ tone(140, 58, 0.5, 0.08); }                  /* signal lost */
+      tick(){ click(2600, 4, 0.012, 0.05); },               /* 對話推進：輕按鍵 click */
+      pick(){ click(3100, 5, 0.014, 0.08); },               /* 揀選項：清脆一 click */
+      /* COMM 紅掣：菲林快門 ka-chunk（高 click ＋ 3ms 後低 click） */
+      comm(){ if(!ac) return; const t=ac.currentTime; click(2400,4,0.014,0.13,600,t); click(1150,3,0.03,0.11,300,t+0.03); },
+      roll(){ whirr(0.4, 0.045); },                         /* 捲簾過場：過片沙聲 */
+      jump(){ click(2200, 5, 0.016, 0.05, 700); },          /* runner 跳：帶彈簧 click */
+      land(){ click(950, 3, 0.02, 0.05); },                 /* 落地：低 click */
+      lost(){ tone(150, 62, 0.5, 0.07); }                   /* signal lost：下滑一聲 */
     };
   })();
   /* 首次互動先解鎖（autoplay 政策）；之後每次互動順手 resume */
@@ -924,6 +1081,22 @@
     document.addEventListener(ev, () => SFX.ensure(), { passive: true }));
 
   /* SND 開關：記住設定（localStorage） */
+  /* ===== 螢幕色盤（canvas 用；ATC 由綠轉橙。唔喺 render loop 讀 CSS，慳資源）
+         定義喺 toggle 之前，避免 atcToggle 初始化撞 TDZ ===== */
+  const PAL = {
+    rgb:'0,255,102', scr:'#00ff66', lite:'#9dffc6',
+    dim:'rgba(0,255,102,0.35)', dark:'#062812'
+  };
+  function setPalette(atc){
+    if (atc){
+      PAL.rgb='231,76,60'; PAL.scr='#e74c3c'; PAL.lite='#ffb3a8';
+      PAL.dim='rgba(231,76,60,0.35)'; PAL.dark='#2a0b08';
+    } else {
+      PAL.rgb='0,255,102'; PAL.scr='#00ff66'; PAL.lite='#9dffc6';
+      PAL.dim='rgba(0,255,102,0.35)'; PAL.dark='#062812';
+    }
+  }
+
   (function sndToggle(){
     const b = document.getElementById('sndBtn');
     if (!b) return;
@@ -934,6 +1107,28 @@
       SFX.setMuted(!SFX.muted);
       paint();
       if (!SFX.muted) { SFX.ensure(); SFX.tick(); }   /* 開返聲即刻俾個回饋 */
+    });
+  })();
+
+  /* ATC：全機介面由綠轉橙（與 iching 變爻同色系），localStorage 記住 */
+  (function atcToggle(){
+    const b = document.getElementById('atcBtn');
+    const dev = document.getElementById('device');
+    if (!b || !dev) return;
+    let on = false;
+    try { on = localStorage.getItem('m17_atc') === '1'; } catch(e){}
+    function apply(){
+      dev.classList.toggle('atc', on);
+      b.classList.toggle('on', on);
+      setPalette(on);                                 /* canvas 色盤跟住轉 */
+    }
+    apply();
+    b.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      on = !on;
+      try { localStorage.setItem('m17_atc', on ? '1' : '0'); } catch(e){}
+      apply();
+      SFX.pick();
     });
   })();
 
@@ -963,14 +1158,51 @@
     elCh.appendChild(b);
   }
 
+  /* 衰減：似機密文件——一次塗黑成個分句（以逗號／句號為界），唔係逐個字 */
+  function erode(text){
+    if (!DECAY || !text) return text;
+    /* 以標點切開，標點自己保留做獨立片段 */
+    const parts = text.split(/([，。、；：！？…\n])/).filter(s => s !== '');
+    const clauses = [];
+    for (let k = 0; k < parts.length; k++){
+      if (/^[，。、；：！？…\n]$/.test(parts[k])) { clauses.push({ p:true, t:parts[k] }); }
+      else clauses.push({ p:false, t:parts[k] });
+    }
+    const body = clauses.filter(c => !c.p && c.t.trim());
+    if (!body.length) return text;
+    /* 塗幾多句：越蝕越多，但最少留返一句可讀 */
+    const ratio = [0, 0.25, 0.4, 0.55, 0.75][DECAY] || 0;
+    let quota = Math.min(body.length - (DECAY >= 4 ? 0 : 1), Math.max(1, Math.round(body.length * ratio)));
+    /* 隨機揀邊幾句 */
+    const pick = new Set();
+    const order = body.map((_, i) => i).sort(() => Math.random() - 0.5);
+    for (let k = 0; k < quota; k++) pick.add(order[k]);
+    let bi = -1;
+    return clauses.map(c => {
+      if (c.p) return c.t;
+      if (!c.t.trim()) return c.t;
+      bi++;
+      if (!pick.has(bi)) return c.t;
+      /* 整句塗黑；空白保留，塊狀連成一條 */
+      return c.t.replace(/\S/g, '█');
+    }).join('');
+  }
+
   function show(i){
     const n=script[i]; if(!n) return;
     elCh.innerHTML="";
     elBtn.style.display="block";
     if(n.type==="jump"){ idx=idMap[n.target]; show(idx); return; }
     if(n.type==="gate"){ idx=idMap[ MET.has(n.met) ? n.then : n.else ]; show(idx); return; }
+    /* 衰減：中度以上，敘事句有機會整句失落（缺句） */
+    if (DECAY >= 3 && !n.type && n.speaker === '——' && Math.random() < 0.22 && script[i+1]) {
+      elSpk.textContent = '——';
+      elTxt.textContent = '［訊號缺失］';
+      Crack.startOn(elTxt);
+      return;
+    }
     elSpk.textContent = n.speaker || (n.type ? "—" : GUEST.name);
-    elTxt.textContent = n.text||"";
+    elTxt.textContent = erode(n.text||"");
     Crack.startOn(elTxt);
     if(n.type==="choice"){
       elBtn.style.display="none";
@@ -993,7 +1225,9 @@
 
   elBtn.onclick=next;
   document.body.onkeydown=(e)=>{ if(e.key==='Enter' && MODE==='talk') next(); };
+  applyDecay();                      /* 先算好今次嘅衰減程度，再載劇本 */
   loadScript();
+  GUEST_HOOKS.unshift(applyDecay);   /* 轉台時：先更新衰減，後載新劇本 */
   GUEST_HOOKS.push(loadScript);
 
   function shouldAdvanceFromEvent(e){
@@ -1154,7 +1388,7 @@
         }
         const sz = 0.6 + depth*1.7;
         ctx.globalAlpha = 0.12 + depth*0.72;
-        ctx.fillStyle = '#00ff66';
+        ctx.fillStyle = PAL.scr;
         ctx.fillRect(px - sz/2, py - sz/2, sz, sz);
       }
       activeCount = glOn.length;
@@ -1166,7 +1400,7 @@
         const fs = 6 + depth*5;
         ctx.font = fs + "px 'Share Tech Mono', monospace";
         ctx.globalAlpha = Math.max(0, (0.5 + depth*0.5) * fade);
-        ctx.fillStyle = '#9dffc6';
+        ctx.fillStyle = PAL.lite;
         ctx.fillText(GCH[gchar[i]], g[0], g[1]);
       }
       ctx.globalAlpha = 1;
@@ -1260,7 +1494,8 @@
     const c=document.getElementById('runner'), ctx=c.getContext('2d');
     const elScore=document.getElementById('scoreBox');
     const elOver=document.getElementById('runnerOverlay');
-    const MAGENTA='#00ff66', DIM='rgba(0,255,102,0.35)', DARK='#062812';
+    /* 螢幕色（ATC 由綠轉橙）：每幀由 PAL 讀一次，唔逐次讀 CSS */
+    let MAGENTA=PAL.scr, DIM=PAL.dim, DARK=PAL.dark;
 
     let W=0, H=0;
     function resize(){
@@ -1347,6 +1582,7 @@
       let dt=(now-lastT)/1000; lastT=now;
       if(dt>0.05) dt=0.05;
       if(document.hidden || MODE!=='run') return;
+      MAGENTA=PAL.scr; DIM=PAL.dim; DARK=PAL.dark;   /* 跟 ATC 色盤 */
 
       if(!auto && now-lastMan>7000) setAuto(true);
       if(!auto && speed<MAX_SPEED) speed+=RAMP*dt;
@@ -1416,7 +1652,7 @@
 
       /* 速度斜線（玩緊先出） */
       if(playerVis){
-        ctx.strokeStyle='rgba(0,255,102,0.07)';
+        ctx.strokeStyle='rgba(' + PAL.rgb + ',0.07)';
         ctx.lineWidth=1;
         ctx.beginPath();
         const so=(now*0.001*speed*1.6)%80;
@@ -1425,7 +1661,7 @@
       }
 
       /* rain（一條 batched stroke，慳資源） */
-      ctx.strokeStyle='rgba(0,255,102,0.22)';
+      ctx.strokeStyle='rgba(' + PAL.rgb + ',0.22)';
       ctx.lineWidth=1;
       ctx.beginPath();
       rain.forEach(r=>{ ctx.moveTo(r.x, r.y); ctx.lineTo(r.x-1.6, r.y+6); });
@@ -1486,7 +1722,7 @@
       /* 地面：粗線 + 斜紋 hazard 帶 */
       ctx.fillStyle=MAGENTA;
       ctx.fillRect(0, gy, W, 2.5);
-      ctx.strokeStyle='rgba(0,255,102,0.3)';
+      ctx.strokeStyle='rgba(' + PAL.rgb + ',0.3)';
       ctx.lineWidth=1.5;
       ctx.beginPath();
       const hz=(now*0.001*speed)%12;
@@ -1494,7 +1730,7 @@
       ctx.stroke();
 
       /* 落地塵 */
-      ctx.fillStyle='rgba(0,255,102,0.5)';
+      ctx.fillStyle='rgba(' + PAL.rgb + ',0.5)';
       dust.forEach(d=>ctx.fillRect(d.x, d.y, 2, 2));
 
       /* 主角：純正方形（無殘影、無變形、無眼） */
@@ -1505,7 +1741,7 @@
 
       /* 死亡全屏綠閃 */
       if(deadFlash>0.35){
-        ctx.fillStyle='rgba(0,255,102,' + ((deadFlash-0.35)*2.2) + ')';
+        ctx.fillStyle='rgba(' + PAL.rgb + ',' + ((deadFlash-0.35)*2.2) + ')';
         ctx.fillRect(0,0,W,H);
       }
 
@@ -1517,24 +1753,24 @@
       }
       ctx.fillStyle='rgba(2,10,5,0.94)';
       ctx.fillRect(0,0,PAD,H); ctx.fillRect(W-PAD,0,PAD,H);
-      ctx.strokeStyle='rgba(0,255,102,0.4)'; ctx.lineWidth=1;
+      ctx.strokeStyle='rgba(' + PAL.rgb + ',0.4)'; ctx.lineWidth=1;
       ctx.beginPath();
       ctx.moveTo(PAD-0.5,0); ctx.lineTo(PAD-0.5,H);
       ctx.moveTo(W-PAD+0.5,0); ctx.lineTo(W-PAD+0.5,H);
       ctx.stroke();
       ctx.font='7px "Share Tech Mono", monospace';
       /* 左欄：hex dump 直排 */
-      ctx.fillStyle='rgba(0,255,102,0.55)';
+      ctx.fillStyle='rgba(' + PAL.rgb + ',0.55)';
       junkL.forEach((t,i)=>ctx.fillText(t, 7, 30+i*11));
       /* 右欄：速度計 + junk */
       const gH=H*0.5, gX=W-PAD/2-2;
-      ctx.strokeStyle='rgba(0,255,102,0.4)';
+      ctx.strokeStyle='rgba(' + PAL.rgb + ',0.4)';
       ctx.strokeRect(gX-2.5, 8.5, 5, gH);
       const sp=(speed-BASE_SPEED)/(MAX_SPEED-BASE_SPEED);
       ctx.fillStyle=MAGENTA;
       ctx.fillRect(gX-1.5, 8+gH*(1-sp), 3, gH*sp+1);
       for(let i=0;i<=4;i++){ ctx.fillRect(gX+4, 8+gH*i/4, 4, 1); }
-      ctx.fillStyle='rgba(0,255,102,0.55)';
+      ctx.fillStyle='rgba(' + PAL.rgb + ',0.55)';
       junkR.forEach((t,i)=>ctx.fillText(t, W-PAD+5, gH+26+i*11));
     }
     requestAnimationFrame(loop);

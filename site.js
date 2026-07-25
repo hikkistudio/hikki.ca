@@ -170,14 +170,20 @@
           '<li><a href="jewel.html">jeweldesign</a></li>' +
           '<li><a href="iching.html">iching</a></li>' +
           '<li><a href="game.html">macau17 (beta)</a></li>' +
+          '<li><a href="rain.html">rain</a></li>' +
         '</ul>' +
         '<div class="hk-menu-contact">' +
           '<h2 class="hk-contact-head">contact</h2>' +
           '<ul>' +
             '<li><a href="tel:+12509869516">250-986-9516</a></li>' +
-            '<li><a href="mailto:alex@hikki.ca">alex@hikki.ca</a></li>' +
+            '<li><a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a></li>' +
             '<li><a href="https://www.instagram.com/hikki_with_her_camera" target="_blank" rel="noopener noreferrer me">@hikki_with_her_camera</a></li>' +
+            '<li><a href="#" class="hk-enq" data-enq-source="general">&gt;leave a message</a></li>' +
           '</ul>' +
+        '</div>' +
+        '<div class="hk-menu-geo" id="hkMenuGeo" aria-hidden="true">' +
+          '<div class="hk-geo-loc" id="hkGeoLoc">locating<span class="g-sq"> ·</span></div>' +
+          '<div class="hk-geo-wx" id="hkGeoWx">--.-°C&nbsp;&nbsp;·&nbsp;&nbsp;--%&nbsp;&nbsp;·&nbsp;&nbsp;--:--</div>' +
         '</div>' +
         '<div class="hk-menu-copy">© 2026 hikki photography &amp; philosophy.</div>' +
       '</nav>' +
@@ -185,6 +191,26 @@
         '<button type="button" class="hk-about-close" id="hkAboutClose" aria-label="close">&times;</button>' +
         '<div class="hk-about-body" id="hkAboutBody">' + MANIFESTO_HTML + '</div>' +
         '<div class="hk-about-foot" id="hkAboutFoot">Nightcity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;36.245993&nbsp;|&nbsp;-115.980127</div>' +
+      '</div>' +
+      /* ===== Enquiry：由右邊彈出、佔全屏嘅終端表單 ===== */
+      '<div class="hk-enq-panel" id="hkEnq" role="dialog" aria-modal="true" aria-label="enquiry" aria-hidden="true">' +
+        '<button type="button" class="hk-enq-close" id="hkEnqClose" aria-label="close">&times;</button>' +
+        '<form class="hk-enq-form" id="hkEnqForm" novalidate>' +
+          '<div class="hk-enq-head">connecting<span class="hk-enq-dots"></span></div>' +
+          '<div class="hk-enq-sub">Wer jetzt allein ist, wird es lange bleiben,<br>wird wachen, lesen, lange Briefe schreiben…<span class="hk-enq-cite">—— Herbsttag</span></div>' +
+          '<label class="hk-enq-row"><span>&gt;name</span><input name="name" autocomplete="name"></label>' +
+          '<label class="hk-enq-row"><span>&gt;email</span><input name="email" type="email" autocomplete="email" inputmode="email"></label>' +
+          '<label class="hk-enq-row"><span>&gt;city</span><input name="city" autocomplete="address-level2"></label>' +
+          '<div class="hk-enq-row"><span>&gt;type</span><div class="hk-enq-opts" id="hkEnqTypes">' +
+            '<button type="button" data-type="photography">photography</button>' +
+            '<button type="button" data-type="jeweldesign">jeweldesign</button>' +
+            '<button type="button" data-type="philosophy">philosophy</button>' +
+          '</div></div>' +
+          '<label class="hk-enq-row hk-enq-msg"><span>&gt;message</span><textarea name="message" rows="3"></textarea></label>' +
+          '<input type="hidden" name="source" id="hkEnqSource">' +
+          '<button type="submit" class="hk-enq-send">&gt;send <span class="hk-blink">■</span></button>' +
+          '<div class="hk-enq-note" id="hkEnqNote"></div>' +
+        '</form>' +
       '</div>';
     while (frag.firstChild) document.body.insertBefore(frag.firstChild, document.body.firstChild);
 
@@ -231,6 +257,87 @@
     setInterval(step, 4000);
   }
 
+  /* ===== Menu 定位訊號：IP 城市 + 座標（微跳動）+ 天氣 + 當地時間 =====
+     只喺 menu 首次打開時 fetch 一次（ipapi.co 定位 + open-meteo 天氣，
+     兩者免 key / HTTPS / CORS），sessionStorage 快取；座標跳動同時鐘只喺
+     menu 打開時行——唔追蹤、唔輪詢，資源極輕。取唔到位置就用南極 Dome Fuji。 */
+  function initGeo() {
+    var locEl = document.getElementById('hkGeoLoc');
+    var wxEl = document.getElementById('hkGeoWx');
+    var menu = document.getElementById('hkMenu');
+    if (!locEl || !wxEl || locEl.dataset.init) return;
+    locEl.dataset.init = '1';
+
+    var DOME = { city: 'Dome Fuji', cc: 'AQ', lat: -77.3167, lon: 39.7000, tz: 'Antarctica/Syowa' };
+    var menuOpen = function () { return menu && menu.classList.contains('open'); };
+
+    function apply(loc) {
+      var baseLat = loc.lat, baseLon = loc.lon, tz = loc.tz;
+      var head = (loc.city || '—') + (loc.cc ? ', ' + loc.cc : '');
+
+      function coordStr() {                       /* 城市範圍 ±0.03 微跳動，唔精確 */
+        var la = baseLat + (Math.random() - 0.5) * 0.06;
+        var lo = baseLon + (Math.random() - 0.5) * 0.06;
+        return la.toFixed(3) + ' | ' + lo.toFixed(3);
+      }
+      locEl.innerHTML = head + '&nbsp;&nbsp;/&nbsp;&nbsp;<span id="hkGeoCoord">' + coordStr() + '</span>';
+      var coordEl = document.getElementById('hkGeoCoord');
+      (function jit() {
+        if (menuOpen() && !document.hidden && coordEl) coordEl.textContent = coordStr();
+        setTimeout(jit, 900 + Math.random() * 700);
+      })();
+
+      var timeStr = '--:--', wx = { t: null, h: null };
+      function clock() {
+        try { timeStr = new Date().toLocaleTimeString('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }); }
+        catch (e) { timeStr = '--:--'; }
+      }
+      function paintWx() {
+        var t = (wx.t == null) ? '--.-' : wx.t.toFixed(1);
+        var h = (wx.h == null) ? '--' : Math.round(wx.h);
+        wxEl.innerHTML = t + '°C&nbsp;&nbsp;·&nbsp;&nbsp;' + h + '%&nbsp;&nbsp;·&nbsp;&nbsp;' + timeStr;
+      }
+      clock(); paintWx();
+      (function tick() {
+        if (menuOpen() && !document.hidden) { clock(); paintWx(); }
+        setTimeout(tick, 15000);
+      })();
+
+      var wxKey = 'hk_wx_' + baseLat.toFixed(2) + '_' + baseLon.toFixed(2), cw = null;
+      try { cw = JSON.parse(sessionStorage.getItem(wxKey) || 'null'); } catch (e) {}
+      if (cw && Date.now() - cw.at < 1800000) { wx.t = cw.t; wx.h = cw.h; paintWx(); }
+      else {
+        fetch('https://api.open-meteo.com/v1/forecast?latitude=' + baseLat.toFixed(4) + '&longitude=' + baseLon.toFixed(4) + '&current=temperature_2m,relative_humidity_2m')
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d && d.current) {
+              wx.t = d.current.temperature_2m; wx.h = d.current.relative_humidity_2m; paintWx();
+              try { sessionStorage.setItem(wxKey, JSON.stringify({ t: wx.t, h: wx.h, at: Date.now() })); } catch (e) {}
+            }
+          })
+          .catch(function () {});
+      }
+    }
+
+    var lc = null;
+    try { lc = JSON.parse(sessionStorage.getItem('hk_loc') || 'null'); } catch (e) {}
+    if (lc && lc.lat != null) { apply(lc); return; }
+
+    fetch('https://ipapi.co/json/')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || d.latitude == null) throw 0;
+        var loc = {
+          city: d.city || d.region || 'Somewhere',
+          cc: d.country_code || d.country || '',
+          lat: +d.latitude, lon: +d.longitude, tz: d.timezone || 'UTC'
+        };
+        try { sessionStorage.setItem('hk_loc', JSON.stringify(loc)); } catch (e) {}
+        apply(loc);
+      })
+      .catch(function () { apply(DOME); });
+  }
+
   /* ===== Menu / About 開關 ===== */
   function wireMenu() {
     var btn = document.getElementById('hkMenuBtn');
@@ -248,7 +355,10 @@
       btn.textContent = open ? '×' : 'menu';
       btn.classList.toggle('is-open', open);
       document.documentElement.style.overflow = open ? 'hidden' : '';
-      if (open) Crack.startOn(Crack.collect(menu.querySelector('.hk-menu-list')), { budgetMs: 400 });
+      if (open) {
+        Crack.startOn(Crack.collect(menu.querySelector('.hk-menu-list')), { budgetMs: 400 });
+        initGeo();   /* 首次打開先 fetch 定位/天氣 */
+      }
     }
     /* 面板底邊精確對齊 menu 最後一項（macau17）嗰條虛線——齊整 */
     function sizeAbout() {
@@ -329,10 +439,143 @@
     });
   }
 
+  /* ===== Enquiry 表單：右邊全屏彈出 → 組成 mailto（免後端） =====
+     全站任何 .hk-enq 觸發（data-enq-source 決定預選 type）；觸發文字轉金、每 4 秒重播解碼。 */
+  /* ── 表單直送設定 ──────────────────────────────────────────────
+     填咗 ENQ_ENDPOINT 之後，訊息會直接送到你信箱，唔會再開用戶個 mail app。
+     未填就自動 fallback 去 mailto（即係而家嘅行為）。
+
+     兩個免費、免後端、key 可以公開嘅選擇（二選一，兩分鐘搞掂）：
+       ① Web3Forms   https://web3forms.com  → 輸入 hikki.pnp@gmail.com 攞 access key
+          ENQ_ENDPOINT = 'https://api.web3forms.com/submit'
+          ENQ_KEY      = '你嘅 access key'
+       ② Formspree    https://formspree.io   → 開 form 攞 form id
+          ENQ_ENDPOINT = 'https://formspree.io/f/你嘅formid'
+          ENQ_KEY      = ''   （Formspree 唔使 key）
+     ───────────────────────────────────────────────────────────── */
+  var ENQ_ENDPOINT = 'https://api.web3forms.com/submit';
+  var ENQ_KEY = 'e1f68a96-0daa-45f3-bf85-0e79abb1f659';
+
+  function wireEnq() {
+    var panel = document.getElementById('hkEnq');
+    if (!panel) return;
+    var closeBtn = document.getElementById('hkEnqClose');
+    var form = document.getElementById('hkEnqForm');
+    var typesWrap = document.getElementById('hkEnqTypes');
+    var sourceInput = document.getElementById('hkEnqSource');
+    var note = document.getElementById('hkEnqNote');
+    var chosenType = '';
+
+    typesWrap.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-type]'); if (!b) return;
+      for (var i = 0; i < typesWrap.children.length; i++) typesWrap.children[i].classList.remove('on');
+      b.classList.add('on'); chosenType = b.dataset.type;
+    });
+
+    function open(source) {
+      sourceInput.value = source || '';
+      var preset = { session: 'photography', jewel: 'jeweldesign' }[source] || '';
+      chosenType = '';
+      for (var i = 0; i < typesWrap.children.length; i++) {
+        var on = preset && typesWrap.children[i].dataset.type === preset;
+        typesWrap.children[i].classList.toggle('on', !!on);
+        if (on) chosenType = preset;
+      }
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      document.documentElement.style.overflow = 'hidden';
+      setTimeout(function () { var f = form.querySelector('input[name=name]'); if (f) f.focus(); }, 420);
+    }
+    function close() {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      document.documentElement.style.overflow = '';
+      note.textContent = '';
+    }
+    window.hkOpenEnq = open;
+    closeBtn.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel.classList.contains('open')) close(); });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = new FormData(form);
+      var name = (d.get('name') || '').trim();
+      if (!name) { note.textContent = '> name required.'; return; }
+      var type = chosenType || 'enquiry';
+      var subject = '[hikki] ' + type + ' — ' + name;
+      var body =
+        '> name: ' + name + '\n' +
+        '> email: ' + (d.get('email') || '') + '\n' +
+        '> city: ' + (d.get('city') || '') + '\n' +
+        '> type: ' + type + '\n' +
+        '> from: ' + (d.get('source') || 'site') + '\n\n' +
+        (d.get('message') || '');
+
+      /* 未設定 endpoint → 沿用 mailto */
+      if (!ENQ_ENDPOINT) {
+        note.textContent = '> opening mail…';
+        window.location.href = 'mailto:hikki.pnp@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        return;
+      }
+
+      /* 直送：唔會開用戶個 mail app */
+      var btn = form.querySelector('.hk-enq-send');
+      btn.disabled = true;
+      note.textContent = '> transmitting…';
+      var payload = {
+        name: name,
+        email: d.get('email') || '',
+        city: d.get('city') || '',
+        type: type,
+        source: d.get('source') || 'site',
+        message: d.get('message') || '',
+        subject: subject,
+        _replyto: d.get('email') || ''
+      };
+      if (ENQ_KEY) payload.access_key = ENQ_KEY;      /* Web3Forms */
+      fetch(ENQ_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function (r) { return r.ok ? r.json().catch(function(){ return {}; }) : Promise.reject(r.status); })
+      .then(function () {
+        note.textContent = '> received. 多謝，我會回覆你。';
+        form.reset();
+        for (var i = 0; i < typesWrap.children.length; i++) typesWrap.children[i].classList.remove('on');
+        chosenType = '';
+        setTimeout(close, 2200);
+      })
+      .catch(function () {
+        /* 送唔到：唔好蝕咗人哋打嘅字，退返去 mailto */
+        note.textContent = '> line down — opening mail instead…';
+        window.location.href = 'mailto:hikki.pnp@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      })
+      .then(function () { btn.disabled = false; });
+    });
+
+    /* 全站觸發器：委派 click（連日後動態加入嘅，例如 jewel specs 都覆蓋到） */
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest && e.target.closest('.hk-enq');
+      if (el) { e.preventDefault(); open(el.getAttribute('data-enq-source') || 'general'); }
+    });
+    /* 觸發文字每 4 秒重播解碼（只做開場已存在、可見嘅） */
+    if (window.HikkiCrack) {
+      var triggers = document.querySelectorAll('.hk-enq');
+      for (var t = 0; t < triggers.length; t++) {
+        (function (el) {
+          var run = function () { if (el.offsetParent !== null && !document.hidden) window.HikkiCrack.startOn(window.HikkiCrack.collect(el), { budgetMs: 500 }); };
+          run(); setInterval(run, 4000);
+        })(triggers[t]);
+      }
+    }
+  }
+
   function init() {
     buildUI();
     startRotator();
     wireMenu();
+    wireEnq();
     window.hkSyncBlink();          /* 對齊 header 及靜態 ■ */
     setTimeout(window.hkSyncBlink, 900);  /* 再對齊延遲插入嘅 ■（如 jewel 規格） */
   }

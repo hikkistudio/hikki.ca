@@ -9,12 +9,14 @@
   --hk-ivory: #f4f2f0;
   --hk-ink: #000;
   --hk-red: #e74c3c;
+  /* 全站唯一橙：同 iching 標記變爻嗰隻深橙。所有近似橙一律用呢個。 */
+  --hk-orange: #e74c3c;
   --hk-gold: #f1c232;
-  --hk-bar-h: 60px;
+  --hk-bar-h: 48px;
   --hk-pad-x: clamp(20px, 4vw, 48px);
 }
 @media (max-width: 767px) {
-  :root { --hk-bar-h: 52px; }
+  :root { --hk-bar-h: 42px; }
 }
 
 /* ===== 全站：禁反白 / 禁選取 / 禁圖片拖拽 / 禁雙擊縮放 =====
@@ -51,17 +53,17 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
 
 .hk-logo {
   display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; flex: 0 0 auto;
+  width: 22px; height: 22px; flex: 0 0 auto;
   text-decoration: none; color: var(--hk-ink);
   font-size: 20px; line-height: 1;
   touch-action: manipulation;
 }
 .hk-logo .hk-sq {
   /* 與右邊 menu 文字同一視覺高度 */
-  width: 12px; height: 12px; background: var(--hk-ink); display: block;
+  width: 10px; height: 10px; background: var(--hk-ink); display: block;
   animation: hkBlink 3s infinite;
 }
-@media (max-width: 767px) { .hk-logo .hk-sq { width: 10px; height: 10px; } }
+@media (max-width: 767px) { .hk-logo .hk-sq { width: 8px; height: 8px; } }
 .hk-logo:hover .hk-sq { background: var(--hk-gold); }
 
 .hk-rotator {
@@ -69,7 +71,7 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
   transform: translateX(-50%);
   display: flex; align-items: center;
   max-width: min(62vw, 640px);
-  font-family: var(--hk-font-mono); font-size: 15px; color: var(--hk-ink);
+  font-family: var(--hk-font-mono); font-size: 12px; color: var(--hk-ink);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   pointer-events: none;
 }
@@ -79,20 +81,20 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
 }
 .hk-rotator .ja { font-family: var(--hk-font-ja); font-weight: 200; }
 @media (max-width: 767px) {
-  .hk-rotator { font-size: 12.5px; max-width: 56vw; }
+  .hk-rotator { font-size: 10px; max-width: 56vw; }
 }
 
 .hk-menu-btn {
   appearance: none; background: none; border: 0; cursor: pointer;
-  font-family: var(--hk-font-mono); font-size: 16px; color: var(--hk-ink);
-  padding: 6px 0 6px 12px; line-height: 1; flex: 0 0 auto;
+  font-family: var(--hk-font-mono); font-size: 13px; color: var(--hk-ink);
+  padding: 5px 0 5px 10px; line-height: 1; flex: 0 0 auto;
   touch-action: manipulation;
 }
 .hk-menu-btn:hover { color: var(--hk-gold); }
-.hk-menu-btn.is-open { font-size: 24px; padding-top: 2px; padding-bottom: 2px; }
+.hk-menu-btn.is-open { font-size: 19px; padding-top: 2px; padding-bottom: 2px; }
 @media (max-width: 767px) {
-  .hk-menu-btn { font-size: 14px; }
-  .hk-menu-btn.is-open { font-size: 22px; }
+  .hk-menu-btn { font-size: 11px; }
+  .hk-menu-btn.is-open { font-size: 18px; }
 }
 
 /* ===== Menu overlay：MONOLOG 式全屏 ===== */
@@ -156,9 +158,21 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
 .hk-menu-contact a { color: var(--hk-ink); text-decoration: none; border-bottom: 1px solid transparent; }
 .hk-menu-contact a:hover { border-bottom-color: var(--hk-gold); }
 
-/* 版權：釘喺最底 */
+/* 定位訊號：釘喺最底、離 contact 盡量遠（margin-top:auto） */
+.hk-menu-geo {
+  margin-top: auto; padding-top: clamp(10px, 2vh, 24px);
+  font-family: var(--hk-font-mono);
+  font-size: clamp(12px, 1.7vh, 14px); line-height: 1.7;
+  letter-spacing: -0.005em;
+  color: rgba(0, 0, 0, 0.62);
+}
+.hk-menu-geo .hk-geo-loc { color: var(--hk-ink); }
+.hk-menu-geo .g-sq { display: inline-block; animation: hkBlink 3s infinite; }
+
+/* 版權：緊貼定位訊號下方 */
 .hk-menu-copy {
-  margin-top: auto; padding-top: clamp(10px, 1.6vh, 20px);
+  margin-top: clamp(6px, 1vh, 12px); padding-top: clamp(8px, 1.2vh, 14px);
+  border-top: 1px dotted rgba(0, 0, 0, 0.28);
   font-family: var(--hk-font-mono); font-size: clamp(10px, 1.4vh, 12px);
   color: var(--hk-ink);
 }
@@ -175,7 +189,7 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
   backdrop-filter: blur(22px) saturate(1.1);
   color: var(--hk-ivory);
   padding: clamp(40px, 6vh, 54px) var(--hk-pad-x) clamp(16px, 3vh, 28px);
-  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  overflow: hidden;                        /* 內部由 body 滾動；foot 永遠釘住可見 */
   visibility: hidden; pointer-events: none;
   transform: translateX(102%);
   transition: transform .38s cubic-bezier(.22, .8, .3, 1), visibility .38s;
@@ -215,17 +229,21 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
 .hk-about-close:hover { color: var(--hk-gold); }
 
 .hk-about-body {
+  flex: 1 1 auto; min-height: 0;           /* 佔剩餘空間並內部滾動 */
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
   max-width: 560px;
   font-family: var(--hk-font-mono);
   font-size: clamp(12px, 1.7vh, 14px); line-height: 1.85;
   letter-spacing: -0.01em;
 }
 .hk-about-body p { margin: 0 0 1.1em; }
+.hk-about-body p:last-child { margin-bottom: 0; }
 
-/* about 底部：nightcity 座標漂移 */
+/* about 底部：nightcity 座標漂移——永遠釘住、字號隨闊度縮，唔會被吃 */
 .hk-about-foot {
-  margin-top: auto; padding-top: clamp(20px, 4vh, 40px);
-  font-family: var(--hk-font-mono); font-size: 12px; letter-spacing: -0.005em;
+  flex: 0 0 auto; margin-top: clamp(14px, 3vh, 32px); padding-top: clamp(10px, 1.6vh, 16px);
+  border-top: 1px solid rgba(244, 242, 240, 0.14);
+  font-family: var(--hk-font-mono); font-size: clamp(9px, 1.5vw, 12px); letter-spacing: -0.01em;
   color: rgba(244, 242, 240, 0.75); white-space: nowrap; overflow: hidden;
 }
 
@@ -233,11 +251,98 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
 @media (max-width: 767px) {
   .hk-about-body { font-size: 11px; line-height: 1.7; }
   .hk-about-body p { margin-bottom: 0.85em; }
-  .hk-about-foot { font-size: 11px; padding-top: 12px; }
+  .hk-about-foot { font-size: clamp(9px, 2.6vw, 11px); padding-top: 10px; margin-top: 12px; }
   .hk-about-close { top: 2px; font-size: 22px; }
+}
+
+/* ===== Enquiry 觸發器（全站）：橙色，hover 底線 ===== */
+a.hk-enq, button.hk-enq, .hk-enq {
+  color: var(--hk-orange); cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+a.hk-enq:hover, button.hk-enq:hover, .hk-enq:hover { color: var(--hk-orange); border-bottom-color: var(--hk-orange); }
+button.hk-enq { appearance: none; background: none; border: 0; font: inherit; padding: 0; }
+
+/* ===== Enquiry 面板：由右邊彈出、佔全屏嘅終端表單 ===== */
+.hk-enq-panel {
+  position: fixed; inset: 0; z-index: 9997;
+  display: flex; flex-direction: column; justify-content: center;   /* 垂直置中，一頁過 */
+  background: rgba(8, 8, 10, 0.9);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  backdrop-filter: blur(20px) saturate(1.1);
+  color: var(--hk-ivory);
+  padding: calc(var(--hk-bar-h) + clamp(12px, 2vh, 24px)) var(--hk-pad-x) clamp(14px, 2.5vh, 24px);
+  overflow: hidden;
+  visibility: hidden; pointer-events: none;
+  transform: translateX(102%);
+  transition: transform .4s cubic-bezier(.22, .8, .3, 1), visibility .4s;
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hk-enq-panel { background: rgba(6, 6, 8, 0.97); }
+}
+.hk-enq-panel.open { visibility: visible; pointer-events: auto; transform: translateX(0); }
+.hk-enq-panel input, .hk-enq-panel textarea, .hk-enq-panel button {
+  -webkit-user-select: text; user-select: text;   /* 蓋過全站 user-select:none */
+}
+.hk-enq-close {
+  position: absolute; top: clamp(8px, 1.6vh, 14px); right: var(--hk-pad-x);
+  appearance: none; background: none; border: 0; cursor: pointer;
+  font-family: var(--hk-font-mono); font-weight: 400;
+  color: var(--hk-ivory); font-size: 24px; line-height: 1;
+  padding: 6px 0 6px 12px; touch-action: manipulation;
+}
+.hk-enq-close:hover { color: var(--hk-gold); }
+.hk-enq-form { max-width: 560px; width: 100%; margin: 0 auto; font-family: var(--hk-font-mono); }
+.hk-enq-head {
+  font-family: var(--hk-font-sans); font-weight: 700;
+  font-size: clamp(26px, 4.6vh, 44px); letter-spacing: -0.02em; line-height: 1.1;
+  margin-bottom: clamp(4px, 1vh, 10px);
+}
+/* connecting… 三點輪流閃（game 效果） */
+.hk-enq-dots { display: inline-block; width: 1.4em; text-align: left; }
+.hk-enq-dots::after { content: '.'; animation: enqDots 1.4s steps(1, end) infinite; }
+@keyframes enqDots { 0%,100% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
+.hk-enq-sub {
+  font-size: clamp(11px, 1.5vh, 13px); line-height: 1.65;
+  color: rgba(244, 242, 240, 0.55); margin-bottom: clamp(14px, 3vh, 28px);
+}
+.hk-enq-sub .hk-enq-cite { display: block; margin-top: 3px; color: rgba(244, 242, 240, 0.35); }
+.hk-enq-row { display: flex; gap: 14px; align-items: baseline; margin-bottom: clamp(9px, 1.7vh, 16px); }
+.hk-enq-row > span { flex: 0 0 auto; width: 78px; color: rgba(244, 242, 240, 0.5); font-size: 13px; }
+.hk-enq-row input, .hk-enq-row textarea {
+  flex: 1; min-width: 0; background: none; border: 0;
+  border-bottom: 1px solid rgba(244, 242, 240, 0.3);
+  color: var(--hk-ivory); font-family: var(--hk-font-mono); font-size: 15px;
+  padding: 4px 0; outline: none;
+}
+.hk-enq-row textarea { resize: vertical; line-height: 1.6; }
+.hk-enq-row input:focus, .hk-enq-row textarea:focus { border-bottom-color: var(--hk-gold); }
+.hk-enq-msg { align-items: stretch; }
+.hk-enq-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.hk-enq-opts button {
+  appearance: none; background: none; cursor: pointer;
+  border: 1px solid rgba(244, 242, 240, 0.3); color: rgba(244, 242, 240, 0.7);
+  font-family: var(--hk-font-mono); font-size: 12px; padding: 5px 11px;
+  transition: color .2s, border-color .2s; touch-action: manipulation;
+}
+.hk-enq-opts button:hover { border-color: var(--hk-orange); }
+.hk-enq-opts button.on { border-color: var(--hk-orange); color: var(--hk-orange); }
+.hk-enq-send {
+  margin-top: clamp(12px, 2.4vh, 22px);
+  appearance: none; background: none; border: 0; cursor: pointer;
+  color: var(--hk-ivory); font-family: var(--hk-font-mono); font-size: 18px;
+  padding: 6px 0; touch-action: manipulation;
+}
+.hk-enq-send:hover { color: var(--hk-orange); }
+.hk-enq-note { margin-top: 8px; font-size: 12px; color: rgba(244, 242, 240, 0.5); min-height: 1em; }
+@media (max-width: 767px) {
+  .hk-enq-row { flex-direction: column; gap: 2px; align-items: stretch; margin-bottom: clamp(8px, 1.5vh, 14px); }
+  .hk-enq-row > span { width: auto; }
+  .hk-enq-head { font-size: clamp(24px, 5vw, 34px); }
 }
 
 /* 減少動態：尊重系統設定（rotator 係內容輪換，唔喺豁免之列） */
 @media (prefers-reduced-motion: reduce) {
-  .hk-menu, .hk-about { transition: none; }
+  .hk-menu, .hk-about, .hk-enq-panel { transition: none; }
 }

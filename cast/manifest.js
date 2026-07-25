@@ -16,7 +16,7 @@ var CAST_FILES = [
 ];
 (function () {
   /* 同 game.html 嘅 ?v= 保持一致：更新劇本後把版本 +1，避免舊 cache */
-  var V = '?v=5';
+  var V = '?v=14';
   for (var i = 0; i < CAST_FILES.length; i++) {
     /* document.write 係同步載入：保證喺 game.html 主腳本執行前備妥 */
     document.write('<script src="cast/' + CAST_FILES[i] + V + '"><\/script>');
