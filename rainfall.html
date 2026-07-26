@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=17"/>
-  <script src="site.js?v=17" defer></script>
+  <link rel="stylesheet" href="site.css?v=29"/>
+  <script src="site.js?v=29" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -88,11 +88,28 @@
       font-size:28px; line-height:1.1; letter-spacing:-0.01em; margin:2px 0 6px; }
     .hud-read .sep{ height:1px; width:118px; margin:7px 0 7px auto; background:var(--amb-hair); }
     .hud-read .zone{ font-size:10.5px; color:rgba(231,76,60,.7); letter-spacing:.1em; min-height:1em; }
+    /* 星曆：細碼，收喺 TID 下面 */
+    .hud-read .eph{ font-size:8.5px; line-height:1.6; letter-spacing:.06em;
+      color:rgba(231,76,60,.34); }
+    .hud-read .eph i{ font-style:normal; color:rgba(231,76,60,.55); }
 
-    /* 左下：狀態 */
-    .hud-foot{ bottom:clamp(40px,6vh,56px); left:clamp(14px,3vw,38px); }
-    .site-copy{ position:fixed; z-index:4; left:clamp(14px,3vw,38px); bottom:12px;
-      font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.4); }
+    /* 左上：訊號來源（LIVE / 風暴名）；LIVE 用高亮 */
+    .hud-head .src{ margin-top:6px; font-size:10px; letter-spacing:.18em;
+      color:rgba(231,76,60,.6); white-space:nowrap; }
+    .hud-head .src.live{ color:#ff9d88; text-shadow:0 0 8px rgba(255,120,96,.45); }
+
+    /* 訊號強度計 */
+    .sm-row{ display:flex; align-items:center; gap:8px; }
+    .sm-k{ font-size:9.5px; letter-spacing:.2em; color:rgba(231,76,60,.42); }
+    .sm-bars{ display:flex; align-items:flex-end; gap:2px; height:13px; }
+    .sm-bars i{ display:block; width:2px; background:rgba(231,76,60,.16);
+      transition:background .25s ease, height .25s ease; }
+    .sm-bars i.on{ background:rgba(231,76,60,.8); }
+    .sm-v{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.75); min-width:38px; }
+    .sm-scale{ display:flex; justify-content:space-between;
+      width:calc(15 * 4px + 46px); margin-left:34px; margin-top:2px;
+      font-size:7.5px; letter-spacing:0; color:rgba(231,76,60,.3); }
+    .site-copy{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.4); }
 
     /* STATION + ARCHIVE：桌面右下（向上展開）／手機右上（向下展開）
        桌面視覺（上→下）：staList、STATION、archList、ARCHIVE */
@@ -113,18 +130,53 @@
                  color .2s, border-color .2s; }
     .ctl .list button.in{ opacity:1; transform:none; }
 
+    /* 左下直欄：由上而下 日誌 / METAR / SIG / 版權 */
+    .botL{ position:fixed; z-index:4; left:clamp(14px,3vw,38px); bottom:12px;
+      display:flex; flex-direction:column; gap:7px;
+      width:clamp(230px,26vw,330px); pointer-events:none;
+      font-family:var(--f-num); color:var(--amb); }
+    .log-h{ pointer-events:auto; appearance:none; background:none; border:0; cursor:pointer;
+      display:block; padding:2px 0; font-family:var(--f-num); font-size:9.5px;
+      letter-spacing:.22em; color:rgba(231,76,60,.5);
+      border-bottom:1px solid transparent; transition:color .2s,border-color .2s; }
+    .log-h:hover{ color:var(--amb); border-bottom-color:var(--amb); }
+    .log-body{ margin-top:5px; font-size:9.5px; line-height:1.75; letter-spacing:.06em;
+      color:rgba(231,76,60,.5); max-height:0; overflow:hidden;
+      transition:max-height .34s ease, opacity .28s ease; opacity:0; }
+    .logbox.open .log-body{ max-height:150px; opacity:1; }
+    .log-body div{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .log-body b{ font-weight:400; color:rgba(231,76,60,.78); }
+    .metar{ padding-top:5px; border-top:1px solid var(--amb-hair);
+      font-size:9.5px; letter-spacing:.02em; color:rgba(231,76,60,.62);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
     .boot{ position:fixed; inset:0; z-index:9; display:flex; align-items:center; justify-content:center;
-      background:var(--ink); transition:opacity .6s ease;
-      font-size:11px; letter-spacing:.34em; color:rgba(231,76,60,.6); text-align:center; }
+      background:var(--ink); transition:opacity .6s ease; padding:0 var(--hk-pad-x); }
     .boot.off{ opacity:0; pointer-events:none; }
-    .boot .bc{ margin-top:10px; font-size:10.5px; letter-spacing:.2em;
-      color:rgba(231,76,60,.4); }
+    .boot-in{ width:100%; max-width:760px; }
+    /* 第一行：大字站名（同 menu 定位訊號同一資料源） */
+    .boot-sta{ font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(26px,5.2vw,52px); letter-spacing:-0.02em; line-height:1.1;
+      color:var(--amb); }
+    .boot-sta span{ font-family:var(--f-num); font-weight:400;
+      font-size:clamp(15px,2.4vw,24px); letter-spacing:0; color:rgba(231,76,60,.62); }
+    /* 第二行：溫度 · 濕度 · 時間（同 menu 格式） */
+    .boot-wx{ margin-top:clamp(6px,1.2vh,12px);
+      font-family:var(--f-num); font-size:clamp(11px,1.6vh,14px);
+      letter-spacing:.04em; color:rgba(231,76,60,.7); }
+    /* 第三行：signal（裝飾） */
+    .boot-sig{ margin-top:clamp(10px,2vh,20px);
+      font-family:var(--f-num); font-size:clamp(11px,1.6vh,14px);
+      letter-spacing:.22em; color:rgba(231,76,60,.45); }
+    .bs-dots{ display:inline-block; width:1.8em; text-align:left; }
+    .bs-dots::after{ content:'.'; animation:bsDots 1.3s steps(1,end) infinite; }
+    @keyframes bsDots{ 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
 
     @media (max-width:767px){
       :root{ --panel:168px; }
       .hud-head .t{ font-size:27px; }
-      .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 62px); right:clamp(14px,3vw,38px); }
-      .hud-foot{ bottom:calc(clamp(12px,3vh,20px) + 26px); }
+      /* 手機由下而上：版權 / 狀態 / 日誌 / 讀數 */
+      .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 150px); right:clamp(14px,3vw,38px); }
       /* 選單移到右上，同時鐘相對；向下展開
          手機視覺（上→下）：STATION、staList、ARCHIVE、archList */
       .ctl{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); bottom:auto; }
@@ -133,6 +185,11 @@
       .ctl .list button.in{ transform:none; }
       #btnStation{ order:0; } #staList{ order:1; }
       #btnArchive{ order:2; } #archList{ order:3; }
+      #btnAudio{ order:4; }
+      .botL{ width:min(72vw,300px); }
+      .logbox .log-body{ font-size:9px; }
+      .logbox.open .log-body{ max-height:104px; }
+      .metar{ font-size:8.5px; }
     }
   </style>
 </head>
@@ -142,15 +199,17 @@
   <div class="grain"></div>
   <div class="vig"></div>
   <div class="boot" id="boot">
-    <div>
-      <div id="bootT">SURVEYING MACAU</div>
-      <div class="bc" id="bootC">22.198510 | 113.536389</div>
+    <div class="boot-in">
+      <div class="boot-sta">STATION<span id="bootSta">&nbsp;· ————</span></div>
+      <div class="boot-wx" id="bootWx">--.-°C&nbsp;&nbsp;·&nbsp;&nbsp;--%&nbsp;&nbsp;·&nbsp;&nbsp;--:--</div>
+      <div class="boot-sig" id="bootSig">signal<span class="bs-dots"></span></div>
     </div>
   </div>
 
   <div class="hud hud-head">
     <div class="t" id="hClock">--:--:--</div>
     <div class="c" id="hCoord">22.1930 | 113.5490</div>
+    <div class="src" id="hFoot">—</div>
   </div>
 
   <div class="hud hud-read">
@@ -164,10 +223,23 @@
     <div class="row"><span class="k">PRS</span><span class="v" id="rPress">--</span></div>
     <div class="sep"></div>
     <div class="row"><span class="k">TID</span><span class="v" id="rTide">--</span></div>
+    <div class="sep"></div>
+    <div class="eph" id="ephBox"></div>
   </div>
 
-  <div class="hud hud-foot" id="hFoot">—</div>
-  <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
+  <!-- 左下直欄：日誌 / METAR / 訊號強度 / 版權（flex 排隊，保證唔重疊） -->
+  <div class="botL">
+    <div class="logbox" id="logBox">
+      <button class="log-h" id="logToggle">OBSERVATION LOG <span id="logArrow">&#9662;</span></button>
+      <div class="log-body" id="logBody"></div>
+    </div>
+    <div class="metar" id="metar">&mdash;</div>
+    <div class="smeter">
+      <div class="sm-row"><span class="sm-k">SIG</span><span class="sm-bars" id="smBars"></span><span class="sm-v" id="smVal">S0</span></div>
+      <div class="sm-scale"><span>1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span></div>
+    </div>
+    <p class="site-copy">&copy; 2026 hikki photography &amp; philosophy.</p>
+  </div>
 
   <div class="ctl">
     <div class="list" id="staList">
@@ -195,6 +267,7 @@
       <button data-d="2008-09-24">黑格比 HAGUPIT 2008</button>
     </div>
     <button id="btnArchive">ARCHIVE ▾</button>
+    <button id="btnAudio">AUDIO ○</button>
   </div>
 
   <script>
@@ -209,13 +282,32 @@
     var DEF={ s:1, x:0, y:0, pitch:0.92, yaw:-0.35 };   /* aerial view 原始視角 */
     var MAXZ=40, MINZ=0.7;
     var needDraw=false, NIGHT=false;
+    /* 靜態層離屏快取：城市線框畫一次，之後閃爍／解碼淨係 blit */
+    var bgC=document.createElement('canvas'), bgx=bgC.getContext('2d');
+    var bgDirty=true, moving=false, settleT=null;
+    var TIER=2;                 /* 2=全質素 1=減省 0=最低（由 FPS 自動調） */
 
     function fit(){
       var r=cityC.getBoundingClientRect();
-      DPR=Math.min(2, window.devicePixelRatio||1);
       W=Math.max(1,Math.floor(r.width)); H=Math.max(1,Math.floor(r.height));
-      [cityC,wxC].forEach(function(c){ c.width=W*DPR; c.height=H*DPR;
+      /* 大屏卡頓元兇＝backing store 太大（1920×1080 @DPR2 = 8.3MP）。
+         改為按像素預算封頂，最低唔低過 1（唔會變糊）。 */
+      var d=Math.min(2, window.devicePixelRatio||1);
+      var BUDGET=3.2e6, px=W*H*d*d;
+      if(px>BUDGET) d=Math.max(1, d*Math.sqrt(BUDGET/px));
+      DPR=d;
+      [cityC,wxC,bgC].forEach(function(c){ c.width=Math.round(W*DPR); c.height=Math.round(H*DPR);
         c.getContext('2d').setTransform(DPR,0,0,DPR,0,0); });
+      bgDirty=true;
+    }
+    /* 任何視角變動：靜態快取作廢；並進入「移動中」低細節模式，
+       停手 160ms 後自動補一張全質素圖 */
+    function markMoving(){
+      /* 唔標 bgDirty：drawCity 會判斷快取仲用唔用得（純仿射就 blit）。
+         停手 160ms 後先至補一張全質素圖。 */
+      moving=true;
+      clearTimeout(settleT);
+      settleT=setTimeout(function(){ moving=false; bgDirty=true; needDraw=true; },160);
     }
     function resetView(){
       var bb=(MAP&&MAP.bbox)||[22.10,113.52,22.23,113.60];
@@ -298,98 +390,319 @@
     }
 
     /* ===== 畫城市 ===== */
-    function poly(f,h,close){
+    /* 所有幾何都寫入 g（可以係離屏 bgx 或屏上 cx） */
+    function poly(g,f,h,close){
       for(var k=0;k<f.length;k+=2){
         var p=P(f[k]/S,f[k+1]/S,h);
-        if(k===0) cx.moveTo(p[0],p[1]); else cx.lineTo(p[0],p[1]);
+        if(k===0) g.moveTo(p[0],p[1]); else g.lineTo(p[0],p[1]);
       }
-      if(close) cx.closePath();
+      if(close) g.closePath();
     }
-    function drawSet(lines,color,wdt){
-      cx.strokeStyle=color; cx.lineWidth=wdt; cx.beginPath();
-      for(var i=0;i<lines.length;i++) poly(lines[i],0,false);
-      cx.stroke();
+    /* ===== 潮汐的呼吸：近岸水文線 =====
+       由海岸線逐段向海側平移，做出四條等深線。潮位決定邊一條係「水線」
+       （高潮＝水迫近陸地＝內圈亮；低潮＝退出去＝外圈亮），
+       12.42 小時一個週期，慢到你唔會即刻察覺。 */
+    var TIDE_LV=0.5, tideBand=1;
+    function ringOut(f){                     /* 依 signed area 判斷向外係邊邊 */
+      var a=0;
+      for(var k=0;k<f.length-2;k+=2) a+=f[k]*f[k+3]-f[k+2]*f[k+1];
+      return a>0 ? 1 : -1;
+    }
+    function drawHydro(g){
+      var C=MAP.coast; if(!C) return;
+      var OFF=[0.0016,0.0033,0.0053,0.0078];   /* 地圖單位（~1/1000 = 13m） */
+      for(var b=0;b<OFF.length;b++){
+        var isWater = (b===tideBand);
+        g.strokeStyle = isWater ? 'rgba(231,76,60,.34)' : 'rgba(231,76,60,.10)';
+        g.lineWidth = isWater ? 1 : 0.6;
+        g.beginPath();
+        for(var i=0;i<C.length;i++){
+          var f=C[i]; if(f.length<6||!inView(f)) continue;
+          var sgn=ringOut(f), d=OFF[b]*sgn*S, first=true;
+          for(var k=0;k<f.length;k+=2){
+            var k2=(k+2)%f.length;
+            var dx=f[k2]-f[k], dy=f[k2+1]-f[k+1];
+            var L=Math.hypot(dx,dy)||1;
+            var nx=(f[k]+ dy/L*d)/S, ny=(f[k+1]- dx/L*d)/S;
+            var p=P(nx,ny,0);
+            if(first){ g.moveTo(p[0],p[1]); first=false; } else g.lineTo(p[0],p[1]);
+          }
+        }
+        g.stroke();
+      }
+    }
+
+    function drawSet(g,lines,color,wdt){
+      g.strokeStyle=color; g.lineWidth=wdt; g.beginPath();
+      for(var i=0;i<lines.length;i++){
+        if(!inView(lines[i])) continue;          /* 路網都做視錐剔除 */
+        poly(g,lines[i],0,false);
+      }
+      g.stroke();
     }
     function inView(f){
       var p=P(f[0]/S,f[1]/S,0);
-      return p[0]>-220&&p[0]<W+220&&p[1]>-280&&p[1]<H+220;
+      return p[0]>-260&&p[0]<W+260&&p[1]>-320&&p[1]<H+260;
     }
-    function buildingPath(f,h,vstep){
-      poly(f,h,true);
+    function buildingPath(g,f,h,vstep){
+      poly(g,f,h,true);
       for(var k=0;k<f.length;k+=vstep){
         var a=P(f[k]/S,f[k+1]/S,0), b=P(f[k]/S,f[k+1]/S,h);
-        cx.moveTo(a[0],a[1]); cx.lineTo(b[0],b[1]);
+        g.moveTo(a[0],a[1]); g.lineTo(b[0],b[1]);
       }
     }
+    /* 夜晚邊幾層做閃爍：只動最光嗰兩層（數量最少、視覺最明顯），
+       暗層入靜態快取。閃爍先至可以喺 blit 之上平價重畫。 */
+    function isGlowBucket(bk){ return NIGHT && TIER>0 && bk>=2 && !moving; }
+
+    /* ---- 靜態層：城市線框，只喺視角變動時重畫一次 ---- */
+    var bgView=null;            /* 快取係喺邊個視角畫嘅 */
+    function renderStatic(){
+      var g=bgx;
+      bgView={x:view.x,y:view.y,s:view.s,pitch:view.pitch,yaw:view.yaw};
+      g.clearRect(0,0,W,H);
+      g.fillStyle='#0b0705'; g.fillRect(0,0,W,H);
+      if(!MAP) return;
+      var z=view.s;
+      var wf = z>4 ? Math.sqrt(z/4) : 1;
+      var nightMul = NIGHT ? 0.78 : 1;
+      var lowDetail = moving || TIER<2;
+
+      g.lineJoin='round';
+      drawSet(g,MAP.coast,'rgba(231,76,60,'+(0.66*nightMul)+')',1);
+      drawHydro(g);
+      if(z>=1.25 && !lowDetail)
+        drawSet(g,MAP.roads.c,'rgba(231,76,60,'+(0.18*nightMul)+')',0.5*wf);
+      drawSet(g,MAP.roads.b,'rgba(231,76,60,'+(0.30*nightMul)+')',0.6*wf);
+      drawSet(g,MAP.roads.a,'rgba(231,76,60,'+(0.50*nightMul)+')',0.9*wf);
+
+      var B=MAP.buildings3d; if(!B) return;
+      var lim = z<1.4?60:(z<2.5?26:0);
+      if(lowDetail) lim=Math.max(lim, z<2.5?42:14);   /* 移動中：淨係畫高樓 */
+      var vstep = (z>8 && !lowDetail) ? 2 : (lowDetail?6:4);
+      var bw = 0.6*Math.max(1,Math.sqrt(z/6));
+      var cap = lowDetail ? (TIER<1?1200:2200) : (TIER<2?5000:9000);
+      var drawn=0,i,bi,h,f;
+
+      if(!NIGHT||!bBucket){
+        g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,.44)'; g.beginPath();
+        for(i=0;i<B.length;i++){
+          h=B[i][0]; f=B[i][1];
+          if(h<lim||!inView(f)) continue;
+          buildingPath(g,f,h,vstep);
+          if(++drawn>cap) break;
+        }
+        g.stroke();
+        return;
+      }
+      drawLamps(g,lim,cap);
+      /* 夜晚靜態部分：暗嗰兩層（如果 TIER 低就連光層都靜態化） */
+      var ALPHA=[0.13,0.26,0.46,0.9];
+      for(var bk=3;bk>=0;bk--){
+        if(isGlowBucket(bk)) continue;             /* 交畀 drawGlow 逐格畫 */
+        var idx=bIdx[bk]; if(!idx.length) continue;
+        g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,'+ALPHA[bk]+')'; g.beginPath();
+        for(i=0;i<idx.length;i++){
+          bi=idx[i]; h=B[bi][0]; f=B[bi][1];
+          if(h<lim||!inView(f)) continue;
+          buildingPath(g,f,h,vstep);
+          if(++drawn>cap) break;
+        }
+        g.stroke();
+        if(drawn>cap) break;
+      }
+    }
+
+    /* ---- 動態光層：只有最光兩層 × 三個相位組，畫喺 blit 之上 ---- */
+    function drawGlow(){
+      var B=MAP.buildings3d; if(!B||!bBucket) return;
+      var z=view.s;
+      var lowDetail = moving || TIER<2;
+      var lim = z<1.4?60:(z<2.5?26:0);
+      if(lowDetail) lim=Math.max(lim, z<2.5?42:14);
+      var vstep = (z>8 && !lowDetail) ? 2 : (lowDetail?6:4);
+      var bw = 0.6*Math.max(1,Math.sqrt(z/6));
+      var ALPHA=[0.13,0.26,0.46,0.9];
+      var tSec=performance.now()/1000;
+      var drawn=0,i,bi,h,f;
+      for(var bk=3;bk>=2;bk--){
+        if(!isGlowBucket(bk)) continue;
+        var idx=bIdx[bk]; if(!idx.length) continue;
+        for(var sub=0;sub<3;sub++){
+          var m=0.5+0.5*Math.sin(tSec*(0.18+0.07*sub+0.05*bk) + bk*2.1 + sub*4.7);
+          var amp=0.6+0.4*m;
+          if(bk===3){
+            cx.fillStyle='rgba(231,76,60,'+(0.11*amp).toFixed(3)+')'; cx.beginPath();
+            for(i=sub;i<idx.length;i+=3){
+              bi=idx[i]; h=B[bi][0]; f=B[bi][1];
+              if(h<lim||!inView(f)) continue;
+              poly(cx,f,h,true);
+            }
+            cx.fill();
+          }
+          cx.lineWidth=bw;
+          cx.strokeStyle='rgba(231,76,60,'+(ALPHA[bk]*amp).toFixed(3)+')';
+          cx.beginPath();
+          for(i=sub;i<idx.length;i+=3){
+            bi=idx[i]; h=B[bi][0]; f=B[bi][1];
+            if(h<lim||!inView(f)) continue;
+            buildingPath(cx,f,h,vstep);
+            if(++drawn>4000) break;
+          }
+          cx.stroke();
+          if(drawn>4000) break;
+        }
+      }
+    }
+
+    /* ===== 燈火：夜深時個別窗口逐盞熄滅 =====
+       只喺 zoom≥6 先畫（嗰陣視錐內得幾百棟），而且寫入靜態快取，
+       所以逐格成本係零——只有視角變或者過咗一個鐘先重畫。 */
+    function drawLamps(g,lim,cap){
+      if(!NIGHT || view.s<6 || TIER<2) return;
+      var B=MAP.buildings3d; if(!B||!bBucket) return;
+      var hr=macauHour(Date.now());
+      /* 19:00 全亮 → 04:00 剩返一成幾 */
+      var deep = hr>=19 ? (hr-19)/9 : (hr<6 ? (hr+5)/9 : 0);
+      var awake = Math.max(0.12, 1-deep*0.88);
+      g.fillStyle='rgba(255,150,120,.55)';
+      var drawn=0;
+      for(var i=0;i<B.length;i++){
+        var h=B[i][0], f=B[i][1];
+        if(h<lim||h<9||!inView(f)) continue;
+        if(bBucket[i]<1) continue;
+        var win=Math.min(7, 1+((h/16)|0));
+        for(var w=0;w<win;w++){
+          if(hash01(i*211+w*7) > awake) continue;      /* 呢盞已經熄咗 */
+          var t=hash01(i*53+w*17);
+          var vi=((t*(f.length/2))|0)*2;
+          var hh=h*(0.18+0.74*hash01(i*31+w*29));
+          var p=P(f[vi]/S, f[vi+1]/S, hh);
+          if(p[0]<-20||p[0]>W+20||p[1]<-20||p[1]>H+20) continue;
+          g.fillRect(p[0]-0.6, p[1]-0.6, 1.4, 1.4);
+          if(++drawn>2600) return;
+        }
+      }
+    }
+
     function drawCity(){
       if(!MAP) return;
       updTrig();
-      cx.clearRect(0,0,W,H);
-      cx.fillStyle='#0b0705'; cx.fillRect(0,0,W,H);
-      var z=view.s;
-      var wf = z>4 ? Math.sqrt(z/4) : 1;          /* 高 zoom 線加粗＝街景感 */
-      var nightMul = NIGHT ? 0.78 : 1;             /* 夜晚地面調暗 */
-
-      cx.lineJoin='round';
-      drawSet(MAP.coast,'rgba(231,76,60,'+(0.66*nightMul)+')',1);
-      if(z>=1.25) drawSet(MAP.roads.c,'rgba(231,76,60,'+(0.18*nightMul)+')',0.5*wf);
-      drawSet(MAP.roads.b,'rgba(231,76,60,'+(0.30*nightMul)+')',0.6*wf);
-      drawSet(MAP.roads.a,'rgba(231,76,60,'+(0.50*nightMul)+')',0.9*wf);
-
-      /* 建築線框 */
-      var B=MAP.buildings3d;
-      if(B){
-        var lim = z<1.4?60:(z<2.5?26:0);
-        var vstep = z>8 ? 2 : 4;                   /* 高 zoom 畫齊每條垂直邊 */
-        var bw = 0.6*Math.max(1,Math.sqrt(z/6));
-        var drawn=0, i, bi, h, f;
-        if(!NIGHT||!bBucket){
-          cx.lineWidth=bw; cx.strokeStyle='rgba(231,76,60,.44)'; cx.beginPath();
-          for(i=0;i<B.length;i++){
-            h=B[i][0]; f=B[i][1];
-            if(h<lim||!inView(f)) continue;
-            buildingPath(f,h,vstep);
-            if(++drawn>9000) break;
-          }
-          cx.stroke();
-        } else {
-          /* 夜晚：由亮到暗四層；每層再分三個相位組做超慢閃爍
-             （城市燈光緩慢起熄，週期 12–35 秒） */
-          var ALPHA=[0.13,0.26,0.46,0.9];
-          var tSec=performance.now()/1000;
-          for(var bk=3;bk>=0;bk--){
-            var idx=bIdx[bk]; if(!idx.length) continue;
-            for(var sub=0;sub<3;sub++){
-              var ph=Math.sin(tSec*(0.18+0.07*sub+0.05*bk) + bk*2.1 + sub*4.7);
-              var m=0.5+0.5*ph;
-              var amp = bk>=2 ? (0.6+0.4*m) : (0.8+0.2*m);
-              /* 最亮層：屋頂微光填色，跟同一節奏 */
-              if(bk===3){
-                cx.fillStyle='rgba(231,76,60,'+(0.11*amp).toFixed(3)+')'; cx.beginPath();
-                for(i=sub;i<idx.length;i+=3){
-                  bi=idx[i]; h=B[bi][0]; f=B[bi][1];
-                  if(h<lim||!inView(f)) continue;
-                  poly(f,h,true);
-                }
-                cx.fill();
-              }
-              cx.lineWidth=bw;
-              cx.strokeStyle='rgba(231,76,60,'+(ALPHA[bk]*amp).toFixed(3)+')';
-              cx.beginPath();
-              for(i=sub;i<idx.length;i+=3){
-                bi=idx[i]; h=B[bi][0]; f=B[bi][1];
-                if(h<lim||!inView(f)) continue;
-                buildingPath(f,h,vstep);
-                if(++drawn>9000) break;
-              }
-              cx.stroke();
-              if(drawn>9000) break;
-            }
-            if(drawn>9000) break;
-          }
+      /* 關鍵：平移同縮放喺呢個投影入面係純仿射變換
+         （P = view.x + rx·base·s），所以拖曳／縮放期間唔使重畫成個城市，
+         直接將快取圖 blit 出嚟再變換就得。停手先至真正重畫。 */
+      var k=1, ox=0, oy=0, reuse=false;
+      if(bgView && !bgDirty){
+        reuse = (bgView.pitch===view.pitch && bgView.yaw===view.yaw);
+        if(reuse){
+          k = view.s/bgView.s;
+          ox = view.x - bgView.x*k;
+          oy = view.y - bgView.y*k;
+          /* 偏移／縮放過大 → 邊緣會穿崩或者太矇，唯有真重畫。
+             郁緊嗰陣放寬（短暫矇少少好過爆幀），停手後嘅補畫先用嚴格值 */
+          var kLo=moving?0.5:0.72, kHi=moving?2.0:1.4, oLim=moving?0.46:0.3;
+          if(k<kLo||k>kHi||Math.abs(ox)>W*oLim||Math.abs(oy)>H*oLim) reuse=false;
         }
       }
+      if(!reuse){ renderStatic(); bgDirty=false; k=1; ox=0; oy=0; }
+
+      cx.setTransform(DPR,0,0,DPR,0,0);
+      cx.clearRect(0,0,W,H);
+      cx.fillStyle='#0b0705'; cx.fillRect(0,0,W,H);
+      if(k===1&&ox===0&&oy===0){
+        cx.drawImage(bgC,0,0,W,H);
+      } else {
+        cx.save();
+        cx.translate(ox,oy); cx.scale(k,k);
+        cx.drawImage(bgC,0,0,W,H);
+        cx.restore();
+      }
+      bgK=k; bgOX=ox; bgOY=oy;          /* 畀掃描線用同一個變換 */
+      cx.lineJoin='round';
+      if(NIGHT) drawGlow();
       drawLabels();
+    }
+
+
+    /* ===== 3｜掃描線：慢速 analog 掃描頭 =====
+       全部幼單線，冇陰影冇光暈。線側跟住一條堆砌天文數據嘅副帶
+       （真實計算：儒略日、恆星時、太陽赤經赤緯／高度方位、月相）。 */
+    var bgK=1,bgOX=0,bgOY=0, SWEEP_PERIOD=22, SWEEP_DUTY=0.80;
+    var EPH=null, ephSec=-1;
+    function computeEph(ms){
+      var JD = ms/86400000 + 2440587.5;
+      var n  = JD - 2451545.0;
+      var R  = Math.PI/180;
+      var L  = (280.460 + 0.9856474*n) % 360;
+      var g  = ((357.528 + 0.9856003*n) % 360) * R;
+      var lam= (L + 1.915*Math.sin(g) + 0.020*Math.sin(2*g)) * R;
+      var eps= (23.439 - 0.0000004*n) * R;
+      var ra = Math.atan2(Math.cos(eps)*Math.sin(lam), Math.cos(lam));
+      var dec= Math.asin(Math.sin(eps)*Math.sin(lam));
+      var gmst=(280.46061837 + 360.98564736629*n) % 360;
+      var lst =((gmst + 113.549) % 360 + 360) % 360;      /* 澳門經度 */
+      var ha  = (lst - (ra/R+360)%360) * R;
+      var lat = 22.193*R;
+      var alt = Math.asin(Math.sin(lat)*Math.sin(dec) + Math.cos(lat)*Math.cos(dec)*Math.cos(ha));
+      var az  = Math.atan2(-Math.sin(ha),
+                 Math.tan(dec)*Math.cos(lat) - Math.sin(lat)*Math.cos(ha));
+      var mp  = ((JD - 2451550.1)/29.530588853) % 1; if(mp<0) mp+=1;
+      var ill = (1-Math.cos(2*Math.PI*mp))/2;
+      var raH = ((ra/R+360)%360)/15;
+      var lstH= lst/15;
+      /* 角度／時間格式：一律截斷，唔可以用 pad() 四捨五入（會做出 68.6°→69.6° 咁嘅錯值） */
+      function hms(h){ var H=Math.floor(h), M=Math.floor((h-H)*60),
+        S=Math.floor((((h-H)*60)-M)*60);
+        return pad(H,2)+pad(M,2)+pad(S,2); }
+      function dms(d){ var s=d<0?'-':'+', a=Math.abs(d);
+        var D=Math.floor(a), M=Math.floor((a-D)*60);
+        return s+pad(D,2)+'°'+pad(M,2)+"'"; }
+      function sgn1(d){ return (d<0?'-':'+')+Math.abs(d).toFixed(1); }
+      return [
+        ['JD',   JD.toFixed(4)],
+        ['LST',  hms(lstH)],
+        ['GMST', hms(gmst/15)],
+        ['SOL RA',  hms(raH)],
+        ['SOL DEC', dms(dec/R)],
+        ['SOL ALT', sgn1(alt/R)+'°'],
+        ['SOL AZ',  pad(Math.floor(((az/R)+360)%360),3)+'°'],
+        ['LUN PH',  (mp*100).toFixed(1)+'%'],
+        ['LUN ILL', (ill*100).toFixed(1)+'%'],
+        ['OBLIQ',   (eps/R).toFixed(4)+'°'],
+        ['EPOCH',   'J2000.0'],
+        ['GEOID',   'WGS84']
+      ];
+    }
+    function drawSweep(now){
+      var t=(now/1000) % SWEEP_PERIOD;
+      var ph=t/SWEEP_PERIOD;
+      if(ph>SWEEP_DUTY) return;
+      var p=ph/SWEEP_DUTY;
+      var x=Math.round(p*(W+260)-130)+0.5;
+
+      /* ---- 陰影帶：低調，比城市暗（喺城市之上疊墨色） ---- */
+      var bw=Math.max(80, W*0.085);
+      var g=wc.createLinearGradient(x-bw,0,x+6,0);
+      g.addColorStop(0,'rgba(8,4,3,0)');
+      g.addColorStop(0.72,'rgba(8,4,3,.20)');
+      g.addColorStop(1,'rgba(8,4,3,.30)');
+      wc.fillStyle=g; wc.fillRect(x-bw,0,bw+6,H);
+
+      /* ---- 掃描線：暗線，唔係光線 ---- */
+      wc.save(); wc.lineWidth=1;
+      wc.strokeStyle='rgba(6,3,2,.62)';
+      wc.beginPath(); wc.moveTo(x,0); wc.lineTo(x,H); wc.stroke();
+      wc.strokeStyle='rgba(6,3,2,.24)';
+      wc.beginPath(); wc.moveTo(x-19.5,0); wc.lineTo(x-19.5,H); wc.stroke();
+      /* 刻度：一樣係暗刻 */
+      wc.strokeStyle='rgba(6,3,2,.5)';
+      wc.beginPath();
+      for(var gy=0; gy<H; gy+=44){
+        var lng=(gy%176===0)?7:3.5;
+        wc.moveTo(x,gy+0.5); wc.lineTo(x+lng,gy+0.5);
+      }
+      wc.stroke();
+      wc.restore();
     }
     /* 地名解碼：每 10 秒一輪，由亂碼逐字解返正字 */
     var decodeT0=-1, DECODE_DUR=720, GLY='#%&/<>=+*';
@@ -463,11 +776,12 @@
       view.x=f.x+(o.x-f.x)*e;  view.y=f.y+(o.y-f.y)*e;
       view.pitch=f.pitch+(o.pitch-f.pitch)*e;
       view.yaw=f.yaw+(o.yaw-f.yaw)*e;
-      targetS=view.s; needDraw=true;
+      targetS=view.s; needDraw=true; markMoving();
       if(t>=1){ var cb=anim.done; anim=null; if(cb) cb(); }
     }
     function enterZone(Z){
       activeZone=Z; loadZone();
+      tapeSpool(820);                    /* 卡式帶快轉去嗰個台 */
       /* 拉得更近、視角更貼地（pitch 1.38 ≈ 79°） */
       var s=Z.sea?6:12;
       flyTo(viewFor(Z.x,Z.y,s,1.38,view.yaw,W/2,H*0.42),1050,null);
@@ -486,6 +800,7 @@
        但每滴嘅斜度、落點、橫移全部喺世界座標入面行。 */
     var drops=[], rainMM=0, windDeg=0, windSpd=0, lastT=0;
     var vis={x0:0,y0:0,x1:1,y1:1};      /* 目前視窗覆蓋嘅地圖範圍（地面） */
+    var NB=6, segs=[[],[],[],[],[],[]];  /* 雨絲批次繪製用 */
     var hScr=600;                        /* 雨柱世界高度：投影後 = 一個畫面 */
     var wDirX=0, wDirY=0, wTan=0;        /* 風向（地圖座標）+ 斜度 */
 
@@ -505,12 +820,14 @@
       vis.y1=Math.min(1.4, y1+padY+(wDirY<0? -wDirY*drift:0));
     }
     function newDrop(top){
+      var lr=Math.random();
       return {
         nx: vis.x0+Math.random()*(vis.x1-vis.x0),
         ny: vis.y0+Math.random()*(vis.y1-vis.y0),
         h:  top ? hScr*(0.85+Math.random()*0.35) : Math.random()*hScr*1.15,
         vr: 0.8+Math.random()*0.6,        /* 落速倍率：每滴 0.7–1.25s 落地 */
-        lr: Math.random()                  /* 質感層：粗細／亮度 */
+        lr: lr,                            /* 質感層：粗細／亮度 */
+        band: Math.min(NB-1,(lr*NB)|0)
       };
     }
     function setRain(mm,deg,spd){
@@ -519,8 +836,13 @@
       wDirX=Math.sin(rad); wDirY=-Math.cos(rad);
       wTan=Math.min(1.1,(windSpd||0)/130);
       updTrig(); updRainFrame();
-      var target=Math.min(2400, Math.round(rainMM*190));
-      if(rainMM>0 && target<160) target=160;
+      /* 雨量按畫面面積調整（大屏唔會太疏、細屏唔會太密），再乘效能檔位 */
+      var areaK=Math.sqrt((W*H)/8e5);
+      var tierK=TIER>=2?1:(TIER===1?0.62:0.38);
+      /* 大雨／暴雨額外加成：7.6mm 以上開始加碼，暴雨最多 ×2.1 */
+      var heavy = rainMM>7.6 ? (1+Math.min(1.1,(rainMM-7.6)/26)) : 1;
+      var target=Math.min(5200, Math.round(rainMM*190*areaK*tierK*heavy));
+      if(rainMM>0 && target<160) target=Math.round(160*tierK)||120;
       while(drops.length<target) drops.push(newDrop(false));
       if(drops.length>target) drops.length=target;
     }
@@ -532,6 +854,9 @@
       var pxPerM=k*HSCALE*Math.max(0.2,sinP);   /* 一米高度 = 幾多 px */
       var zBoost=Math.min(1.4, 0.85+0.06*Math.sqrt(view.s));
       wc.lineCap='round';
+      /* 質感分 NB 個帶：同一帶共用 strokeStyle/lineWidth，
+         一個 beginPath 畫晒 → 2400 次 stroke() 變 6 次，大屏慳好多 */
+      for(var q=0;q<NB;q++) segs[q].length=0;
       for(var i=0;i<drops.length;i++){
         var p=drops[i];
         var v=hScr*p.vr;                        /* m/s：柱高 normalize 落速 */
@@ -547,9 +872,19 @@
         var b=P(p.nx,p.ny,p.h);
         if(b[0]<-60||b[0]>W+60||b[1]<-60||b[1]>H+60) continue;
         var a=P(p.nx-wDirX*wTan*Lw*HSCALE, p.ny-wDirY*wTan*Lw*HSCALE, p.h+Lw);
-        wc.strokeStyle='rgba(231,76,60,'+(0.12+0.48*Math.pow(p.lr,1.3)).toFixed(3)+')';
-        wc.lineWidth=(0.4+0.8*p.lr)*zBoost;
-        wc.beginPath(); wc.moveTo(a[0],a[1]); wc.lineTo(b[0],b[1]); wc.stroke();
+        var sg=segs[p.band];
+        sg.push(a[0],a[1],b[0],b[1]);
+      }
+      for(var q2=0;q2<NB;q2++){
+        var sg2=segs[q2]; if(!sg2.length) continue;
+        var lr=(q2+0.5)/NB;
+        wc.strokeStyle='rgba(231,76,60,'+(0.12+0.48*Math.pow(lr,1.3)).toFixed(3)+')';
+        wc.lineWidth=(0.4+0.8*lr)*zBoost;
+        wc.beginPath();
+        for(var m=0;m<sg2.length;m+=4){
+          wc.moveTo(sg2[m],sg2[m+1]); wc.lineTo(sg2[m+2],sg2[m+3]);
+        }
+        wc.stroke();
       }
     }
 
@@ -562,7 +897,7 @@
       if(ns===view.s) return;
       view.x=px-(px-view.x)*(ns/view.s);
       view.y=py-(py-view.y)*(ns/view.s);
-      view.s=ns; needDraw=true;
+      view.s=ns; needDraw=true; markMoving();
     }
     cityC.addEventListener('wheel',function(e){
       e.preventDefault();
@@ -599,9 +934,9 @@
       var dtm=Math.max(1,e.timeStamp-lt);
       moved+=Math.abs(dx)+Math.abs(dy);
       if(shift){ view.yaw+=dx*0.005;
-        view.pitch=Math.max(0.25,Math.min(1.45,view.pitch+dy*0.004)); }
+        view.pitch=Math.max(0.25,Math.min(1.45,view.pitch+dy*0.004)); markMoving(); }
       else {
-        view.x+=dx; view.y+=dy;
+        view.x+=dx; view.y+=dy; markMoving();
         /* 速度用低通濾波，慣性先夠順 */
         vx=0.75*(dx/dtm*1000)+0.25*vx;
         vy=0.75*(dy/dtm*1000)+0.25*vy;
@@ -628,15 +963,29 @@
     });
 
     /* ===== 主循環：動畫／慣性／平滑縮放／雨 ===== */
-    var nAcc=0;
+    var nAcc=0, ftAvg=16, govAcc=0;
     function frame(now){
       requestAnimationFrame(frame);
       if(document.hidden){ lastT=now; return; }
       var dt=lastT? Math.min(0.05,(now-lastT)/1000):0.016; lastT=now;
 
-      /* 地名解碼進行中 → 連續重畫；夜晚燈光閃爍 → 節流 ~7fps 重畫 */
+      /* ---- 效能自動調檔：量度實際幀時，唔夠順就降質素 ---- */
+      ftAvg = ftAvg*0.9 + (dt*1000)*0.1;
+      govAcc += dt;
+      if(govAcc>1.1){
+        govAcc=0;
+        var old=TIER;
+        if(ftAvg>27 && TIER>0) TIER--;
+        else if(ftAvg<15 && TIER<2) TIER++;
+        if(TIER!==old){ bgDirty=true; needDraw=true; setRain(rainMM,windDeg,windSpd); }
+      }
+
+      /* 地名解碼進行中 → 連續重畫；夜晚燈光閃爍 → 節流重畫（低檔位再慢啲） */
       if(decodeT0>0 && now-decodeT0 < DECODE_DUR+120) needDraw=true;
-      if(NIGHT&&MAP){ nAcc+=dt; if(nAcc>0.14){ needDraw=true; nAcc=0; } }
+      if(NIGHT&&MAP&&TIER>0){
+        nAcc+=dt;
+        if(nAcc > (TIER>=2?0.14:0.3)){ needDraw=true; nAcc=0; }
+      }
 
       if(anim) stepAnim(now);
       else {
@@ -645,7 +994,7 @@
           applyZoom(zAnchor[0],zAnchor[1],ns);
         }
         if(inOn){
-          view.x+=inX*dt; view.y+=inY*dt;
+          view.x+=inX*dt; view.y+=inY*dt; markMoving();
           var f=Math.exp(-dt*3.4); inX*=f; inY*=f;
           if(Math.hypot(inX,inY)<12) killInertia();
           needDraw=true;
@@ -654,6 +1003,7 @@
       if(needDraw){ updTrig(); drawCity(); needDraw=false; }
       else updTrig();
       drawRain(dt);
+      drawSweep(now);
     }
 
     /* ===== 讀數 ===== */
@@ -673,15 +1023,25 @@
       var ph=(ms%M2)/M2*Math.PI*2;
       return 1.35+1.05*Math.sin(ph)+0.18*Math.sin(ph*2+1.1);
     }
+    /* open-meteo 回傳嘅係「無時區」字串（已經係 Asia/Macau 當地時間）。
+       用 new Date() 直接解會當成瀏覽器本地時區 → Zulu 時間同日夜判斷全部錯位。
+       所以明確當作 UTC+8 換算。 */
+    function macauMs(str){
+      var m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(str||'');
+      if(!m) return Date.parse(str);
+      return Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]-8,+m[5]);
+    }
     function macauHour(ms){
       try{
         return +new Intl.DateTimeFormat('en-GB',{hour:'2-digit',hour12:false,timeZone:'Asia/Macau'})
           .format(new Date(ms));
       }catch(e){ return new Date(ms).getHours(); }
     }
-    function paint(mm,deg,spd,gust,press,when,foot){
+    function paint(mm,deg,spd,gust,press,when,foot,temp,dew){
       setRain(mm,deg,spd);
+      var wasNight=NIGHT;
       NIGHT = (function(h){ return h>=19||h<6; })(macauHour(when||Date.now()));
+      if(NIGHT!==wasNight) bgDirty=true;
       document.getElementById('rMm').innerHTML=
         (Math.round(mm*10)/10)+'<span style="font-size:.4em"> MM/H</span>';
       var st=document.getElementById('rState');
@@ -692,11 +1052,179 @@
       document.getElementById('rGust').textContent = gust==null?'--':Math.round(gust)+' km/h';
       document.getElementById('rPress').textContent= press==null?'--':Math.round(press)+' hPa';
       document.getElementById('rTide').textContent = tideAt(when||Date.now()).toFixed(2)+' m';
-      document.getElementById('rZone').textContent = activeZone? activeZone.n : 'MACAU';
-      document.getElementById('hFoot').innerHTML = foot;
+      var zn = activeZone? activeZone.n : 'MACAU';
+      document.getElementById('rZone').textContent = zn;
+      var fEl=document.getElementById('hFoot');
+      fEl.innerHTML = foot;
+      fEl.classList.toggle('live', foot===LIVE_FOOT);
+      document.getElementById('metar').textContent =
+        buildMetar(mm,deg,spd,gust,press,when,temp,dew);
+      logObserve(mm,deg,spd,gust,press,when,zn);
+      bedLevel(); paintSignal();
       readyWx=true; bootCheck();
       needDraw=true; alignHead();
     }
+
+    /* ===== 7｜METAR 電碼（由模式數據推導，唔係真站報） ===== */
+    function pad(n,w){ n=String(Math.abs(Math.round(n))); while(n.length<w) n='0'+n; return n; }
+    function visFor(mm){
+      if(mm<=0) return 9999;
+      if(mm<0.6) return 8000;
+      if(mm<2.5) return 6000;
+      if(mm<7.6) return 3500;
+      if(mm<20)  return 1800;
+      if(mm<50)  return 800;
+      return 400;
+    }
+    function wxFor(mm){
+      if(mm<=0) return '';
+      if(mm<0.6) return 'DZ ';
+      if(mm<2.5) return '-RA ';
+      if(mm<7.6) return 'RA ';
+      if(mm<20)  return '+RA ';
+      return '+RA SQ ';
+    }
+    function tempCode(t){
+      if(t==null) return '//';
+      var v=Math.round(t);
+      return (v<0?'M':'')+pad(v,2);
+    }
+    function buildMetar(mm,deg,spd,gust,press,when,temp,dew){
+      var d=new Date(when||Date.now());
+      var stamp=pad(d.getUTCDate(),2)+pad(d.getUTCHours(),2)+pad(d.getUTCMinutes(),2)+'Z';
+      var wind='/////KT';
+      if(spd!=null){
+        var kt=Math.round(spd/1.852);
+        wind=pad(((Math.round((deg||0)/10)*10)%360),3)+pad(kt,2);
+        if(gust!=null && gust/1.852 - kt >= 8) wind+='G'+pad(gust/1.852,2);
+        wind+='KT';
+      }
+      var v=visFor(mm);
+      return 'VMMC '+stamp+' '+wind+' '+(v>=9999?'9999':pad(v,4))+' '+
+             wxFor(mm)+tempCode(temp)+'/'+tempCode(dew)+' '+
+             (press==null?'Q////':'Q'+pad(press,4));
+    }
+
+    /* ===== 5｜觀測日誌（Zulu，由真數據生成） ===== */
+    var LOG=[], lastObs=null;
+    function zulu(ms){
+      var d=new Date(ms||Date.now());
+      return pad(d.getUTCHours(),2)+pad(d.getUTCMinutes(),2)+'Z';
+    }
+    function logPush(t,txt){
+      LOG.unshift({t:zulu(t),x:txt});
+      if(LOG.length>7) LOG.length=7;
+      var el=document.getElementById('logBody');
+      el.innerHTML=LOG.map(function(e){ return '<div><b>'+e.t+'</b> '+e.x+'</div>'; }).join('');
+    }
+    function logObserve(mm,deg,spd,gust,press,when,zoneName){
+      var o={mm:mm,deg:deg,spd:spd,press:press,gust:gust};
+      if(!lastObs){
+        logPush(when,'WATCH OPENED · '+zoneName);
+        logPush(when,'PRECIP '+(Math.round(mm*10)/10)+' MM/H');
+        if(press!=null) logPush(when,'QNH '+Math.round(press)+' HPA');
+      } else {
+        if(press!=null && lastObs.press!=null){
+          var dp=press-lastObs.press;
+          if(Math.abs(dp)>=1) logPush(when,'PRESSURE '+(dp<0?'FALLING':'RISING')+' '+Math.abs(Math.round(dp))+' HPA');
+        }
+        if(lastObs.deg!=null && deg!=null){
+          var dd=((deg-lastObs.deg+540)%360)-180;
+          if(Math.abs(dd)>=25) logPush(when,'WIND '+(dd<0?'BACKING':'VEERING')+' '+dirOf(deg));
+        }
+        if(Math.abs(mm-lastObs.mm)>=0.5)
+          logPush(when,'PRECIP '+(mm>lastObs.mm?'INCREASING':'EASING')+' '+(Math.round(mm*10)/10)+' MM/H');
+        if(gust!=null && gust>=90 && (lastObs.gust==null||lastObs.gust<90))
+          logPush(when,'GALE FORCE GUSTS '+Math.round(gust)+' KM/H');
+        if(zoneName!==lastObs.zone) logPush(when,'STATION → '+zoneName);
+      }
+      o.zone=zoneName; lastObs=o;
+    }
+    document.getElementById('logToggle').addEventListener('click',function(){
+      var b=document.getElementById('logBox');
+      b.classList.toggle('open');
+      document.getElementById('logArrow').textContent=b.classList.contains('open')?'▴':'▾';
+    });
+
+    /* ===== 1｜NUMBERS STATION（合成音，預設關閉） ===== */
+    var AUD={ on:false, ctx:null, bedGain:null, bedSrc:null, filt:null };
+    try{ AUD.on = localStorage.getItem('hk_rf_aud')==='1'; }catch(e){}
+    function audioInit(){
+      if(AUD.ctx) return AUD.ctx;
+      var AC=window.AudioContext||window.webkitAudioContext;
+      if(!AC) return null;
+      AUD.ctx=new AC();
+      /* 噪音底：雨越大越勁 */
+      var sr=AUD.ctx.sampleRate, len=sr*2;
+      var buf=AUD.ctx.createBuffer(1,len,sr), ch=buf.getChannelData(0);
+      for(var i=0;i<len;i++) ch[i]=(Math.random()*2-1)*0.6;
+      var src=AUD.ctx.createBufferSource(); src.buffer=buf; src.loop=true;
+      var bp=AUD.ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1400; bp.Q.value=0.7;
+      var g=AUD.ctx.createGain(); g.gain.value=0;
+      src.connect(bp); bp.connect(g); g.connect(AUD.ctx.destination);
+      src.start();
+      AUD.bedSrc=src; AUD.bedGain=g; AUD.filt=bp;
+      return AUD.ctx;
+    }
+    function bedLevel(){
+      if(!AUD.on||!AUD.bedGain) return;
+      var lvl = AUD.on ? Math.min(0.055, 0.006 + rainMM*0.0022) : 0;
+      AUD.bedGain.gain.setTargetAtTime(lvl, AUD.ctx.currentTime, 0.6);
+      if(AUD.filt) AUD.filt.frequency.setTargetAtTime(900+Math.min(1800,rainMM*45), AUD.ctx.currentTime, 0.8);
+    }
+    /* 卡式帶快轉：捲軸高速轉動嘅嘶聲 + 輕微機械抖動，尾段慢落嚟 */
+    function tapeSpool(ms){
+      var ctx=audioInit(); if(!ctx||!AUD.on) return;
+      if(ctx.state==='suspended') ctx.resume();
+      var dur=(ms||900)/1000, sr=ctx.sampleRate;
+      var n=Math.floor(sr*dur), b=ctx.createBuffer(1,n,sr), d=b.getChannelData(0);
+      for(var i=0;i<n;i++){
+        var u=i/n;
+        var spin=0.55+0.45*Math.sin(u*dur*2*Math.PI*26);   /* 捲軸週期性抖動 */
+        var env=(u<0.06? u/0.06 : (u>0.72? Math.pow((1-u)/0.28,1.6) : 1));
+        d[i]=(Math.random()*2-1)*spin*env;
+      }
+      var src=ctx.createBufferSource(); src.buffer=b;
+      var bp=ctx.createBiquadFilter(); bp.type='bandpass';
+      bp.frequency.setValueAtTime(3400,ctx.currentTime);
+      bp.frequency.linearRampToValueAtTime(1500,ctx.currentTime+dur);  /* 慢落嚟 */
+      bp.Q.value=0.6;
+      var g=ctx.createGain(); g.gain.value=0.16;
+      src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+      src.start(); src.stop(ctx.currentTime+dur+0.05);
+      tapeClack(ctx.currentTime+dur-0.02, 0.5);            /* 停鍵彈返上 */
+    }
+    /* 換帶：彈出 → 抽走 → 插入 → 閂門 */
+    function tapeSwap(){
+      var ctx=audioInit(); if(!ctx||!AUD.on) return;
+      if(ctx.state==='suspended') ctx.resume();
+      var t=ctx.currentTime;
+      tapeClack(t,        0.9);    /* 撳 EJECT */
+      tapeClack(t+0.30,   0.5);    /* 帶盒彈出 */
+      tapeClack(t+0.86,   0.55);   /* 新帶落格 */
+      tapeClack(t+1.02,   0.95);   /* 閂帶門 */
+    }
+
+    var btnAudio=document.getElementById('btnAudio');
+    function paintAudioBtn(){
+      btnAudio.textContent='AUDIO '+(AUD.on?'●':'○');
+      btnAudio.classList.toggle('on',AUD.on);
+    }
+    btnAudio.addEventListener('click',function(){
+      AUD.on=!AUD.on;
+      try{ localStorage.setItem('hk_rf_aud',AUD.on?'1':'0'); }catch(e){}
+      paintAudioBtn();
+      if(AUD.on){
+        audioInit();
+        if(AUD.ctx&&AUD.ctx.state==='suspended') AUD.ctx.resume();
+        bedLevel();
+        tapeClack();                       /* 磁帶撳落播放鍵嗰下 */
+      } else if(AUD.bedGain){
+        tapeClack();
+        AUD.bedGain.gain.setTargetAtTime(0,AUD.ctx.currentTime,0.25);
+      }
+    });
+    paintAudioBtn();
 
     var MODE={ kind:'live', date:null, name:'' };
     function coordOf(){ return activeZone? [activeZone.lat,activeZone.lon] : [22.193,113.549]; }
@@ -706,17 +1234,18 @@
       var c=coordOf();
       MODE={kind:'live'};
       fetch('https://api.open-meteo.com/v1/forecast?latitude='+c[0]+'&longitude='+c[1]+
-            '&current=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl'+
+            '&current=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,temperature_2m,dew_point_2m'+
             '&timezone=Asia%2FMacau')
         .then(function(r){return r.json();})
         .then(function(d){
           if(!d||!d.current) throw 0;
           var u=d.current;
           paint(u.precipitation||0,u.wind_direction_10m,u.wind_speed_10m,
-                u.wind_gusts_10m,u.pressure_msl,Date.now(),LIVE_FOOT);
+                u.wind_gusts_10m,u.pressure_msl,Date.now(),LIVE_FOOT,
+                u.temperature_2m,u.dew_point_2m);
           clockOn=true;
         })
-        .catch(function(){ paint(0,null,null,null,null,Date.now(),'NO SIGNAL'); });
+        .catch(function(){ paint(0,null,null,null,null,Date.now(),'NO SIGNAL',null,null); });
     }
     function loadStorm(date,name){
       var c=coordOf();
@@ -724,7 +1253,7 @@
       document.getElementById('hFoot').textContent='RETRIEVING…';
       fetch('https://archive-api.open-meteo.com/v1/archive?latitude='+c[0]+'&longitude='+c[1]+
             '&start_date='+date+'&end_date='+date+
-            '&hourly=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl'+
+            '&hourly=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,temperature_2m,dew_point_2m'+
             '&timezone=Asia%2FMacau')
         .then(function(r){return r.json();})
         .then(function(d){
@@ -733,8 +1262,9 @@
           pr.forEach(function(v,i){ if((v||0)>(pr[pk]||0)) pk=i; });
           paint(pr[pk]||0,d.hourly.wind_direction_10m[pk],d.hourly.wind_speed_10m[pk],
                 d.hourly.wind_gusts_10m[pk],d.hourly.pressure_msl[pk],
-                new Date(d.hourly.time[pk]).getTime(),
-                name+' · PEAK '+d.hourly.time[pk].slice(11));
+                macauMs(d.hourly.time[pk]),
+                name+' · PEAK '+d.hourly.time[pk].slice(11),
+                d.hourly.temperature_2m[pk], d.hourly.dew_point_2m[pk]);
           document.getElementById('hClock').textContent=d.hourly.time[pk].slice(11)+':00';
           clockOn=false; alignHead();
         })
@@ -801,6 +1331,7 @@
       b.addEventListener('click',function(){
         [].forEach.call(archList.querySelectorAll('button'),function(x){x.classList.remove('on');});
         b.classList.add('on');
+        tapeSwap();                        /* 換一盒帶 */
         if(b.dataset.d==='live') loadLive();
         else loadStorm(b.dataset.d,b.dataset.label.trim());
       });
@@ -843,40 +1374,115 @@
       alignHead();
     },1000);
 
+    /* 燈火：每個鐘熄多啲，鐘數一變就重畫靜態層 */
+    var lampHr=-1;
+    setInterval(function(){
+      if(document.hidden) return;
+      var h=macauHour(Date.now());
+      if(h!==lampHr){ lampHr=h; if(NIGHT){ bgDirty=true; needDraw=true; } }
+    },60000);
+
+    /* 星曆：每秒更新，顯示喺讀數欄 TID 下面（精簡四行） */
+    function paintEph(force){
+      if(document.hidden && !force) return;
+      EPH=computeEph(Date.now());
+      var pick=['JD','LST','SOL ALT','LUN ILL'], out=[];
+      for(var i=0;i<EPH.length;i++)
+        if(pick.indexOf(EPH[i][0])>=0) out.push(EPH[i][0]+' <i>'+EPH[i][1]+'</i>');
+      document.getElementById('ephBox').innerHTML=out.join('<br>');
+    }
+    setInterval(paintEph,1000); paintEph(true);
+
+    /* 訊號強度計：雨量＋風速 → S 值（S0–S9+20） */
+    (function(){
+      var bars=document.getElementById('smBars');
+      for(var i=0;i<15;i++){
+        var b=document.createElement('i');
+        b.style.height=(4+i*0.62).toFixed(1)+'px';
+        bars.appendChild(b);
+      }
+    })();
+    function paintSignal(){
+      var lvl=Math.min(1, (rainMM/34)*0.72 + (Math.min(160,windSpd||0)/160)*0.28);
+      var n=Math.round(lvl*15);
+      var bars=document.getElementById('smBars').children;
+      for(var i=0;i<bars.length;i++) bars[i].classList.toggle('on', i<n);
+      document.getElementById('smVal').textContent =
+        n<=9 ? ('S'+n) : ('S9+'+((n-9)*4));
+    }
+
+    /* 潮汐呼吸：每 20 秒睇一次潮位，水線換咗圈先重畫城市 */
+    function tideBreath(){
+      var lv=tideAt(Date.now());                 /* 0.3 – 2.6 m 左右 */
+      TIDE_LV=Math.max(0,Math.min(1,(lv-0.35)/2.1));
+      var b=3-Math.round(TIDE_LV*3);             /* 高潮→內圈(0)，低潮→外圈(3) */
+      if(b!==tideBand){ tideBand=b; bgDirty=true; needDraw=true; }
+    }
+    setInterval(tideBreath,20000); tideBreath();
+
     /* 地名每 10 秒解碼一次 */
     setInterval(function(){ if(!document.hidden) decodeT0=performance.now(); },10000);
 
     /* ===== 開機：地圖 + 首次天氣讀數 + 最少 1.6s ===== */
     var bootEl=document.getElementById('boot');
     var bootT0=performance.now(), readyMap=false, readyWx=false, bootOff=false;
+
+    /* 開機畫面嘅站名／天氣：同 menu 定位訊號共用 sessionStorage('hk_loc')，
+       所以唔會為咗開機畫面而多打一次 API。攞唔到就用 Dome Fuji（同 menu 一致）。 */
+    (function bootGeo(){
+      var DOME={ city:'Dome Fuji', cc:'AQ', lat:-77.3167, lon:39.7000, tz:'Antarctica/Syowa' };
+      function show(loc){
+        var staEl=document.getElementById('bootSta'), wxEl=document.getElementById('bootWx');
+        if(!staEl) return;
+        staEl.innerHTML='&nbsp;· '+(loc.city||'—')+(loc.cc? ', '+loc.cc : '');
+        function timeStr(){
+          try{ return new Date().toLocaleTimeString('en-GB',
+            {timeZone:loc.tz,hour:'2-digit',minute:'2-digit',hour12:false}); }
+          catch(e){ return '--:--'; }
+        }
+        function paint(t,h){
+          wxEl.innerHTML=(t==null?'--.-':t.toFixed(1))+'°C&nbsp;&nbsp;·&nbsp;&nbsp;'+
+            (h==null?'--':Math.round(h))+'%&nbsp;&nbsp;·&nbsp;&nbsp;'+timeStr();
+        }
+        paint(null,null);
+        var key='hk_wx_'+loc.lat.toFixed(2)+'_'+loc.lon.toFixed(2), cw=null;
+        try{ cw=JSON.parse(sessionStorage.getItem(key)||'null'); }catch(e){}
+        if(cw && Date.now()-cw.at<1800000){ paint(cw.t,cw.h); return; }
+        fetch('https://api.open-meteo.com/v1/forecast?latitude='+loc.lat.toFixed(4)+
+              '&longitude='+loc.lon.toFixed(4)+'&current=temperature_2m,relative_humidity_2m')
+          .then(function(r){return r.json();})
+          .then(function(d){
+            if(!d||!d.current) return;
+            paint(d.current.temperature_2m, d.current.relative_humidity_2m);
+            try{ sessionStorage.setItem(key, JSON.stringify(
+              {t:d.current.temperature_2m,h:d.current.relative_humidity_2m,at:Date.now()})); }catch(e){}
+          }).catch(function(){});
+      }
+      var lc=null;
+      try{ lc=JSON.parse(sessionStorage.getItem('hk_loc')||'null'); }catch(e){}
+      if(lc&&lc.lat!=null){ show(lc); return; }
+      fetch('https://ipapi.co/json/').then(function(r){return r.json();})
+        .then(function(d){
+          if(!d||d.latitude==null) throw 0;
+          var loc={ city:d.city||d.region||'Somewhere', cc:d.country_code||d.country||'',
+                    lat:+d.latitude, lon:+d.longitude, tz:d.timezone||'UTC' };
+          try{ sessionStorage.setItem('hk_loc',JSON.stringify(loc)); }catch(e){}
+          show(loc);
+        })
+        .catch(function(){ show(DOME); });
+    })();
     function bootCheck(){
       if(bootOff) return;
-      if(readyMap&&!readyWx) document.getElementById('bootT').textContent='CALIBRATING RAINFALL';
+      if(readyMap&&!readyWx) document.getElementById('bootSig').innerHTML='calibrating rainfall<span class="bs-dots"></span>';
       if(readyMap&&readyWx&&performance.now()-bootT0>1600){
         bootOff=true; bootEl.classList.add('off'); alignHead();
       } else setTimeout(bootCheck,240);
     }
-    /* 開機座標漂移：一位一位咁跳（似搜索緊，同 404 同款） */
-    (function bootDrift(){
-      if(bootOff) return;
-      var el=document.getElementById('bootC');
-      if(el && !document.hidden){
-        var s=el.textContent.split(''), idxs=[];
-        for(var i=0;i<s.length;i++) if(s[i]>='0'&&s[i]<='9') idxs.push(i);
-        var take=1+((Math.random()*2)|0);
-        for(var k=0;k<take&&idxs.length;k++){
-          var p=idxs.splice((Math.random()*idxs.length)|0,1)[0];
-          s[p]=String((Math.random()*10)|0);
-        }
-        el.textContent=s.join('');
-      }
-      setTimeout(bootDrift, 60+Math.random()*120);
-    })();
     fit(); resetView();
-    fetch('macau-map.json?v=17').then(function(r){return r.json();})
-      .then(function(j){ MAP=j; resetView(); prepGlow(); needDraw=true;
+    fetch('macau-map.json?v=29').then(function(r){return r.json();})
+      .then(function(j){ MAP=j; resetView(); prepGlow(); bgDirty=true; needDraw=true;
         readyMap=true; bootCheck(); })
-      .catch(function(){ document.getElementById('bootT').textContent='SURVEY UNAVAILABLE'; });
+      .catch(function(){ document.getElementById('bootSig').textContent='survey unavailable'; });
     loadLive();
     requestAnimationFrame(frame);
     var rz; window.addEventListener('resize',function(){
