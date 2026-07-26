@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=29"/>
-  <script src="site.js?v=29" defer></script>
+  <link rel="stylesheet" href="site.css?v=34"/>
+  <script src="site.js?v=34" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -92,6 +92,23 @@
     .hud-read .eph{ font-size:8.5px; line-height:1.6; letter-spacing:.06em;
       color:rgba(231,76,60,.34); }
     .hud-read .eph i{ font-style:normal; color:rgba(231,76,60,.55); }
+    /* 月相細圓：跟 LUN ILL 一齊 */
+    .moon{ display:inline-block; vertical-align:-2px; margin-left:5px; }
+    .moon circle{ fill:none; stroke:rgba(231,76,60,.3); stroke-width:.8; }
+    .moon path{ fill:rgba(231,76,60,.72); }
+    /* 電離層剖面：F2/F1/E/D 四層，闊度＝電離程度 */
+    .iono{ font-size:8.5px; letter-spacing:.06em; color:rgba(231,76,60,.34); }
+    .io-row{ display:flex; align-items:center; justify-content:flex-end; gap:7px;
+      height:9px; }
+    .io-k{ width:16px; text-align:right; }
+    .io-b{ width:62px; height:3px; background:rgba(231,76,60,.10);
+      display:flex; justify-content:flex-end; }
+    .io-b i{ display:block; height:100%; width:0%; background:rgba(231,76,60,.6);
+      transition:width .8s ease, background .8s ease; }
+    .io-b i.absorb{ background:rgba(231,76,60,.26);
+      background-image:repeating-linear-gradient(90deg,
+        rgba(231,76,60,.62) 0 1px, transparent 1px 3px); }
+    .io-n{ margin-top:3px; font-size:8px; color:rgba(231,76,60,.44); }
 
     /* 左上：訊號來源（LIVE / 風暴名）；LIVE 用高亮 */
     .hud-head .src{ margin-top:6px; font-size:10px; letter-spacing:.18em;
@@ -153,33 +170,53 @@
     .boot{ position:fixed; inset:0; z-index:9; display:flex; align-items:center; justify-content:center;
       background:var(--ink); transition:opacity .6s ease; padding:0 var(--hk-pad-x); }
     .boot.off{ opacity:0; pointer-events:none; }
-    .boot-in{ width:100%; max-width:760px; }
-    /* 第一行：大字站名（同 menu 定位訊號同一資料源） */
-    .boot-sta{ font-family:var(--hk-font-sans); font-weight:700;
-      font-size:clamp(26px,5.2vw,52px); letter-spacing:-0.02em; line-height:1.1;
+    .boot-in{ width:100%; max-width:640px; font-family:var(--f-num); }
+    /* 撥號頻率：掃緊台 */
+    .boot-freq{ font-size:clamp(13px,1.9vh,16px); letter-spacing:.26em;
+      color:rgba(231,76,60,.55); display:flex; align-items:center; gap:10px; }
+    .bf-car{ display:inline-block; width:7px; height:7px; background:var(--amb);
+      animation:bfCar .9s steps(1,end) infinite; }
+    @keyframes bfCar{ 0%,49%{opacity:1} 50%,100%{opacity:.12} }
+    /* 站名：大字 */
+    .boot-sta{ margin-top:clamp(8px,1.6vh,16px);
+      font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(26px,5.2vw,52px); letter-spacing:-0.02em; line-height:1.08;
       color:var(--amb); }
     .boot-sta span{ font-family:var(--f-num); font-weight:400;
       font-size:clamp(15px,2.4vw,24px); letter-spacing:0; color:rgba(231,76,60,.62); }
-    /* 第二行：溫度 · 濕度 · 時間（同 menu 格式） */
-    .boot-wx{ margin-top:clamp(6px,1.2vh,12px);
-      font-family:var(--f-num); font-size:clamp(11px,1.6vh,14px);
-      letter-spacing:.04em; color:rgba(231,76,60,.7); }
-    /* 第三行：signal（裝飾） */
-    .boot-sig{ margin-top:clamp(10px,2vh,20px);
-      font-family:var(--f-num); font-size:clamp(11px,1.6vh,14px);
-      letter-spacing:.22em; color:rgba(231,76,60,.45); }
+    .boot-wx{ margin-top:clamp(5px,1vh,10px);
+      font-size:clamp(11px,1.6vh,14px); letter-spacing:.04em; color:rgba(231,76,60,.7); }
+    /* 載波強度條 */
+    .boot-bar{ margin-top:clamp(12px,2.2vh,22px); height:2px;
+      background:rgba(231,76,60,.14); overflow:hidden; }
+    .boot-bar i{ display:block; height:100%; width:0%; background:var(--amb);
+      transition:width .35s linear; }
+    .boot-st{ margin-top:clamp(8px,1.4vh,14px);
+      font-size:clamp(11px,1.6vh,14px); letter-spacing:.22em; color:rgba(231,76,60,.5); }
     .bs-dots{ display:inline-block; width:1.8em; text-align:left; }
     .bs-dots::after{ content:'.'; animation:bsDots 1.3s steps(1,end) infinite; }
     @keyframes bsDots{ 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+    /* 五位一組嘅電文 */
+    .boot-num{ margin-top:clamp(8px,1.4vh,14px); min-height:3.4em;
+      font-size:clamp(12px,1.7vh,15px); letter-spacing:.3em;
+      line-height:1.7; color:rgba(231,76,60,.72); }
 
     @media (max-width:767px){
       :root{ --panel:168px; }
       .hud-head .t{ font-size:27px; }
       /* 手機由下而上：版權 / 狀態 / 日誌 / 讀數 */
       .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 150px); right:clamp(14px,3vw,38px); }
-      /* 選單移到右上，同時鐘相對；向下展開
-         手機視覺（上→下）：STATION、staList、ARCHIVE、archList */
-      .ctl{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); bottom:auto; }
+      /* 手機：控制組搬到左邊（時鐘／座標下面），LIVE 則落去讀數欄最底 */
+      .ctl{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px) + 62px);
+        bottom:auto; left:clamp(14px,3vw,38px); right:auto;
+        align-items:flex-start; }
+      .ctl button{ text-align:left; }
+      .ctl .list{ align-items:flex-start; }
+      /* LIVE 喺讀數欄內：右對齊，貼住 LUN ILL 下面 */
+      .hud-read .src{ margin-top:7px; padding-top:6px;
+        border-top:1px solid var(--amb-hair); font-size:10px;
+        letter-spacing:.18em; color:rgba(231,76,60,.6); }
+      .hud-read .src.live{ color:#ff9d88; text-shadow:0 0 8px rgba(255,120,96,.45); }
       .ctl .list{ margin-bottom:0; margin-top:2px; }
       .ctl .list button{ transform:translateY(-7px) scaleY(.5); transform-origin:top; }
       .ctl .list button.in{ transform:none; }
@@ -200,9 +237,12 @@
   <div class="vig"></div>
   <div class="boot" id="boot">
     <div class="boot-in">
+      <div class="boot-freq"><span id="bootFreq">000.00</span> MHz<span class="bf-car" id="bootCar"></span></div>
       <div class="boot-sta">STATION<span id="bootSta">&nbsp;· ————</span></div>
       <div class="boot-wx" id="bootWx">--.-°C&nbsp;&nbsp;·&nbsp;&nbsp;--%&nbsp;&nbsp;·&nbsp;&nbsp;--:--</div>
-      <div class="boot-sig" id="bootSig">signal<span class="bs-dots"></span></div>
+      <div class="boot-bar"><i id="bootBar"></i></div>
+      <div class="boot-st" id="bootSt">&gt; TUNING<span class="bs-dots"></span></div>
+      <div class="boot-num" id="bootNum"></div>
     </div>
   </div>
 
@@ -225,6 +265,14 @@
     <div class="row"><span class="k">TID</span><span class="v" id="rTide">--</span></div>
     <div class="sep"></div>
     <div class="eph" id="ephBox"></div>
+    <div class="sep"></div>
+    <div class="iono" id="ionoBox">
+      <div class="io-row"><span class="io-k">F2</span><span class="io-b"><i id="ioF2"></i></span></div>
+      <div class="io-row"><span class="io-k">F1</span><span class="io-b"><i id="ioF1"></i></span></div>
+      <div class="io-row"><span class="io-k">E</span><span class="io-b"><i id="ioE"></i></span></div>
+      <div class="io-row"><span class="io-k">D</span><span class="io-b"><i id="ioD"></i></span></div>
+      <div class="io-n" id="ionoNote">&mdash;</div>
+    </div>
   </div>
 
   <!-- 左下直欄：日誌 / METAR / 訊號強度 / 版權（flex 排隊，保證唔重疊） -->
@@ -398,38 +446,80 @@
       }
       if(close) g.closePath();
     }
-    /* ===== 潮汐的呼吸：近岸水文線 =====
-       由海岸線逐段向海側平移，做出四條等深線。潮位決定邊一條係「水線」
-       （高潮＝水迫近陸地＝內圈亮；低潮＝退出去＝外圈亮），
-       12.42 小時一個週期，慢到你唔會即刻察覺。 */
+    /* ===== 近岸海底地形（等深線）=====
+       澳門喺珠江口，西北面係河口淺灘（幾公里都仲係 2–5 m），
+       東南面出開南海先急跌落 20–50 m。所以等深線間距按方位改變：
+       向西北拉得好闊，向東南收得好窄——呢個係真實嘅河口地形特徵。
+       ⚠️ 呢啲係按已知水深特徵建模嘅示意等深線，唔係實測海圖。
+       潮位決定邊一條係當前水線（高潮內收／低潮外露）。 */
     var TIDE_LV=0.5, tideBand=1;
+    var DEPTHS=[2,5,10,20,30,50];              /* 米 */
+    var DBASE =[0.0016,0.0034,0.0060,0.0098,0.0150,0.0230];  /* 地圖單位 */
     function ringOut(f){                     /* 依 signed area 判斷向外係邊邊 */
       var a=0;
       for(var k=0;k<f.length-2;k+=2) a+=f[k]*f[k+3]-f[k+2]*f[k+1];
       return a>0 ? 1 : -1;
     }
+    /* 方位因子：法線指向西北＝河口淺灘，拉闊；指向東南＝出南海，收窄 */
+    function shelf(nx,ny){
+      var m=(-nx*0.7071 - ny*0.7071);        /* +1 = 向西北 */
+      return 1 + m*0.62;                      /* 0.38 – 1.62 */
+    }
+    function bathyRing(g,f,off,dash){
+      var sgn=ringOut(f), first=true;
+      for(var k=0;k<f.length;k+=2){
+        var k2=(k+2)%f.length;
+        var dx=f[k2]-f[k], dy=f[k2+1]-f[k+1];
+        var L=Math.hypot(dx,dy)||1;
+        var ux=dy/L*sgn, uy=-dx/L*sgn;        /* 向海側單位法線 */
+        var d=off*shelf(ux,uy)*S;
+        var p=P((f[k]+ux*d)/S,(f[k+1]+uy*d)/S,0);
+        if(first){ g.moveTo(p[0],p[1]); first=false; } else g.lineTo(p[0],p[1]);
+      }
+    }
     function drawHydro(g){
       var C=MAP.coast; if(!C) return;
-      var OFF=[0.0016,0.0033,0.0053,0.0078];   /* 地圖單位（~1/1000 = 13m） */
-      for(var b=0;b<OFF.length;b++){
-        var isWater = (b===tideBand);
-        g.strokeStyle = isWater ? 'rgba(231,76,60,.34)' : 'rgba(231,76,60,.10)';
-        g.lineWidth = isWater ? 1 : 0.6;
+      var lowDetail = moving || TIER<2;
+      var nBands = lowDetail ? 3 : DBASE.length;
+      for(var b=0;b<nBands;b++){
+        var isWater=(b===tideBand);
+        g.save();
+        if(!isWater && b>=3) g.setLineDash([5,4]);   /* 深水等深線用虛線，似海圖 */
+        g.strokeStyle = isWater ? 'rgba(231,76,60,.5)'
+                     : 'rgba(231,76,60,'+(0.30-b*0.033).toFixed(3)+')';
+        g.lineWidth = isWater ? 1.1 : 0.75;
         g.beginPath();
         for(var i=0;i<C.length;i++){
           var f=C[i]; if(f.length<6||!inView(f)) continue;
-          var sgn=ringOut(f), d=OFF[b]*sgn*S, first=true;
-          for(var k=0;k<f.length;k+=2){
-            var k2=(k+2)%f.length;
-            var dx=f[k2]-f[k], dy=f[k2+1]-f[k+1];
-            var L=Math.hypot(dx,dy)||1;
-            var nx=(f[k]+ dy/L*d)/S, ny=(f[k+1]- dx/L*d)/S;
-            var p=P(nx,ny,0);
-            if(first){ g.moveTo(p[0],p[1]); first=false; } else g.lineTo(p[0],p[1]);
-          }
+          bathyRing(g,f,DBASE[b],b>=3);
         }
         g.stroke();
+        g.restore();
       }
+      if(lowDetail || view.s<1.35) return;
+      /* 等深線標註 + 疏落水深點（海圖語言） */
+      g.save();
+      g.font='7px "Share Tech Mono", monospace';
+      g.textAlign='center'; g.textBaseline='middle';
+      g.fillStyle='rgba(231,76,60,.42)';
+      for(var b2=0;b2<DBASE.length;b2++){
+        for(var i2=0;i2<C.length;i2++){
+          var f2=C[i2]; if(f2.length<40||!inView(f2)) continue;
+          var step=Math.max(8,(f2.length/2/6)|0)*2;
+          for(var k3=0;k3<f2.length;k3+=step*2){
+            if(hash01(i2*13+k3+b2*7)>0.25) continue;
+            var k4=(k3+2)%f2.length;
+            var dx2=f2[k4]-f2[k3], dy2=f2[k4+1]-f2[k3+1];
+            var L2=Math.hypot(dx2,dy2)||1, sg=ringOut(f2);
+            var ux2=dy2/L2*sg, uy2=-dx2/L2*sg;
+            var d2=DBASE[b2]*shelf(ux2,uy2)*S;
+            var p2=P((f2[k3]+ux2*d2)/S,(f2[k3+1]+uy2*d2)/S,0);
+            if(p2[0]<0||p2[0]>W||p2[1]<0||p2[1]>H) continue;
+            g.fillText(DEPTHS[b2], p2[0], p2[1]);
+          }
+        }
+      }
+      g.restore();
     }
 
     function drawSet(g,lines,color,wdt){
@@ -781,7 +871,6 @@
     }
     function enterZone(Z){
       activeZone=Z; loadZone();
-      tapeSpool(820);                    /* 卡式帶快轉去嗰個台 */
       /* 拉得更近、視角更貼地（pitch 1.38 ≈ 79°） */
       var s=Z.sea?6:12;
       flyTo(viewFor(Z.x,Z.y,s,1.38,view.yaw,W/2,H*0.42),1050,null);
@@ -840,9 +929,9 @@
       var areaK=Math.sqrt((W*H)/8e5);
       var tierK=TIER>=2?1:(TIER===1?0.62:0.38);
       /* 大雨／暴雨額外加成：7.6mm 以上開始加碼，暴雨最多 ×2.1 */
-      var heavy = rainMM>7.6 ? (1+Math.min(1.1,(rainMM-7.6)/26)) : 1;
-      var target=Math.min(5200, Math.round(rainMM*190*areaK*tierK*heavy));
-      if(rainMM>0 && target<160) target=Math.round(160*tierK)||120;
+      var heavy = rainMM>7.6 ? (1+Math.min(1.9,(rainMM-7.6)/16)) : 1;
+      var target=Math.min(8200, Math.round(rainMM*300*areaK*tierK*heavy));
+      if(rainMM>0 && target<240) target=Math.round(240*tierK)||180;
       while(drops.length<target) drops.push(newDrop(false));
       if(drops.length>target) drops.length=target;
     }
@@ -878,8 +967,8 @@
       for(var q2=0;q2<NB;q2++){
         var sg2=segs[q2]; if(!sg2.length) continue;
         var lr=(q2+0.5)/NB;
-        wc.strokeStyle='rgba(231,76,60,'+(0.12+0.48*Math.pow(lr,1.3)).toFixed(3)+')';
-        wc.lineWidth=(0.4+0.8*lr)*zBoost;
+        wc.strokeStyle='rgba(231,76,60,'+(0.22+0.66*Math.pow(lr,1.15)).toFixed(3)+')';
+        wc.lineWidth=(0.5+0.95*lr)*zBoost;
         wc.beginPath();
         for(var m=0;m<sg2.length;m+=4){
           wc.moveTo(sg2[m],sg2[m+1]); wc.lineTo(sg2[m+2],sg2[m+3]);
@@ -1167,43 +1256,40 @@
       return AUD.ctx;
     }
     function bedLevel(){
-      if(!AUD.on||!AUD.bedGain) return;
-      var lvl = AUD.on ? Math.min(0.055, 0.006 + rainMM*0.0022) : 0;
-      AUD.bedGain.gain.setTargetAtTime(lvl, AUD.ctx.currentTime, 0.6);
-      if(AUD.filt) AUD.filt.frequency.setTargetAtTime(900+Math.min(1800,rainMM*45), AUD.ctx.currentTime, 0.8);
+      if(!AUD.bedGain) return;
+      /* 恆定白噪音底，唔再跟雨量行 */
+      AUD.bedGain.gain.setTargetAtTime(AUD.on?0.028:0, AUD.ctx.currentTime, 0.5);
     }
-    /* 卡式帶快轉：捲軸高速轉動嘅嘶聲 + 輕微機械抖動，尾段慢落嚟 */
-    function tapeSpool(ms){
-      var ctx=audioInit(); if(!ctx||!AUD.on) return;
-      if(ctx.state==='suspended') ctx.resume();
-      var dur=(ms||900)/1000, sr=ctx.sampleRate;
-      var n=Math.floor(sr*dur), b=ctx.createBuffer(1,n,sr), d=b.getChannelData(0);
-      for(var i=0;i<n;i++){
-        var u=i/n;
-        var spin=0.55+0.45*Math.sin(u*dur*2*Math.PI*26);   /* 捲軸週期性抖動 */
-        var env=(u<0.06? u/0.06 : (u>0.72? Math.pow((1-u)/0.28,1.6) : 1));
-        d[i]=(Math.random()*2-1)*spin*env;
+    /* 超低機率嘅電台干擾：一段極短嘅掃頻／嘯叫，隔好耐先有一次 */
+    function interference(){
+      if(!AUD.on||!AUD.ctx) return;
+      var ctx=AUD.ctx, t=ctx.currentTime;
+      var kind=Math.random();
+      var g=ctx.createGain();
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(0.045,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0006,t+(kind<0.5?0.42:0.9));
+      g.connect(ctx.destination);
+      var o=ctx.createOscillator();
+      o.type = kind<0.33?'square' : (kind<0.66?'sawtooth':'sine');
+      var f0=420+Math.random()*1900;
+      o.frequency.setValueAtTime(f0,t);
+      /* 一係掃頻，一係顫音——似另一個台漏咗入嚟 */
+      if(kind<0.5) o.frequency.exponentialRampToValueAtTime(Math.max(90,f0*(0.25+Math.random())),t+0.42);
+      else {
+        var lfo=ctx.createOscillator(), lg=ctx.createGain();
+        lfo.frequency.value=5+Math.random()*11; lg.gain.value=f0*0.16;
+        lfo.connect(lg); lg.connect(o.frequency); lfo.start(t); lfo.stop(t+0.95);
       }
-      var src=ctx.createBufferSource(); src.buffer=b;
       var bp=ctx.createBiquadFilter(); bp.type='bandpass';
-      bp.frequency.setValueAtTime(3400,ctx.currentTime);
-      bp.frequency.linearRampToValueAtTime(1500,ctx.currentTime+dur);  /* 慢落嚟 */
-      bp.Q.value=0.6;
-      var g=ctx.createGain(); g.gain.value=0.16;
-      src.connect(bp); bp.connect(g); g.connect(ctx.destination);
-      src.start(); src.stop(ctx.currentTime+dur+0.05);
-      tapeClack(ctx.currentTime+dur-0.02, 0.5);            /* 停鍵彈返上 */
+      bp.frequency.value=f0; bp.Q.value=3.5;
+      o.connect(bp); bp.connect(g);
+      o.start(t); o.stop(t+1.0);
     }
-    /* 換帶：彈出 → 抽走 → 插入 → 閂門 */
-    function tapeSwap(){
-      var ctx=audioInit(); if(!ctx||!AUD.on) return;
-      if(ctx.state==='suspended') ctx.resume();
-      var t=ctx.currentTime;
-      tapeClack(t,        0.9);    /* 撳 EJECT */
-      tapeClack(t+0.30,   0.5);    /* 帶盒彈出 */
-      tapeClack(t+0.86,   0.55);   /* 新帶落格 */
-      tapeClack(t+1.02,   0.95);   /* 閂帶門 */
-    }
+    /* 每 9 秒擲一次骰，3% ——即係平均五分鐘先撞到一次 */
+    setInterval(function(){
+      if(AUD.on && !document.hidden && Math.random()<0.03) interference();
+    },9000);
 
     var btnAudio=document.getElementById('btnAudio');
     function paintAudioBtn(){
@@ -1218,9 +1304,9 @@
         audioInit();
         if(AUD.ctx&&AUD.ctx.state==='suspended') AUD.ctx.resume();
         bedLevel();
-        tapeClack();                       /* 磁帶撳落播放鍵嗰下 */
+        tapeClack(null,0.45);              /* 細聲啪嗒 */
       } else if(AUD.bedGain){
-        tapeClack();
+        tapeClack(null,0.45);
         AUD.bedGain.gain.setTargetAtTime(0,AUD.ctx.currentTime,0.25);
       }
     });
@@ -1331,7 +1417,6 @@
       b.addEventListener('click',function(){
         [].forEach.call(archList.querySelectorAll('button'),function(x){x.classList.remove('on');});
         b.classList.add('on');
-        tapeSwap();                        /* 換一盒帶 */
         if(b.dataset.d==='live') loadLive();
         else loadStorm(b.dataset.d,b.dataset.label.trim());
       });
@@ -1383,13 +1468,62 @@
     },60000);
 
     /* 星曆：每秒更新，顯示喺讀數欄 TID 下面（精簡四行） */
+    /* 月相：兩條圓弧砌出受光部分（新月→空，滿月→全圓） */
+    function moonSVG(p,R){
+      var k=Math.cos(2*Math.PI*p);          /* +1 新月，-1 滿月 */
+      var rx=(R*Math.abs(k)).toFixed(2);
+      var so=(p<0.5)?1:0;                   /* 上弦亮右邊（北半球） */
+      var si=(k>0)?so:(1-so);
+      var d='M0,'+(-R)+' A'+R+','+R+' 0 0 '+so+' 0,'+R+
+            ' A'+rx+','+R+' 0 0 '+si+' 0,'+(-R)+'Z';
+      return '<svg class="moon" width="'+(R*2+2)+'" height="'+(R*2+2)+
+             '" viewBox="'+(-R-1)+' '+(-R-1)+' '+(R*2+2)+' '+(R*2+2)+'">'+
+             '<circle cx="0" cy="0" r="'+R+'"/><path d="'+d+'"/></svg>';
+    }
+
+    /* 電離層剖面：短波靠佢反射。日間 D 層吸收，夜間 D 消失、F1 併入 F2。
+       全部由太陽高度角推導（星曆已經計緊）。 */
+    function paintIono(){
+      if(!EPH) return;
+      var alt=0;
+      for(var i=0;i<EPH.length;i++) if(EPH[i][0]==='SOL ALT') alt=parseFloat(EPH[i][1]);
+      var s=Math.sin(Math.max(0,alt)*Math.PI/180);      /* 日照因子 0–1 */
+      var day=alt>0;
+      var f2 = day ? 0.62+0.38*s : 0.42+0.10*Math.max(0,(alt+18)/18);
+      var f1 = day ? 0.25+0.65*s : 0;                   /* 夜間併入 F2 */
+      var e  = day ? 0.18+0.62*s : 0.08;
+      var d  = day ? 0.10+0.90*s : 0;                   /* 夜間完全消失 */
+      function bar(id,v,absorb){
+        var el=document.getElementById(id); if(!el) return;
+        el.style.width=Math.round(Math.max(0,Math.min(1,v))*100)+'%';
+        el.classList.toggle('absorb',!!absorb);
+      }
+      bar('ioF2',f2); bar('ioF1',f1); bar('ioE',e); bar('ioD',d,true);
+      /* MUF 粗略估算：日間高、夜間低 */
+      var muf=(day? 14+16*s : 6+3*Math.max(0,(alt+18)/18));
+      var note = !day ? 'D GONE · DX OPEN · MUF '+muf.toFixed(1)
+               : (d>0.6 ? 'D ABSORBING · MUF '+muf.toFixed(1)
+                        : 'GREY LINE · MUF '+muf.toFixed(1));
+      document.getElementById('ionoNote').textContent=note;
+    }
+
     function paintEph(force){
       if(document.hidden && !force) return;
       EPH=computeEph(Date.now());
       var pick=['JD','LST','SOL ALT','LUN ILL'], out=[];
-      for(var i=0;i<EPH.length;i++)
-        if(pick.indexOf(EPH[i][0])>=0) out.push(EPH[i][0]+' <i>'+EPH[i][1]+'</i>');
+      for(var i=0;i<EPH.length;i++){
+        if(pick.indexOf(EPH[i][0])<0) continue;
+        var row=EPH[i][0]+' <i>'+EPH[i][1]+'</i>';
+        if(EPH[i][0]==='LUN ILL'){
+          var ph=0;
+          for(var j=0;j<EPH.length;j++)
+            if(EPH[j][0]==='LUN PH') ph=parseFloat(EPH[j][1])/100;
+          row += moonSVG(ph,5);
+        }
+        out.push(row);
+      }
       document.getElementById('ephBox').innerHTML=out.join('<br>');
+      paintIono();
     }
     setInterval(paintEph,1000); paintEph(true);
 
@@ -1411,11 +1545,25 @@
         n<=9 ? ('S'+n) : ('S9+'+((n-9)*4));
     }
 
+    /* 手機／桌面版面互換：LIVE 喺手機落去讀數欄最底（LUN ILL 下面） */
+    var mqMob=window.matchMedia('(max-width:767px)');
+    function relayoutSrc(){
+      var src=document.getElementById('hFoot');
+      var read=document.querySelector('.hud-read');
+      var head=document.querySelector('.hud-head');
+      if(!src||!read||!head) return;
+      var want = mqMob.matches ? read : head;
+      if(src.parentNode!==want) want.appendChild(src);
+    }
+    if(mqMob.addEventListener) mqMob.addEventListener('change',relayoutSrc);
+    else if(mqMob.addListener) mqMob.addListener(relayoutSrc);
+    relayoutSrc();
+
     /* 潮汐呼吸：每 20 秒睇一次潮位，水線換咗圈先重畫城市 */
     function tideBreath(){
       var lv=tideAt(Date.now());                 /* 0.3 – 2.6 m 左右 */
       TIDE_LV=Math.max(0,Math.min(1,(lv-0.35)/2.1));
-      var b=3-Math.round(TIDE_LV*3);             /* 高潮→內圈(0)，低潮→外圈(3) */
+      var b=2-Math.round(TIDE_LV*2);             /* 高潮→最內圈(0)，低潮→退到 2 */
       if(b!==tideBand){ tideBand=b; bgDirty=true; needDraw=true; }
     }
     setInterval(tideBreath,20000); tideBreath();
@@ -1426,6 +1574,41 @@
     /* ===== 開機：地圖 + 首次天氣讀數 + 最少 1.6s ===== */
     var bootEl=document.getElementById('boot');
     var bootT0=performance.now(), readyMap=false, readyWx=false, bootOff=false;
+
+    /* 撥號／通訊序列：掃頻 → 收到載波 → 同步 → 收電文 */
+    (function bootSeq(){
+      var fEl=document.getElementById('bootFreq'), barEl=document.getElementById('bootBar'),
+          stEl=document.getElementById('bootSt'), numEl=document.getElementById('bootNum');
+      if(!fEl) return;
+      var TARGET=100.7;                 /* 澳門電台 FM 100.70 —— 真實頻率 */
+      var t0=performance.now(), phase=0, groups=[];
+      function grp(){ var g=''; for(var i=0;i<5;i++) g+=((Math.random()*10)|0); return g; }
+      (function step(){
+        if(bootOff) return;
+        var el=(performance.now()-t0)/1000;
+        if(phase===0){                                  /* 掃頻 */
+          var u=Math.min(1,el/1.5);
+          var f=88 + (TARGET-88)*u*u + (1-u)*(Math.random()-0.5)*7;
+          fEl.textContent=f.toFixed(2);
+          barEl.style.width=Math.round(u*38)+'%';
+          if(u>=1){ phase=1; fEl.textContent=TARGET.toFixed(2);
+            stEl.innerHTML='&gt; CARRIER DETECTED'; }
+        } else if(phase===1){                           /* 鎖定 */
+          barEl.style.width='62%';
+          if(el>2.1){ phase=2; stEl.innerHTML='&gt; SYNC<span class="bs-dots"></span>'; }
+        } else if(phase===2){                           /* 同步 */
+          barEl.style.width='84%';
+          if(el>2.9){ phase=3; stEl.innerHTML='&gt; RECEIVING'; }
+        } else {                                        /* 收電文 */
+          barEl.style.width='100%';
+          if(groups.length<12 && Math.random()<0.55){
+            groups.push(grp());
+            numEl.textContent=groups.join('  ');
+          }
+        }
+        setTimeout(step, 110);
+      })();
+    })();
 
     /* 開機畫面嘅站名／天氣：同 menu 定位訊號共用 sessionStorage('hk_loc')，
        所以唔會為咗開機畫面而多打一次 API。攞唔到就用 Dome Fuji（同 menu 一致）。 */
@@ -1473,16 +1656,15 @@
     })();
     function bootCheck(){
       if(bootOff) return;
-      if(readyMap&&!readyWx) document.getElementById('bootSig').innerHTML='calibrating rainfall<span class="bs-dots"></span>';
-      if(readyMap&&readyWx&&performance.now()-bootT0>1600){
+      if(readyMap&&readyWx&&performance.now()-bootT0>3800){
         bootOff=true; bootEl.classList.add('off'); alignHead();
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch('macau-map.json?v=29').then(function(r){return r.json();})
+    fetch('macau-map.json?v=34').then(function(r){return r.json();})
       .then(function(j){ MAP=j; resetView(); prepGlow(); bgDirty=true; needDraw=true;
         readyMap=true; bootCheck(); })
-      .catch(function(){ document.getElementById('bootSig').textContent='survey unavailable'; });
+      .catch(function(){ document.getElementById('bootSt').textContent='> SURVEY UNAVAILABLE'; });
     loadLive();
     requestAnimationFrame(frame);
     var rz; window.addEventListener('resize',function(){

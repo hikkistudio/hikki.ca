@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=29"/>
-  <script src="site.js?v=29" defer></script>
-  <script src="bg-frege.js?v=29" defer></script>
+  <link rel="stylesheet" href="site.css?v=34"/>
+  <script src="site.js?v=34" defer></script>
+  <script src="bg-frege.js?v=34" defer></script>
 
   <style>
     :root {
@@ -39,10 +39,11 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      height: 100%;
+      min-height: 100%;
       background: #000; color: var(--ivory);
-      overflow: hidden;
-      overscroll-behavior: none;
+      overflow-x: hidden; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
       touch-action: manipulation;
       -webkit-text-size-adjust: 100%;
     }
@@ -61,13 +62,13 @@
     /* ===== 版面：單屏 ===== */
     main {
       position: relative; z-index: 1;
-      height: 100vh; height: 100dvh;
+      min-height: 100vh; min-height: 100dvh;
       padding: calc(var(--hk-bar-h) + 24px) clamp(20px, 4vw, 60px) 24px;
     }
     .layout {
       display: grid; grid-template-columns: 320px 1fr;
       gap: clamp(24px, 4vw, 56px);
-      height: 100%; align-items: center;
+      min-height: calc(100dvh - var(--hk-bar-h) - 48px); align-items: center;
     }
 
     /* ===== 數字鍵盤 ===== */
@@ -118,9 +119,8 @@
 
     /* ===== 右：舞台 ===== */
     .stage {
-      position: relative; height: 100%; min-width: 0;
+      position: relative; min-height: 100%; min-width: 0;
       display: flex; flex-direction: column; justify-content: center;
-      overflow: hidden;
     }
 
     .intro {
@@ -146,7 +146,7 @@
 
     /* 統一版權標示（左下角，跟 main 嘅橫向 padding） */
     .site-copy {
-      position: absolute; left: clamp(20px, 4vw, 60px); bottom: 16px;
+      margin-top: 24px; left: clamp(20px, 4vw, 60px);
       font-family: var(--font-mono); font-size: 11px; letter-spacing: -0.005em;
       color: rgba(244,242,240,.5); pointer-events: none;
     }
