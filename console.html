@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
+  <title>console | hikki photography</title>
+  <meta name="robots" content="noindex"/>
+  <meta name="theme-color" content="#0b0705"/>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="site.css?v=63"/>
+  <script src="site.js?v=63" defer></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      --ink:#0b0705; --amb:#e74c3c;
+      --f-num:'Share Tech Mono',"Courier New",monospace;
+    }
+    html,body{ height:100%; background:var(--ink); color:var(--amb);
+      overflow:hidden; -webkit-text-size-adjust:100%; }
+    body{ font-family:var(--f-num); }
+
+    .hk-bar{ background:rgba(11,7,5,.34) !important;
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+      color:var(--amb) !important; }
+    .hk-bar .hk-rotator,.hk-bar .hk-menu-btn,.hk-bar .hk-logo{ color:var(--amb) !important; }
+    .hk-bar .hk-logo .hk-sq{ background:var(--amb) !important; }
+    .hk-menu{ background:rgba(11,7,5,.93) !important; color:var(--amb) !important; }
+    .hk-menu-list li{ border-bottom-color:rgba(231,76,60,.26) !important; }
+    .hk-menu-list a,.hk-menu-list button{ color:var(--amb) !important; }
+    .hk-menu-contact li,.hk-menu-contact a{ color:rgba(231,76,60,.78) !important; }
+    .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
+    .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
+    .hk-menu-copy{ color:rgba(231,76,60,.66) !important; border-top-color:rgba(231,76,60,.26) !important; }
+
+    .grain{ position:fixed; inset:0; z-index:3; pointer-events:none;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,.13) 0 1px, transparent 1px 3px);
+      mix-blend-mode:multiply; }
+    .vig{ position:fixed; inset:0; z-index:3; pointer-events:none;
+      background:radial-gradient(120% 90% at 50% 42%, transparent 50%, rgba(11,7,5,.55) 100%); }
+
+    .wrap{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      padding:calc(var(--hk-bar-h) + 10px) clamp(12px,3vw,32px) 46px; z-index:2; }
+    .rack{ width:100%; max-width:760px; }
+    svg{ width:100%; height:auto; display:block; overflow:visible; }
+
+    .ln{ fill:none; stroke:var(--amb); stroke-width:1.1; }
+    .ln.dim{ stroke:rgba(231,76,60,.5); }
+    .ln.hair{ stroke:rgba(231,76,60,.3); }
+    .bev-l{ stroke:rgba(255,160,132,.6); stroke-width:1; fill:none; }
+    .bev-d{ stroke:rgba(110,28,20,.95); stroke-width:1.3; fill:none; }
+
+    .tx{ fill:rgba(231,76,60,.92); font-family:var(--f-num); font-size:9px; letter-spacing:.2em; }
+    .tx.k{ fill:rgba(231,76,60,.7); font-size:7.5px; letter-spacing:.16em; }
+    .tx.on-glass{ fill:rgba(90,18,12,.9); }
+
+    /* 玻璃面：靠漸變＋高光扮發光燈箱；指針喺玻璃底下有柔光 */
+    .needle{ stroke:#4a0f0a; stroke-width:1.6; stroke-linecap:round;
+      transition:transform .55s cubic-bezier(.3,1.5,.45,1); }
+    .needle-glow{ stroke:rgba(255,180,150,.55); stroke-width:3.4; stroke-linecap:round;
+      transition:transform .55s cubic-bezier(.3,1.5,.45,1); }
+
+    .lampw .lw-fill{ opacity:0; transition:opacity .3s; }
+    .lampw.on .lw-fill{ opacity:1; }
+    .lampw.on{ filter:drop-shadow(0 0 8px rgba(255,120,96,.75)); }
+    /* 燈絲唔會全靜：兩顆燈各有自己嘅抖動節奏 */
+    #lampRain.on .lw-fill{ animation:filA 4.3s linear infinite; }
+    #lampLink.on .lw-fill{ animation:filB 6.7s linear infinite; }
+    @keyframes filA{
+      0%,88%{opacity:1} 89%{opacity:.42} 90%{opacity:1}
+      93%{opacity:.68} 94%{opacity:1} 100%{opacity:1} }
+    @keyframes filB{
+      0%,71%{opacity:1} 72%{opacity:.55} 73.5%{opacity:1}
+      95%{opacity:1} 96%{opacity:.38} 97%{opacity:1} 100%{opacity:1} }
+
+    /* 旋鈕：一嚿實心紅橙金屬圓柱，面上只有一條刻入嘅指針。
+       所有刻度／數字都喺圓柱外面嘅底座上。 */
+    .knob{ cursor:pointer; }
+    .kb-body{ fill:var(--ink); stroke:var(--amb); stroke-width:1.6; }
+    .kb-ptr{ stroke:var(--amb); stroke-width:1.6; stroke-linecap:round; }
+    .kb-rot{ transition:transform .5s cubic-bezier(.34,1.5,.5,1); }
+    .knob:hover .kb-body, .knob:hover .kb-ptr{ stroke:#ff9d88; }
+    /* 底座刻度 */
+    .tk-maj{ stroke:rgba(231,76,60,.9); stroke-width:1.8; stroke-linecap:round; }
+    .tk-min{ stroke:rgba(231,76,60,.55); stroke-width:1.2; stroke-linecap:round; }
+    .dialnum{ fill:rgba(231,76,60,.85); font-size:8px; letter-spacing:0; }
+
+    .city-lbl{ cursor:pointer; }
+    .city-lbl .tx{ transition:fill .2s; }
+    .city-lbl:hover .tx{ fill:#ff9d88; }
+    .city-lbl.sel .tx{ fill:#ffb3a2; }
+    .sel-dot{ fill:#ff8a72; filter:drop-shadow(0 0 5px rgba(255,120,96,.95)); }
+
+    .foot{ position:fixed; left:clamp(14px,3vw,38px); bottom:12px; z-index:4;
+      font-size:10px; letter-spacing:.16em; color:rgba(231,76,60,.72); }
+    .foot b{ font-weight:400; color:#ffb3a2; }
+    .hint{ position:fixed; right:clamp(14px,3vw,38px); bottom:12px; z-index:4;
+      font-size:10px; letter-spacing:.16em; color:rgba(231,76,60,.55); }
+    @media (max-width:767px){
+      .hint{ display:none; }
+      .rack{ display:flex; justify-content:center; height:100%; }
+      svg{ width:auto; height:100%; max-width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grain"></div><div class="vig"></div>
+
+  <div class="wrap"><div class="rack">
+  <svg id="rig" viewBox="0 0 760 470" preserveAspectRatio="xMidYMid meet"
+       role="img" aria-label="station tuning console">
+    <defs>
+      <!-- 玻璃燈箱：暖光由底部中心向外散 -->
+      <radialGradient id="glass" cx="50%" cy="86%" r="86%">
+        <stop offset="0%"   stop-color="#ffd9c8" stop-opacity="0.97"/>
+        <stop offset="42%"  stop-color="#ff9f84" stop-opacity="0.88"/>
+        <stop offset="78%"  stop-color="#e0603f" stop-opacity="0.72"/>
+        <stop offset="100%" stop-color="#7d2013" stop-opacity="0.62"/>
+      </radialGradient>
+      <!-- 玻璃頂部斜反光 -->
+      <linearGradient id="sheen" x1="0" y1="0" x2="0.35" y2="1">
+        <stop offset="0%"   stop-color="#fff" stop-opacity="0.5"/>
+        <stop offset="46%"  stop-color="#fff" stop-opacity="0.10"/>
+        <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="glassOff" cx="50%" cy="86%" r="86%">
+        <stop offset="0%"   stop-color="#3a1109" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#160604" stop-opacity="0.95"/>
+      </radialGradient>
+      <linearGradient id="lw" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffd0bd"/>
+        <stop offset="100%" stop-color="#e05c3c"/>
+      </linearGradient>
+      <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur stdDeviation="5"/>
+      </filter>
+    </defs>
+
+    <g id="frame"></g>
+    <g id="meters"></g>
+    <g id="lamps"></g>
+    <g id="knobs"></g>
+  </svg>
+  </div></div>
+
+  <p class="foot">BAND <b id="fCity">—</b> · <span id="fState">STANDBY</span></p>
+  <p class="hint">turn the dials</p>
+
+<script>
+(function(){
+  var CITIES=[
+    { key:'vancouver', label:'VANCOUVER',  lat:49.2819, lon:-123.1190, ready:false, freq:'08.410' },
+    { key:'victoria',  label:'VICTORIA',   lat:48.4284, lon:-123.3656, ready:true,  freq:'11.175' },
+    { key:'hongkong',  label:'HONG KONG',  lat:22.3193, lon:114.1694,  ready:false, freq:'13.920' },
+    { key:'macau',     label:'MACAU',      lat:22.1930, lon:113.5490,  ready:true,  freq:'16.804' }
+  ];
+  var sel=1, armed=false, busy=false;
+  var $=function(id){ return document.getElementById(id); };
+  var SER=(function(){ var s=''; for(var i=0;i<6;i++) s+=((Math.random()*10)|0); return s; })();
+  var HASH=(function(){ var h=''; for(var j=0;j<16;j++) h+='0123456789ABCDEF'[(Math.random()*16)|0];
+    return h.replace(/(.{4})/g,'$1 ').trim(); })();
+
+  /* ───────── 機殼 ───────── */
+  function frame(W,H){
+    var g='';
+    g+='<rect class="bev-d" x="3" y="3" width="'+(W-6)+'" height="'+(H-6)+'" rx="5"/>';
+    g+='<rect class="ln"    x="6" y="6" width="'+(W-12)+'" height="'+(H-12)+'" rx="4"/>';
+    g+='<rect class="bev-l" x="9" y="9" width="'+(W-18)+'" height="'+(H-18)+'" rx="4"/>';
+    [[26,26],[W-26,26],[26,H-26],[W-26,H-26]].forEach(function(p){
+      g+='<g class="ln hair"><circle cx="'+p[0]+'" cy="'+p[1]+'" r="4.5"/>'+
+         '<line x1="'+(p[0]-3.2)+'" y1="'+(p[1]-3.2)+'" x2="'+(p[0]+3.2)+'" y2="'+(p[1]+3.2)+'"/></g>';
+    });
+    return g;
+  }
+
+  /* ───────── 玻璃指針錶 ───────── */
+  function meter(x,y,w,h,label,sub){
+    var cx=w/2, cy=h-14, R=Math.min(w*0.40, h*0.72);
+    var g='<g transform="translate('+x+','+y+')">';
+    g+='<rect class="bev-d" x="-4" y="-4" width="'+(w+8)+'" height="'+(h+8)+'" rx="3"/>';
+    g+='<rect class="ln dim" x="-2" y="-2" width="'+(w+4)+'" height="'+(h+4)+'" rx="2"/>';
+    g+='<rect id="gl_'+label+'" x="0" y="0" width="'+w+'" height="'+h+'" rx="2" fill="url(#glass)"/>';
+    var d='';
+    for(var i=0;i<=20;i++){
+      var a=(-158+i*7.9)*Math.PI/180;
+      var r2=(i%5===0)?R-13:R-7;
+      d+='M'+(cx+Math.cos(a)*R).toFixed(1)+','+(cy+Math.sin(a)*R).toFixed(1)+
+         'L'+(cx+Math.cos(a)*r2).toFixed(1)+','+(cy+Math.sin(a)*r2).toFixed(1);
+    }
+    g+='<path d="'+d+'" stroke="rgba(74,15,10,.75)" stroke-width="1" fill="none"/>';
+    var a0=-158*Math.PI/180, a1=-22*Math.PI/180;
+    g+='<path d="M'+(cx+Math.cos(a0)*R).toFixed(1)+','+(cy+Math.sin(a0)*R).toFixed(1)+
+       'A'+R+','+R+' 0 0 1 '+(cx+Math.cos(a1)*R).toFixed(1)+','+(cy+Math.sin(a1)*R).toFixed(1)+
+       '" stroke="rgba(74,15,10,.6)" stroke-width="1" fill="none"/>';
+    var ar0=-50*Math.PI/180, RR=R-3;
+    g+='<path d="M'+(cx+Math.cos(ar0)*RR).toFixed(1)+','+(cy+Math.sin(ar0)*RR).toFixed(1)+
+       'A'+RR+','+RR+' 0 0 1 '+(cx+Math.cos(a1)*RR).toFixed(1)+','+(cy+Math.sin(a1)*RR).toFixed(1)+
+       '" stroke="#8e1c0c" stroke-width="2.6" fill="none"/>';
+    g+='<text class="tx k on-glass" x="'+(cx-R+2)+'" y="'+(cy-2)+'">0</text>';
+    g+='<text class="tx k on-glass" x="'+cx+'" y="'+(cy-R+4)+'" text-anchor="middle">50</text>';
+    g+='<text class="tx k on-glass" x="'+(cx+R-16)+'" y="'+(cy-2)+'">100</text>';
+    g+='<text class="tx k on-glass" x="10" y="16">'+sub+'</text>';
+    g+='<g transform="translate('+cx+','+cy+')">'+
+       '<line class="needle-glow" id="ng_'+label+'" x1="0" y1="4" x2="0" y2="-'+(R-12)+'" transform="rotate(-70)" filter="url(#soft)"/>'+
+       '<line class="needle" id="n_'+label+'" x1="0" y1="6" x2="0" y2="-'+(R-12)+'" transform="rotate(-70)"/>'+
+       '</g>';
+    g+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="#5c1109"/>';
+    g+='<rect x="0" y="0" width="'+w+'" height="'+(h*0.52)+'" rx="2" fill="url(#sheen)" pointer-events="none"/>';
+    g+='<text class="tx" x="'+cx+'" y="'+(h+20)+'" text-anchor="middle">'+label+'</text>';
+    g+='</g>';
+    return g;
+  }
+  function setNeedle(id,v){
+    var a=(-70+v*140).toFixed(1);
+    var n=$('n_'+id), ng=$('ng_'+id);
+    if(n) n.setAttribute('transform','rotate('+a+')');
+    if(ng) ng.setAttribute('transform','rotate('+a+')');
+  }
+  function setGlass(on){
+    ['SIGNAL','CARRIER'].forEach(function(k){
+      var el=$('gl_'+k);
+      if(el) el.setAttribute('fill', on? 'url(#glass)' : 'url(#glassOff)');
+    });
+  }
+
+  /* ───────── 側窗燈 ───────── */
+  function lampWin(x,y,w,h,id,label){
+    return '<g class="lampw" id="'+id+'" transform="translate('+x+','+y+')">'+
+      '<rect class="bev-d" x="-3" y="-3" width="'+(w+6)+'" height="'+(h+6)+'" rx="2"/>'+
+      '<rect class="ln dim" x="0" y="0" width="'+w+'" height="'+h+'" rx="1.5" fill="rgba(60,14,9,.85)"/>'+
+      '<rect class="lw-fill" x="1.5" y="1.5" width="'+(w-3)+'" height="'+(h-3)+'" rx="1" fill="url(#lw)"/>'+
+      '<text class="tx k" x="'+(w/2)+'" y="'+(h+14)+'" text-anchor="middle">'+label+'</text></g>';
+  }
+
+  /* ───────── 旋鈕 ─────────
+     真實機械旋鈕嘅構造：旋鈕本身係一嚿實心金屬圓柱，面上只有一條刻入嘅指針。
+     所有刻度同數字都印喺圓柱外面嘅底座上，唔會印喺圓柱身上。 */
+  function dial(x,y,r,id,label,spec){
+    /* spec: {a0,a1,n,labelEvery,labels[]} —— a0/a1 度數，0°=12點，順時針為正 */
+    var g='<g class="knob" id="'+id+'" transform="translate('+x+','+y+')">';
+    /* ── 底座刻度（喺圓柱外面）── */
+    var R0=r+9, ticks='';
+    for(var i=0;i<spec.n;i++){
+      var t=i/(spec.n-1), ang=(spec.a0+(spec.a1-spec.a0)*t), rad=(ang-90)*Math.PI/180;
+      var major=(i%spec.labelEvery===0);
+      var len=major?11:6;
+      ticks+='<line x1="'+(Math.cos(rad)*R0).toFixed(1)+'" y1="'+(Math.sin(rad)*R0).toFixed(1)+
+             '" x2="'+(Math.cos(rad)*(R0+len)).toFixed(1)+'" y2="'+(Math.sin(rad)*(R0+len)).toFixed(1)+
+             '" class="'+(major?'tk-maj':'tk-min')+'"/>';
+      if(major && spec.labels){
+        var li=i/spec.labelEvery;
+        if(spec.labels[li]!=null){
+          var lr=R0+22;
+          ticks+='<text class="tx k dialnum" x="'+(Math.cos(rad)*lr).toFixed(1)+
+                 '" y="'+(Math.sin(rad)*lr+3).toFixed(1)+'" text-anchor="middle">'+spec.labels[li]+'</text>';
+        }
+      }
+    }
+    g+='<g class="dial-scale">'+ticks+'</g>';
+    /* 圓柱：一個紅色線圈 + 一條指針。冇光影、冇分色。 */
+    g+='<circle class="kb-body" cx="0" cy="0" r="'+r.toFixed(1)+'"/>';
+    g+='<g class="kb-rot" id="'+id+'Rot">'+
+       '<line class="kb-ptr" x1="0" y1="0" x2="0" y2="'+(-r+6).toFixed(1)+'"/></g>';
+    g+='<text class="tx" x="0" y="'+(r+44)+'" text-anchor="middle">'+label+'</text>';
+    g+='</g>';
+    return g;
+  }
+  /* BAND：底座刻 1–9；四個台停喺 2 / 4 / 6 / 8 */
+  var BAND_SPEC={ a0:-60, a1:60, n:9, labelEvery:2, labels:['1','3','5','7','9'] };
+  function bandAngle(i){ return BAND_SPEC.a0 + (BAND_SPEC.a1-BAND_SPEC.a0)*((1+2*i)/8); }
+  /* TRANSMIT：0 喺 11 點（-30°），2 喺 3 點（+90°） */
+  var TX_SPEC={ a0:-30, a1:90, n:9, labelEvery:4, labels:['0','1','2'] };
+  var TX_OFF=-30, TX_ON=90;
+
+  function crackLater(el){
+    if(!el) return;
+    var tries=0;
+    (function go(){
+      var C=window.HikkiCrack;
+      if(C){ C.startOn(C.collect(el),{budgetMs:1100}); return; }
+      if(++tries<40) setTimeout(go,50);      /* site.js 係 defer，等佢備妥 */
+    })();
+  }
+
+  /* ───────── 版面：桌面兩錶兩鈕／手機只留兩鈕 ───────── */
+  var mqP=window.matchMedia('(max-width:767px)');
+  function layout(){
+    var svg=$('rig'), P=mqP.matches;
+    var W = P?420:760, H = P?620:470;
+    svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    $('frame').innerHTML=frame(W,H);
+
+    if(P){
+      /* 手機：一個錶頂住氣氛，主角係兩個旋鈕 */
+      $('meters').innerHTML = meter(70,64,280,126,'SIGNAL','REC CH I');
+      $('lamps').innerHTML  = lampWin(70,226,128,24,'lampRain','PRECIP')
+                            + lampWin(222,226,128,24,'lampLink','LINK');
+      $('knobs').innerHTML  = dial(122,398,50,'knobBand','BAND',BAND_SPEC)
+                            + dial(298,398,50,'knobTx','TRANSMIT',TX_SPEC)
+                            + '<g id="cityLbls"></g>';
+    } else {
+      $('meters').innerHTML = meter(96,70,250,130,'SIGNAL','REC CH I')
+                            + meter(414,70,250,130,'CARRIER','REC CH II');
+      $('lamps').innerHTML  = lampWin(40,104,34,62,'lampRain','PRECIP')
+                            + lampWin(686,104,34,62,'lampLink','LINK');
+      $('knobs').innerHTML  = dial(206,336,54,'knobBand','BAND',BAND_SPEC)
+                            + dial(554,336,54,'knobTx','TRANSMIT',TX_SPEC)
+                            + '<g id="cityLbls"></g>';
+    }
+    /* RECORD 分隔線（同附圖一樣，喺錶同旋鈕之間） */
+    var midY = P?286:256, L = P?70:96, R2 = P?350:664;
+    $('knobs').insertAdjacentHTML('afterbegin',
+      '<line class="ln hair" x1="'+L+'" y1="'+midY+'" x2="'+(W/2-44)+'" y2="'+midY+'"/>'+
+      '<line class="ln hair" x1="'+(W/2+44)+'" y1="'+midY+'" x2="'+R2+'" y2="'+midY+'"/>'+
+      '<text class="tx" x="'+(W/2)+'" y="'+(midY+4)+'" text-anchor="middle">RECORD</text>');
+    wireKnobs(P);
+    setTx(TX_OFF);            /* 開機一定喺 0 位 */
+    pick(sel);
+  }
+  if(mqP.addEventListener) mqP.addEventListener('change',layout);
+  else if(mqP.addListener) mqP.addListener(layout);
+
+  /* ───────── 選台 ───────── */
+  function pick(i){
+    if(busy) return;
+    sel=i;
+    var c=CITIES[i];
+    var rot=$('knobBandRot'); if(rot) rot.setAttribute('transform','rotate('+bandAngle(i).toFixed(1)+')');
+    [].forEach.call(document.querySelectorAll('.city-lbl'),function(el,k){
+      el.classList.toggle('sel',k===i);
+      var d=el.querySelector('.sel-dot'); if(d) d.setAttribute('opacity',k===i?'1':'0');
+    });
+    $('fCity').textContent=c.label+' · '+c.freq+' MHz';
+    var live=c.ready;
+    setGlass(live);
+    setNeedle('SIGNAL', live? 0.66 : 0.02);
+    setNeedle('CARRIER',live? 0.58 : 0.02);
+    var ll=$('lampLink'); if(ll) ll.classList.toggle('on',live);
+    var lr=$('lampRain'); if(lr) lr.classList.remove('on');
+    $('fState').textContent = live? 'connected' : 'connecting…';
+    armed = live;
+    var kt=$('knobTx'); if(kt) kt.classList.toggle('hot',live);
+    if(live) poll(c);
+  }
+  function poll(c){
+    fetch('https://api.open-meteo.com/v1/forecast?latitude='+c.lat+'&longitude='+c.lon+'&current=precipitation')
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if(CITIES[sel].key!==c.key) return;
+        var mm=(d&&d.current&&d.current.precipitation)||0;
+        var lr=$('lampRain'); if(lr) lr.classList.toggle('on', mm>0.05);
+      })
+      .catch(function(){});
+  }
+
+  /* ───────── 互動 ───────── */
+  function wireKnobs(P){
+    var kb=$('knobBand'); if(kb) kb.addEventListener('click',function(){ pick((sel+1)%CITIES.length); });
+    var kt=$('knobTx');   if(kt) kt.addEventListener('click',fire);
+    if(!P){
+      var g='';
+      CITIES.forEach(function(c,i){
+        g+='<g class="city-lbl" data-i="'+i+'" transform="translate(330,'+(316+i*28)+')">'+
+           '<circle class="ln dim" cx="0" cy="-4" r="4.5"/>'+
+           '<circle class="sel-dot" cx="0" cy="-4" r="2.4" opacity="0"/>'+
+           '<text class="tx k" x="13" y="0">'+c.label+'</text></g>';
+      });
+      var cl=$('cityLbls'); if(cl) cl.innerHTML=g;
+      [].forEach.call(document.querySelectorAll('.city-lbl'),function(el){
+        el.addEventListener('click',function(){ pick(+el.dataset.i); });
+      });
+      /* 地名每次畫出嚟都解碼一次。
+         site.js 係 defer，會喺呢個 inline script 之後先行，
+         所以 HikkiCrack 可能未備妥 → 等到 DOMContentLoaded 先行。 */
+      crackLater(cl);
+    }
+  }
+  function setTx(a){ var r=$('knobTxRot'); if(r) r.setAttribute('transform','rotate('+a+')'); }
+  function fire(){
+    if(busy) return;
+    var c=CITIES[sel];
+    if(!armed){                                   /* 冇載波：旋鈕彈返 OFF */
+        setTx(TX_OFF+22);
+      setTimeout(function(){ setTx(TX_OFF); },300);
+      $('fState').textContent='interlock — connecting…';
+      return;
+    }
+    busy=true;
+    setTx(TX_ON);
+    $('fState').textContent='transmitting…';
+    setNeedle('SIGNAL',1); setNeedle('CARRIER',1);
+    setTimeout(function(){
+      document.body.style.transition='opacity .45s ease';
+      document.body.style.opacity='0';
+      setTimeout(function(){ location.href='rainfall.html?city='+c.key; },430);
+    },640);
+  }
+
+  function wobble(id, base, amp, period){
+    (function tick(){
+      if(!document.hidden && !busy){
+        var live=CITIES[sel].ready;
+        setNeedle(id, live ? base + (Math.random()-0.5)*amp*2
+                           : 0.018 + Math.random()*0.012);
+      }
+      setTimeout(tick, period*(0.72+Math.random()*0.56));
+    })();
+  }
+
+  window.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); pick((sel+1)%CITIES.length); }
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); pick((sel+CITIES.length-1)%CITIES.length); }
+    if(e.key==='Enter'){ e.preventDefault(); fire(); }
+  });
+
+  (function init(){
+    var q=(location.search.match(/[?&]city=([a-z]+)/i)||[])[1];
+    var i=1;
+    if(q) CITIES.forEach(function(c,k){ if(c.key===q.toLowerCase()) i=k; });
+    sel=i;
+    layout();
+    /* 兩支針獨立行走：唔共用計時器、週期唔同、幅度細（同一頻道下唔會亂舞），
+       但保留 CSS 嗰下輕微後搖。 */
+    wobble('SIGNAL', 0.66, 0.055, 1650);
+    wobble('CARRIER',0.58, 0.042, 2350);
+  })();
+})();
+</script>
+</body>
+</html>

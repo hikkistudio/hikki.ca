@@ -40,8 +40,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
   <link rel="preload" as="image" href="hero_poster.jpg"/>
-  <link rel="stylesheet" href="site.css?v=34"/>
-  <script src="site.js?v=34" defer></script>
+  <link rel="stylesheet" href="site.css?v=63"/>
+  <script src="site.js?v=63" defer></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -109,6 +109,9 @@
       font-size: clamp(14px, 1.5vw, 20px); line-height: 1.15; letter-spacing: -0.005em;
     }
     .locations li { white-space: nowrap; }
+    /* Macau 可撳入 rainfall：刻意唔用全站 a 嘅反白＋底線 */
+    .mo-link { cursor: pointer; touch-action: manipulation; }
+    .mo-link:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
     .locations li + li { margin-top: 4px; }
 
     .chinese {
@@ -208,7 +211,7 @@
           <li>Vancouver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;49.263431&nbsp;|&nbsp;-123.012508</li>
           <li>Victoria&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;48.468213&nbsp;|&nbsp;-123.330938</li>
           <li>Hong&nbsp;Kong&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;22.445293&nbsp;|&nbsp;&nbsp;114.031586</li>
-          <li>Macau&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;22.198510&nbsp;|&nbsp;&nbsp;113.536389</li>
+          <li><span class="mo-link" id="moLink" data-nodrift role="link" tabindex="0">Macau</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;22.198510&nbsp;|&nbsp;&nbsp;113.536389</li>
         </ul>
       </div>
 
@@ -288,6 +291,9 @@
       function writeFlat(flat, map) {
         for (var i = 0; i < map.nodes.length; i++) {
           var seg = map.nodes[i];
+          /* 由解碼動畫接管嘅節點唔好寫，否則座標漂移會即刻洗走亂碼 */
+          var p = seg.node.parentElement;
+          if (p && p.hasAttribute('data-nodrift')) continue;
           seg.node.nodeValue = flat.slice(seg.start, seg.start + seg.len);
         }
       }
@@ -302,6 +308,21 @@
         };
       }
       function decs(s) { var i = s.indexOf('.'); return i >= 0 ? (s.length - i - 1) : 0; }
+
+      (function moLink(){
+        var el = document.getElementById('moLink');
+        if (!el) return;
+        function go(){ window.location.href = 'console.html?city=macau'; }
+        el.addEventListener('click', go);
+        el.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+        });
+        var C = window.HikkiCrack;
+        if (!C) return;
+        function replay(){ if (!document.hidden) C.startOn(C.collect(el), { budgetMs: 620 }); }
+        replay();
+        setInterval(replay, 4000);
+      })();
 
       $$('.locations li').forEach(function (li) {
         var map = mapTextNodes(li);

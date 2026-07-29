@@ -23,7 +23,8 @@
      令動態插入嘅方塊（header、jewel 規格）都同步。頁面可再 call window.hkSyncBlink()。 */
   window.hkSyncBlink = function () {
     var delay = -(performance.now() % 3000) + 'ms';
-    var els = document.querySelectorAll('.blink-block, .hk-blink');
+    /* header 個 ■ 有自己嘅 animation 但冇 .hk-blink class，要一齊校相位 */
+    var els = document.querySelectorAll('.blink-block, .hk-blink, .hk-logo .hk-sq, .g-sq');
     for (var i = 0; i < els.length; i++) {
       var e = els[i];
       e.style.animationDelay = delay;
@@ -170,7 +171,7 @@
           '<li><a href="jewel.html">jeweldesign</a></li>' +
           '<li><a href="iching.html">iching</a></li>' +
           '<li><a href="game.html">macau17 (beta)</a></li>' +
-          '<li><a href="rainfall.html">rainfall (beta)</a></li>' +
+          '<li><a href="console.html">rainfall (beta)</a></li>' +
         '</ul>' +
         '<div class="hk-menu-contact">' +
           '<h2 class="hk-contact-head">contact</h2>' +
@@ -178,7 +179,7 @@
             '<li><a href="tel:+12509869516">250-986-9516</a></li>' +
             '<li><a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a></li>' +
             '<li><a href="https://www.instagram.com/hikki_with_her_camera" target="_blank" rel="noopener noreferrer me">@hikki_with_her_camera</a></li>' +
-            '<li><a href="#" class="hk-enq" data-enq-source="general">&gt;leave a message</a></li>' +
+            '<li><a href="#" class="hk-enq" data-enq-source="general">&gt;direct message</a></li>' +
           '</ul>' +
         '</div>' +
         '<div class="hk-menu-geo" id="hkMenuGeo" aria-hidden="true">' +
@@ -196,7 +197,7 @@
       '<div class="hk-enq-panel" id="hkEnq" role="dialog" aria-modal="true" aria-label="enquiry" aria-hidden="true">' +
         '<button type="button" class="hk-enq-close" id="hkEnqClose" aria-label="close">&times;</button>' +
         '<form class="hk-enq-form" id="hkEnqForm" novalidate>' +
-          '<div class="hk-enq-head">connecting<span class="hk-enq-dots"></span></div>' +
+          '<div class="hk-enq-head">connected</div>' +
           '<div class="hk-enq-sub">Wer jetzt allein ist, wird es lange bleiben,<br>wird wachen, lesen, lange Briefe schreiben…<span class="hk-enq-cite">—— Herbsttag</span></div>' +
           '<label class="hk-enq-row"><span>&gt;name</span><input name="name" autocomplete="name"></label>' +
           '<label class="hk-enq-row"><span>&gt;email</span><input name="email" type="email" autocomplete="email" inputmode="email"></label>' +

@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=34"/>
-  <script src="site.js?v=34" defer></script>
+  <link rel="stylesheet" href="site.css?v=63"/>
+  <script src="site.js?v=63" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -72,7 +72,14 @@
 
     /* 左上：時間／座標／aerial view */
     .hud-head{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); left:clamp(14px,3vw,38px);
-      width:var(--panel); }
+      width:var(--panel); display:flex; flex-direction:column; align-items:flex-start; }
+    /* LISTEN：桌面喺座標下面 */
+    #btnCity{ pointer-events:auto; appearance:none; background:none; border:0; cursor:pointer;
+      margin-top:7px; padding:2px 0; font-family:var(--f-num); font-size:10px;
+      letter-spacing:.18em; color:rgba(231,76,60,.62);
+      border-bottom:1px solid transparent; transition:color .2s, border-color .2s;
+      touch-action:manipulation; }
+    #btnCity:hover, #btnCity.on{ color:var(--amb); border-bottom-color:var(--amb); }
     .hud-head .t{ font-family:var(--hk-font-sans); font-weight:700;
       font-size:34px; letter-spacing:-0.01em; line-height:1; color:var(--amb);
       font-variant-numeric:tabular-nums; }
@@ -82,33 +89,32 @@
     .hud-read{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); right:clamp(14px,3vw,38px);
       text-align:right; min-width:176px; }
     .hud-read .row{ display:flex; justify-content:flex-end; gap:12px; }
-    .hud-read .k{ color:rgba(231,76,60,.45); }
+    .hud-read .k{ color:rgba(231,76,60,.66); }
     .hud-read .v{ min-width:74px; text-align:right; color:var(--amb); }
     .hud-read .big{ font-family:var(--hk-font-sans); font-weight:700;
       font-size:28px; line-height:1.1; letter-spacing:-0.01em; margin:2px 0 6px; }
-    .hud-read .sep{ height:1px; width:118px; margin:7px 0 7px auto; background:var(--amb-hair); }
-    .hud-read .zone{ font-size:10.5px; color:rgba(231,76,60,.7); letter-spacing:.1em; min-height:1em; }
+    .hud-read .sep{ height:1px; width:118px; margin:7px 0 7px auto; background:rgba(231,76,60,.34); }
+    .hud-read .zone{ font-size:10.5px; color:rgba(231,76,60,.88); letter-spacing:.1em; min-height:1em; }
     /* 星曆：細碼，收喺 TID 下面 */
-    .hud-read .eph{ font-size:8.5px; line-height:1.6; letter-spacing:.06em;
-      color:rgba(231,76,60,.34); }
-    .hud-read .eph i{ font-style:normal; color:rgba(231,76,60,.55); }
+    .hud-read .eph{ font-size:9px; line-height:1.65; letter-spacing:.06em;
+      color:rgba(231,76,60,.58); }
+    .hud-read .eph i{ font-style:normal; color:rgba(231,76,60,.86); }
     /* 月相細圓：跟 LUN ILL 一齊 */
     .moon{ display:inline-block; vertical-align:-2px; margin-left:5px; }
-    .moon circle{ fill:none; stroke:rgba(231,76,60,.3); stroke-width:.8; }
-    .moon path{ fill:rgba(231,76,60,.72); }
+    .moon circle{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:.9; }
+    .moon path{ fill:rgba(231,76,60,.95); }
     /* 電離層剖面：F2/F1/E/D 四層，闊度＝電離程度 */
-    .iono{ font-size:8.5px; letter-spacing:.06em; color:rgba(231,76,60,.34); }
+    .iono{ font-size:9px; letter-spacing:.06em; color:rgba(231,76,60,.6); }
     .io-row{ display:flex; align-items:center; justify-content:flex-end; gap:7px;
       height:9px; }
     .io-k{ width:16px; text-align:right; }
-    .io-b{ width:62px; height:3px; background:rgba(231,76,60,.10);
+    .io-b{ width:62px; height:3px; background:rgba(231,76,60,.18);
       display:flex; justify-content:flex-end; }
-    .io-b i{ display:block; height:100%; width:0%; background:rgba(231,76,60,.6);
+    .io-b i{ display:block; height:100%; width:0%; background:rgba(231,76,60,.85);
       transition:width .8s ease, background .8s ease; }
     .io-b i.absorb{ background:rgba(231,76,60,.26);
       background-image:repeating-linear-gradient(90deg,
         rgba(231,76,60,.62) 0 1px, transparent 1px 3px); }
-    .io-n{ margin-top:3px; font-size:8px; color:rgba(231,76,60,.44); }
 
     /* 左上：訊號來源（LIVE / 風暴名）；LIVE 用高亮 */
     .hud-head .src{ margin-top:6px; font-size:10px; letter-spacing:.18em;
@@ -117,12 +123,12 @@
 
     /* 訊號強度計 */
     .sm-row{ display:flex; align-items:center; gap:8px; }
-    .sm-k{ font-size:9.5px; letter-spacing:.2em; color:rgba(231,76,60,.42); }
+    .sm-k{ font-size:9.5px; letter-spacing:.2em; color:rgba(231,76,60,.62); }
     .sm-bars{ display:flex; align-items:flex-end; gap:2px; height:13px; }
     .sm-bars i{ display:block; width:2px; background:rgba(231,76,60,.16);
       transition:background .25s ease, height .25s ease; }
     .sm-bars i.on{ background:rgba(231,76,60,.8); }
-    .sm-v{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.75); min-width:38px; }
+    .sm-v{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.92); min-width:38px; }
     .sm-scale{ display:flex; justify-content:space-between;
       width:calc(15 * 4px + 46px); margin-left:34px; margin-top:2px;
       font-size:7.5px; letter-spacing:0; color:rgba(231,76,60,.3); }
@@ -163,39 +169,73 @@
     .logbox.open .log-body{ max-height:150px; opacity:1; }
     .log-body div{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .log-body b{ font-weight:400; color:rgba(231,76,60,.78); }
-    .metar{ padding-top:5px; border-top:1px solid var(--amb-hair);
-      font-size:9.5px; letter-spacing:.02em; color:rgba(231,76,60,.62);
+    .metar{ padding-top:5px; border-top:1px solid rgba(231,76,60,.3);
+      font-size:9.5px; letter-spacing:.02em; color:rgba(231,76,60,.82);
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
     .boot{ position:fixed; inset:0; z-index:9; display:flex; align-items:center; justify-content:center;
-      background:var(--ink); transition:opacity .6s ease; padding:0 var(--hk-pad-x); }
+      background:var(--ink); transition:opacity .6s ease; padding:clamp(10px,3vh,30px) var(--hk-pad-x); }
     .boot.off{ opacity:0; pointer-events:none; }
-    .boot-in{ width:100%; max-width:640px; font-family:var(--f-num); }
-    /* 撥號頻率：掃緊台 */
-    .boot-freq{ font-size:clamp(13px,1.9vh,16px); letter-spacing:.26em;
-      color:rgba(231,76,60,.55); display:flex; align-items:center; gap:10px; }
-    .bf-car{ display:inline-block; width:7px; height:7px; background:var(--amb);
-      animation:bfCar .9s steps(1,end) infinite; }
-    @keyframes bfCar{ 0%,49%{opacity:1} 50%,100%{opacity:.12} }
-    /* 站名：大字 */
-    .boot-sta{ margin-top:clamp(8px,1.6vh,16px);
-      font-family:var(--hk-font-sans); font-weight:700;
-      font-size:clamp(26px,5.2vw,52px); letter-spacing:-0.02em; line-height:1.08;
-      color:var(--amb); }
-    .boot-sta span{ font-family:var(--f-num); font-weight:400;
-      font-size:clamp(15px,2.4vw,24px); letter-spacing:0; color:rgba(231,76,60,.62); }
-    .boot-wx{ margin-top:clamp(5px,1vh,10px);
-      font-size:clamp(11px,1.6vh,14px); letter-spacing:.04em; color:rgba(231,76,60,.7); }
-    /* 載波強度條 */
-    .boot-bar{ margin-top:clamp(12px,2.2vh,22px); height:2px;
-      background:rgba(231,76,60,.14); overflow:hidden; }
-    .boot-bar i{ display:block; height:100%; width:0%; background:var(--amb);
-      transition:width .35s linear; }
-    .boot-st{ margin-top:clamp(8px,1.4vh,14px);
-      font-size:clamp(11px,1.6vh,14px); letter-spacing:.22em; color:rgba(231,76,60,.5); }
-    .bs-dots{ display:inline-block; width:1.8em; text-align:left; }
-    .bs-dots::after{ content:'.'; animation:bsDots 1.3s steps(1,end) infinite; }
-    @keyframes bsDots{ 0%,100%{content:'.'} 33%{content:'..'} 66%{content:'...'} }
+    /* ===== 保密文件 ===== */
+    .doc{ position:relative; width:100%; max-width:560px;
+      font-family:var(--f-num); color:var(--amb);
+      border:1px solid rgba(231,76,60,.28); padding:clamp(14px,2.4vh,22px) clamp(26px,4vw,40px);
+      background:
+        repeating-linear-gradient(0deg, rgba(231,76,60,.022) 0 1px, transparent 1px 4px); }
+    /* 兩側齒孔 */
+    .sprock{ position:absolute; top:0; bottom:0; width:14px;
+      background-image:radial-gradient(circle at 50% 50%,
+        rgba(231,76,60,.34) 0 2.1px, transparent 2.4px);
+      background-size:14px 19px; background-repeat:repeat-y; }
+    .sprock.l{ left:5px; } .sprock.r{ right:5px; }
+    /* 頂／底識別碼 */
+    .doc-top,.doc-bot{ display:flex; justify-content:space-between; align-items:baseline;
+      gap:10px; font-size:8px; letter-spacing:.16em; color:rgba(231,76,60,.5); }
+    .doc-top b,.doc-bot b{ font-weight:400; color:var(--amb); }
+    .doc-top .cls{ color:#ff9d88; letter-spacing:.24em; }
+    .doc-rule{ height:1px; background:rgba(231,76,60,.26); margin:7px 0 11px; }
+    .doc-bot{ margin-top:7px; }
+    .doc-bot .mono{ letter-spacing:.06em; color:rgba(231,76,60,.32); }
+    /* 標題 */
+    .doc-title{ font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(19px,3.4vw,30px); letter-spacing:.01em; line-height:1.05; color:var(--amb); }
+    .doc-sub{ margin-top:3px; font-size:8.5px; letter-spacing:.2em; color:rgba(231,76,60,.44); }
+    /* 欄目 */
+    .doc-grid{ margin-top:clamp(10px,1.8vh,16px); display:grid;
+      grid-template-columns:1fr 1fr; gap:6px clamp(14px,3vw,26px); }
+    .doc-grid .f{ display:flex; align-items:baseline; gap:7px;
+      border-bottom:1px dotted rgba(231,76,60,.24); padding-bottom:3px; min-height:15px;
+      overflow:hidden; }
+    .doc-grid .f.wide{ grid-column:1 / -1; }
+    .fk{ font-size:7.5px; letter-spacing:.16em; color:rgba(231,76,60,.42);
+      white-space:nowrap; min-width:56px; }
+    .fv{ font-size:10px; letter-spacing:.08em; color:var(--amb);
+      white-space:nowrap; overflow:hidden; text-overflow:clip;
+      min-width:0; flex:1 1 auto; }
+    .fv .rd{ display:inline-block; max-width:100%; overflow:hidden;
+      vertical-align:bottom; }
+    .fv .rd{ color:transparent; background:rgba(231,76,60,.82); }  /* 塗黑 */
+    /* 勾選格 */
+    .doc-ticks{ margin-top:clamp(8px,1.6vh,14px); display:flex; flex-wrap:wrap;
+      gap:4px 14px; font-size:8px; letter-spacing:.14em; color:rgba(231,76,60,.5); }
+    .doc-ticks span{ display:inline-flex; align-items:center; gap:5px; }
+    .doc-ticks i{ width:7px; height:7px; border:1px solid rgba(231,76,60,.5);
+      display:inline-block; position:relative; }
+    .doc-ticks i.on::after{ content:'×'; position:absolute; left:0; right:0; top:-4px;
+      text-align:center; font-size:9px; color:var(--amb); }
+    /* 許可認證碼 */
+    .doc-auth{ margin-top:clamp(10px,1.8vh,16px); border:1px solid rgba(231,76,60,.3);
+      padding:7px 10px 8px; }
+    .doc-auth .al{ font-size:7.5px; letter-spacing:.22em; color:rgba(231,76,60,.46); }
+    .doc-auth .ac{ margin-top:4px; font-size:clamp(13px,2vh,17px);
+      letter-spacing:.3em; color:var(--amb); min-height:1.3em; }
+    .doc-auth .ab{ margin-top:6px; height:2px; background:rgba(231,76,60,.14); }
+    .doc-auth .ab i{ display:block; height:100%; width:0%; background:var(--amb);
+      transition:width .3s linear; }
+    @media (max-width:520px){
+      .doc-grid{ grid-template-columns:1fr; }
+      .doc{ padding-left:24px; padding-right:24px; }
+    }
     /* 五位一組嘅電文 */
     .boot-num{ margin-top:clamp(8px,1.4vh,14px); min-height:3.4em;
       font-size:clamp(12px,1.7vh,15px); letter-spacing:.3em;
@@ -204,6 +244,11 @@
     @media (max-width:767px){
       :root{ --panel:168px; }
       .hud-head .t{ font-size:27px; }
+      /* 手機：DIAL 搬去右上角，讀數欄正上方、同時鐘對面 */
+      .hud-head{ width:auto; }
+      #btnCity{ position:fixed; z-index:5;
+        top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px));
+        right:clamp(14px,3vw,38px); margin-top:0; }
       /* 手機由下而上：版權 / 狀態 / 日誌 / 讀數 */
       .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 150px); right:clamp(14px,3vw,38px); }
       /* 手機：控制組搬到左邊（時鐘／座標下面），LIVE 則落去讀數欄最底 */
@@ -236,24 +281,51 @@
   <div class="grain"></div>
   <div class="vig"></div>
   <div class="boot" id="boot">
-    <div class="boot-in">
-      <div class="boot-freq"><span id="bootFreq">000.00</span> MHz<span class="bf-car" id="bootCar"></span></div>
-      <div class="boot-sta">STATION<span id="bootSta">&nbsp;· ————</span></div>
-      <div class="boot-wx" id="bootWx">--.-°C&nbsp;&nbsp;·&nbsp;&nbsp;--%&nbsp;&nbsp;·&nbsp;&nbsp;--:--</div>
-      <div class="boot-bar"><i id="bootBar"></i></div>
-      <div class="boot-st" id="bootSt">&gt; TUNING<span class="bs-dots"></span></div>
-      <div class="boot-num" id="bootNum"></div>
+    <div class="doc" id="doc">
+      <div class="sprock l"></div><div class="sprock r"></div>
+      <div class="doc-top">
+        <span>MO/RF—<b id="dNo">0000</b>/VII</span>
+        <span class="cls">SECRETO // OLHOS SÓ</span>
+        <span>CÓPIA <b id="dCopy">1</b> DE 3</span>
+      </div>
+      <div class="doc-rule"></div>
+
+      <div class="doc-title">RELATÓRIO&nbsp;PLUVIOMÉTRICO</div>
+      <div class="doc-sub">ESTAÇÃO DE ESCUTA · SERVIÇO METEOROLÓGICO</div>
+
+      <div class="doc-grid">
+        <div class="f"><span class="fk">ESTAÇÃO</span><span class="fv" id="dSta"></span></div>
+        <div class="f"><span class="fk">AGENTE</span><span class="fv" id="dAgent"></span></div>
+        <div class="f"><span class="fk">CONDIÇÕES</span><span class="fv" id="dWx"></span></div>
+        <div class="f"><span class="fk">CONTACTO</span><span class="fv" id="dCt"></span></div>
+        <div class="f wide"><span class="fk">ORIGEM</span><span class="fv" id="dOrig"></span></div>
+      </div>
+
+      <div class="doc-ticks" id="dTicks"></div>
+
+      <div class="doc-auth">
+        <div class="al">CÓDIGO DE AUTORIZAÇÃO</div>
+        <div class="ac" id="dAuth"></div>
+        <div class="ab"><i id="dBar"></i></div>
+      </div>
+
+      <div class="doc-rule"></div>
+      <div class="doc-bot">
+        <span id="dFoot">&mdash;</span>
+        <span class="mono" id="dHash"></span>
+      </div>
     </div>
   </div>
 
   <div class="hud hud-head">
     <div class="t" id="hClock">--:--:--</div>
     <div class="c" id="hCoord">22.1930 | 113.5490</div>
+    <button id="btnCity">DIAL <span class="hk-blink" id="tuneDot">○</span></button>
     <div class="src" id="hFoot">—</div>
   </div>
 
   <div class="hud hud-read">
-    <div class="zone" id="rZone">MACAU</div>
+    <div class="zone" id="rZone">—</div>
     <div class="k" id="rState">reading…</div>
     <div class="big" id="rMm">--<span style="font-size:.4em"> MM/H</span></div>
     <div class="sep"></div>
@@ -271,7 +343,6 @@
       <div class="io-row"><span class="io-k">F1</span><span class="io-b"><i id="ioF1"></i></span></div>
       <div class="io-row"><span class="io-k">E</span><span class="io-b"><i id="ioE"></i></span></div>
       <div class="io-row"><span class="io-k">D</span><span class="io-b"><i id="ioD"></i></span></div>
-      <div class="io-n" id="ionoNote">&mdash;</div>
     </div>
   </div>
 
@@ -290,36 +361,17 @@
   </div>
 
   <div class="ctl">
-    <div class="list" id="staList">
-      <button data-z="aerial">▸ AERIAL</button>
-      <button data-z="N.S. DE FÁTIMA">花地瑪 N.S. DE FÁTIMA</button>
-      <button data-z="SANTO ANTÓNIO">花王 SANTO ANTÓNIO</button>
-      <button data-z="SÃO LÁZARO">望德 SÃO LÁZARO</button>
-      <button data-z="SÉ">大堂 SÉ</button>
-      <button data-z="SÃO LOURENÇO">風順 SÃO LOURENÇO</button>
-      <button data-z="N.S. DO CARMO">嘉模 N.S. DO CARMO</button>
-      <button data-z="COTAI">路氹 COTAI</button>
-      <button data-z="S. FRANCISCO XAVIER">聖方濟各 S. FRANCISCO XAVIER</button>
-    </div>
+    <div class="list" id="staList"></div>
     <button id="btnStation">STATION ▾</button>
-    <div class="list" id="archList">
-      <button data-d="live">▸ LIVE</button>
-      <button data-d="2021-06-01">黑雨 BLACK RAIN 2021</button>
-      <button data-d="2020-08-19">海高斯 HIGOS 2020</button>
-      <button data-d="2018-09-16">山竹 MANGKHUT 2018</button>
-      <button data-d="2017-08-23">天鴿 HATO 2017</button>
-      <button data-d="2016-08-02">妮妲 NIDA 2016</button>
-      <button data-d="2013-09-22">天兔 USAGI 2013</button>
-      <button data-d="2012-07-24">韋森特 VICENTE 2012</button>
-      <button data-d="2009-09-15">巨爵 KOPPU 2009</button>
-      <button data-d="2008-09-24">黑格比 HAGUPIT 2008</button>
-    </div>
+    <div class="list" id="archList"></div>
     <button id="btnArchive">ARCHIVE ▾</button>
     <button id="btnAudio">AUDIO ○</button>
   </div>
 
   <script>
   (function(){
+    /* 冇指定城市＝由 menu／直接入嚟 → 先去調台機 */
+    if(!/[?&]city=/i.test(location.search)){ location.replace('console.html'); return; }
     var cityC=document.getElementById('city'), cx=cityC.getContext('2d');
     var wxC=document.getElementById('wx'), wc=wxC.getContext('2d');
     var W=0,H=0,DPR=1, MAP=null, S=10000;
@@ -327,7 +379,8 @@
     /* ===== 俯瞰視角 ===== */
     var view={ s:1, x:0, y:0, pitch:0.92, yaw:-0.35 };
     var base=1, ASPECT=1;
-    var DEF={ s:1, x:0, y:0, pitch:0.92, yaw:-0.35 };   /* aerial view 原始視角 */
+    var DEF_PITCH=0.92, DEF_YAW=-0.35;
+    var DEF={ s:1, x:0, y:0, pitch:DEF_PITCH, yaw:DEF_YAW };   /* aerial view 原始視角 */
     var MAXZ=40, MINZ=0.7;
     var needDraw=false, NIGHT=false;
     /* 靜態層離屏快取：城市線框畫一次，之後閃爍／解碼淨係 blit */
@@ -360,8 +413,19 @@
     function resetView(){
       var bb=(MAP&&MAP.bbox)||[22.10,113.52,22.23,113.60];
       ASPECT=((bb[3]-bb[1])*Math.cos((bb[0]+bb[2])/2*Math.PI/180))/(bb[2]-bb[0]);
-      base=Math.min(H*1.02,(W*1.02)/ASPECT);
-      DEF={ s:1, x:W/2, y:H*0.52, pitch:0.92, yaw:-0.35 };
+      /* 依 yaw+pitch 之後嘅實際投影外框計 base，唔係淨睇 ASPECT。
+         橫向城市（Victoria ASPECT≈1.34）轉咗 yaw 之後外框會闊好多，
+         唔計就會爆出畫面。 */
+      var _sp=Math.sin(DEF_PITCH), _cp=Math.cos(DEF_PITCH),
+          _sy=Math.sin(DEF_YAW),   _cy=Math.cos(DEF_YAW);
+      var _ex=0,_ey=0;
+      for(var _i=0;_i<4;_i++){
+        var _X=((_i&1)?0.5:-0.5)*ASPECT, _Y=((_i&2)?0.5:-0.5);
+        var _rx=_X*_cy-_Y*_sy, _ry=_X*_sy+_Y*_cy;
+        _ex=Math.max(_ex,Math.abs(_rx)); _ey=Math.max(_ey,Math.abs(_ry*_cp));
+      }
+      base=Math.min((W*0.94)/(2*_ex), (H*0.90)/(2*_ey));
+      DEF={ s:1, x:W/2, y:H*0.52, pitch:DEF_PITCH, yaw:DEF_YAW };
       view.s=DEF.s; view.x=DEF.x; view.y=DEF.y; view.pitch=DEF.pitch; view.yaw=DEF.yaw;
       targetS=view.s;
     }
@@ -387,30 +451,88 @@
       return [X/ASPECT+0.5, Y+0.5];
     }
 
-    /* ===== 堂區／海域（葡文） ===== */
-    /* min = 要幾大縮放先顯示（避免細 zoom 時標籤打交） */
-    var ZONES=[
-      { n:'N.S. DE FÁTIMA',      x:0.363, y:0.173, lat:22.2075, lon:113.5490, sea:false, min:1.0 },
-      { n:'SANTO ANTÓNIO',       x:0.268, y:0.238, lat:22.1985, lon:113.5420, sea:false, min:1.9 },
-      { n:'SÃO LÁZARO',          x:0.386, y:0.256, lat:22.1965, lon:113.5495, sea:false, min:1.9 },
-      { n:'SÉ',                  x:0.318, y:0.292, lat:22.1930, lon:113.5450, sea:false, min:1.0 },
-      { n:'SÃO LOURENÇO',        x:0.238, y:0.334, lat:22.1875, lon:113.5390, sea:false, min:1.9 },
-      { n:'N.S. DO CARMO',       x:0.475, y:0.569, lat:22.1560, lon:113.5580, sea:false, min:1.0 },
-      { n:'COTAI',               x:0.563, y:0.677, lat:22.1420, lon:113.5650, sea:false, min:1.0 },
-      { n:'S. FRANCISCO XAVIER', x:0.525, y:0.831, lat:22.1220, lon:113.5620, sea:false, min:1.0 },
-      { n:'PORTO INTERIOR',      x:0.150, y:0.269, lat:22.1950, lon:113.5320, sea:true,  min:1.0 },
-      { n:'PORTO EXTERIOR',      x:0.487, y:0.300, lat:22.1930, lon:113.5576, sea:true,  min:1.5 },
-      { n:'BAÍA DA PRAIA GRANDE',x:0.392, y:0.352, lat:22.1880, lon:113.5510, sea:true,  min:1.5 },
-      { n:'RIO DAS PÉROLAS',     x:0.070, y:0.110, lat:22.2160, lon:113.5256, sea:true,  min:1.0 },
-      { n:'MAR DA CHINA MERIDIONAL', x:0.820, y:0.815, lat:22.1240, lon:113.5856, sea:true, min:1.0 }
-    ];
+    /* ===== 城市設定：?city= 切換。渲染引擎、HUD、星曆完全共用 ===== */
+    var CITIES={
+      macau:{
+        key:'macau', label:'MACAU', map:'macau-map.json',
+        tz:'Asia/Macau', tzq:'Asia%2FMacau', icao:'VMMC',
+        home:[22.193,113.549], utcOff:8,
+        boot:'doc-pt',                       /* 葡文保密文件 */
+        glow:[ [0.495,0.585,0.075,0.100], [0.315,0.265,0.130,0.090] ],
+        shelfDir:[-0.7071,-0.7071],          /* 淺灘方向：西北（珠江口） */
+        archive:[
+          ['2021-06-01','黑雨 BLACK RAIN 2021'],['2020-08-19','海高斯 HIGOS 2020'],
+          ['2018-09-16','山竹 MANGKHUT 2018'],['2017-08-23','天鴿 HATO 2017'],
+          ['2016-08-02','妮妲 NIDA 2016'],['2013-09-22','天兔 USAGI 2013'],
+          ['2012-07-24','韋森特 VICENTE 2012'],['2009-09-15','巨爵 KOPPU 2009'],
+          ['2008-09-24','黑格比 HAGUPIT 2008']
+        ],
+        zones:[
+          { n:'N.S. DE FÁTIMA',      x:0.363, y:0.173, lat:22.2075, lon:113.5490, sea:false, min:1.0, cn:'花地瑪' },
+          { n:'SANTO ANTÓNIO',       x:0.268, y:0.238, lat:22.1985, lon:113.5420, sea:false, min:1.9, cn:'花王' },
+          { n:'SÃO LÁZARO',          x:0.386, y:0.256, lat:22.1965, lon:113.5495, sea:false, min:1.9, cn:'望德' },
+          { n:'SÉ',                  x:0.318, y:0.292, lat:22.1930, lon:113.5450, sea:false, min:1.0, cn:'大堂' },
+          { n:'SÃO LOURENÇO',        x:0.238, y:0.334, lat:22.1875, lon:113.5390, sea:false, min:1.9, cn:'風順' },
+          { n:'N.S. DO CARMO',       x:0.475, y:0.569, lat:22.1560, lon:113.5580, sea:false, min:1.0, cn:'嘉模' },
+          { n:'COTAI',               x:0.563, y:0.677, lat:22.1420, lon:113.5650, sea:false, min:1.0, cn:'路氹' },
+          { n:'S. FRANCISCO XAVIER', x:0.525, y:0.831, lat:22.1220, lon:113.5620, sea:false, min:1.0, cn:'聖方濟各' },
+          { n:'PORTO INTERIOR',      x:0.150, y:0.269, lat:22.1950, lon:113.5320, sea:true,  min:1.0 },
+          { n:'PORTO EXTERIOR',      x:0.487, y:0.300, lat:22.1930, lon:113.5576, sea:true,  min:1.5 },
+          { n:'BAÍA DA PRAIA GRANDE',x:0.392, y:0.352, lat:22.1880, lon:113.5510, sea:true,  min:1.5 },
+          { n:'RIO DAS PÉROLAS',     x:0.070, y:0.110, lat:22.2160, lon:113.5256, sea:true,  min:1.0 },
+          { n:'MAR DA CHINA MERIDIONAL', x:0.820, y:0.815, lat:22.1240, lon:113.5856, sea:true, min:1.0 }
+        ]
+      },
+      victoria:{
+        key:'victoria', label:'VICTORIA', map:'victoria-map.json',
+        tz:'America/Vancouver', tzq:'America%2FVancouver', icao:'CYYJ',
+        home:[48.4284,-123.3656], utcOff:-8,
+        boot:'doc-en',                       /* 英文 CIA-style 文件 */
+        glow:[],                             /* 冇特別 glow 區 */
+        shelfDir:[0.3162,0.9487],            /* 淺灘方向：東南（Haro Strait 側較深，內灣淺） */
+        archive:[
+          ['2022-01-06','SNOWFALL EVENT 2022'],['2021-11-15','ATMOSPHERIC RIVER 2021'],
+          ['2021-06-28','HEAT DOME 2021'],['2018-12-20','WINDSTORM 2018'],
+          ['2015-08-29','LABOUR DAY STORM 2015'],['2014-11-01','PINEAPPLE EXPRESS 2014'],
+          ['2006-12-15','HANUKKAH EVE STORM 2006']
+        ],
+        zones:[
+          { n:'DOWNTOWN',        x:0.383, y:0.566, lat:48.4284, lon:-123.3656, sea:false, min:1.0 },
+          { n:'JAMES BAY',       x:0.355, y:0.701, lat:48.4180, lon:-123.3700, sea:false, min:1.0 },
+          { n:'VICTORIA WEST',   x:0.271, y:0.545, lat:48.4300, lon:-123.3830, sea:false, min:1.9 },
+          { n:'FERNWOOD',        x:0.497, y:0.532, lat:48.4310, lon:-123.3480, sea:false, min:1.9 },
+          { n:'FAIRFIELD',       x:0.516, y:0.727, lat:48.4160, lon:-123.3450, sea:false, min:1.0 },
+          { n:'QUADRA VILLAGE',  x:0.419, y:0.416, lat:48.4400, lon:-123.3600, sea:false, min:1.9 },
+          { n:'OAKLANDS',        x:0.497, y:0.390, lat:48.4420, lon:-123.3480, sea:false, min:2.4 },
+          { n:'ROCKLAND',        x:0.548, y:0.636, lat:48.4230, lon:-123.3400, sea:false, min:2.4 },
+          { n:'GONZALES',        x:0.665, y:0.766, lat:48.4130, lon:-123.3220, sea:false, min:1.9 },
+          { n:'OAK BAY',         x:0.729, y:0.597, lat:48.4260, lon:-123.3120, sea:false, min:1.0 },
+          { n:'ESTEVAN',         x:0.768, y:0.442, lat:48.4380, lon:-123.3060, sea:false, min:2.4 },
+          { n:'UPLANDS',         x:0.774, y:0.338, lat:48.4460, lon:-123.3050, sea:false, min:1.9 },
+          { n:'MOUNT TOLMIE',    x:0.627, y:0.247, lat:48.4530, lon:-123.3280, sea:false, min:1.9 },
+          { n:'CADBORO BAY',     x:0.832, y:0.208, lat:48.4560, lon:-123.2960, sea:false, min:1.0 },
+          { n:'GORDON HEAD',     x:0.700, y:0.120, lat:48.4628, lon:-123.3140, sea:false, min:1.0 },
+          { n:'UNIVERSITY',      x:0.786, y:0.098, lat:48.4634, lon:-123.3117, sea:false, min:1.9 },
+          { n:'VICTORIA HARBOUR',x:0.262, y:0.612, lat:48.4250, lon:-123.3830, sea:true,  min:1.5 },
+          { n:'GORGE WATERWAY',  x:0.226, y:0.386, lat:48.4420, lon:-123.3900, sea:true,  min:1.9 },
+          { n:'JUAN DE FUCA STRAIT', x:0.330, y:0.912, lat:48.4020, lon:-123.3760, sea:true, min:1.0 },
+          { n:'HARO STRAIT',     x:0.930, y:0.430, lat:48.4400, lon:-123.2800, sea:true,  min:1.0 }
+        ]
+      }
+    };
+    var CITY = (function(){
+      var q=(location.search.match(/[?&]city=([a-z]+)/i)||[])[1];
+      return CITIES[(q||'').toLowerCase()] || CITIES.macau;
+    })();
+
+    /* 分區：由城市設定提供 */
+    var ZONES=CITY.zones;
     var activeZone=null;
 
     /* ===== 夜間光照：每棟建築一個 glow 值 =====
        密度（26×26 格）^0.55 × 隨機 → 越密嘅城區越亮；賭場帶強制全亮 */
     var bBucket=null, bIdx=[[],[],[],[]];
-    var CASINO=[ [0.495,0.585,0.075,0.100],    /* Cotai 金光大道 */
-                 [0.315,0.265,0.130,0.090] ];  /* 新口岸／葡京一帶 */
+    var CASINO=CITY.glow;
     function hash01(i){ var x=Math.sin(i*127.1+311.7)*43758.5453; return x-Math.floor(x); }
     function prepGlow(){
       var B=MAP.buildings3d; if(!B) return;
@@ -453,24 +575,38 @@
        ⚠️ 呢啲係按已知水深特徵建模嘅示意等深線，唔係實測海圖。
        潮位決定邊一條係當前水線（高潮內收／低潮外露）。 */
     var TIDE_LV=0.5, tideBand=1;
-    var DEPTHS=[2,5,10,20,30,50];              /* 米 */
-    var DBASE =[0.0016,0.0034,0.0060,0.0098,0.0150,0.0230];  /* 地圖單位 */
+    /* ⚠️ 等深線用逐段法線平移做。偏移一大（>~0.03 地圖單位）
+       相鄰段嘅平移線就會互相穿插，畫出一堆「雜草」——所以距離要收住。 */
+    var DEPTHS=[2,5,10,20,30,50];
+    var DBASE =[0.0016,0.0034,0.0060,0.0098,0.0150,0.0230];
     function ringOut(f){                     /* 依 signed area 判斷向外係邊邊 */
+      var n=f.length;
+      var closed = (f[0]===f[n-2] && f[1]===f[n-1]);
+      if(!closed) return 1;                  /* 開放折線：固定一邊，唔好靠面積判 */
       var a=0;
-      for(var k=0;k<f.length-2;k+=2) a+=f[k]*f[k+3]-f[k+2]*f[k+1];
+      for(var k=0;k<n-2;k+=2) a+=f[k]*f[k+3]-f[k+2]*f[k+1];
       return a>0 ? 1 : -1;
     }
     /* 方位因子：法線指向西北＝河口淺灘，拉闊；指向東南＝出南海，收窄 */
     function shelf(nx,ny){
-      var m=(-nx*0.7071 - ny*0.7071);        /* +1 = 向西北 */
+      var m=(nx*CITY.shelfDir[0] + ny*CITY.shelfDir[1]);
       return 1 + m*0.62;                      /* 0.38 – 1.62 */
     }
     function bathyRing(g,f,off,dash){
+      var n=f.length;
+      if(n<16) return;                        /* 太細嘅環，平移後必然打結 */
+      /* ⚠️ 海岸線可以係「開放折線」（維多利亞 471 段全部係），
+         唔可以當閉環咁 wrap 返第一點 —— 咁做會由線尾拉一條長線去線頭，
+         成幅圖變成一片紅網。只有真閉環先接返轉頭。 */
+      var closed = (f[0]===f[n-2] && f[1]===f[n-1]);
+      var lastK = closed ? n : n-2;
       var sgn=ringOut(f), first=true;
-      for(var k=0;k<f.length;k+=2){
-        var k2=(k+2)%f.length;
+      var MINSEG=off*S*0.55;                  /* 短過呢個嘅段跳過，免生尖刺 */
+      for(var k=0;k<lastK;k+=2){
+        var k2=(k+2)%n;
         var dx=f[k2]-f[k], dy=f[k2+1]-f[k+1];
-        var L=Math.hypot(dx,dy)||1;
+        var L=Math.hypot(dx,dy);
+        if(L<MINSEG){ continue; }
         var ux=dy/L*sgn, uy=-dx/L*sgn;        /* 向海側單位法線 */
         var d=off*shelf(ux,uy)*S;
         var p=P((f[k]+ux*d)/S,(f[k+1]+uy*d)/S,0);
@@ -508,7 +644,8 @@
           var step=Math.max(8,(f2.length/2/6)|0)*2;
           for(var k3=0;k3<f2.length;k3+=step*2){
             if(hash01(i2*13+k3+b2*7)>0.25) continue;
-            var k4=(k3+2)%f2.length;
+            if(k3+2>=f2.length) continue;
+            var k4=k3+2;
             var dx2=f2[k4]-f2[k3], dy2=f2[k4+1]-f2[k3+1];
             var L2=Math.hypot(dx2,dy2)||1, sg=ringOut(f2);
             var ux2=dy2/L2*sg, uy2=-dx2/L2*sg;
@@ -567,8 +704,13 @@
       drawSet(g,MAP.roads.a,'rgba(231,76,60,'+(0.50*nightMul)+')',0.9*wf);
 
       var B=MAP.buildings3d; if(!B) return;
-      var lim = z<1.4?60:(z<2.5?26:0);
-      if(lowDetail) lim=Math.max(lim, z<2.5?42:14);   /* 移動中：淨係畫高樓 */
+      /* LOD：B 按高度由高到低排序。淨係畫「最高 N 棟」喺低矮城市會變成
+         「只剩市中心」（維多利亞 40k 棟平房全部 6.5m，排喺 2600 之後）。
+         所以改為：最高嗰批全畫 + 其餘全域等距抽樣，郊區先至有屋。 */
+      var lim = z<1.4?5200:(z<2.5?14000:B.length);
+      if(lowDetail) lim=Math.min(lim, z<2.5?2600:7000);
+      var lodTop=Math.min(500,B.length);
+      var lodStride=Math.max(1, Math.ceil((B.length-lodTop)/Math.max(1,lim-lodTop)));
       var vstep = (z>8 && !lowDetail) ? 2 : (lowDetail?6:4);
       var bw = 0.6*Math.max(1,Math.sqrt(z/6));
       var cap = lowDetail ? (TIER<1?1200:2200) : (TIER<2?5000:9000);
@@ -577,15 +719,16 @@
       if(!NIGHT||!bBucket){
         g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,.44)'; g.beginPath();
         for(i=0;i<B.length;i++){
+          if(i>=lodTop && ((i-lodTop)%lodStride)!==0) continue;
           h=B[i][0]; f=B[i][1];
-          if(h<lim||!inView(f)) continue;
+          if(!inView(f)) continue;
           buildingPath(g,f,h,vstep);
           if(++drawn>cap) break;
         }
         g.stroke();
         return;
       }
-      drawLamps(g,lim,cap);
+      drawLamps(g,lodTop,lodStride);
       /* 夜晚靜態部分：暗嗰兩層（如果 TIER 低就連光層都靜態化） */
       var ALPHA=[0.13,0.26,0.46,0.9];
       for(var bk=3;bk>=0;bk--){
@@ -593,8 +736,10 @@
         var idx=bIdx[bk]; if(!idx.length) continue;
         g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,'+ALPHA[bk]+')'; g.beginPath();
         for(i=0;i<idx.length;i++){
-          bi=idx[i]; h=B[bi][0]; f=B[bi][1];
-          if(h<lim||!inView(f)) continue;
+          bi=idx[i];
+          if(bi>=lodTop && ((bi-lodTop)%lodStride)!==0) continue;
+          h=B[bi][0]; f=B[bi][1];
+          if(!inView(f)) continue;
           buildingPath(g,f,h,vstep);
           if(++drawn>cap) break;
         }
@@ -608,8 +753,10 @@
       var B=MAP.buildings3d; if(!B||!bBucket) return;
       var z=view.s;
       var lowDetail = moving || TIER<2;
-      var lim = z<1.4?60:(z<2.5?26:0);
-      if(lowDetail) lim=Math.max(lim, z<2.5?42:14);
+      var lim = z<1.4?5200:(z<2.5?14000:B.length);
+      if(lowDetail) lim=Math.min(lim, z<2.5?2600:7000);
+      var lodTop=Math.min(500,B.length);
+      var lodStride=Math.max(1, Math.ceil((B.length-lodTop)/Math.max(1,lim-lodTop)));
       var vstep = (z>8 && !lowDetail) ? 2 : (lowDetail?6:4);
       var bw = 0.6*Math.max(1,Math.sqrt(z/6));
       var ALPHA=[0.13,0.26,0.46,0.9];
@@ -624,8 +771,10 @@
           if(bk===3){
             cx.fillStyle='rgba(231,76,60,'+(0.11*amp).toFixed(3)+')'; cx.beginPath();
             for(i=sub;i<idx.length;i+=3){
-              bi=idx[i]; h=B[bi][0]; f=B[bi][1];
-              if(h<lim||!inView(f)) continue;
+              bi=idx[i];
+              if(bi>=lodTop && ((bi-lodTop)%lodStride)!==0) continue;
+              h=B[bi][0]; f=B[bi][1];
+              if(!inView(f)) continue;
               poly(cx,f,h,true);
             }
             cx.fill();
@@ -634,8 +783,10 @@
           cx.strokeStyle='rgba(231,76,60,'+(ALPHA[bk]*amp).toFixed(3)+')';
           cx.beginPath();
           for(i=sub;i<idx.length;i+=3){
-            bi=idx[i]; h=B[bi][0]; f=B[bi][1];
-            if(h<lim||!inView(f)) continue;
+            bi=idx[i];
+            if(bi>=lodTop && ((bi-lodTop)%lodStride)!==0) continue;
+            h=B[bi][0]; f=B[bi][1];
+            if(!inView(f)) continue;
             buildingPath(cx,f,h,vstep);
             if(++drawn>4000) break;
           }
@@ -648,7 +799,7 @@
     /* ===== 燈火：夜深時個別窗口逐盞熄滅 =====
        只喺 zoom≥6 先畫（嗰陣視錐內得幾百棟），而且寫入靜態快取，
        所以逐格成本係零——只有視角變或者過咗一個鐘先重畫。 */
-    function drawLamps(g,lim,cap){
+    function drawLamps(g,lodTop,lodStride){
       if(!NIGHT || view.s<6 || TIER<2) return;
       var B=MAP.buildings3d; if(!B||!bBucket) return;
       var hr=macauHour(Date.now());
@@ -658,8 +809,9 @@
       g.fillStyle='rgba(255,150,120,.55)';
       var drawn=0;
       for(var i=0;i<B.length;i++){
+        if(i>=lodTop && ((i-lodTop)%lodStride)!==0) continue;
         var h=B[i][0], f=B[i][1];
-        if(h<lim||h<9||!inView(f)) continue;
+        if(h<9||!inView(f)) continue;
         if(bBucket[i]<1) continue;
         var win=Math.min(7, 1+((h/16)|0));
         for(var w=0;w<win;w++){
@@ -730,9 +882,9 @@
       var ra = Math.atan2(Math.cos(eps)*Math.sin(lam), Math.cos(lam));
       var dec= Math.asin(Math.sin(eps)*Math.sin(lam));
       var gmst=(280.46061837 + 360.98564736629*n) % 360;
-      var lst =((gmst + 113.549) % 360 + 360) % 360;      /* 澳門經度 */
+      var lst =((gmst + CITY.home[1]) % 360 + 360) % 360;   /* 觀測站經度 */
       var ha  = (lst - (ra/R+360)%360) * R;
-      var lat = 22.193*R;
+      var lat = CITY.home[0]*R;
       var alt = Math.asin(Math.sin(lat)*Math.sin(dec) + Math.cos(lat)*Math.cos(dec)*Math.cos(ha));
       var az  = Math.atan2(-Math.sin(ha),
                  Math.tan(dec)*Math.cos(lat) - Math.sin(lat)*Math.cos(ha));
@@ -929,9 +1081,9 @@
       var areaK=Math.sqrt((W*H)/8e5);
       var tierK=TIER>=2?1:(TIER===1?0.62:0.38);
       /* 大雨／暴雨額外加成：7.6mm 以上開始加碼，暴雨最多 ×2.1 */
-      var heavy = rainMM>7.6 ? (1+Math.min(1.9,(rainMM-7.6)/16)) : 1;
-      var target=Math.min(8200, Math.round(rainMM*300*areaK*tierK*heavy));
-      if(rainMM>0 && target<240) target=Math.round(240*tierK)||180;
+      var heavy = rainMM>7.6 ? (1+Math.min(2.6,(rainMM-7.6)/12)) : 1;
+      var target=Math.min(12000, Math.round(rainMM*400*areaK*tierK*heavy));
+      if(rainMM>0 && target<320) target=Math.round(320*tierK)||240;
       while(drops.length<target) drops.push(newDrop(false));
       if(drops.length>target) drops.length=target;
     }
@@ -1051,6 +1203,29 @@
       else enterZone(Z);
     });
 
+    /* 雙擊／雙點：未放大就衝到最大（以撳中嗰點為中心），已放大就返預設 */
+    function doubleZoom(px,py){
+      if(anim) return;
+      if(view.s < MAXZ*0.85){
+        var m=invP(px,py);
+        flyTo(viewFor(m[0],m[1],MAXZ,view.pitch,view.yaw,px,py),780,null);
+      } else {
+        flyTo({ s:DEF.s,x:DEF.x,y:DEF.y,pitch:DEF.pitch,yaw:DEF.yaw },780,null);
+      }
+      needDraw=true;
+    }
+    cityC.addEventListener('dblclick',function(e){ e.preventDefault(); doubleZoom(e.clientX,e.clientY); });
+    /* 觸控自己偵測雙點（350ms 內、位移細過 26px） */
+    var lastTap=0, lastTapXY=[0,0];
+    cityC.addEventListener('pointerup',function(e){
+      if(e.pointerType==='mouse') return;
+      var t=e.timeStamp||Date.now();
+      if(moved<=8 && t-lastTap<350 &&
+         Math.hypot(e.clientX-lastTapXY[0], e.clientY-lastTapXY[1])<26){
+        lastTap=0; doubleZoom(e.clientX,e.clientY);
+      } else { lastTap=t; lastTapXY=[e.clientX,e.clientY]; }
+    });
+
     /* ===== 主循環：動畫／慣性／平滑縮放／雨 ===== */
     var nAcc=0, ftAvg=16, govAcc=0;
     function frame(now){
@@ -1118,11 +1293,11 @@
     function macauMs(str){
       var m=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(str||'');
       if(!m) return Date.parse(str);
-      return Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]-8,+m[5]);
+      return Date.UTC(+m[1],+m[2]-1,+m[3],+m[4]-CITY.utcOff,+m[5]);
     }
     function macauHour(ms){
       try{
-        return +new Intl.DateTimeFormat('en-GB',{hour:'2-digit',hour12:false,timeZone:'Asia/Macau'})
+        return +new Intl.DateTimeFormat('en-GB',{hour:'2-digit',hour12:false,timeZone:CITY.tz})
           .format(new Date(ms));
       }catch(e){ return new Date(ms).getHours(); }
     }
@@ -1141,11 +1316,12 @@
       document.getElementById('rGust').textContent = gust==null?'--':Math.round(gust)+' km/h';
       document.getElementById('rPress').textContent= press==null?'--':Math.round(press)+' hPa';
       document.getElementById('rTide').textContent = tideAt(when||Date.now()).toFixed(2)+' m';
-      var zn = activeZone? activeZone.n : 'MACAU';
+      var zn = activeZone? activeZone.n : CITY.label;
       document.getElementById('rZone').textContent = zn;
       var fEl=document.getElementById('hFoot');
       fEl.innerHTML = foot;
       fEl.classList.toggle('live', foot===LIVE_FOOT);
+      paintListen(foot===LIVE_FOOT);
       document.getElementById('metar').textContent =
         buildMetar(mm,deg,spd,gust,press,when,temp,dew);
       logObserve(mm,deg,spd,gust,press,when,zn);
@@ -1189,7 +1365,7 @@
         wind+='KT';
       }
       var v=visFor(mm);
-      return 'VMMC '+stamp+' '+wind+' '+(v>=9999?'9999':pad(v,4))+' '+
+      return CITY.icao+' '+stamp+' '+wind+' '+(v>=9999?'9999':pad(v,4))+' '+
              wxFor(mm)+tempCode(temp)+'/'+tempCode(dew)+' '+
              (press==null?'Q////':'Q'+pad(press,4));
     }
@@ -1313,15 +1489,15 @@
     paintAudioBtn();
 
     var MODE={ kind:'live', date:null, name:'' };
-    function coordOf(){ return activeZone? [activeZone.lat,activeZone.lon] : [22.193,113.549]; }
-    var LIVE_FOOT='LIVE';
+    function coordOf(){ return activeZone? [activeZone.lat,activeZone.lon] : CITY.home; }
+    var LIVE_FOOT='';
 
     function loadLive(){
       var c=coordOf();
       MODE={kind:'live'};
       fetch('https://api.open-meteo.com/v1/forecast?latitude='+c[0]+'&longitude='+c[1]+
             '&current=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,temperature_2m,dew_point_2m'+
-            '&timezone=Asia%2FMacau')
+            '&timezone='+CITY.tzq)
         .then(function(r){return r.json();})
         .then(function(d){
           if(!d||!d.current) throw 0;
@@ -1340,7 +1516,7 @@
       fetch('https://archive-api.open-meteo.com/v1/archive?latitude='+c[0]+'&longitude='+c[1]+
             '&start_date='+date+'&end_date='+date+
             '&hourly=precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,temperature_2m,dew_point_2m'+
-            '&timezone=Asia%2FMacau')
+            '&timezone='+CITY.tzq)
         .then(function(r){return r.json();})
         .then(function(d){
           if(!d||!d.hourly) throw 0;
@@ -1361,6 +1537,21 @@
       if(MODE.kind==='storm') loadStorm(MODE.date,MODE.name);
       else loadLive();
     }
+
+    /* 兩張選單由城市設定生成 */
+    (function buildLists(){
+      var st=document.getElementById('staList'), ar=document.getElementById('archList');
+      var h='<button data-z="aerial">▸ AERIAL</button>';
+      for(var i=0;i<ZONES.length;i++){
+        var Z=ZONES[i]; if(Z.sea) continue;
+        h+='<button data-z="'+Z.n+'">'+(Z.cn? Z.cn+' ':'')+Z.n+'</button>';
+      }
+      st.innerHTML=h;
+      var a='<button data-d="live">▸ LIVE</button>';
+      for(var k=0;k<CITY.archive.length;k++)
+        a+='<button data-d="'+CITY.archive[k][0]+'">'+CITY.archive[k][1]+'</button>';
+      ar.innerHTML=a;
+    })();
 
     /* ===== STATION / ARCHIVE：拉伸收合選單（互斥） =====
        開：由按鈕嗰邊一層層機械式浮現，每項出現時做一次解碼動畫
@@ -1432,6 +1623,20 @@
       });
     });
 
+    /* CITY：返去調台機 */
+    var btnCity=document.getElementById('btnCity');
+    btnCity.addEventListener('click',function(){
+      location.href='console.html?city='+CITY.key;
+    });
+    /* 紅點：live 時著，archive 時熄 */
+    function paintListen(live){
+      var d=document.getElementById('tuneDot');
+      if(d) d.textContent = live?'●':'○';
+      btnCity.classList.toggle('on',!!live);
+      if(window.hkSyncBlink) window.hkSyncBlink();   /* 同左上方塊對齊相位 */
+    }
+    paintListen(true);
+
     /* ===== 時鐘 + 座標（闊度強制對齊時鐘） ===== */
     var clockOn=true;
     function textW(el){
@@ -1452,7 +1657,7 @@
     setInterval(function(){
       if(document.hidden) return;
       if(clockOn) document.getElementById('hClock').textContent=
-        new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Macau',hour12:false});
+        new Date().toLocaleTimeString('en-GB',{timeZone:CITY.tz,hour12:false});
       var c=coordOf();
       document.getElementById('hCoord').textContent=
         (c[0]+(Math.random()-0.5)*0.004).toFixed(4)+' | '+(c[1]+(Math.random()-0.5)*0.004).toFixed(4);
@@ -1499,12 +1704,6 @@
         el.classList.toggle('absorb',!!absorb);
       }
       bar('ioF2',f2); bar('ioF1',f1); bar('ioE',e); bar('ioD',d,true);
-      /* MUF 粗略估算：日間高、夜間低 */
-      var muf=(day? 14+16*s : 6+3*Math.max(0,(alt+18)/18));
-      var note = !day ? 'D GONE · DX OPEN · MUF '+muf.toFixed(1)
-               : (d>0.6 ? 'D ABSORBING · MUF '+muf.toFixed(1)
-                        : 'GREY LINE · MUF '+muf.toFixed(1));
-      document.getElementById('ionoNote').textContent=note;
     }
 
     function paintEph(force){
@@ -1575,59 +1774,154 @@
     var bootEl=document.getElementById('boot');
     var bootT0=performance.now(), readyMap=false, readyWx=false, bootOff=false;
 
-    /* 撥號／通訊序列：掃頻 → 收到載波 → 同步 → 收電文 */
-    (function bootSeq(){
-      var fEl=document.getElementById('bootFreq'), barEl=document.getElementById('bootBar'),
-          stEl=document.getElementById('bootSt'), numEl=document.getElementById('bootNum');
-      if(!fEl) return;
-      var TARGET=100.7;                 /* 澳門電台 FM 100.70 —— 真實頻率 */
-      var t0=performance.now(), phase=0, groups=[];
-      function grp(){ var g=''; for(var i=0;i<5;i++) g+=((Math.random()*10)|0); return g; }
-      (function step(){
-        if(bootOff) return;
-        var el=(performance.now()-t0)/1000;
-        if(phase===0){                                  /* 掃頻 */
-          var u=Math.min(1,el/1.5);
-          var f=88 + (TARGET-88)*u*u + (1-u)*(Math.random()-0.5)*7;
-          fEl.textContent=f.toFixed(2);
-          barEl.style.width=Math.round(u*38)+'%';
-          if(u>=1){ phase=1; fEl.textContent=TARGET.toFixed(2);
-            stEl.innerHTML='&gt; CARRIER DETECTED'; }
-        } else if(phase===1){                           /* 鎖定 */
-          barEl.style.width='62%';
-          if(el>2.1){ phase=2; stEl.innerHTML='&gt; SYNC<span class="bs-dots"></span>'; }
-        } else if(phase===2){                           /* 同步 */
-          barEl.style.width='84%';
-          if(el>2.9){ phase=3; stEl.innerHTML='&gt; RECEIVING'; }
-        } else {                                        /* 收電文 */
-          barEl.style.width='100%';
-          if(groups.length<12 && Math.random()<0.55){
-            groups.push(grp());
-            numEl.textContent=groups.join('  ');
-          }
-        }
-        setTimeout(step, 110);
-      })();
+    /* ===== 文件填寫動畫 =====
+       一格一格咁「打」入去，似有人喺打字機上面填緊表。
+       塗黑格、勾選格、模糊欄位、認證碼滾動——全部各自有節奏，
+       同真正嘅載入進度冇掛勾（載入完就散場，唔會等佢演完）。 */
+    /* 文件文案：澳門用葡文（本地官方語言），Victoria 用英文（美式冷戰檔案） */
+    var DOCTXT = CITY.boot==='doc-en' ? {
+      ref:'CIA/OSW—', refSuf:'/RB', cls:'TOP SECRET // NOFORN',
+      copy:'COPY', of:'OF', title:'PRECIPITATION REPORT',
+      sub:'LISTENING POST · WEATHER BUREAU DETACHMENT',
+      kSta:'STATION', kAgent:'OFFICER', kWx:'CONDITIONS', kCt:'CONTACT', kOrig:'ORIGIN',
+      origHead:'INTERCEPT · ',
+      ticks:['PRECIPITATION','WIND','TIDE','IONOSPHERE','ARCHIVE','DECLASSIFY'],
+      auth:'AUTHORIZATION CODE',
+      filling:'PENDING', ok:'AUTHORIZED', bad:'SURVEY UNAVAILABLE'
+    } : {
+      ref:'MO/RF—', refSuf:'/VII', cls:'SECRETO // OLHOS SÓ',
+      copy:'CÓPIA', of:'DE', title:'RELATÓRIO PLUVIOMÉTRICO',
+      sub:'ESTAÇÃO DE ESCUTA · SERVIÇO METEOROLÓGICO',
+      kSta:'ESTAÇÃO', kAgent:'AGENTE', kWx:'CONDIÇÕES', kCt:'CONTACTO', kOrig:'ORIGEM',
+      origHead:'INTERCEPÇÃO · ',
+      ticks:['PLUVIOSIDADE','VENTO','MARÉ','IONOSFERA','ARQUIVO','DESCLASSIFICAR'],
+      auth:'CÓDIGO DE AUTORIZAÇÃO',
+      filling:'A PREENCHER', ok:'AUTORIZADO', bad:'LEVANTAMENTO INDISPONÍVEL'
+    };
+    (function applyDocText(){
+      function set(sel,v){ var e=document.querySelector(sel); if(e) e.textContent=v; }
+      var t=DOCTXT;
+      var top=document.querySelector('.doc-top');
+      if(top){
+        top.children[0].innerHTML=t.ref+'<b id="dNo">0000</b>'+t.refSuf;
+        top.children[1].textContent=t.cls;
+        top.children[2].innerHTML=t.copy+' <b id="dCopy">1</b> '+t.of+' 3';
+      }
+      set('.doc-title',t.title); set('.doc-sub',t.sub);
+      var ks=document.querySelectorAll('.doc-grid .fk');
+      [t.kSta,t.kAgent,t.kWx,t.kCt,t.kOrig].forEach(function(v,i){ if(ks[i]) ks[i].textContent=v; });
+      set('.doc-auth .al',t.auth);
     })();
+
+    var docFill=(function(){
+      var typing=[];
+      function redact(n){ var s=''; for(var i=0;i<n;i++) s+='█'; return s; }
+      /* 逐字打入 */
+      function type(el,txt,speed,done){
+        if(!el) return;
+        var i=0;
+        (function tick(){
+          if(bootOff) return;
+          el.textContent=txt.slice(0,++i);
+          if(i<txt.length) setTimeout(tick, speed*(0.6+Math.random()*0.9));
+          else if(done) done();
+        })();
+      }
+      function typeRedacted(el,n,speed){
+        if(!el) return;
+        var i=0;
+        (function tick(){
+          if(bootOff) return;
+          el.innerHTML='<span class="rd">'+redact(++i)+'</span>';
+          if(i<n) setTimeout(tick, speed*(0.5+Math.random()));
+        })();
+      }
+      return {
+        header:function(){
+          var no=document.getElementById('dNo');
+          if(no) no.textContent=String(1000+((Math.random()*8999)|0));
+          var cp=document.getElementById('dCopy');
+          if(cp) cp.textContent=String(1+((Math.random()*3)|0));
+          var hs=document.getElementById('dHash');
+          if(hs){
+            var h='';
+            for(var i=0;i<24;i++) h+='0123456789ABCDEF'[(Math.random()*16)|0];
+            hs.textContent=h.replace(/(.{4})/g,'$1 ').trim();
+          }
+        },
+        station:function(txt){ type(document.getElementById('dSta'), txt, 34); },
+        wx:function(txt){ type(document.getElementById('dWx'), txt, 30); },
+        rest:function(){
+          setTimeout(function(){ typeRedacted(document.getElementById('dAgent'),9,52); },420);
+          setTimeout(function(){ typeRedacted(document.getElementById('dCt'),7,58); },760);
+          setTimeout(function(){
+            /* 一半打字、一半塗黑：似有人打完之後再用筆塗走 */
+            type(document.getElementById('dOrig'),DOCTXT.origHead,26,function(){
+              var el=document.getElementById('dOrig'), n=0, head=el.textContent;
+              (function tick(){
+                if(bootOff) return;
+                el.innerHTML=head+'<span class="rd">'+redact(++n)+'</span>';
+                if(n<22) setTimeout(tick,44*(0.5+Math.random()));
+              })();
+            });
+          },1000);
+          /* 勾選格逐個打叉 */
+          var box=document.getElementById('dTicks');
+          if(box){
+            var L=DOCTXT.ticks;
+            box.innerHTML=L.map(function(x){ return '<span><i></i>'+x+'</span>'; }).join('');
+            var is=box.querySelectorAll('i');
+            L.forEach(function(_,k){
+              setTimeout(function(){
+                if(bootOff) return;
+                if(k<L.length-1) is[k].classList.add('on');   /* 最後一格永遠唔剔 */
+              }, 620+k*230);
+            });
+          }
+        },
+        /* 認證碼：五位一組滾動，最後定格 */
+        auth:function(){
+          var el=document.getElementById('dAuth'), bar=document.getElementById('dBar');
+          if(!el) return;
+          var n=0, locked='';
+          (function roll(){
+            if(bootOff) return;
+            var out=locked;
+            for(var i=locked.replace(/\s/g,'').length/5;i<6;i++){
+              var g=''; for(var j=0;j<5;j++) g+=((Math.random()*10)|0);
+              out+=(out?' ':'')+g;
+            }
+            el.textContent=out;
+            if(bar) bar.style.width=Math.min(100,n*2.1)+'%';
+            n++;
+            if(n%13===0 && locked.split(' ').filter(Boolean).length<6){
+              var g2=''; for(var k=0;k<5;k++) g2+=((Math.random()*10)|0);
+              locked=(locked?locked+' ':'')+g2;
+            }
+            setTimeout(roll,70);
+          })();
+        },
+        foot:function(t){ var e=document.getElementById('dFoot'); if(e) e.textContent=t; }
+      };
+    })();
+    docFill.header(); docFill.rest(); docFill.auth();
+    docFill.foot(DOCTXT.filling);
 
     /* 開機畫面嘅站名／天氣：同 menu 定位訊號共用 sessionStorage('hk_loc')，
        所以唔會為咗開機畫面而多打一次 API。攞唔到就用 Dome Fuji（同 menu 一致）。 */
     (function bootGeo(){
       var DOME={ city:'Dome Fuji', cc:'AQ', lat:-77.3167, lon:39.7000, tz:'Antarctica/Syowa' };
       function show(loc){
-        var staEl=document.getElementById('bootSta'), wxEl=document.getElementById('bootWx');
-        if(!staEl) return;
-        staEl.innerHTML='&nbsp;· '+(loc.city||'—')+(loc.cc? ', '+loc.cc : '');
+        docFill.station((loc.city||'—').toUpperCase()+(loc.cc? ', '+loc.cc : ''));
         function timeStr(){
           try{ return new Date().toLocaleTimeString('en-GB',
             {timeZone:loc.tz,hour:'2-digit',minute:'2-digit',hour12:false}); }
           catch(e){ return '--:--'; }
         }
         function paint(t,h){
-          wxEl.innerHTML=(t==null?'--.-':t.toFixed(1))+'°C&nbsp;&nbsp;·&nbsp;&nbsp;'+
-            (h==null?'--':Math.round(h))+'%&nbsp;&nbsp;·&nbsp;&nbsp;'+timeStr();
+          docFill.wx((t==null?'--.-':t.toFixed(1))+'°C · '+
+            (h==null?'--':Math.round(h))+'% · '+timeStr());
         }
-        paint(null,null);
         var key='hk_wx_'+loc.lat.toFixed(2)+'_'+loc.lon.toFixed(2), cw=null;
         try{ cw=JSON.parse(sessionStorage.getItem(key)||'null'); }catch(e){}
         if(cw && Date.now()-cw.at<1800000){ paint(cw.t,cw.h); return; }
@@ -1657,14 +1951,18 @@
     function bootCheck(){
       if(bootOff) return;
       if(readyMap&&readyWx&&performance.now()-bootT0>3800){
+        docFill.foot(DOCTXT.ok);
         bootOff=true; bootEl.classList.add('off'); alignHead();
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch('macau-map.json?v=34').then(function(r){return r.json();})
-      .then(function(j){ MAP=j; resetView(); prepGlow(); bgDirty=true; needDraw=true;
+    fetch(CITY.map+'?v=63').then(function(r){return r.json();})
+      .then(function(j){
+        MAP=j;
+        if(MAP.buildings3d) MAP.buildings3d.sort(function(a,b){ return b[0]-a[0]; });
+        resetView(); prepGlow(); bgDirty=true; needDraw=true;
         readyMap=true; bootCheck(); })
-      .catch(function(){ document.getElementById('bootSt').textContent='> SURVEY UNAVAILABLE'; });
+      .catch(function(){ docFill.foot(DOCTXT.bad); });
     loadLive();
     requestAnimationFrame(frame);
     var rz; window.addEventListener('resize',function(){
