@@ -24,12 +24,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Share+Tech+Mono&family=Noto+Serif+TC:wght@300;500&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=63"/>
-  <script src="site.js?v=63" defer></script>
-  <script src="game-data.js?v=63"></script>
-  <script src="cast/manifest.js?v=63"></script>
-  <script src="bg-frege.js?v=63" defer></script>
-  <script src="game-logos.js?v=63"></script>
+  <link rel="stylesheet" href="site.css?v=79"/>
+  <script src="site.js?v=79" defer></script>
+  <script src="game-data.js?v=79"></script>
+  <script src="cast/manifest.js?v=79"></script>
+  <script src="bg-frege.js?v=79" defer></script>
+  <script src="game-logos.js?v=79"></script>
 
   <style>
     :root{
@@ -38,6 +38,7 @@
       --mag:#00ff66;
       --mid:#1fca6a;
       --dim:#0b6132;
+      --lite:#a8ffcd;                             /* 高亮爻（變爻）——ATC 模式轉亮橙 */
       --led:#ff3b30;
       --paint:#c1251d;                            /* 機殼塗裝字樣（wingman 式正紅） */
 
@@ -53,6 +54,7 @@
       --mag:#e74c3c;
       --mid:#e0503f;
       --dim:#6e2018;
+      --lite:#ff9d4a;                            /* 變爻：亮橙，喺紅底上仍然突出 */
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
@@ -351,7 +353,7 @@
       flex:1; background: rgba(var(--scr-rgb),.88);
       box-shadow: 0 0 4px rgba(var(--scr-rgb),.55), 0 0 12px rgba(var(--scr-rgb),.2);
     }
-    .sig2-rows .yao.hi .ln b{ background:#a8ffcd; box-shadow:0 0 6px rgba(var(--scr-rgb),.8), 0 0 16px rgba(var(--scr-rgb),.3); }
+    .sig2-rows .yao.hi .ln b{ background:var(--lite); box-shadow:0 0 6px rgba(var(--scr-rgb),.8), 0 0 16px rgba(var(--scr-rgb),.3); }
     .sig2-rows .yao .nv{ text-align:center; color: var(--mid); }
     .sig2-dump{
       font-family: var(--f-num); font-size:7.5px; letter-spacing:.06em;

@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=63"/>
-  <script src="site.js?v=63" defer></script>
+  <link rel="stylesheet" href="site.css?v=79"/>
+  <script src="site.js?v=79" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -1319,7 +1319,7 @@
       var zn = activeZone? activeZone.n : CITY.label;
       document.getElementById('rZone').textContent = zn;
       var fEl=document.getElementById('hFoot');
-      fEl.innerHTML = foot;
+      fEl.innerHTML = mapFailed ? 'SURVEY UNAVAILABLE' : foot;
       fEl.classList.toggle('live', foot===LIVE_FOOT);
       paintListen(foot===LIVE_FOOT);
       document.getElementById('metar').textContent =
@@ -1772,7 +1772,7 @@
 
     /* ===== 開機：地圖 + 首次天氣讀數 + 最少 1.6s ===== */
     var bootEl=document.getElementById('boot');
-    var bootT0=performance.now(), readyMap=false, readyWx=false, bootOff=false;
+    var bootT0=performance.now(), readyMap=false, readyWx=false, bootOff=false, mapFailed=false;
 
     /* ===== 文件填寫動畫 =====
        一格一格咁「打」入去，似有人喺打字機上面填緊表。
@@ -1950,19 +1950,34 @@
     })();
     function bootCheck(){
       if(bootOff) return;
-      if(readyMap&&readyWx&&performance.now()-bootT0>3800){
-        docFill.foot(DOCTXT.ok);
+      var el=performance.now()-bootT0;
+      /* 看門狗：任何原因（地圖掛咗／天氣 API 唔覆）都唔可以永遠吊住 */
+      var ready = (readyMap||mapFailed) && (readyWx || el>9000);
+      if(ready && el>3800){
+        docFill.foot(mapFailed?DOCTXT.bad:DOCTXT.ok);
         bootOff=true; bootEl.classList.add('off'); alignHead();
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch(CITY.map+'?v=63').then(function(r){return r.json();})
+    fetch(CITY.map+'?v=79')
+      .then(function(r){
+        if(!r.ok) throw new Error('HTTP '+r.status+' '+CITY.map);
+        return r.json();
+      })
       .then(function(j){
         MAP=j;
         if(MAP.buildings3d) MAP.buildings3d.sort(function(a,b){ return b[0]-a[0]; });
         resetView(); prepGlow(); bgDirty=true; needDraw=true;
         readyMap=true; bootCheck(); })
-      .catch(function(){ docFill.foot(DOCTXT.bad); });
+      .catch(function(e){
+        /* ⚠️ 攞唔到地圖唔可以吊死喺 loading：報錯、放行、由 HUD 講清楚 */
+        mapFailed=true;
+        docFill.foot(DOCTXT.bad);
+        var f=document.getElementById('hFoot');
+        if(f) f.textContent='SURVEY UNAVAILABLE';
+        try{ console.error('[rainfall] map load failed:', e && e.message); }catch(_){}
+        bootCheck();
+      });
     loadLive();
     requestAnimationFrame(frame);
     var rz; window.addEventListener('resize',function(){

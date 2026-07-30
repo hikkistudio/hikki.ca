@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=63"/>
-  <script src="site.js?v=63" defer></script>
+  <link rel="stylesheet" href="site.css?v=79"/>
+  <script src="site.js?v=79" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -294,20 +294,20 @@
       $('meters').innerHTML = meter(70,64,280,126,'SIGNAL','REC CH I');
       $('lamps').innerHTML  = lampWin(70,226,128,24,'lampRain','PRECIP')
                             + lampWin(222,226,128,24,'lampLink','LINK');
-      $('knobs').innerHTML  = dial(122,398,50,'knobBand','BAND',BAND_SPEC)
-                            + dial(298,398,50,'knobTx','TRANSMIT',TX_SPEC)
+      $('knobs').innerHTML  = dial(134,398,48,'knobBand','BAND',BAND_SPEC)
+                            + dial(282,398,48,'knobTx','TRANSMIT',TX_SPEC)
                             + '<g id="cityLbls"></g>';
     } else {
       $('meters').innerHTML = meter(96,70,250,130,'SIGNAL','REC CH I')
                             + meter(414,70,250,130,'CARRIER','REC CH II');
       $('lamps').innerHTML  = lampWin(40,104,34,62,'lampRain','PRECIP')
                             + lampWin(686,104,34,62,'lampLink','LINK');
-      $('knobs').innerHTML  = dial(206,336,54,'knobBand','BAND',BAND_SPEC)
-                            + dial(554,336,54,'knobTx','TRANSMIT',TX_SPEC)
+      $('knobs').innerHTML  = dial(206,350,54,'knobBand','BAND',BAND_SPEC)
+                            + dial(554,350,54,'knobTx','TRANSMIT',TX_SPEC)
                             + '<g id="cityLbls"></g>';
     }
     /* RECORD 分隔線（同附圖一樣，喺錶同旋鈕之間） */
-    var midY = P?286:256, L = P?70:96, R2 = P?350:664;
+    var midY = P?286:238, L = P?70:96, R2 = P?350:664;
     $('knobs').insertAdjacentHTML('afterbegin',
       '<line class="ln hair" x1="'+L+'" y1="'+midY+'" x2="'+(W/2-44)+'" y2="'+midY+'"/>'+
       '<line class="ln hair" x1="'+(W/2+44)+'" y1="'+midY+'" x2="'+R2+'" y2="'+midY+'"/>'+
