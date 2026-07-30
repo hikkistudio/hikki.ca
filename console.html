@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=79"/>
-  <script src="site.js?v=79" defer></script>
+  <link rel="stylesheet" href="site.css?v=80"/>
+  <script src="site.js?v=80" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -31,6 +31,11 @@
     .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
     .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
     .hk-menu-copy{ color:rgba(231,76,60,.66) !important; border-top-color:rgba(231,76,60,.26) !important; }
+    /* >direct message：紅主題頁面用亮橙 highlight */
+    .hk-menu-contact a.hk-enq{ color:#ff9d4a !important;
+      border-bottom-color:rgba(255,157,74,.45) !important; }
+    .hk-menu-contact a.hk-enq:hover{ color:#ffc48a !important;
+      border-bottom-color:#ffc48a !important; }
 
     .grain{ position:fixed; inset:0; z-index:3; pointer-events:none;
       background:repeating-linear-gradient(0deg, rgba(0,0,0,.13) 0 1px, transparent 1px 3px);
@@ -78,6 +83,8 @@
     .kb-body{ fill:var(--ink); stroke:var(--amb); stroke-width:1.6; }
     .kb-ptr{ stroke:var(--amb); stroke-width:1.6; stroke-linecap:round; }
     .kb-rot{ transition:transform .5s cubic-bezier(.34,1.5,.5,1); }
+    .knob{ touch-action:none; }
+    .knob.turning .kb-rot{ transition:none; }
     .knob:hover .kb-body, .knob:hover .kb-ptr{ stroke:#ff9d88; }
     /* 底座刻度 */
     .tk-maj{ stroke:rgba(231,76,60,.9); stroke-width:1.8; stroke-linecap:round; }
@@ -354,8 +361,34 @@
 
   /* ───────── 互動 ───────── */
   function wireKnobs(P){
-    var kb=$('knobBand'); if(kb) kb.addEventListener('click',function(){ pick((sel+1)%CITIES.length); });
-    var kt=$('knobTx');   if(kt) kt.addEventListener('click',fire);
+    /* 拖動＝真旋鈕手感；輕撳＝跳下一格 */
+    var previewIdx=sel;
+    makeTurnable('knobBand', {
+      get: function(){ return sel; },
+      preview: function(i0, da){
+        var span=(BAND_SPEC.a1-BAND_SPEC.a0)/8*2;          /* 每格角度 */
+        var f=i0 + da/span;
+        var n=Math.max(0, Math.min(CITIES.length-1, Math.round(f)));
+        previewIdx=n;
+        var rot=$('knobBandRot');
+        if(rot) rot.setAttribute('transform','rotate('+(bandAngle(i0)+da).toFixed(1)+')');
+      },
+      tap: function(){ pick((sel+1)%CITIES.length); },
+      settle: function(){ pick(previewIdx); }
+    });
+    makeTurnable('knobTx', {
+      get: function(){ return 0; },
+      preview: function(_, da){
+        var a=Math.max(TX_OFF, Math.min(TX_ON, TX_OFF+da));
+        setTx(a.toFixed(1));
+      },
+      tap: fire,
+      settle: function(){
+        var cur=parseFloat((($('knobTxRot')||{}).getAttribute
+          ? $('knobTxRot').getAttribute('transform')||'' : '').replace(/[^-\d.]/g,'')) || TX_OFF;
+        if(cur > (TX_OFF+TX_ON)/2) fire(); else setTx(TX_OFF);
+      }
+    });
     if(!P){
       var g='';
       CITIES.forEach(function(c,i){
@@ -374,6 +407,43 @@
       crackLater(cl);
     }
   }
+  /* ── 旋鈕拖動手感：撳住轉，放手吸到最近嘅檔位 ── */
+  function makeTurnable(id, opts){
+    var g=$(id); if(!g) return;
+    var dragging=false, moved=0, startA=0, startIdx=0;
+    function centre(){
+      var r=g.getBoundingClientRect();
+      return { x:r.left+r.width/2, y:r.top+r.height/2 };
+    }
+    function angOf(e){
+      var c=centre();
+      return Math.atan2(e.clientX-c.x, -(e.clientY-c.y))*180/Math.PI;  /* 0°=12點，順時針正 */
+    }
+    g.addEventListener('pointerdown', function(e){
+      if(busy) return;
+      dragging=true; moved=0; startA=angOf(e); startIdx=opts.get();
+      g.classList.add('turning');
+      g.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+    g.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var da=angOf(e)-startA;
+      if(da>180) da-=360; if(da<-180) da+=360;
+      moved=Math.max(moved,Math.abs(da));
+      opts.preview(startIdx, da);          /* 即時跟手 */
+    });
+    function end(e){
+      if(!dragging) return;
+      dragging=false; g.classList.remove('turning');
+      try{ g.releasePointerCapture(e.pointerId); }catch(_){}
+      if(moved<6) opts.tap();              /* 當成撳一下 */
+      else opts.settle();                  /* 吸到最近檔位 */
+    }
+    g.addEventListener('pointerup', end);
+    g.addEventListener('pointercancel', end);
+  }
+
   function setTx(a){ var r=$('knobTxRot'); if(r) r.setAttribute('transform','rotate('+a+')'); }
   function fire(){
     if(busy) return;

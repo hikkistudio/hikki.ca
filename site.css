@@ -292,7 +292,7 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
   color: var(--hk-ivory); font-size: 24px; line-height: 1;
   padding: 6px 0 6px 12px; touch-action: manipulation;
 }
-.hk-enq-close:hover { color: var(--hk-gold); }
+.hk-enq-close:hover { color: var(--hk-orange); }
 .hk-enq-form { max-width: 560px; width: 100%; margin: 0 auto; font-family: var(--hk-font-mono); }
 .hk-enq-head {
   font-family: var(--hk-font-sans); font-weight: 700;
@@ -300,13 +300,6 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
   margin-bottom: clamp(4px, 1vh, 10px);
 }
 /* connecting… 三點輪流閃（game 效果） */
-.hk-enq-dots { display: inline-block; width: 1.4em; text-align: left; }
-.hk-enq-dots::after { content: '.'; animation: enqDots 1.4s steps(1, end) infinite; }
-@keyframes enqDots { 0%,100% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
-.hk-enq-sub {
-  font-size: clamp(11px, 1.5vh, 13px); line-height: 1.65;
-  color: rgba(244, 242, 240, 0.55); margin-bottom: clamp(14px, 3vh, 28px);
-}
 .hk-enq-sub .hk-enq-cite { display: block; margin-top: 3px; color: rgba(244, 242, 240, 0.35); }
 .hk-enq-row { display: flex; gap: 14px; align-items: baseline; margin-bottom: clamp(9px, 1.7vh, 16px); }
 .hk-enq-row > span { flex: 0 0 auto; width: 78px; color: rgba(244, 242, 240, 0.5); font-size: 13px; }
@@ -317,7 +310,7 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
   padding: 4px 0; outline: none;
 }
 .hk-enq-row textarea { resize: vertical; line-height: 1.6; }
-.hk-enq-row input:focus, .hk-enq-row textarea:focus { border-bottom-color: var(--hk-gold); }
+.hk-enq-row input:focus, .hk-enq-row textarea:focus { border-bottom-color: var(--hk-orange); }
 .hk-enq-msg { align-items: stretch; }
 .hk-enq-opts { display: flex; flex-wrap: wrap; gap: 8px; }
 .hk-enq-opts button {
