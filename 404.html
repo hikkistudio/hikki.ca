@@ -6,95 +6,255 @@
   <title>404 | hikki photography</title>
   <meta name="robots" content="noindex"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css?v=80"/>
-  <script src="/site.js?v=80" defer></script>
+  <link rel="stylesheet" href="/site.css?v=88"/>
+  <script src="/site.js?v=88" defer></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --hk-bar-alpha: 0.92; } /* 黑底頁 header 唔透灰 */
-    html, body { height: 100%; background: #161616; color: var(--hk-ivory); overflow: hidden; }
-    body { font-family: var(--hk-font-mono); }
-    .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
-    main {
-      position: fixed; inset: 0; height: 100dvh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: calc(var(--hk-bar-h) + 20px) var(--hk-pad-x) 40px;
-    }
-    h1 {
-      font-family: var(--hk-font-sans); font-weight: bold;
-      font-size: clamp(64px, 14vw, 180px); line-height: 0.9; letter-spacing: -0.02em;
-      color: var(--hk-ivory);
-    }
-    /* signal lost… 三點輪流循環（同 game 頭像框同款） */
-    .sig { margin-top: 20px; font-size: clamp(13px, 1.8vw, 16px); line-height: 1.7; color: rgba(244,242,240,.8); }
-    .sig .dots { display: inline-block; width: 1.6em; text-align: left; }
-    .sig .dots::after { content: '.'; animation: dots404 1.4s steps(1,end) infinite; }
-    @keyframes dots404 { 0%,100%{ content:'.'; } 33%{ content:'..'; } 66%{ content:'...'; } }
-    /* 引文：搜索失敗時，儀器由雜訊入面撈到嘅一句 */
-    .quote {
-      margin-top: clamp(20px, 4vh, 40px);
-      font-family: var(--hk-font-ja); font-weight: 200;
-      font-size: clamp(15px, 2.2vw, 21px); line-height: 1.9;
-      color: rgba(244,242,240,.62); max-width: 30em;
-    }
-    .quote small {
-      display: block; margin-top: 6px;
-      font-family: var(--hk-font-mono); font-size: 11px; color: rgba(244,242,240,.35);
-    }
-    .ret { margin-top: clamp(20px, 4vh, 36px); font-size: clamp(14px, 2vw, 18px); }
-    a { color: var(--hk-ivory); text-decoration: underline; }
-    a:hover { color: var(--hk-gold); }
-    /* 統一版權標示（左下角） */
-    .site-copy {
-      position: absolute; left: var(--hk-pad-x); bottom: 16px;
-      font-family: var(--hk-font-mono); font-size: 11px; letter-spacing: -0.005em;
-      color: rgba(244,242,240,.5); pointer-events: none;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root{ --hk-bar-alpha:0.96; --amb:#e74c3c; --ink:#0b0705; }
+    html,body{ height:100%; background:var(--ink); color:var(--amb); overflow:hidden; }
+    body{ font-family:var(--hk-font-mono); }
+
+    /* header / menu：同 rainfall 一套暗油墨 + 橙字 */
+    .hk-bar{ background:rgba(11,7,5,.34) !important;
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); color:var(--amb) !important; }
+    .hk-bar .hk-rotator,.hk-bar .hk-menu-btn,.hk-bar .hk-logo{ color:var(--amb) !important; }
+    .hk-bar .hk-logo .hk-sq{ background:var(--amb) !important; }
+    .hk-menu{ background:rgba(11,7,5,.93) !important; color:var(--amb) !important; }
+    .hk-menu-list li{ border-bottom-color:rgba(231,76,60,.26) !important; }
+    .hk-menu-list a,.hk-menu-list button{ color:var(--amb) !important; }
+    .hk-menu-contact li,.hk-menu-contact a{ color:rgba(231,76,60,.78) !important; }
+    .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
+    .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
+    .hk-menu-copy{ color:rgba(231,76,60,.66) !important; border-top-color:rgba(231,76,60,.26) !important; }
+    /* >direct message：紅主題頁面用亮橙 highlight */
+    .hk-menu-contact a.hk-enq{ color:#ff9d4a !important;
+      border-bottom-color:rgba(255,157,74,.45) !important; }
+    .hk-menu-contact a.hk-enq:hover{ color:#ffc48a !important;
+      border-bottom-color:#ffc48a !important; }
+
+    .grain{ position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.5;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,.34) 0 1px, transparent 1px 3px); }
+    .vig{ position:fixed; inset:0; pointer-events:none; z-index:1;
+      background:radial-gradient(120% 90% at 50% 44%, rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%); }
+
+    main{ position:fixed; inset:0; height:100dvh; z-index:2;
+      display:flex; align-items:center; justify-content:center;
+      padding:calc(var(--hk-bar-h) + 10px) clamp(12px,4vw,28px) 54px; }
+    .rack{ width:100%; max-width:min(560px,92vw); }
+    svg{ width:100%; height:auto; display:block; overflow:visible; }
+
+    /* 純紅線，同 console 一套語言 */
+    .fr{ fill:none; stroke:rgba(231,76,60,.62); stroke-width:1.2; }
+    .fr-in{ fill:none; stroke:rgba(231,76,60,.24); stroke-width:1; }
+    .scr{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:1; }
+    .tick{ stroke:rgba(231,76,60,.38); stroke-width:1; fill:none; }
+    .tick-b{ stroke:rgba(231,76,60,.6); stroke-width:1.3; }
+    .lbl{ fill:rgba(231,76,60,.5); font-family:var(--hk-font-mono);
+      font-size:7px; letter-spacing:.22em; }
+    .lbl-d{ fill:rgba(231,76,60,.3); }
+    .big{ fill:var(--amb); font-family:var(--hk-font-mono);
+      font-size:23px; letter-spacing:.3em; }
+    .sml{ fill:rgba(231,76,60,.72); font-family:var(--hk-font-mono);
+      font-size:8.5px; letter-spacing:.2em; }
+
+    /* 指針：死咗。唔會歸零，卡喺低位，只會極輕微抽搐。 */
+    .ndl{ stroke:rgba(231,76,60,.52); stroke-width:1.4; stroke-linecap:round; fill:none; }
+    .ndl-pin{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:1; }
+
+    /* 旋鈕：轉得郁，但轉到邊都一樣 */
+    .kb-body{ fill:var(--ink); stroke:rgba(231,76,60,.6); stroke-width:1.5; }
+    .kb-ptr{ stroke:rgba(231,76,60,.75); stroke-width:1.5; stroke-linecap:round; }
+    .kb-rot{ transition:transform .34s cubic-bezier(.28,1.1,.42,1); }
+    #knob{ cursor:grab; touch-action:none; }
+    #knob.turning{ cursor:grabbing; }
+    #knob.turning .kb-rot{ transition:none; }
+
+    /* 燈：全部熄。冇一盞會著。 */
+    .lamp{ fill:none; stroke:rgba(231,76,60,.3); stroke-width:1; }
+
+    .ret{ position:absolute; left:0; right:0; bottom:20px; text-align:center;
+      font-size:12px; letter-spacing:.06em; z-index:3; }
+    .ret a{ color:rgba(231,76,60,.8); text-decoration:none;
+      border-bottom:1px solid rgba(231,76,60,.4); padding-bottom:2px; }
+    .ret a:hover{ color:#ff9d88; border-bottom-color:#ff9d88; }
+    .site-copy{ position:absolute; left:clamp(12px,4vw,28px); bottom:20px; z-index:3;
+      font-family:var(--hk-font-mono); font-size:10px;
+      color:rgba(231,76,60,.34); pointer-events:none; }
+    @media (max-width:620px){ .site-copy{ display:none; } }
+
+    @media (prefers-reduced-motion: reduce){ .kb-rot{ transition:none; } }
   </style>
 </head>
 <body>
+  <div class="grain"></div><div class="vig"></div>
+
   <main>
-    <h1 id="t">404,</h1>
-    <p class="sig">recalibrating<span class="dots"></span><br><span id="coords">22.198510 | 113.536389</span></p>
-    <p class="quote" id="q"></p>
-    <p class="ret"><a href="/">&gt;return to index</a> <span class="blink-block">■</span></p>
-    <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
+    <div class="rack">
+    <svg id="rig" viewBox="0 0 560 320" preserveAspectRatio="xMidYMid meet" aria-label="接收機：搵唔到頻率">
+      <rect class="fr"    x="6"  y="6"  width="548" height="308" rx="9"/>
+      <rect class="fr-in" x="12" y="12" width="536" height="296" rx="6"/>
+
+      <!-- 主屏：靜電雜訊 -->
+      <rect class="scr" x="30" y="34" width="330" height="150" rx="5"/>
+      <clipPath id="scrClip"><rect x="31" y="35" width="328" height="148" rx="5"/></clipPath>
+      <g clip-path="url(#scrClip)">
+        <path id="noise2" class="ndl" d="" opacity=".22"/>
+        <path id="noise"  class="ndl" d="" opacity=".5"/>
+      </g>
+      <text class="lbl" x="38" y="49">SPECTRUM</text>
+      <text class="lbl lbl-d" x="300" y="49">NO LOCK</text>
+
+      <!-- 大字：搵唔到 -->
+      <text class="big" x="30" y="222">404</text>
+      <text class="sml" x="30" y="244" id="l1">NO SUCH FREQUENCY</text>
+      <text class="sml" x="30" y="262" id="l2" opacity=".55">SWEEP 00.000 &#8212; 99.999 MHz</text>
+      <text class="sml" x="30" y="280" id="l3" opacity=".55">RESULT: &#8212;</text>
+
+      <!-- 訊號錶：指針卡死 -->
+      <g transform="translate(446,96)">
+        <path class="fr-in" d="M-58,16 A62,62 0 0 1 58,16"/>
+        <g class="tick">
+          <line x1="-52" y1="7"   x2="-58" y2="2"/>
+          <line x1="-27" y1="-14" x2="-31" y2="-20"/>
+          <line x1="0"   y1="-22" x2="0"   y2="-29"/>
+          <line x1="27"  y1="-14" x2="31"  y2="-20"/>
+        </g>
+        <line class="tick-b" x1="52" y1="7" x2="58" y2="2"/>
+        <text class="lbl" x="-64" y="26">0</text>
+        <text class="lbl" x="54"  y="26">9</text>
+        <text class="lbl" x="-17" y="42">SIGNAL</text>
+        <g id="ndlRot" transform="rotate(-74)">
+          <line class="ndl" x1="0" y1="14" x2="0" y2="-38"/>
+        </g>
+        <circle class="ndl-pin" cx="0" cy="14" r="3.4"/>
+      </g>
+
+      <!-- 三盞燈，冇一盞著 -->
+      <g transform="translate(390,180)">
+        <circle class="lamp" cx="0"  cy="0" r="4.6"/><text class="lbl lbl-d" x="-10" y="18">PWR</text>
+        <circle class="lamp" cx="46" cy="0" r="4.6"/><text class="lbl lbl-d" x="34"  y="18">LOCK</text>
+        <circle class="lamp" cx="92" cy="0" r="4.6"/><text class="lbl lbl-d" x="80"  y="18">DATA</text>
+      </g>
+
+      <!-- 旋鈕：轉得，但轉到邊都一樣 -->
+      <g id="knob" transform="translate(452,252)">
+        <g class="tick">
+          <line x1="-30" y1="-14" x2="-34" y2="-16"/>
+          <line x1="-18" y1="-27" x2="-20" y2="-31"/>
+          <line x1="0"   y1="-32" x2="0"   y2="-37"/>
+          <line x1="18"  y1="-27" x2="20"  y2="-31"/>
+          <line x1="30"  y1="-14" x2="34"  y2="-16"/>
+        </g>
+        <circle class="kb-body" cx="0" cy="0" r="25"/>
+        <g class="kb-rot" id="knobRot">
+          <line class="kb-ptr" x1="0" y1="0" x2="0" y2="-19"/>
+        </g>
+        <text class="lbl" x="-15" y="48">TUNE</text>
+      </g>
+    </svg>
+    </div>
   </main>
+
+  <p class="ret"><a href="/">&gt;return to index</a> <span class="hk-blink">■</span></p>
+  <p class="site-copy">&copy; 2026 hikki photography &amp; philosophy.</p>
+
   <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      /* 雜訊入面撈到嘅一句（《燈火》） */
-      var QUOTES = [
-        '一處無人知道我曾經到過的地方。',
-        '風從不在預定的方向出現，亦不在應該的時間停下。',
-        '案件石沉大海。',
-        '沒有移民紀錄，沒有租屋紀錄，沒有涉案紀錄。',
-        '世間萬物，都終將被拋棄。',
-        '睇晒，唔等於明晒。',
-        '佢像一個根本未曾在澳門生活過的人。'
-      ];
-      var q = document.getElementById('q');
-      q.innerHTML = QUOTES[(Math.random() * QUOTES.length) | 0] +
-        '<small>— 燈火</small>';
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      var C = window.HikkiCrack;
-      if (C) C.startOn([].concat(C.collect(document.getElementById('t')), C.collect(q)));
+    /* ── 主屏：靜電。轉幾多次台都係呢樣嘢。 ── */
+    var X0 = 31, X1 = 359, YM = 110, N = 82;
+    function noiseLine(amp){
+      var d = '', i, x, y;
+      for(i = 0; i <= N; i++){
+        x = X0 + (X1 - X0) * i / N;
+        y = YM + (Math.random() - 0.5) * amp * (0.35 + Math.random());
+        d += (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1);
+      }
+      return d;
+    }
+    (function hiss(){
+      if(!document.hidden){
+        $('noise').setAttribute('d', noiseLine(46));
+        $('noise2').setAttribute('d', noiseLine(74));
+      }
+      setTimeout(hiss, reduce ? 900 : 62 + Math.random() * 46);
+    })();
 
-      /* 座標漂移：一位一位咁跳（似搜索緊） */
-      var el = document.getElementById('coords');
-      (function drift(){
-        if (!document.hidden) {
-          var s = el.textContent.split('');
-          var idxs = [];
-          for (var i = 0; i < s.length; i++) if (s[i] >= '0' && s[i] <= '9') idxs.push(i);
-          var take = 1 + ((Math.random() * 2) | 0);
-          for (var k = 0; k < take && idxs.length; k++) {
-            var p = idxs.splice((Math.random() * idxs.length) | 0, 1)[0];
-            s[p] = String((Math.random() * 10) | 0);
-          }
-          el.textContent = s.join('');
-        }
-        setTimeout(drift, 60 + Math.random() * 120);
-      })();
+    /* ── 指針：死咗。卡喺低位，偶然抽一抽，永遠上唔到。 ── */
+    var DEAD = -74;
+    (function twitch(){
+      if(!document.hidden){
+        var a = DEAD + (Math.random() < 0.14 ? Math.random() * 5 : Math.random() * 1.2);
+        $('ndlRot').setAttribute('transform', 'rotate(' + a.toFixed(2) + ')');
+      }
+      setTimeout(twitch, 260 + Math.random() * 900);
+    })();
+
+    /* ── 掃描讀數：一直搵，一直搵唔到 ── */
+    var l2 = $('l2'), l3 = $('l3');
+    function mhz(){
+      var v = Math.random() * 100;
+      return (v < 10 ? '0' : '') + v.toFixed(3);
+    }
+    (function sweep(){
+      if(!document.hidden){
+        l2.textContent = 'SWEEP ' + mhz() + ' — ' + mhz() + ' MHz';
+        l3.textContent = 'RESULT: ' + (Math.random() < 0.12 ? 'CARRIER? — LOST' : '—');
+      }
+      setTimeout(sweep, reduce ? 2400 : 380 + Math.random() * 620);
+    })();
+
+    /* ── TUNE 旋鈕：轉得郁，但係轉到邊都冇分別。 ── */
+    var kn = $('knob'), rotG = $('knobRot');
+    var ang = 0, dragging = false, startA = 0, startAng = 0, moved = 0;
+    function centre(){
+      var r = kn.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    }
+    function angOf(e){
+      var c = centre();
+      return Math.atan2(e.clientX - c.x, -(e.clientY - c.y)) * 180 / Math.PI;
+    }
+    function setAng(a){ ang = a; rotG.setAttribute('transform', 'rotate(' + a.toFixed(1) + ')'); }
+    function futile(){
+      /* 唯一嘅回應：屏幕跳大一下，然後照舊。 */
+      $('noise').setAttribute('d', noiseLine(96));
+      l3.textContent = 'RESULT: —';
+    }
+    kn.addEventListener('pointerdown', function(e){
+      dragging = true; moved = 0; startA = angOf(e); startAng = ang;
+      kn.classList.add('turning');
+      try{ kn.setPointerCapture(e.pointerId); }catch(_){}
+      e.preventDefault();
     });
+    kn.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var da = angOf(e) - startA;
+      if(da > 180) da -= 360; if(da < -180) da += 360;
+      moved = Math.max(moved, Math.abs(da));
+      setAng(startAng + da * 0.62);
+      futile();
+    });
+    function end(e){
+      if(!dragging) return;
+      dragging = false; kn.classList.remove('turning');
+      try{ kn.releasePointerCapture(e.pointerId); }catch(_){}
+      if(moved < 6){ setAng(ang + 30); futile(); }   /* 輕撳＝篤一格，一樣冇用 */
+    }
+    kn.addEventListener('pointerup', end);
+    kn.addEventListener('pointercancel', end);
+
+    /* 標題解碼一次，解到嘅都係同一句 */
+    (function crackLater(n){
+      if(window.HikkiCrack){
+        window.HikkiCrack.startOn(window.HikkiCrack.collect($('l1')), { budgetMs: 900 });
+        return;
+      }
+      if(n < 40) setTimeout(function(){ crackLater(n + 1); }, 50);
+    })(0);
+  })();
   </script>
 </body>
 </html>

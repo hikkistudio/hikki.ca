@@ -339,3 +339,72 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
 @media (prefers-reduced-motion: reduce) {
   .hk-menu, .hk-about, .hk-enq-panel { transition: none; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   列印＝解密文件
+   任何一頁 ⌘P 出嚟都係一張正經文件：單色、無底、有站名同 DTG。
+   螢幕上完全睇唔到（.hk-doc 平時 display:none）。
+   ══════════════════════════════════════════════════════════════ */
+.hk-doc { display: none; }
+
+@media print {
+  @page { margin: 14mm 16mm; }
+
+  html, body {
+    background: #fff !important; color: #000 !important;
+    height: auto !important; overflow: visible !important;
+  }
+  body * { box-shadow: none !important; text-shadow: none !important;
+           filter: none !important; animation: none !important; transition: none !important; }
+
+  /* 螢幕先至需要嘅嘢，一律唔印 */
+  .hk-bar, .hk-menu, .hk-menu-btn, .hk-enq-panel, .hk-about,
+  .bg-data, .yao-tip, .yao-pop, .hk-logo,
+  .grain, .vig, .scan, .noise, .boot,
+  canvas:not(.hk-print-keep) { display: none !important; }
+
+  a[href]::after { content: '' !important; }        /* 唔好喺文字後面爆 URL */
+
+  /* ── 文件頭 ── */
+  .hk-doc { display: block !important;
+    font-family: var(--hk-font-mono), ui-monospace, monospace;
+    color: #000; }
+  .hk-doc-cls { text-align: center; font-size: 11px; letter-spacing: .42em;
+    border-top: 2px solid #000; border-bottom: 2px solid #000;
+    padding: 3px 0; margin-bottom: 10px; }
+  .hk-doc-hd { display: grid; grid-template-columns: 76px 1fr 66px 1fr;
+    gap: 2px 10px; font-size: 9.5px; letter-spacing: .1em; margin-bottom: 8px; }
+  .hk-doc-hd b { font-weight: 400; color: #555; }
+  .hk-doc-rule { border-bottom: 1px solid #000; margin-bottom: 12px; }
+  /* 塗黑條：真係遮住嘢，唔係裝飾 */
+  .hk-doc-bars { margin: 10px 0 0; }
+  .hk-doc-bars i { display: inline-block; height: 9px; background: #000;
+    margin: 0 6px 4px 0; vertical-align: middle; }
+  .hk-doc-foot { margin-top: 14px; padding-top: 5px; border-top: 1px solid #000;
+    font-size: 8.5px; letter-spacing: .16em; color: #333;
+    display: flex; justify-content: space-between; }
+
+  /* 儀器頁面全部係 position:fixed，印之前要放返落文件流 */
+  .rig-wrap, .cn-wrap, .rf-wrap { position: static !important; inset: auto !important;
+    display: block !important; padding: 0 !important; overflow: visible !important; }
+  .rig, .panel { max-width: none !important; width: auto !important;
+    height: auto !important; max-height: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   電傳機：頁底一行永遠唔會重複嘅氣象電文。冇用途。
+   ══════════════════════════════════════════════════════════════ */
+.hk-tty {
+  position: fixed; left: 0; right: 0; bottom: 3px; z-index: 4;
+  text-align: center; pointer-events: none;
+  font-family: var(--hk-font-mono); font-size: 8.5px; letter-spacing: .2em;
+  color: var(--amb, var(--hk-ivory)); opacity: .3;
+  white-space: nowrap; overflow: hidden; text-overflow: clip;
+  padding: 0 10px; line-height: 1.4;
+  transition: opacity .8s ease;
+}
+.hk-tty[data-idle="1"] { opacity: 0; }
+.hk-tty i { font-style: normal; opacity: .75; }   /* 打字游標 */
+/* 窄屏冇位：儀器頁面底部已經排滿，寧願唔出都唔可以疊。 */
+@media (max-width: 900px) { .hk-tty { display: none; } }
+@media print { .hk-tty { display: none !important; } }

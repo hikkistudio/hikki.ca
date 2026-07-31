@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=80"/>
-  <script src="site.js?v=80" defer></script>
-  <script src="bg-frege.js?v=80" defer></script>
+  <link rel="stylesheet" href="site.css?v=88"/>
+  <script src="site.js?v=88" defer></script>
+  <script src="bg-frege.js?v=88" defer></script>
 
   <style>
     :root {
@@ -123,7 +123,13 @@
     .pad{ display:grid; grid-template-columns:repeat(3,1fr);
       gap:clamp(7px,2vw,13px); width:min(100%, 74%); margin:0 auto; }
     .digit{ appearance:none; border:0; background:none; cursor:pointer; padding:0;
-      touch-action:manipulation; display:block; }
+      touch-action:manipulation; display:block; position:relative; }
+    /* 鍵盤游標：一條幼橫線指住而家收緊字嗰支管 */
+    .digit::after{ content:''; position:absolute; left:28%; right:28%; bottom:-6px;
+      height:1.5px; background:#ff9d4a; opacity:0;
+      transition:opacity .18s, left .18s, right .18s; }
+    .digit.cursor::after{ opacity:.62; }
+    .digit.cursor.hit::after{ opacity:1; left:20%; right:20%; }
     .nx{ width:100%; height:auto; display:block; overflow:visible; }
 
     /* 玻璃殼 */
@@ -198,6 +204,7 @@
     .hexlines{ display:flex; flex-direction:column-reverse; gap:5px; margin-top:4px;
       position:relative; z-index:1; }
     .hline{ height:8px; display:flex; gap:0; cursor:pointer; position:relative;
+      touch-action:manipulation;
       opacity:0; transform:translateY(6px);
       transition:opacity .3s ease, transform .3s ease; }
     .hline .seg{ flex:1; height:100%; background:rgba(231,76,60,.9);
@@ -207,6 +214,9 @@
     .hline:hover .seg{ background:#ff9d88; }
     .hline.moving .seg{ background:#ff9d4a;
       box-shadow:0 0 7px rgba(255,157,74,.9), 0 0 18px rgba(255,157,74,.4); }
+    /* 爻只得 8px 高，手指撳唔中。用透明 slug 撐大命中範圍（全裝置）。 */
+    .hline::before{ content:''; position:absolute;
+      left:-10px; right:-18px; top:-3px; bottom:-3px; }
     .hline.moving::after{ content:'●'; position:absolute; right:-13px; top:50%;
       transform:translateY(-50%); font-size:6px; color:#ff9d4a; }
 
@@ -220,6 +230,28 @@
     .yao-tip.on{ opacity:1; }
     .yao-tip b{ display:block; font-family:var(--f-num); font-weight:400;
       font-size:7.5px; letter-spacing:.2em; color:rgba(231,76,60,.55); margin-bottom:2px; }
+
+    /* ── 爻詞彈出：手機單點即開（本來冇樣式，等於撳極都唔見嘢） ── */
+    .yao-pop{ position:fixed; z-index:70; left:0; right:0; bottom:0;
+      background:rgba(11,7,5,.97);
+      border-top:1.2px solid rgba(231,76,60,.7);
+      padding:15px 16px calc(17px + env(safe-area-inset-bottom, 0px));
+      transform:translateY(101%); visibility:hidden;
+      transition:transform .26s cubic-bezier(.3,.9,.35,1), visibility 0s .26s; }
+    .yao-pop.open{ transform:none; visibility:visible; transition-delay:0s; }
+    /* 幕布：獨立元素。放喺 .yao-pop 入面會被 host 嘅 transform 困住。 */
+    .pop-veil{ position:fixed; inset:0; z-index:69; background:rgba(6,4,3,.58);
+      opacity:0; visibility:hidden; transition:opacity .26s, visibility 0s .26s; }
+    .pop-veil.on{ opacity:1; visibility:visible; transition-delay:0s; }
+    .pop-close{ position:absolute; top:7px; right:10px; appearance:none; border:0;
+      background:none; cursor:pointer; font-family:var(--f-num); font-size:19px;
+      line-height:1; color:rgba(231,76,60,.6); padding:5px 8px; touch-action:manipulation; }
+    .pop-close:hover{ color:#ff9d88; }
+    .pop-lab{ display:block; font-family:var(--f-num); font-size:7.5px;
+      letter-spacing:.24em; color:rgba(231,76,60,.55); margin-bottom:6px; }
+    .pop-body{ font-family:var(--hk-font-ja),serif; font-weight:200;
+      font-size:14.5px; line-height:1.9; color:var(--amb);
+      max-height:36vh; overflow-y:auto; overscroll-behavior:contain; }
 
     .scr-msg{ flex:0 0 auto; font-family:var(--hk-font-ja),serif;
       font-size:10.5px; line-height:1.6; color:#ff9d88;
@@ -250,23 +282,59 @@
     .site-copy{ flex:0 0 auto; margin-top:8px; font-family:var(--f-num); font-size:9px;
       letter-spacing:.1em; color:rgba(231,76,60,.4); }
 
+    @media (min-width:768px){
+      .yao-pop{ inset:0; margin:auto; width:min(470px,86vw); height:max-content;
+        border:1.2px solid rgba(231,76,60,.7); border-radius:8px; border-top-width:1.2px;
+        padding:16px 18px 18px;
+        transform:none; opacity:0;
+        transition:opacity .2s ease, visibility 0s .2s; }
+      .yao-pop.open{ opacity:1; }
+      .pop-body{ max-height:52vh; }
+    }
+
+    /* ── 列印：唔印機台，印文字紀錄 ── */
+    @media print{
+      .rig-wrap{ display:none !important; }
+      .ic-doc{ font-family:var(--f-num), ui-monospace, monospace; color:#000; }
+      .ic-doc .r{ display:grid; grid-template-columns:96px 1fr; gap:1px 12px;
+        font-size:10.5px; letter-spacing:.08em; margin-bottom:3px; }
+      .ic-doc .r b{ font-weight:400; color:#555; }
+      .ic-doc .cjk{ font-family:var(--hk-font-ja),serif; font-size:12.5px; letter-spacing:0; }
+      .ic-doc .hx{ margin:9px 0 12px; }
+      .ic-doc .hx .l{ font-family:var(--f-num); font-size:11px; letter-spacing:.3em;
+        line-height:1.55; }
+      .ic-doc .jd{ margin-top:10px; padding-top:8px; border-top:1px solid #000;
+        font-family:var(--hk-font-ja),serif; font-size:12px; line-height:1.85; }
+      .ic-doc .none{ font-size:10.5px; letter-spacing:.14em; color:#555; }
+    }
+
     /* ── 電腦：左 2/5 nixie，中掣，右屏 ── */
     @media (min-width:768px){
-      .rig{ max-width:1000px; }
+      /* 機台高度由九管自己嘅比例決定，唔再被視窗拉長 → 橫置機架比例 */
+      .rig{ max-width:1000px; height:auto; max-height:100%;
+        justify-content:center; }
       .panel{ display:grid; gap:clamp(16px,2.2vw,30px);
-        grid-template-columns:minmax(0,1.55fr) 138px minmax(0,2.6fr);
-        align-items:stretch; }
-      .nixie-bay .pad{ height:100%; }
-      .nixie-bay{ grid-column:1; }
+        grid-template-columns:minmax(0,1.85fr) 126px minmax(0,2.35fr);
+        align-items:stretch; flex:0 1 auto; }
+      /* pad 唔可以食高度，否則三行會被扯開 */
+      .nixie-bay{ grid-column:1; align-self:center; }
+      .nixie-bay .pad{ height:auto; }
       .btn-bay{ grid-column:2; grid-template-columns:1fr; align-self:center;
         width:100%; min-width:0; gap:12px; }
+      /* height:0 → 屏區完全唔參與機台高度（高度只由九管決定）；
+         min-height:100% → 再撐返滿嗰一行。長判詞只會喺框內自己滾。 */
       .scr-bay{ grid-column:3; align-self:stretch;
-        grid-template-rows:auto 1fr; height:100%; }
-      .scr{ min-height:150px; }
+        grid-template-rows:auto minmax(0,1fr);
+        height:0; min-height:100%; }
+      .scr{ min-height:128px; }
       .scr-wide{ min-height:0; display:flex; flex-direction:column; }
       .scr-wide .result{ flex:1; }
       .site-copy{ grid-column:1 / -1; }
       .pad{ width:100%; }
+      /* 極矮視窗：寧願縮細九管，都唔可以爆出機台 */
+      @media (max-height:560px){
+        .pad{ width:min(100%, calc((100vh - 190px) * .96)); margin:0 auto; }
+      }
     }
   </style>
 </head>
@@ -300,7 +368,7 @@
       <!-- ② 兩個掣 -->
       <div class="btn-bay">
         <button class="ibtn" id="copyBtn" type="button" disabled>COPY</button>
-        <span id="start" class="ibtn cast" role="button" tabindex="0" aria-label="起卦">cast/span>
+        <span id="start" class="ibtn cast" role="button" tabindex="0" aria-label="起卦">CAST</span>
       </div>
 
       <!-- ③ 三個顯示屏 -->
@@ -338,6 +406,7 @@
     <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
   </div></div>
 
+  <div class="pop-veil" id="popVeil" aria-hidden="true"></div>
   <div class="yao-pop" id="yaoPop" aria-hidden="true">
     <button class="pop-close" id="popClose" aria-label="close">&times;</button>
     <span class="pop-lab" id="popLab"></span>
@@ -518,13 +587,73 @@
     pad.addEventListener('pointerdown', e => {
       const btn = e.target.closest('.digit'); if(!btn) return;
       e.preventDefault(); e.stopPropagation();
+      setCursor(digitBtns.indexOf(btn));
       tapDigit(btn);
     }, {passive: false});
 
+    /* ===== 鍵盤操作全機台 =====
+       0-9 打字入管、← → 移游標、↑ ↓ 加減、Backspace 退格、
+       Enter = CAST、C = COPY、Esc = 清零。 */
+    let kbPos = 0;
+    const KB_FINE = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    function setCursor(i){
+      kbPos = Math.max(0, Math.min(digitBtns.length-1, i));
+      digitBtns.forEach((b,k) => b.classList.toggle('cursor', KB_FINE && k===kbPos));
+    }
+    function hitCursor(){
+      const b = digitBtns[kbPos]; if(!b) return;
+      b.classList.add('hit');
+      setTimeout(() => b.classList.remove('hit'), 150);
+    }
+    if(KB_FINE) setCursor(0);
+
+    function kbBusy(){
+      /* 選單／直聯面板開住嗰陣，鍵盤唔屬於機台 */
+      return !!document.querySelector('.hk-menu.open, .hk-enq-panel.open, .hk-about.open');
+    }
     document.addEventListener('keydown', e => {
-      if(!/^[0-9]$/.test(e.key)) return;
-      const f = document.activeElement;
-      if(f && f.classList && f.classList.contains('digit')) setDigit(f, e.key);
+      if(e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      if(kbBusy()) return;
+      const k = e.key;
+
+      if(/^[0-9]$/.test(k)){
+        e.preventDefault();
+        setDigit(digitBtns[kbPos], k);
+        hitCursor();
+        if(kbPos < digitBtns.length-1) setCursor(kbPos+1);
+        return;
+      }
+      if(k === 'Backspace'){
+        e.preventDefault();
+        if(Number(digitBtns[kbPos].dataset.val) === 0 && kbPos > 0) setCursor(kbPos-1);
+        setDigit(digitBtns[kbPos], 0); hitCursor();
+        return;
+      }
+      if(k === 'ArrowLeft'){ e.preventDefault(); setCursor(kbPos-1); return; }
+      if(k === 'ArrowRight'){ e.preventDefault(); setCursor(kbPos+1); return; }
+      if(k === 'Home'){ e.preventDefault(); setCursor(0); return; }
+      if(k === 'End'){ e.preventDefault(); setCursor(digitBtns.length-1); return; }
+      if(k === 'ArrowUp' || k === 'ArrowDown'){
+        e.preventDefault();
+        const d = k === 'ArrowUp' ? 1 : 9;                 /* +1 / -1 (mod 10) */
+        setDigit(digitBtns[kbPos], (Number(digitBtns[kbPos].dataset.val)||0) + d);
+        hitCursor();
+        return;
+      }
+      if(k === 'Enter'){ e.preventDefault(); onStart(e); return; }
+      if(k === 'c' || k === 'C'){
+        const cb = document.getElementById('copyBtn');
+        if(cb && !cb.disabled){ e.preventDefault(); cb.click(); }
+        return;
+      }
+      if(k === 'Escape'){
+        e.preventDefault();
+        digitBtns.forEach(b => setDigit(b, 0));
+        setCursor(0); hitCursor();
+        return;
+      }
     });
 
     startBtn.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); onStart(e); }, {passive: false});
@@ -763,37 +892,46 @@
       document.getElementById('jlines').innerHTML = judge.lines.map(s => escapeHTML(s)).join('<br>');
 
       const btn = document.getElementById('copyBtn');
-      btn.textContent = '>copy';
+      btn.textContent = 'COPY';
 
       /* 文字浮現 + 解碼 */
       requestAnimationFrame(() => requestAnimationFrame(() => {
         R.classList.add('on');
-        Crack.crack(document.querySelector('.figs .fig .figcap'), 500);
-        Crack.crack(document.querySelectorAll('.figs .fig')[1].querySelector('.figcap'), 500);
-        Crack.crack(document.getElementById('judge'), 700);
+        /* 舊版面嘅 .figs 已經冇咗，改 crack 而家真正存在嘅元素 */
+        [['nameMain',500], ['nameChanged',500], ['judge',700]].forEach(([id, ms]) => {
+          const el = document.getElementById(id);
+          if(el && el.textContent.trim()) Crack.crack(el, ms);
+        });
       }));
     }
 
     /* ===== 爻辭 / 卦辭 彈出 ===== */
     const yaoPop = document.getElementById('yaoPop');
+    const popVeil = document.getElementById('popVeil');
     const YAO_NAMES = ['初爻','二爻','三爻','四爻','五爻','上爻'];
 
     function openPop(label, text){
       document.getElementById('popLab').textContent = label;
       document.getElementById('popBody').textContent = text || '（無資料）';
       yaoPop.classList.add('open');
+      popVeil.classList.add('on');
       yaoPop.setAttribute('aria-hidden', 'false');
       Crack.crack(document.getElementById('popBody'), 450);
     }
     function closePop(){
       yaoPop.classList.remove('open');
+      popVeil.classList.remove('on');
       yaoPop.setAttribute('aria-hidden', 'true');
     }
     document.getElementById('popClose').addEventListener('click', closePop);
+    popVeil.addEventListener('click', closePop);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closePop(); });
 
     /* ── hover 爻爻詞 ── */
+    const FINE_PTR = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
     (function yaoHover(){
+      /* 觸控唔行呢條路：pointermove 會令浮層黐住手指散唔去。觸控＝單點彈出。 */
+      if(!FINE_PTR) return;
       const tip = document.getElementById('yaoTip');
       const R = document.querySelector('.scr-bay');   /* 卦爻喺屏區，唔喺 #result */
       if(!tip || !R) return;
@@ -831,7 +969,7 @@
         openPop(label, (hex.yao || [])[idx]);
         return;
       }
-      const nm = e.target.closest('.name');
+      const nm = e.target.closest('.scr-name');
       if (nm && LAST) {
         const isMain = nm.id === 'nameMain';
         const hex = isMain ? LAST.mainHex : LAST.changedHex;
@@ -867,6 +1005,42 @@
       out += '\nhikki.ca/iching ■';
       return out;
     }
+
+    /* ===== 列印：出一份卦象紀錄 ===== */
+    const YAOPOS = ['初','二','三','四','五','上'];
+    window.hkPrintBody = function(){
+      if(!LAST) return '<div class="ic-doc"><div class="none">NO CAST ON RECORD &mdash; '
+                     + 'INSTRUMENT IDLE AT TIME OF PRINT.</div></div>';
+      const L = LAST;
+      const grp = g => g.join('');
+      /* 六爻由下至上，用實線／斷線畫返出嚟 */
+      const draw = (bits, moving) => bits.map((b,i) =>
+        '<div class="l">' + YAOPOS[i] + '&nbsp; '
+        + (b ? '&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;'
+             : '&#9608;&#9608;&#9608;&nbsp;&nbsp;&#9608;&#9608;&#9608;')
+        + (moving.indexOf(i) >= 0 ? ' &nbsp;&#9679;' : '') + '</div>'
+      ).reverse().join('');
+      const mv = L.movingIdx.length
+        ? L.movingIdx.map(i => YAOPOS[i]).join('、')
+        : 'NONE';
+      let h = '<div class="ic-doc">';
+      h += '<div class="r"><b>INPUT</b><span>' + grp(L.input[0]) + ' / ' + grp(L.input[1])
+         + ' / ' + grp(L.input[2]) + '</span></div>';
+      h += '<div class="r"><b>CAST AT</b><span>' + L.time.toISOString().replace('T',' ').slice(0,19) + 'Z</span></div>';
+      h += '<div class="r"><b>PRIMARY</b><span class="cjk">' + escapeHTML(L.mainHex.gua) + '</span></div>';
+      if(L.changedHex) h += '<div class="r"><b>TRANSFORMED</b><span class="cjk">' + escapeHTML(L.changedHex.gua) + '</span></div>';
+      h += '<div class="r"><b>MOVING</b><span>' + mv + '</span></div>';
+      const ex = L.mainHex.extra || {};
+      if(ex['星宿'] || ex['卦氣'])
+        h += '<div class="r"><b>星宿 / 卦氣</b><span class="cjk">'
+           + escapeHTML([ex['星宿'], ex['卦氣']].filter(Boolean).join(' · ')) + '</span></div>';
+      h += '<div class="r"><b>卦辭</b><span class="cjk">' + escapeHTML(L.mainHex.guaci || '') + '</span></div>';
+      h += '<div class="hx">' + draw(L.mainBits, L.movingIdx) + '</div>';
+      h += '<div class="jd"><b>斷</b>　' + escapeHTML(L.judge.summary) + '<br>'
+         + L.judge.lines.map(escapeHTML).join('<br>') + '</div>';
+      h += '</div>';
+      return h;
+    };
 
     document.getElementById('copyBtn').addEventListener('click', function(){
       const txt = fullRecord();

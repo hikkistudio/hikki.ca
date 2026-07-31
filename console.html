@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=80"/>
-  <script src="site.js?v=80" defer></script>
+  <link rel="stylesheet" href="site.css?v=88"/>
+  <script src="site.js?v=88" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -82,7 +82,7 @@
     .knob{ cursor:pointer; }
     .kb-body{ fill:var(--ink); stroke:var(--amb); stroke-width:1.6; }
     .kb-ptr{ stroke:var(--amb); stroke-width:1.6; stroke-linecap:round; }
-    .kb-rot{ transition:transform .5s cubic-bezier(.34,1.5,.5,1); }
+    .kb-rot{ transition:transform .34s cubic-bezier(.28,1.1,.42,1); }
     .knob{ touch-action:none; }
     .knob.turning .kb-rot{ transition:none; }
     .knob:hover .kb-body, .knob:hover .kb-ptr{ stroke:#ff9d88; }
@@ -107,6 +107,18 @@
       .rack{ display:flex; justify-content:center; height:100%; }
       svg{ width:auto; height:100%; max-width:100%; }
     }
+
+    /* ── 列印：唔印機台，印選台紀錄 ── */
+    @media print{
+      .wrap, .grain, .vig, .hint{ display:none !important; }
+      .cn-doc{ font-family:var(--f-num), ui-monospace, monospace; color:#000; }
+      .cn-doc .r{ display:grid; grid-template-columns:104px 1fr; gap:1px 12px;
+        font-size:10.5px; letter-spacing:.08em; margin-bottom:3px; }
+      .cn-doc .r b{ font-weight:400; color:#555; }
+      .cn-doc .r2{ margin:11px 0 5px; padding-top:8px; border-top:1px solid #000;
+        font-size:9.5px; letter-spacing:.24em; }
+    }
+
   </style>
 </head>
 <body>
@@ -362,31 +374,31 @@
   /* ───────── 互動 ───────── */
   function wireKnobs(P){
     /* 拖動＝真旋鈕手感；輕撳＝跳下一格 */
-    var previewIdx=sel;
+    var previewIdx=sel, txRaw=TX_OFF;
     makeTurnable('knobBand', {
       get: function(){ return sel; },
       preview: function(i0, da){
-        var span=(BAND_SPEC.a1-BAND_SPEC.a0)/8*2;          /* 每格角度 */
-        var f=i0 + da/span;
-        var n=Math.max(0, Math.min(CITIES.length-1, Math.round(f)));
-        previewIdx=n;
+        var ds=[]; for(var i=0;i<CITIES.length;i++) ds.push(bandAngle(i));
+        var lo=ds[0], hi=ds[ds.length-1];
+        var raw=Math.max(lo, Math.min(hi, bandAngle(i0)+da*TURN_RATIO));
+        previewIdx=ds.indexOf(nearestDetent(raw,ds));
         var rot=$('knobBandRot');
-        if(rot) rot.setAttribute('transform','rotate('+(bandAngle(i0)+da).toFixed(1)+')');
+        if(rot) rot.setAttribute('transform','rotate('+detented(raw,ds).toFixed(1)+')');
       },
       tap: function(){ pick((sel+1)%CITIES.length); },
       settle: function(){ pick(previewIdx); }
     });
     makeTurnable('knobTx', {
-      get: function(){ return 0; },
+      get: function(){ txRaw=TX_OFF; return 0; },
       preview: function(_, da){
-        var a=Math.max(TX_OFF, Math.min(TX_ON, TX_OFF+da));
-        setTx(a.toFixed(1));
+        /* transmit 行程 120°，齒比要高啲先撥得到 */
+        var raw=Math.max(TX_OFF, Math.min(TX_ON, TX_OFF+da*0.9));
+        txRaw=raw;
+        setTx(detented(raw,[TX_OFF,TX_ON]).toFixed(1));
       },
       tap: fire,
       settle: function(){
-        var cur=parseFloat((($('knobTxRot')||{}).getAttribute
-          ? $('knobTxRot').getAttribute('transform')||'' : '').replace(/[^-\d.]/g,'')) || TX_OFF;
-        if(cur > (TX_OFF+TX_ON)/2) fire(); else setTx(TX_OFF);
+        if(txRaw > (TX_OFF+TX_ON)/2) fire(); else setTx(TX_OFF);
       }
     });
     if(!P){
@@ -407,6 +419,19 @@
       crackLater(cl);
     }
   }
+  /* ── 旋鈕手感：齒比 + 磁性檔位（唔會一撥就飛過幾格） ── */
+  var TURN_RATIO=0.62;   /* 手指行 100°，旋鈕先轉 62° —— 冇咁「滑」 */
+  var TURN_PULL =0.40;   /* 指針被最近檔位吸住，要推夠力先過檔 */
+  function nearestDetent(a, ds){
+    var best=ds[0], bd=Math.abs(a-ds[0]);
+    for(var i=1;i<ds.length;i++){ var d=Math.abs(a-ds[i]); if(d<bd){ bd=d; best=ds[i]; } }
+    return best;
+  }
+  function detented(a, ds){
+    var d=nearestDetent(a,ds);
+    return d + (a-d)*TURN_PULL;      /* 檔位之間有阻力，落格有咬合感 */
+  }
+
   /* ── 旋鈕拖動手感：撳住轉，放手吸到最近嘅檔位 ── */
   function makeTurnable(id, opts){
     var g=$(id); if(!g) return;
@@ -476,10 +501,45 @@
     })();
   }
 
+  /* ===== 列印：出一張選台紀錄 ===== */
+  window.hkPrintBody = function(){
+    var c=CITIES[sel];
+    var rows=[
+      ['BAND',        String(sel+1)+' OF '+CITIES.length],
+      ['FREQUENCY',   c.freq+' MHz'],
+      ['CALLSIGN',    c.label],
+      ['POSITION',    c.lat.toFixed(4)+' / '+c.lon.toFixed(4)],
+      ['LINK',        c.ready ? 'ESTABLISHED' : 'NO CARRIER'],
+      ['STATE',       ($('fState')||{textContent:'—'}).textContent],
+      ['TRANSMIT',    busy ? 'KEYED' : 'OPEN']
+    ];
+    var h='<div class="cn-doc">';
+    rows.forEach(function(r){ h+='<div class="r"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'; });
+    h+='<div class="r2">MONITORED BANDS</div>';
+    CITIES.forEach(function(x,i){
+      h+='<div class="r"><b>'+(i+1)+'</b><span>'+x.freq+' MHz &nbsp; '+x.label
+        +(x.ready?'':' &nbsp;(SILENT)')+(i===sel?' &nbsp;&#9664; TUNED':'')+'</span></div>';
+    });
+    h+='</div>';
+    return h;
+  };
+
+  /* ===== 鍵盤操作全機台 =====
+     ← → ↑ ↓ 轉 band、1-4 直接跳台、Enter / Space 發射。 */
   window.addEventListener('keydown',function(e){
-    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); pick((sel+1)%CITIES.length); }
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ e.preventDefault(); pick((sel+CITIES.length-1)%CITIES.length); }
-    if(e.key==='Enter'){ e.preventDefault(); fire(); }
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var t=e.target;
+    if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+    if(document.querySelector('.hk-menu.open, .hk-enq-panel.open, .hk-about.open')) return;
+    var k=e.key;
+    if(k==='ArrowRight'||k==='ArrowDown'){ e.preventDefault(); pick((sel+1)%CITIES.length); return; }
+    if(k==='ArrowLeft'||k==='ArrowUp'){ e.preventDefault(); pick((sel+CITIES.length-1)%CITIES.length); return; }
+    if(/^[1-9]$/.test(k)){
+      var i=Number(k)-1;
+      if(i<CITIES.length){ e.preventDefault(); pick(i); }
+      return;
+    }
+    if(k==='Enter'||k===' '||k==='Spacebar'){ e.preventDefault(); fire(); return; }
   });
 
   (function init(){

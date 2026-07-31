@@ -572,11 +572,145 @@
     }
   }
 
+  /* ===== 電傳機 =====
+     每 40 秒喺頁底打一行氣象電文。組合空間夠大，見過嘅唔會再見。
+     冇任何功能，唔可以撳，唔會影響任何嘢。 */
+  var TTY_CALL = ['ROSE','LARK','AMBER','SABLE','WILLOW','KESTREL','INDIGO','MAGPIE',
+                  'CEDAR','HALCYON','PLOVER','ONYX','THISTLE','ORIOLE','SLATE','JUNIPER',
+                  'HERON','QUARTZ','LINNET','MULBERRY'];
+  var TTY_OBS = [
+    'NO WIND AT ALL','WIND BACKING SOUTH','SEA STATE UNCHANGED','CEILING UNMEASURED',
+    'RAIN ENDED 0200','FOG ON THE WATER','PRESSURE STILL FALLING','FIRST FROST',
+    'SKY CLEAR TO THE POLE','NOTHING ON THE HORIZON','LIGHTNING NO THUNDER',
+    'HIGH CLOUD MOVING FAST','TIDE HIGHER THAN CHARTED','SNOW NOT SETTLING',
+    'VISIBILITY UNLIMITED','THE RIVER IS WARM','BIRDS LEFT AT DAWN',
+    'MOON THROUGH THIN CLOUD','SWELL FROM THE WEST','NO CHANGE SINCE MIDNIGHT',
+    'AIR SMELLS OF RAIN','SHADOWS LONGER THAN USUAL','NO STARS TONIGHT',
+    'HEAT LEAVING THE STONE'
+  ];
+  var TTY_ORD = [
+    'TELL HER ANYWAY','HOLD THIS FREQUENCY','DO NOT ACKNOWLEDGE','SLEEP IF YOU CAN',
+    'CONTINUE AS BEFORE','SEND NOTHING BACK','WAIT FOR THE HOUR','GO HOME',
+    'KEEP THE LIGHT ON','NO ACTION REQUIRED','RECORD AND FORGET','LOOK UP',
+    'REPEAT AT WILL','STAND BY','SAY IT PLAINLY','LEAVE THE DOOR OPEN',
+    'COUNT TO NINE','NOTHING FOLLOWS','BURN AFTER READING','STAY WHERE YOU ARE'
+  ];
+  var ttySeen = {};
+  function ttyLine() {
+    for (var i = 0; i < 24; i++) {
+      var s = TTY_CALL[(Math.random() * TTY_CALL.length) | 0]
+            + ' ' + (((Math.random() * 99) | 0) + 1 + '').replace(/^(\d)$/, '0$1')
+            + ' // ' + TTY_OBS[(Math.random() * TTY_OBS.length) | 0]
+            + ' // ' + TTY_ORD[(Math.random() * TTY_ORD.length) | 0];
+      if (!ttySeen[s]) { ttySeen[s] = 1; return s; }
+    }
+    return null;                                   /* 見晒就唔再出 */
+  }
+  function wireTty() {
+    if (window.hkNoTty) return;
+    var el = document.createElement('div');
+    el.className = 'hk-tty'; el.setAttribute('aria-hidden', 'true');
+    el.dataset.idle = '1';
+    document.body.appendChild(el);
+
+    var reduce = window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function emit() {
+      var txt = ttyLine();
+      if (txt === null) { el.dataset.idle = '1'; return; }
+      if (document.hidden) { setTimeout(emit, 8000); return; }
+      el.dataset.idle = '0';
+      if (reduce) {                                /* 唔郁：一次過出 */
+        el.textContent = txt;
+        setTimeout(function () { el.dataset.idle = '1'; setTimeout(emit, 32000); }, 9000);
+        return;
+      }
+      var i = 0;
+      (function type() {
+        el.innerHTML = txt.slice(0, i).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                     + '<i>_</i>';
+        if (i++ < txt.length) { setTimeout(type, 26 + Math.random() * 44); return; }
+        el.textContent = txt;
+        setTimeout(function () {                   /* 停一陣，然後熄，再等下一封 */
+          el.dataset.idle = '1';
+          setTimeout(emit, 31000);
+        }, 9000);
+      })();
+    }
+    setTimeout(emit, 6000 + Math.random() * 5000);
+  }
+
+  /* ===== 列印＝解密文件 =====
+     ⌘P 之前臨時砌一張文件頭／尾。頁面可以提供 window.hkPrintBody()
+     回傳一段 HTML（該頁真正想印嘅內容）。 */
+  var MON = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  function dtg() {                                   /* DDHHMMZ MON YY */
+    var d = new Date(), p = function (n) { return (n < 10 ? '0' : '') + n; };
+    return p(d.getUTCDate()) + p(d.getUTCHours()) + p(d.getUTCMinutes()) + 'Z '
+         + MON[d.getUTCMonth()] + ' ' + String(d.getUTCFullYear()).slice(2);
+  }
+  function stationName() {
+    var f = (location.pathname.split('/').pop() || 'index.html').replace(/\.html?$/, '');
+    return 'HIKKI / ' + (f || 'INDEX').toUpperCase();
+  }
+  function bars() {                                  /* 塗黑條：每次印都唔同長度 */
+    var n = 3 + ((Math.random() * 3) | 0), h = '';
+    for (var i = 0; i < n; i++) h += '<i style="width:' + (34 + ((Math.random() * 120) | 0)) + 'px"></i>';
+    return h;
+  }
+  function buildDoc() {
+    teardownDoc();
+    var top = document.createElement('div');
+    top.className = 'hk-doc'; top.id = 'hkDocTop'; top.setAttribute('aria-hidden', 'true');
+    top.innerHTML =
+      '<div class="hk-doc-cls">DECLASSIFIED &middot; RELEASE IN FULL</div>' +
+      '<div class="hk-doc-hd">' +
+        '<b>STATION</b><span>' + stationName() + '</span>' +
+        '<b>DTG</b><span>' + dtg() + '</span>' +
+        '<b>SOURCE</b><span>hikki.ca' + location.pathname + '</span>' +
+        '<b>SHEET</b><span>1 OF 1</span>' +
+      '</div><div class="hk-doc-rule"></div>';
+    document.body.insertBefore(top, document.body.firstChild);
+
+    if (typeof window.hkPrintBody === 'function') {
+      var mid = document.createElement('div');
+      mid.className = 'hk-doc'; mid.id = 'hkDocBody'; mid.setAttribute('aria-hidden', 'true');
+      try { mid.innerHTML = window.hkPrintBody() || ''; } catch (_) { mid.innerHTML = ''; }
+      top.parentNode.insertBefore(mid, top.nextSibling);
+    }
+
+    var foot = document.createElement('div');
+    foot.className = 'hk-doc'; foot.id = 'hkDocFoot'; foot.setAttribute('aria-hidden', 'true');
+    foot.innerHTML =
+      '<div class="hk-doc-bars">' + bars() + '</div>' +
+      '<div class="hk-doc-foot"><span>hikki photography &amp; philosophy</span>' +
+      '<span>NO FOREIGN DISSEM &nbsp;&#9632;</span></div>';
+    document.body.appendChild(foot);
+  }
+  function teardownDoc() {
+    ['hkDocTop', 'hkDocBody', 'hkDocFoot'].forEach(function (id) {
+      var e = document.getElementById(id); if (e) e.remove();
+    });
+  }
+  function wirePrint() {
+    window.addEventListener('beforeprint', buildDoc);
+    window.addEventListener('afterprint', teardownDoc);
+    if (window.matchMedia) {                         /* Safari 唔發 beforeprint */
+      var mq = window.matchMedia('print');
+      var onMq = function (e) { (e.matches ? buildDoc : teardownDoc)(); };
+      if (mq.addEventListener) mq.addEventListener('change', onMq);
+      else if (mq.addListener) mq.addListener(onMq);
+    }
+  }
+
   function init() {
     buildUI();
     startRotator();
     wireMenu();
     wireEnq();
+    wirePrint();
+    wireTty();
     window.hkSyncBlink();          /* 對齊 header 及靜態 ■ */
     setTimeout(window.hkSyncBlink, 900);  /* 再對齊延遲插入嘅 ■（如 jewel 規格） */
   }

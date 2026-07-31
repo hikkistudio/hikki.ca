@@ -7,8 +7,8 @@
   <meta name="robots" content="noindex"/>
   <meta name="theme-color" content="#0b0705"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=79"/>
-  <script src="site.js?v=79" defer></script>
+  <link rel="stylesheet" href="site.css?v=88"/>
+  <script src="site.js?v=88" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -43,7 +43,11 @@
     .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
     .hk-menu-contact li, .hk-menu-contact a{ color:rgba(231,76,60,.78) !important; }
     .hk-menu-contact a:hover{ border-bottom-color:#ffb3a2 !important; color:#ffb3a2 !important; }
-    .hk-menu-contact a.hk-enq{ color:#ff8a72 !important; }
+    /* >direct message：紅主題頁面用亮橙 highlight */
+    .hk-menu-contact a.hk-enq{ color:#ff9d4a !important;
+      border-bottom-color:rgba(255,157,74,.45) !important; }
+    .hk-menu-contact a.hk-enq:hover{ color:#ffc48a !important;
+      border-bottom-color:#ffc48a !important; }
     .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
     .hk-menu-geo .hk-geo-loc{ color:var(--amb) !important; }
     .hk-menu-copy{ color:rgba(231,76,60,.66) !important;
@@ -273,6 +277,21 @@
       .logbox.open .log-body{ max-height:104px; }
       .metar{ font-size:8.5px; }
     }
+
+    /* ── 列印：唔印地圖，印觀測報告 ── */
+    @media print{
+      .hud, .ctl, .botL, .grain, .vig, .scan, .boot, #wrap, .wrap{ display:none !important; }
+      .rf-doc{ font-family:var(--f-num), ui-monospace, monospace; color:#000; }
+      .rf-doc .r{ display:grid; grid-template-columns:104px 1fr; gap:1px 12px;
+        font-size:10.5px; letter-spacing:.08em; margin-bottom:3px; }
+      .rf-doc .r b{ font-weight:400; color:#555; }
+      .rf-doc .r2{ margin:11px 0 5px; padding-top:8px; border-top:1px solid #000;
+        font-size:9.5px; letter-spacing:.24em; }
+      .rf-doc .mtr{ font-size:11px; letter-spacing:.06em; margin:4px 0 2px;
+        padding:5px 7px; border:1px solid #000; display:inline-block; }
+      .rf-doc .lg{ font-size:9.5px; line-height:1.75; white-space:pre-wrap; }
+    }
+
   </style>
 </head>
 <body>
@@ -1959,7 +1978,7 @@
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch(CITY.map+'?v=79')
+    fetch(CITY.map+'?v=88')
       .then(function(r){
         if(!r.ok) throw new Error('HTTP '+r.status+' '+CITY.map);
         return r.json();
@@ -1984,5 +2003,43 @@
       clearTimeout(rz); rz=setTimeout(function(){ fit(); resetView(); needDraw=true; alignHead(); },150); });
   })();
   </script>
+  <script>
+  /* ===== 列印：出一份觀測報告（直接讀儀器面板上顯示緊嘅值） ===== */
+  (function(){
+    function T(id, d){ var e=document.getElementById(id);
+      return (e && e.textContent.trim()) || (d||'—'); }
+    window.hkPrintBody = function(){
+      var rows=[
+        ['STATION',   T('rZone')],
+        ['POSITION',  T('hCoord')],
+        ['LOCAL TIME',T('hClock')],
+        ['CONDITION', T('rState')],
+        ['RAINFALL',  T('rMm').replace(/\s*MM\/H\s*$/i,'') + ' mm/h'],
+        ['WIND',      T('rWind')],
+        ['DIRECTION', T('rDir')],
+        ['GUST',      T('rGust')],
+        ['PRESSURE',  T('rPress')],
+        ['TIDE',      T('rTide')],
+        ['SIGNAL',    T('smVal')],
+        ['SOURCE',    T('hFoot')]
+      ];
+      var h='<div class="rf-doc">';
+      rows.forEach(function(x){ h+='<div class="r"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'; });
+      var mt=T('metar','');
+      if(mt && mt!=='—') h+='<div class="r2">METAR</div><div class="mtr">'+mt+'</div>';
+      var eph=document.getElementById('ephBox');
+      if(eph && eph.textContent.trim())
+        h+='<div class="r2">EPHEMERIS</div><div class="lg">'
+          +eph.textContent.replace(/\n{2,}/g,'\n').trim()+'</div>';
+      var lb=document.getElementById('logBody');
+      if(lb && lb.textContent.trim())
+        h+='<div class="r2">OBSERVATION LOG</div><div class="lg">'
+          +lb.textContent.replace(/\n{2,}/g,'\n').trim()+'</div>';
+      h+='</div>';
+      return h;
+    };
+  })();
+  </script>
+
 </body>
 </html>
