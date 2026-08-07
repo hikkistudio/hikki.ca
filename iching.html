@@ -23,9 +23,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=88"/>
-  <script src="site.js?v=88" defer></script>
-  <script src="bg-frege.js?v=88" defer></script>
+  <link rel="stylesheet" href="site.css?v=96"/>
+  <script src="site.js?v=96" defer></script>
+  <script src="bg-frege.js?v=96" defer></script>
 
   <style>
     :root {
@@ -195,10 +195,25 @@
       padding:7px 9px 9px; min-height:0;
       background:none; }
     .scr-wide{ grid-column:1 / -1; min-height:0; }
-    .scr-name{ margin-top:8px; font-family:var(--hk-font-ja),serif;
-      font-size:clamp(14px,3.4vw,19px); color:var(--amb); letter-spacing:.04em; cursor:pointer; }
-    .scr-meta{ margin-top:2px; font-size:8px; letter-spacing:.1em;
-      color:rgba(231,76,60,.6); }
+    /* 卦名唔再喺卦象屏下面佔一行（會撐大屏、逼細斷方塊）。
+       保留元素畀原本邏輯／複製用，只係唔顯示。 */
+    .scr-name{ display:none; }
+    /* 卦名改喺斷方塊頂，一行過，撳得出卦辭 */
+    /* 斷方塊首行：本卦／之卦 + 卦氣星宿，一次過交代晒 */
+    .jgua{ margin-bottom:6px; padding-bottom:6px;
+      border-bottom:1px solid rgba(231,76,60,.22); }
+    .jg-row{ display:flex; align-items:baseline; gap:8px; margin-top:2px; }
+    .jg-row:first-child{ margin-top:0; }
+    .jg-row b{ flex:0 0 auto; font-weight:400; font-family:var(--f-num);
+      font-size:8px; letter-spacing:.2em; color:rgba(231,76,60,.45); }
+    .jgua .g{ font-family:var(--hk-font-ja),serif; font-size:14.5px;
+      color:var(--amb); letter-spacing:.04em; cursor:pointer;
+      touch-action:manipulation; }
+    .jgua .g:hover{ color:#ff9d88; }
+    .jg-row i{ margin-left:auto; font-style:normal; font-family:var(--f-num);
+      font-size:9px; letter-spacing:.1em; color:rgba(231,76,60,.5);
+      white-space:nowrap; }
+    .scr-meta{ display:none; }   /* 節氣／星宿搬咗去斷方塊首行 */
 
     /* 卦象：保留原本逐爻浮現動畫 */
     .hexlines{ display:flex; flex-direction:column-reverse; gap:5px; margin-top:4px;
@@ -230,6 +245,39 @@
     .yao-tip.on{ opacity:1; }
     .yao-tip b{ display:block; font-family:var(--f-num); font-weight:400;
       font-size:7.5px; letter-spacing:.2em; color:rgba(231,76,60,.55); margin-bottom:2px; }
+
+    /* ══ 手機：四個板塊高度鎖死，唔准伸縮 ══
+       nixie 27% ｜ 掣 30px ｜ 卦象屏 17% ｜ 斷＝剩餘（實測 ≈ 全頁 44%）
+       百分比對住 .panel，所以任何屏高比例都一樣。 */
+    @media (max-width:767px){
+      .panel{ display:grid;
+        grid-template-rows:30% 30px minmax(0,1fr);
+        gap:8px; align-content:stretch; }
+      /* 屏區內部再鎖一次：卦象 27%（但唔可以細過內容），斷食曬剩低 */
+      .scr-bay{ grid-template-rows:minmax(92px,23%) minmax(0,1fr); }
+      .nixie-bay, .btn-bay, .scr-bay, .scr-wide{ min-height:0; }
+      /* pad 由高度反推闊度，唔再由闊度推高度 */
+      .pad{ height:100%; width:auto; aspect-ratio:29/30;
+        grid-template-rows:repeat(3,minmax(0,1fr));
+        gap:clamp(5px,1.6vw,9px); margin:0 auto; }
+      .digit{ min-width:0; min-height:0; }
+      .nx{ width:100%; height:100%; }
+      .btn-bay{ align-items:stretch; }
+      .ibtn{ padding:0; display:flex; align-items:center; justify-content:center; }
+      .scr-bay{ display:grid; grid-template-columns:1fr 1fr;
+        gap:clamp(8px,1.8vw,13px); }
+      .scr-wide{ grid-column:1 / -1; }
+      .scr-wide{ display:flex; flex-direction:column; }
+      .hexlines{ gap:4px; }
+    }
+
+    /* 矮機（SE 之類）：爻線再收窄，等卦象屏 106px 都放得落 */
+    @media (max-width:767px) and (max-height:720px){
+      .hline{ height:7px; }
+      .hexlines{ gap:3px; }
+      .scr-lab{ margin-bottom:4px; }
+      .scr-meta{ font-size:7.5px; }
+    }
 
     /* ── 爻詞彈出：手機單點即開（本來冇樣式，等於撳極都唔見嘢） ── */
     .yao-pop{ position:fixed; z-index:70; left:0; right:0; bottom:0;
@@ -315,19 +363,21 @@
         justify-content:center; }
       .panel{ display:grid; gap:clamp(16px,2.2vw,30px);
         grid-template-columns:minmax(0,1.85fr) 126px minmax(0,2.35fr);
+        grid-template-rows:auto minmax(0,1fr);
         align-items:stretch; flex:0 1 auto; }
       /* pad 唔可以食高度，否則三行會被扯開 */
-      .nixie-bay{ grid-column:1; align-self:center; }
-      .nixie-bay .pad{ height:auto; }
-      .btn-bay{ grid-column:2; grid-template-columns:1fr; align-self:center;
-        width:100%; min-width:0; gap:12px; }
-      /* height:0 → 屏區完全唔參與機台高度（高度只由九管決定）；
+      .nixie-bay{ grid-column:1; grid-row:1 / 3; align-self:center; }
+      .nixie-bay .pad{ height:auto; width:100%; aspect-ratio:auto; }
+      .btn-bay{ grid-column:2; grid-row:1 / 3; grid-template-columns:1fr;
+        align-self:center; width:100%; min-width:0; gap:12px; }
+      /* height:0 → 屏區唔參與機台高度（高度只由九管決定）；
          min-height:100% → 再撐返滿嗰一行。長判詞只會喺框內自己滾。 */
-      .scr-bay{ grid-column:3; align-self:stretch;
+      .scr-bay{ grid-column:3; grid-row:1 / 3; align-self:stretch;
         grid-template-rows:auto minmax(0,1fr);
         height:0; min-height:100%; }
-      .scr{ min-height:128px; }
-      .scr-wide{ min-height:0; display:flex; flex-direction:column; }
+      .scr-wide{ grid-column:1 / -1; display:flex; flex-direction:column;
+        height:auto; min-height:0; }
+      .scr{ min-height:0; }
       .scr-wide .result{ flex:1; }
       .site-copy{ grid-column:1 / -1; }
       .pad{ width:100%; }
@@ -385,22 +435,25 @@
           <div class="scr-name" id="nameChanged" role="button" tabindex="0"></div>
           <div class="scr-meta" id="metaChanged"></div>
         </div>
-        <div class="scr scr-wide">
-          <div class="scr-msg" id="scrMsg" hidden></div>
-          <div class="intro" id="intro">
-            <p>默想問題。由左至右、上而下填入三組三位數。<br>
-               下卦 · 上卦 · 變爻。完成後按 cast。</p>
-            <div class="ic-hist" id="icHist" hidden></div>
-          </div>
-          <div class="result" id="result" hidden>
-            <div class="starline fx" id="starLine"></div>
-            <div class="judge fx" id="judge">
-              <span class="jlab">JUDGMENT</span>
-              <span class="jsum" id="jsum"></span>
-              <div class="jlines" id="jlines"></div>
-            </div>
+
+      <!-- ④ 斷：高度鎖死，永遠 ≥ 全頁 30% -->
+      <div class="scr scr-wide">
+        <div class="scr-msg" id="scrMsg" hidden></div>
+        <div class="intro" id="intro">
+          <p>默想問題。由左至右、上而下填入三組三位數。<br>
+             下卦 · 上卦 · 變爻。完成後按 cast。</p>
+          <div class="ic-hist" id="icHist" hidden></div>
+        </div>
+        <div class="result" id="result" hidden>
+          <div class="starline fx" id="starLine"></div>
+          <div class="judge fx" id="judge">
+            <div class="jgua" id="jgua"></div>
+            <span class="jlab">JUDGMENT</span>
+            <span class="jsum" id="jsum"></span>
+            <div class="jlines" id="jlines"></div>
           </div>
         </div>
+      </div>
       </div>
     </div>
     <p class="site-copy">© 2026 hikki photography &amp; philosophy.</p>
@@ -888,6 +941,17 @@
         starEl.textContent = '';
       }
 
+      /* 卦名 + 卦氣星宿全部搬咗上斷方塊首行 */
+      const jg = document.getElementById('jgua');
+      if(jg){
+        const row = (tag, hex, which) =>
+          '<div class="jg-row"><b>' + tag + '</b>'
+          + '<span class="g" data-which="' + which + '">' + escapeHTML(hex ? (hex.gua||'') : '（資料未配對）') + '</span>'
+          + '<i>' + escapeHTML(hex ? metaText(hex) : '') + '</i></div>';
+        jg.innerHTML = row('本', mainHex, 'main')
+                     + (changedHex ? row('之', changedHex, 'chg') : '');
+      }
+
       document.getElementById('jsum').textContent = judge.summary;
       document.getElementById('jlines').innerHTML = judge.lines.map(s => escapeHTML(s)).join('<br>');
 
@@ -898,7 +962,8 @@
       requestAnimationFrame(() => requestAnimationFrame(() => {
         R.classList.add('on');
         /* 舊版面嘅 .figs 已經冇咗，改 crack 而家真正存在嘅元素 */
-        [['nameMain',500], ['nameChanged',500], ['judge',700]].forEach(([id, ms]) => {
+        /* 只 crack #judge：.jgua 喺佢入面，分開 crack 會兩個動畫打架鎖死亂碼 */
+        [['judge',700]].forEach(([id, ms]) => {
           const el = document.getElementById(id);
           if(el && el.textContent.trim()) Crack.crack(el, ms);
         });
@@ -969,13 +1034,16 @@
         openPop(label, (hex.yao || [])[idx]);
         return;
       }
-      const nm = e.target.closest('.scr-name');
-      if (nm && LAST) {
-        const isMain = nm.id === 'nameMain';
-        const hex = isMain ? LAST.mainHex : LAST.changedHex;
-        if (!hex) return;
-        openPop((isMain ? 'PRIMARY / ' : 'TRANSFORMED / ') + '卦辭', hex.guaci);
-      }
+    });
+
+    /* 卦名（斷方塊頂）→ 卦辭 */
+    document.querySelector('.scr-wide').addEventListener('click', e => {
+      const g = e.target.closest('.jgua .g');
+      if (!g || !LAST) return;
+      const isMain = g.dataset.which === 'main';
+      const hex = isMain ? LAST.mainHex : LAST.changedHex;
+      if (!hex) return;
+      openPop((isMain ? 'PRIMARY / ' : 'TRANSFORMED / ') + '卦辭', hex.guaci);
     });
 
     /* ===== 一鍵複製（全卦記錄） ===== */

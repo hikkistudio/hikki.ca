@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>sky | hikki photography</title>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/site.css?v=96"/>
+  <script src="/site.js?v=96" defer></script>
+  <style>
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{
+      --hk-bar-alpha:0.96;
+      --amb:#e74c3c;          /* 主紅 */
+      --amb-hi:#ff9d4a;       /* 強調橙 */
+      --ink:#0b0705;
+      --f-num:'Share Tech Mono','Courier New',monospace;
+    }
+    html,body{ height:100%; background:var(--ink); color:var(--amb);
+      overflow:hidden; overscroll-behavior:none; }
+    body{ font-family:var(--hk-font-mono); -webkit-tap-highlight-color:transparent; }
+
+    /* header / menu：同 rainfall 一套暗油墨 + 橙字 */
+    .hk-bar{ background:rgba(11,7,5,.34) !important;
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); color:var(--amb) !important; }
+    .hk-bar .hk-rotator,.hk-bar .hk-menu-btn,.hk-bar .hk-logo{ color:var(--amb) !important; }
+    .hk-bar .hk-logo .hk-sq{ background:var(--amb) !important; }
+    .hk-menu{ background:rgba(11,7,5,.93) !important; color:var(--amb) !important; }
+    .hk-menu-list li{ border-bottom-color:rgba(231,76,60,.26) !important; }
+    .hk-menu-list a,.hk-menu-list button{ color:var(--amb) !important; }
+    .hk-menu-contact li,.hk-menu-contact a{ color:rgba(231,76,60,.78) !important; }
+    .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
+    .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
+    .hk-menu-copy{ color:rgba(231,76,60,.66) !important; border-top-color:rgba(231,76,60,.26) !important; }
+    .hk-menu-contact a.hk-enq{ color:var(--amb-hi) !important;
+      border-bottom-color:rgba(255,157,74,.45) !important; }
+    .hk-menu-contact a.hk-enq:hover{ color:#ffc48a !important; border-bottom-color:#ffc48a !important; }
+
+    .grain{ position:fixed; inset:0; pointer-events:none; z-index:6; opacity:.42;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,.3) 0 1px, transparent 1px 3px); }
+    .vig{ position:fixed; inset:0; pointer-events:none; z-index:6;
+      background:radial-gradient(115% 88% at 50% 46%, rgba(0,0,0,0) 38%, rgba(0,0,0,.72) 100%); }
+
+    /* ── 星圖 ── */
+    .chart-wrap{ position:fixed; inset:0; z-index:2;
+      display:flex; align-items:center; justify-content:center;
+      padding:calc(var(--hk-bar-h) + 6px) 6px 6px; }
+    #sky{ width:min(100%, 100vh - var(--hk-bar-h) - 30px); height:auto;
+      max-height:100%; display:block; overflow:visible; }
+
+    .c-rim{ fill:none; stroke:rgba(231,76,60,.55); stroke-width:1.4; }
+    .c-rim2{ fill:none; stroke:rgba(231,76,60,.2); stroke-width:1; }
+    .c-eq{ fill:none; stroke:rgba(231,76,60,.4); stroke-width:1.1;
+      stroke-dasharray:1 5; stroke-linecap:round; }
+    .c-ecl{ fill:none; stroke:rgba(255,157,74,.34); stroke-width:1;
+      stroke-dasharray:7 5; }
+    .c-dec{ fill:none; stroke:rgba(231,76,60,.13); stroke-width:.8; }
+    /* 宿界：由天極放射出去 */
+    .c-bd{ stroke:rgba(231,76,60,.2); stroke-width:.8; }
+    .c-bd.cur{ stroke:rgba(255,157,74,.6); stroke-width:1.1; }
+    /* 地平線：圈住而家見到嘅天 */
+    .c-hor{ fill:none; stroke:rgba(231,76,60,.72); stroke-width:1.5; }
+    .c-hor-fill{ fill:rgba(231,76,60,.045); stroke:none; }
+    .c-mer{ stroke:rgba(255,157,74,.4); stroke-width:1; stroke-dasharray:3 4; }
+    .c-card{ fill:rgba(231,76,60,.8); font-family:var(--f-num);
+      font-size:15px; letter-spacing:.14em; text-anchor:middle; }
+
+    /* ── 星野：亮星表（bright-stars.json） ── */
+    .fs{ }                                  /* 每粒星一個 g，g 嘅 opacity = 星等亮度 */
+    .fs-d{ fill:#ffb9a4; }
+    .fs.up .fs-d{ animation:twk 3.4s ease-in-out infinite; }
+    @keyframes twk{ 0%,100%{ opacity:1 } 45%{ opacity:.42 } }
+
+    /* ── 開機：儀器逐層通電 ── */
+    #sky{ opacity:0; transition:opacity .9s ease .1s; }
+    #sky.on{ opacity:1; }
+    #gField{ opacity:0; transition:opacity 1.6s ease .5s; }
+    #sky.on #gField{ opacity:1; }
+    .draw{ stroke-dasharray:var(--len); stroke-dashoffset:var(--len);
+      transition:stroke-dashoffset 1.4s cubic-bezier(.3,.8,.3,1) .15s; }
+    #sky.on .draw{ stroke-dashoffset:0; }
+
+    /* 星 */
+    .st{ cursor:pointer; }
+    .st-dot{ fill:var(--amb); }
+    .st-halo{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:1; }
+    .st-nm{ fill:rgba(231,76,60,.9); font-family:var(--hk-font-ja),serif;
+      font-size:21px; text-anchor:middle; letter-spacing:.02em; }
+    .st.down .st-dot{ fill:rgba(231,76,60,.24); }
+    .st.down .st-nm{ fill:rgba(231,76,60,.3); }
+    .st.down .st-halo{ display:none; }
+    .st.sel .st-dot, .st.sel .st-nm{ fill:var(--amb-hi); }
+    .st.sel .st-halo{ stroke:var(--amb-hi); animation:pulse 1.9s ease-in-out infinite; }
+    @keyframes pulse{ 0%,100%{ opacity:1; r:7.5 } 50%{ opacity:.45; r:12 } }
+    .st:hover .st-nm{ fill:#ff9d88; }
+    /* 日躔（太陽而家喺邊個宿） */
+    .st.sun .st-nm{ fill:#ffd08a; }
+    .sun-mk{ fill:none; stroke:#ffd08a; stroke-width:1.2; }
+
+    /* 四象 */
+    .q-arc{ fill:none; stroke:rgba(231,76,60,.26); stroke-width:1; }
+    .q-nm{ fill:rgba(231,76,60,.5); font-family:var(--hk-font-ja),serif;
+      font-size:17px; letter-spacing:.34em; }
+
+    /* ── HUD ── */
+    .hud{ position:fixed; z-index:4; font-family:var(--f-num);
+      color:var(--amb); pointer-events:none; }
+    .hud .k{ font-size:8px; letter-spacing:.24em; color:rgba(231,76,60,.5); }
+    .hud .v{ font-size:11px; letter-spacing:.08em; }
+
+    .hud-head{ top:calc(var(--hk-bar-h) + 10px); left:clamp(12px,3vw,30px); }
+    .hud-head .t{ font-family:var(--hk-font-sans); font-weight:700;
+      font-size:30px; letter-spacing:-.01em; line-height:1;
+      font-variant-numeric:tabular-nums; }
+    .hud-head .c{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.62); margin-top:5px; }
+    .hud-head .sub{ margin-top:9px; padding-top:7px;
+      border-top:1px solid rgba(231,76,60,.2);
+      font-size:8px; letter-spacing:.28em; color:rgba(231,76,60,.45); }
+    .hud-head .sub em{ font-style:normal; font-family:var(--hk-font-ja),serif;
+      font-size:12px; letter-spacing:.14em; color:rgba(231,76,60,.7);
+      display:block; margin-bottom:3px; }
+
+    .hud-read{ top:calc(var(--hk-bar-h) + 10px); right:clamp(12px,3vw,30px);
+      text-align:right; min-width:132px; }
+    .hud-read .row{ display:grid; grid-template-columns:auto minmax(58px,auto);
+      justify-content:end; gap:2px 10px; align-items:baseline; margin-top:4px; }
+    .hud-read .row .k{ text-align:left; }
+    .hud-read .row .v{ text-align:right; font-variant-numeric:tabular-nums; }
+    .sep{ height:1px; background:rgba(231,76,60,.2); margin:7px 0 5px; }
+    .cjk{ font-family:var(--hk-font-ja),serif; font-size:13px; letter-spacing:.04em; }
+
+    /* 選中嘅宿 */
+    .det{ position:fixed; z-index:4; left:clamp(12px,3vw,30px); bottom:14px;
+      width:min(310px, 62vw); pointer-events:auto;
+      border:1px solid rgba(231,76,60,.4); padding:9px 11px 10px;
+      background:rgba(11,7,5,.72);
+      -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); }
+    .det[hidden]{ display:none; }
+    .det .dh{ display:flex; align-items:baseline; gap:8px; margin-bottom:5px; }
+    .det .dn{ font-family:var(--hk-font-ja),serif; font-size:19px; color:var(--amb-hi); }
+    .det .de{ font-size:8.5px; letter-spacing:.12em; color:rgba(231,76,60,.6); }
+    .det .drow{ display:grid; grid-template-columns:44px 1fr; gap:1px 9px;
+      font-size:9.5px; letter-spacing:.06em; }
+    .det .drow b{ font-weight:400; color:rgba(231,76,60,.5); }
+    .det .dgua{ margin-top:6px; padding-top:6px;
+      border-top:1px solid rgba(231,76,60,.22);
+      font-family:var(--hk-font-ja),serif; font-size:12px; line-height:1.7; }
+    .det .dgua a{ color:var(--amb); text-decoration:none;
+      border-bottom:1px solid rgba(231,76,60,.3); }
+    .det .dgua a:hover{ color:var(--amb-hi); border-bottom-color:var(--amb-hi); }
+    .det .dx{ position:absolute; top:4px; right:6px; appearance:none; border:0;
+      background:none; cursor:pointer; color:rgba(231,76,60,.55);
+      font-family:var(--f-num); font-size:15px; padding:3px 5px; }
+    .det .dx:hover{ color:var(--amb-hi); }
+
+    /* ── 控制 ── */
+    .ctl{ position:fixed; z-index:5; right:clamp(12px,3vw,30px); bottom:14px;
+      display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+    .ctl button{ appearance:none; cursor:pointer; background:none;
+      border:1px solid rgba(231,76,60,.4); color:rgba(231,76,60,.8);
+      font-family:var(--f-num); font-size:9.5px; letter-spacing:.16em;
+      padding:5px 9px; touch-action:manipulation; }
+    .ctl button:hover{ color:var(--amb-hi); border-color:var(--amb-hi); }
+    .ctl .list{ display:none; flex-direction:column; align-items:stretch; gap:3px;
+      border:1px solid rgba(231,76,60,.3); padding:4px; }
+    .ctl .list.open{ display:flex; }
+    .ctl .list button{ border:0; text-align:right; padding:4px 7px; }
+    .ctl .list button.on{ color:var(--amb-hi); }
+
+    .site-copy{ position:fixed; z-index:4; left:clamp(12px,3vw,30px); bottom:0;
+      font-size:9.5px; color:rgba(231,76,60,.3); pointer-events:none;
+      padding-bottom:2px; }
+
+    @media (max-width:767px){
+      .hud-head .t{ font-size:16px; }
+      .hud-read{ min-width:112px; }
+      .hud-read .v{ font-size:10px; }
+      .st-nm{ font-size:26px; }
+      .q-nm{ font-size:20px; }
+      .c-card{ font-size:19px; }
+      .det{ left:10px; right:10px; width:auto; bottom:52px; }
+      .ctl{ right:10px; bottom:10px; flex-direction:row; align-items:flex-end; }
+      .site-copy{ display:none; }
+    }
+    @media (prefers-reduced-motion: reduce){ .st, .c-hor{ transition:none; } }
+
+    @media print{
+      .chart-wrap, .hud, .ctl, .det, .grain, .vig{ display:none !important; }
+      .sky-doc{ font-family:var(--f-num), ui-monospace, monospace; color:#000; }
+      .sky-doc .r{ display:grid; grid-template-columns:104px 1fr; gap:1px 12px;
+        font-size:10.5px; letter-spacing:.08em; margin-bottom:3px; }
+      .sky-doc .r b{ font-weight:400; color:#555; }
+      .sky-doc .r2{ margin:11px 0 5px; padding-top:8px; border-top:1px solid #000;
+        font-size:9.5px; letter-spacing:.24em; }
+      .sky-doc .tbl{ font-size:9.5px; line-height:1.65; white-space:pre-wrap; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-wrap">
+    <svg id="sky" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"
+         aria-label="二十八宿星圖">
+      <defs><clipPath id="discClip"><circle cx="500" cy="500" r="461"/></clipPath></defs>
+      <g id="gStatic"></g>
+      <g clip-path="url(#discClip)"><g id="gField"></g></g>
+      <g clip-path="url(#discClip)"><g id="gHorizon"></g></g>
+      <g id="gBounds"></g>
+      <g id="gQuad"></g>
+      <g id="gStars"></g>
+      <g id="gCard"></g>
+    </svg>
+  </div>
+
+  <div class="hud hud-head">
+    <div class="t" id="hClock">--:--:--</div>
+    <div class="c" id="hStation">—</div>
+    <div class="sub"><em id="hSub">二十八宿</em><span id="hCat">CATALOGUE —</span></div>
+  </div>
+
+  <div class="hud hud-read">
+    <div class="row"><span class="k">LST</span><span class="v" id="rLst">--</span></div>
+    <div class="row"><span class="k">SUN</span><span class="v" id="rSun">--</span></div>
+    <div class="sep"></div>
+    <div class="row"><span class="k">日躔</span><span class="v cjk" id="rSol">--</span></div>
+    <div class="row"><span class="k">中天</span><span class="v cjk" id="rMer">--</span></div>
+    <div class="row"><span class="k">節氣</span><span class="v cjk" id="rTerm">--</span></div>
+    <div class="sep"></div>
+    <div class="row"><span class="k">月相</span><span class="v" id="rMoon">--</span></div>
+    <div class="row"><span class="k">可見</span><span class="v" id="rUp">--</span></div>
+  </div>
+
+  <div class="det" id="det" hidden>
+    <button class="dx" id="detX" aria-label="close">&times;</button>
+    <div class="dh"><span class="dn" id="dName"></span><span class="de" id="dEng"></span></div>
+    <div class="drow">
+      <b>RA</b><span id="dRa">—</span>
+      <b>DEC</b><span id="dDec">—</span>
+      <b>ALT</b><span id="dAlt">—</span>
+      <b>AZ</b><span id="dAz">—</span>
+      <b>H</b><span id="dHa">—</span>
+    </div>
+    <div class="dgua" id="dGua"></div>
+  </div>
+
+  <div class="ctl">
+    <div class="list" id="staList"></div>
+    <button id="btnSta">STATION &#9662;</button>
+    <div class="list" id="drvList"></div>
+    <button id="btnDrv">DRIVE &times;1 &#9662;</button>
+  </div>
+
+  <p class="site-copy">&copy; 2026 hikki photography &amp; philosophy.</p>
+
+  <div class="grain"></div><div class="vig"></div>
+
+  <script>
+  (function(){
+    var $ = function(id){ return document.getElementById(id); };
+    var D2R = Math.PI/180, R2D = 180/Math.PI;
+
+    /* ═══════ 測站 ═══════ */
+    var STATIONS = [
+      { key:'macau',    label:'MACAU',    lat:22.1930, lon:113.5490, tz:8   },
+      { key:'victoria', label:'VICTORIA', lat:48.4284, lon:-123.3656, tz:-7 }
+    ];
+    var sta = STATIONS[0];
+
+    /* ═══════ 星圖幾何 ═══════
+       北天極為圓心；r ∝ (90° − δ)，赤道係一個正圓。
+       角度 θ = (RA − LST) × 15°，逆時針，θ=0 即係上中天（正上方）。 */
+    var CX = 500, CY = 500, RR = 461, DEC_MIN = -42;
+    function rOf(dec){ return RR * (90 - dec) / (90 - DEC_MIN); }
+    function xy(raH, decD, lstH){
+      var th = (raH - lstH) * 15 * D2R;
+      var r = rOf(decD);
+      return [ CX - r*Math.sin(th), CY - r*Math.cos(th) ];
+    }
+
+    /* ═══════ 天文 ═══════ */
+    function jd(d){ return d.getTime()/86400000 + 2440587.5; }
+    function gmstDeg(d){
+      var J = jd(d), D = J - 2451545.0, T = D/36525;
+      var g = 280.46061837 + 360.98564736629*D + 0.000387933*T*T - T*T*T/38710000;
+      return ((g % 360) + 360) % 360;
+    }
+    function lstHours(d, lonDeg){
+      return (((gmstDeg(d) + lonDeg) % 360 + 360) % 360) / 15;
+    }
+    /* 太陽：低精度但夠用（誤差 < 0.01°） */
+    function sun(d){
+      var n = jd(d) - 2451545.0;
+      var L = (280.460 + 0.9856474*n) % 360;
+      var g = ((357.528 + 0.9856003*n) % 360) * D2R;
+      var lam = (L + 1.915*Math.sin(g) + 0.020*Math.sin(2*g)) % 360;
+      if(lam < 0) lam += 360;
+      var eps = (23.439 - 0.0000004*n) * D2R;
+      var lr = lam * D2R;
+      var ra = Math.atan2(Math.cos(eps)*Math.sin(lr), Math.cos(lr)) * R2D;
+      if(ra < 0) ra += 360;
+      var dec = Math.asin(Math.sin(eps)*Math.sin(lr)) * R2D;
+      return { lam:lam, raH:ra/15, dec:dec, eps:eps*R2D };
+    }
+    /* 月相：由已知朔（2000-01-06 18:14 UT）數起 */
+    var SYN = 29.530588853;
+    function moon(d){
+      var age = ((jd(d) - 2451550.26) % SYN + SYN) % SYN;
+      var ph = age / SYN;                                  /* 0 = 朔 */
+      var illum = (1 - Math.cos(2*Math.PI*ph)) / 2;
+      var NM = ['朔','蛾眉','上弦','盈凸','望','虧凸','下弦','殘月'];
+      return { age:age, illum:illum, name:NM[Math.floor(ph*8 + 0.5) % 8] };
+    }
+    var TERMS = ['春分','清明','穀雨','立夏','小滿','芒種','夏至','小暑','大暑',
+                 '立秋','處暑','白露','秋分','寒露','霜降','立冬','小雪','大雪',
+                 '冬至','小寒','大寒','立春','雨水','驚蟄'];
+    function termOf(lam){ return TERMS[Math.floor(lam/15) % 24]; }
+
+    /* 赤道座標 → 地平座標 */
+    function altaz(raH, decD, lstH, latD){
+      var H = (lstH - raH) * 15 * D2R;
+      var dec = decD*D2R, lat = latD*D2R;
+      var sinAlt = Math.sin(dec)*Math.sin(lat) + Math.cos(dec)*Math.cos(lat)*Math.cos(H);
+      var alt = Math.asin(Math.max(-1, Math.min(1, sinAlt)));
+      var az = Math.atan2(-Math.cos(dec)*Math.sin(H),
+                          Math.sin(dec)*Math.cos(lat) - Math.cos(dec)*Math.sin(lat)*Math.cos(H));
+      az = (az*R2D + 360) % 360;
+      return { alt:alt*R2D, az:az, haH:(((lstH - raH) % 24) + 24) % 24 };
+    }
+
+    /* ═══════ 二十八宿 ═══════ */
+    var XIU = [], GUA_BY_XIU = {}, FIELD = [];
+    /* 星等 → 大細／亮度 */
+    function magRadius(m){ return Math.max(0.75, 2.75 - 0.42*m); }
+    function magOpacity(m){ return Math.max(0.2, Math.min(0.92, 0.86 - 0.135*m)); }
+    function parseRA(s){
+      var m = String(s).match(/(\d+)h\s*(\d+)m\s*([\d.]+)s/);
+      if(!m) return 0;
+      return +m[1] + (+m[2])/60 + (+m[3])/3600;
+    }
+    function parseDEC(s){
+      var t = String(s).replace(/[−–—]/g, '-');
+      var m = t.match(/(-?\+?\d+)[°\s]+(\d+)[′'\s]+([\d.]+)/);
+      if(!m) return 0;
+      var sgn = t.trim()[0] === '-' ? -1 : 1;
+      return sgn * (Math.abs(+m[1]) + (+m[2])/60 + (+m[3])/3600);
+    }
+    var QUAD = [
+      { nm:'東方蒼龍', i0:0,  n:7 },
+      { nm:'北方玄武', i0:7,  n:7 },
+      { nm:'西方白虎', i0:14, n:7 },
+      { nm:'南方朱雀', i0:21, n:7 }
+    ];
+
+    /* ═══════ 畫靜態層（唔隨時間變） ═══════ */
+    function drawStatic(){
+      var g = '';
+      var C = function(r){ return (2*Math.PI*r).toFixed(0); };
+      g += '<circle class="c-rim draw" cx="500" cy="500" r="'+RR+'" style="--len:'+C(RR)+'"/>';
+      g += '<circle class="c-rim2 draw" cx="500" cy="500" r="'+(RR+7)+'" style="--len:'+C(RR+7)+'"/>';
+      /* 赤緯圈 */
+      [60,30,-30].forEach(function(dv){
+        var r = rOf(dv);
+        g += '<circle class="c-dec draw" cx="500" cy="500" r="'+r.toFixed(1)+'" style="--len:'+C(r)+'"/>';
+      });
+      /* 赤道 */
+      g += '<circle class="c-eq" cx="500" cy="500" r="'+rOf(0).toFixed(1)+'"/>';
+      /* 天極 */
+      g += '<circle class="st-dot" cx="500" cy="500" r="2"/>';
+      g += '<text class="c-card" x="500" y="484" style="font-size:9px;opacity:.55">NCP</text>';
+      $('gStatic').innerHTML = g;
+    }
+
+    /* 黃道：喺旋轉層畫（因為要跟 LST） */
+    function eclipticPath(lst, eps){
+      var d = '', e = eps*D2R;
+      for(var l = 0; l <= 360; l += 3){
+        var lr = l*D2R;
+        var ra = Math.atan2(Math.cos(e)*Math.sin(lr), Math.cos(lr))*R2D;
+        if(ra < 0) ra += 360;
+        var dec = Math.asin(Math.sin(e)*Math.sin(lr))*R2D;
+        var p = xy(ra/15, dec, lst);
+        d += (l ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1);
+      }
+      return d;
+    }
+
+    /* 地平線：alt = 0 嘅軌跡。φ 高低會令佢變成一個偏心圈。 */
+    function horizonPath(lst, latD){
+      var lat = latD*D2R, d = '';
+      for(var A = 0; A <= 360; A += 2){
+        var a = A*D2R;
+        var sinDec = Math.cos(lat)*Math.cos(a);
+        var dec = Math.asin(Math.max(-1, Math.min(1, sinDec)));
+        var H = Math.atan2(-Math.sin(a), -Math.sin(dec)*Math.tan(lat)) * R2D;  /* 度 */
+        var raH = lst - H/15;
+        var p = xy(raH, dec*R2D, lst);
+        d += (A ? 'L' : 'M') + p[0].toFixed(1) + ',' + p[1].toFixed(1);
+      }
+      return d + 'Z';
+    }
+    function horizonPoint(A, lst, latD){
+      var lat = latD*D2R, a = A*D2R;
+      var dec = Math.asin(Math.max(-1, Math.min(1, Math.cos(lat)*Math.cos(a))));
+      var H = Math.atan2(-Math.sin(a), -Math.sin(dec)*Math.tan(lat)) * R2D;
+      return xy(lst - H/15, dec*R2D, lst);
+    }
+
+    /* ═══════ 時間 ═══════ */
+    var drive = 1, tOff = 0, lastReal = Date.now();
+    function now(){
+      var real = Date.now();
+      tOff += (real - lastReal) * (drive - 1);
+      lastReal = real;
+      return new Date(real + tOff);
+    }
+
+    /* ═══════ 主繪製 ═══════
+       元素只建一次，之後每幀淨係改屬性。
+       （之前每幀重寫 innerHTML，除咗浪費，仲會即刻毀屍滅跡令 click 收唔到。） */
+    var SVGNS = 'http://www.w3.org/2000/svg';
+    function mk(tag, attrs){
+      var e = document.createElementNS(SVGNS, tag);
+      for(var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+    var elStar = [], elBd = [], elQArc = [], elQTxt = [], elCard = [], elField = [];
+    var elHorF, elHor, elEcl, elMer;
+
+    function build(){
+      /* 地平線 */
+      elHorF = mk('path', {'class':'c-hor-fill'});
+      elHor  = mk('path', {'class':'c-hor'});
+      $('gHorizon').append(elHorF, elHor);
+
+      /* 黃道、子午線、宿界 */
+      elEcl = mk('path', {'class':'c-ecl'});
+      elMer = mk('line', {'class':'c-mer', x1:CX, y1:CY, x2:CX, y2:CY-RR});
+      $('gBounds').append(elEcl, elMer);
+      XIU.forEach(function(){
+        var l = mk('line', {'class':'c-bd'});
+        elBd.push(l); $('gBounds').appendChild(l);
+      });
+
+      /* 四象 */
+      QUAD.forEach(function(Q){
+        var p = mk('path', {'class':'q-arc'});
+        var t = mk('text', {'class':'q-nm','text-anchor':'middle', dy:'.34em'});
+        t.textContent = Q.nm;
+        elQArc.push(p); elQTxt.push(t);
+        $('gQuad').append(p, t);
+      });
+
+      /* 星 */
+      XIU.forEach(function(x, i){
+        var g = mk('g', {'class':'st','data-i':i});
+        var dot  = mk('circle', {'class':'st-dot', r:3.4});
+        var halo = mk('circle', {'class':'st-halo', r:7.5});
+        var smk  = mk('circle', {'class':'sun-mk', r:12, opacity:0});
+        var txt  = mk('text', {'class':'st-nm', dy:'.34em'});
+        txt.textContent = x.nm;
+        var hit  = mk('circle', { fill:'transparent', r:22 });
+        g.append(halo, smk, dot, txt, hit);
+        elStar.push({ g:g, dot:dot, halo:halo, smk:smk, txt:txt, hit:hit });
+        $('gStars').appendChild(g);
+      });
+
+      /* 星野：亮星表。只畫落得到呢張圖嘅（δ > DEC_MIN）。 */
+      FIELD.forEach(function(f){
+        var g = mk('g', {'class':'fs', opacity:magOpacity(f.mag)});
+        var c = mk('circle', {'class':'fs-d', r:magRadius(f.mag)});
+        /* 每粒星閃法唔同，唔會齊上齊落 */
+        c.style.animationDuration = (2.6 + Math.random()*3.4).toFixed(2) + 's';
+        c.style.animationDelay = (-Math.random()*6).toFixed(2) + 's';
+        g.appendChild(c);
+        elField.push({ g:g, c:c, f:f });
+        $('gField').appendChild(g);
+      });
+
+      /* 方位 */
+      ['N','E','S','W'].forEach(function(k){
+        var t = mk('text', {'class':'c-card', dy:'.34em'});
+        t.textContent = k;
+        elCard.push(t); $('gCard').appendChild(t);
+      });
+    }
+
+    var selIdx = -1, lastLst = NaN, lastSta = null, forceDraw = true;
+    var horSta = null, eclBuilt = false;
+    /* 半徑 461 嘅點行 1px 要轉 0.124°；0.004h ≈ 0.06° ≈ 0.5px。
+       ×1 檔即係 14 秒先重畫一次，×3600 檔就每幀都重畫。 */
+    var LST_EPS = 0.004;
+    function render(){
+      var d = now();
+      var lst = lstHours(d, sta.lon);
+
+      /* 時鐘照走 */
+      var loc0 = new Date(d.getTime() + (sta.tz*3600000) + d.getTimezoneOffset()*60000);
+      $('hClock').textContent = hms(loc0.getHours()) + ':' + hms(loc0.getMinutes()) + ':' + hms(loc0.getSeconds());
+
+      if(!forceDraw && sta === lastSta && Math.abs(lst - lastLst) < LST_EPS){
+        raf = requestAnimationFrame(render); return;
+      }
+      forceDraw = false; lastLst = lst; lastSta = sta;
+      var S = sun(d), M = moon(d);
+      var sunRA = S.raH;
+
+      /* ── 地平線：只係緯度嘅函數（式入面 lst 消咗），換站先重畫 ── */
+      if(sta !== horSta){
+        horSta = sta;
+        var hp = horizonPath(lst, sta.lat);
+        elHorF.setAttribute('d', hp);
+        elHor.setAttribute('d', hp);
+        [0,90,180,270].forEach(function(A, k){
+          var v = clampToDisc(horizonPoint(A, lst, sta.lat), 22);
+          elCard[k].setAttribute('x', v[0].toFixed(1));
+          elCard[k].setAttribute('y', v[1].toFixed(1));
+        });
+      }
+
+      /* ── 黃道：形狀固定，淨係跟住恆星時轉。砌一次，之後淨係轉。 ── */
+      if(!eclBuilt){ eclBuilt = true; elEcl.setAttribute('d', eclipticPath(0, S.eps)); }
+      elEcl.setAttribute('transform', 'rotate(' + (lst*15).toFixed(3) + ' ' + CX + ' ' + CY + ')');
+
+      /* ── 宿界；順手搵出中天同日躔 ── */
+      var merIdx = -1, solIdx = -1;
+      XIU.forEach(function(x, i){
+        var nxt = XIU[(i+1) % 28];
+        var span = ((nxt.ra - x.ra) % 24 + 24) % 24;      /* 宿嘅赤經範圍 */
+        if((((lst   - x.ra) % 24 + 24) % 24) < span) merIdx = i;
+        if((((sunRA - x.ra) % 24 + 24) % 24) < span) solIdx = i;
+        var p1 = xy(x.ra, 62, lst), p2 = xy(x.ra, DEC_MIN, lst);
+        var l = elBd[i];
+        l.setAttribute('x1', p1[0].toFixed(1)); l.setAttribute('y1', p1[1].toFixed(1));
+        l.setAttribute('x2', p2[0].toFixed(1)); l.setAttribute('y2', p2[1].toFixed(1));
+      });
+      elBd.forEach(function(l, i){ l.setAttribute('class', 'c-bd' + (i===merIdx ? ' cur' : '')); });
+
+      /* ── 四象 ── */
+      QUAD.forEach(function(Q, qi){
+        var a = XIU[Q.i0], z = XIU[(Q.i0 + Q.n) % 28];
+        var rq = rOf(DEC_MIN) + 16;
+        var p1 = polar(a.ra, rq, lst), p2 = polar(z.ra, rq, lst);
+        elQArc[qi].setAttribute('d', 'M'+p1[0].toFixed(1)+','+p1[1].toFixed(1)+
+          ' A'+rq.toFixed(1)+','+rq.toFixed(1)+' 0 0 0 '+p2[0].toFixed(1)+','+p2[1].toFixed(1));
+        var mid = a.ra + (((z.ra - a.ra) % 24 + 24) % 24)/2;
+        var pm = polar(mid, rq + 27, lst);
+        /* 字跟切線；θ 由正上方逆時針量，切線旋轉角 = −θ，倒轉就翻 180° */
+        var th = ((mid - lst)*15) % 360;
+        var rot = -th; while(rot > 180) rot -= 360; while(rot <= -180) rot += 360;
+        if(rot > 90 || rot < -90) rot += 180;
+        var t = elQTxt[qi];
+        t.setAttribute('x', pm[0].toFixed(1)); t.setAttribute('y', pm[1].toFixed(1));
+        t.setAttribute('transform', 'rotate('+rot.toFixed(1)+' '+pm[0].toFixed(1)+' '+pm[1].toFixed(1)+')');
+      });
+
+      /* ── 星 ── */
+      var upN = 0;
+      XIU.forEach(function(x, i){
+        var aa = altaz(x.ra, x.dec, lst, sta.lat);
+        var up = aa.alt > 0; if(up) upN++;
+        var p = xy(x.ra, x.dec, lst);
+        var lp = polar2(x.ra, rOf(x.dec) - (i%2 ? 40 : 26), lst);
+        var E = elStar[i];
+        E.g.setAttribute('class', 'st' + (up ? '' : ' down') +
+          (i === selIdx ? ' sel' : '') + (i === solIdx ? ' sun' : ''));
+        [E.dot, E.halo, E.smk, E.hit].forEach(function(c){
+          c.setAttribute('cx', p[0].toFixed(1)); c.setAttribute('cy', p[1].toFixed(1));
+        });
+        E.dot.setAttribute('r', up ? 3.4 : 2.4);
+        E.halo.setAttribute('opacity', up ? 1 : 0);
+        E.smk.setAttribute('opacity', i === solIdx ? 1 : 0);
+        E.txt.setAttribute('x', lp[0].toFixed(1));
+        E.txt.setAttribute('y', lp[1].toFixed(1));
+        /* 注意：唔可以喺呢度寫 textContent，會踩死解碼動畫 */
+      });
+
+      /* ── 星野 ── */
+      for(var fi = 0; fi < elField.length; fi++){
+        var F = elField[fi];
+        var p = xy(F.f.ra, F.f.dec, lst);
+        F.c.setAttribute('cx', p[0].toFixed(1));
+        F.c.setAttribute('cy', p[1].toFixed(1));
+        var fup = altaz(F.f.ra, F.f.dec, lst, sta.lat).alt > 0;
+        if(fup !== F.up){
+          F.up = fup;
+          F.g.setAttribute('class', 'fs' + (fup ? ' up' : ''));
+          F.g.setAttribute('opacity', (magOpacity(F.f.mag) * (fup ? 1 : 0.22)).toFixed(3));
+        }
+      }
+
+      /* ── 讀數 ── */
+      $('hStation').textContent = sta.label + '  ' + sta.lat.toFixed(4) + ' | ' + sta.lon.toFixed(4);
+      $('rLst').textContent = hms(Math.floor(lst)) + 'h' + hms(Math.floor(lst%1*60)) + 'm';
+      var sAA = altaz(sunRA, S.dec, lst, sta.lat);
+      $('rSun').textContent  = (sAA.alt>=0?'+':'') + sAA.alt.toFixed(1) + '°';
+      setCrack('rSol',  solIdx>=0 ? XIU[solIdx].nm + '宿' : '—');
+      setCrack('rMer',  merIdx>=0 ? XIU[merIdx].nm + '宿' : '—');
+      setCrack('rTerm', termOf(S.lam));
+      $('rMoon').textContent = M.name + ' ' + Math.round(M.illum*100) + '%';
+      $('rUp').textContent   = upN + '/28';
+
+      if(selIdx >= 0) fillDet(selIdx, lst);
+      raf = requestAnimationFrame(render);
+    }
+    function polar(raH, r, lst){
+      var th = (raH - lst)*15*D2R;
+      return [ CX - r*Math.sin(th), CY - r*Math.cos(th) ];
+    }
+    function polar2(raH, r, lst){ return polar(raH, Math.max(24, r), lst); }
+    function clampToDisc(p, pad){
+      var dx = p[0]-CX, dy = p[1]-CY, d = Math.hypot(dx,dy), lim = RR - pad;
+      if(d <= lim) return p;
+      return [ CX + dx/d*lim, CY + dy/d*lim ];
+    }
+    function hms(n){ return (n<10?'0':'') + Math.floor(n); }
+    function dms(v){
+      var s = v<0?'-':'+'; v = Math.abs(v);
+      var d0 = Math.floor(v), m = Math.floor((v-d0)*60);
+      return s + d0 + '°' + (m<10?'0':'') + m + "'";
+    }
+
+    /* 值變咗先行一次解碼動畫（唔係每幀） */
+    var lastVal = {};
+    function setCrack(id, v){
+      if(lastVal[id] === v) return;
+      lastVal[id] = v;
+      var el = $(id); if(!el) return;
+      el.textContent = v;
+      if(window.HikkiCrack) window.HikkiCrack.startOn(window.HikkiCrack.collect(el), { budgetMs:420 });
+    }
+    /* 宿名只得一個字，通用 crack 一格就鎖晒（~50ms，睇唔到）。
+       單字自己嚟：亂跳一段時間先落定，每個宿錯開開始時間。 */
+    var POOL = '角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫'
+             + '垣度躔次辰宮分野經緯赤黃極天璇璣玉衡開陽搖光';
+    var nameTimers = [];
+    function scrambleName(i, dur){
+      var E = elStar[i]; if(!E) return;
+      var target = XIU[i].nm, t0 = performance.now();
+      (function step(){
+        var el = performance.now() - t0;
+        if(el >= dur){ E.txt.textContent = target; return; }
+        E.txt.textContent = POOL[(Math.random()*POOL.length)|0];
+        nameTimers[i] = setTimeout(step, 34 + Math.random()*38);
+      })();
+    }
+    function crackNames(stagger){
+      if(!document.hidden && elStar.length){
+        XIU.forEach(function(_, i){
+          clearTimeout(nameTimers[i]);
+          setTimeout(function(){ scrambleName(i, 380 + Math.random()*620); },
+                     Math.random() * (stagger || 700));
+        });
+      }
+      setTimeout(function(){ crackNames(900); }, 25000);
+    }
+
+    /* ═══════ 選中 ═══════ */
+    function fillDet(i, lst){
+      var x = XIU[i], aa = altaz(x.ra, x.dec, lst, sta.lat);
+      $('dName').textContent = x.nm + '宿';
+      $('dEng').textContent  = x.en;
+      $('dRa').textContent   = x.raRaw;
+      $('dDec').textContent  = x.decRaw;
+      $('dAlt').textContent  = dms(aa.alt) + (aa.alt>0 ? '' : '  (地平下)');
+      $('dAz').textContent   = aa.az.toFixed(1) + '°';
+      $('dHa').textContent   = aa.haH.toFixed(2) + 'h';
+      var gs = GUA_BY_XIU[x.nm] || [];
+      $('dGua').innerHTML = gs.length
+        ? '<b style="font-weight:400;color:rgba(231,76,60,.5);font-family:var(--f-num);font-size:8px;letter-spacing:.2em">值宿之卦</b><br>'
+          + gs.map(function(g){ return '<a href="iching.html">'+g.gua+'</a>　<span style="color:rgba(231,76,60,.55);font-size:10.5px">'+g.qi+'</span>'; }).join('<br>')
+        : '';
+      $('det').hidden = false;
+    }
+    $('gStars') && $('gStars').addEventListener('click', function(e){
+      var g = e.target.closest('.st'); if(!g) return;
+      selIdx = Number(g.dataset.i); forceDraw = true;
+    });
+    $('detX').addEventListener('click', function(){ selIdx = -1; $('det').hidden = true; });
+
+    /* ═══════ 控制 ═══════ */
+    function buildList(el, items, cur, pick){
+      el.innerHTML = items.map(function(it, i){
+        return '<button type="button" data-i="'+i+'" class="'+(i===cur?'on':'')+'">'+it+'</button>';
+      }).join('');
+      el.onclick = function(e){
+        var b = e.target.closest('button'); if(!b) return;
+        pick(Number(b.dataset.i)); el.classList.remove('open');
+      };
+    }
+    var DRIVES = [ ['×1',1], ['×60',60], ['×600',600], ['×3600',3600] ];
+    function syncCtl(){
+      buildList($('staList'), STATIONS.map(function(s){ return s.label; }),
+        STATIONS.indexOf(sta), function(i){ sta = STATIONS[i]; forceDraw = true; syncCtl(); });
+      buildList($('drvList'), DRIVES.map(function(d){ return d[0]; }),
+        DRIVES.findIndex(function(d){ return d[1]===drive; }), function(i){
+          drive = DRIVES[i][1]; forceDraw = true;
+          $('btnDrv').innerHTML = 'DRIVE ' + DRIVES[i][0] + ' ▾'; syncCtl();
+        });
+    }
+    $('btnSta').addEventListener('click', function(){
+      $('staList').classList.toggle('open'); $('drvList').classList.remove('open');
+    });
+    $('btnDrv').addEventListener('click', function(){
+      $('drvList').classList.toggle('open'); $('staList').classList.remove('open');
+    });
+
+    /* 鍵盤：← → 撥時間、S 換站、Esc 關詳情 */
+    window.addEventListener('keydown', function(e){
+      if(e.metaKey||e.ctrlKey||e.altKey) return;
+      var t = e.target;
+      if(t && (t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable)) return;
+      if(document.querySelector('.hk-menu.open, .hk-enq-panel.open, .hk-about.open')) return;
+      if(e.key==='ArrowRight'){ e.preventDefault(); tOff += 3600000; forceDraw = true; }
+      if(e.key==='ArrowLeft'){  e.preventDefault(); tOff -= 3600000; forceDraw = true; }
+      if(e.key==='s'||e.key==='S'){ sta = STATIONS[(STATIONS.indexOf(sta)+1)%STATIONS.length]; forceDraw = true; syncCtl(); }
+      if(e.key==='Escape'){ selIdx = -1; $('det').hidden = true; }
+    });
+
+    /* ═══════ 列印 ═══════ */
+    window.hkPrintBody = function(){
+      var d = now(), lst = lstHours(d, sta.lon), S = sun(d), M = moon(d);
+      var rows = [
+        ['STATION',  sta.label],
+        ['POSITION', sta.lat.toFixed(4) + ' / ' + sta.lon.toFixed(4)],
+        ['LST',      lst.toFixed(4) + ' h'],
+        ['節氣',      termOf(S.lam)],
+        ['月相',      M.name + '  ' + Math.round(M.illum*100) + '%'],
+        ['SUN ALT',  altaz(S.raH, S.dec, lst, sta.lat).alt.toFixed(2) + '°']
+      ];
+      var h = '<div class="sky-doc">';
+      rows.forEach(function(r){ h += '<div class="r"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'; });
+      h += '<div class="r2">二十八宿 &mdash; ALT / AZ</div><div class="tbl">';
+      XIU.forEach(function(x){
+        var a = altaz(x.ra, x.dec, lst, sta.lat);
+        h += x.nm + '宿  ' + x.raRaw.padEnd(18) + '  '
+           + (a.alt>=0?'+':'') + a.alt.toFixed(1).padStart(5) + '°  '
+           + a.az.toFixed(1).padStart(5) + '°'
+           + (a.alt>0 ? '  ●' : '') + '\n';
+      });
+      h += '</div></div>';
+      return h;
+    };
+
+    /* ═══════ 啟動 ═══════ */
+    var raf = 0;
+    Promise.all([
+      fetch('28_xiu_j2000.json').then(function(r){ return r.json(); }),
+      fetch('iching-data.json').then(function(r){ return r.json(); }).catch(function(){ return null; }),
+      fetch('bright-stars.json').then(function(r){ return r.json(); }).catch(function(){ return null; })
+    ]).then(function(res){
+      XIU = res[0].map(function(x){
+        return { nm:x['中文名'], en:x['英譯'],
+                 raRaw:x.RA, decRaw:x.DEC,
+                 ra:parseRA(x.RA), dec:parseDEC(x.DEC) };
+      });
+      if(res[1] && res[1].hexagrams){
+        res[1].hexagrams.forEach(function(g){
+          var xi = (g.extra && g.extra['星宿']) || '';
+          if(!xi) return;
+          var k = String(xi).replace(/宿$/, '');
+          (GUA_BY_XIU[k] = GUA_BY_XIU[k] || []).push({
+            gua:g.gua, qi:(g.extra && g.extra['卦氣']) || ''
+          });
+        });
+      }
+      /* 亮星表：落唔到呢張圖（δ ≤ DEC_MIN）嘅唔畫 */
+      if(res[2] && res[2].stars){
+        FIELD = res[2].stars
+          .map(function(a){ return { nm:a[0], ra:a[1], dec:a[2], mag:a[3] }; })
+          .filter(function(f){ return f.dec > DEC_MIN + 1; })
+          .sort(function(a,b){ return a.mag - b.mag; });
+      }
+      $('hCat').textContent = 'CATALOGUE  28 + ' + FIELD.length + '  J2000';
+
+      drawStatic();
+      build();
+      syncCtl();
+      render();
+      /* 通電 */
+      requestAnimationFrame(function(){ $('sky').classList.add('on'); });
+      setTimeout(function(){
+        if(window.HikkiCrack){
+          window.HikkiCrack.startOn(window.HikkiCrack.collect($('gQuad')), { budgetMs:900 });
+        }
+        crackNames(1500);          /* 開機：由角宿散開咁逐個亮 */
+      }, 650);
+    }).catch(function(err){
+      $('hStation').textContent = 'CATALOGUE UNAVAILABLE — ' + err;
+    });
+
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ cancelAnimationFrame(raf); }
+      else { lastReal = Date.now(); raf = requestAnimationFrame(render); }
+    });
+  })();
+  </script>
+</body>
+</html>
