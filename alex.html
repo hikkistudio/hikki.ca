@@ -203,7 +203,14 @@
   .hero.on .disc-sub{ opacity:1; transform:none; }
   .disc-sub em{ font-style:normal; color:var(--gold-lt); margin:0 .35em; }
 
-  .hero-meta{ margin-top:clamp(28px,4.6vw,52px);
+  .disc-note{ margin-top:clamp(12px,2vw,18px);
+    font-family:var(--serif); font-style:italic; font-weight:300;
+    font-size:clamp(13px,1.5vw,17px); color:var(--gold-lt);
+    opacity:0; transform:translateY(12px);
+    transition:opacity .95s ease 1.1s, transform .95s ease 1.1s; }
+  .hero.on .disc-note{ opacity:1; transform:none; }
+
+  .hero-meta{ margin-top:clamp(24px,4vw,44px);
     display:flex; flex-wrap:wrap; gap:7px clamp(18px,3.4vw,40px);
     font-size:10.5px; font-weight:400; letter-spacing:.14em;
     text-transform:uppercase; color:var(--muted-dk);
@@ -293,6 +300,39 @@
     transition:border-color .3s, color .3s; }
   .tags span:hover{ border-color:var(--gold); color:var(--gold); }
 
+  /* ── 共通點：一條原則，兩邊各講一次 ── */
+  .cg-lede{ max-width:34ch; }
+  .cgs{ margin-top:clamp(30px,5vw,58px); }
+  .cg{ display:grid; gap:6px clamp(16px,2.8vw,34px);
+    grid-template-columns:1fr; align-items:start;
+    padding:clamp(24px,3.6vw,38px) 0; border-top:1px solid var(--line); }
+  .cg:last-child{ border-bottom:1px solid var(--line); }
+  @media (min-width:760px){ .cg{ grid-template-columns:52px minmax(0,1fr); } }
+  .cg-n{ font-family:var(--serif); font-style:italic; font-size:clamp(17px,2vw,22px);
+    color:var(--gold); line-height:1.2; letter-spacing:.02em; }
+  .cg-t{ font-family:var(--serif); font-weight:400;
+    font-size:clamp(20px,2.5vw,27px); line-height:1.24;
+    margin-bottom:clamp(14px,2vw,20px); }
+
+  .cg-pair{ display:grid; gap:clamp(14px,2.4vw,34px); grid-template-columns:1fr; }
+  @media (min-width:820px){ .cg-pair{ grid-template-columns:1fr 1fr; } }
+  .cg-pair p{ position:relative; padding-left:15px;
+    font-size:14.5px; line-height:1.7; color:var(--ink-soft); }
+  .cg-pair p::before{ content:''; position:absolute; left:0; top:.42em; bottom:.28em;
+    width:1px; background:var(--line); }
+  .cg-pair p:first-child::before{ background:var(--gold); opacity:.55; }
+  .cg-pair b{ display:block; font-family:var(--sans); font-size:9.5px; font-weight:600;
+    letter-spacing:.24em; text-transform:uppercase; color:var(--muted);
+    margin-bottom:6px; }
+  .cg-pair em{ font-style:italic; }
+
+  .cg-sum{ margin-top:clamp(14px,2.2vw,20px);
+    font-family:var(--serif); font-size:clamp(16px,1.9vw,20px);
+    line-height:1.5; color:var(--ink); max-width:52ch; }
+  .cg-close{ margin-top:clamp(30px,5vw,54px);
+    font-family:var(--serif); font-size:clamp(17px,2.1vw,23px);
+    line-height:1.52; color:var(--ink); max-width:44ch; }
+
   /* ── 能力 ── */
   .caps{ display:grid; gap:1px; background:var(--line);
     border:1px solid var(--line); }
@@ -365,7 +405,7 @@
   /* ═══════ 減少動態 ═══════ */
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .rv > *, .sec-rule, .mark b, .hero-rule, .disc-main, .disc-sub,
+    .rv > *, .sec-rule, .mark b, .hero-rule, .disc-main, .disc-sub, .disc-note,
     .hero-meta, .cue, .lang .bar em{
       opacity:1 !important; transform:none !important; transition:none !important; }
     .lang .bar em{ width:var(--w,100%) !important; }
@@ -386,6 +426,7 @@
     .hero-rule{ display:none; }
     .disc-main{ font-size:15px; color:#000 !important; margin-top:6px; max-width:none; }
     .disc-sub{ font-size:11px; color:#444 !important; margin-top:3px; }
+    .disc-note{ font-size:10.5px; color:#444 !important; margin-top:2px; }
     .disc-sub em{ color:#000 !important; }
     .pts li{ padding:6px 0; }
     .pts b{ font-size:11px; }
@@ -402,6 +443,11 @@
     .role{ padding:10px 0; break-inside:avoid; }
     .role-t{ font-size:14px; }
     .cap{ background:#fff !important; padding:8px 10px; }
+    .cg{ padding:8px 0; break-inside:avoid; }
+    .cg-t{ font-size:13px; margin-bottom:6px; }
+    .cg-pair p, .cg-sum, .cg-close, .cg-lede{ font-size:10.5px; line-height:1.5;
+      max-width:none; color:#222; }
+    .cg-pair b{ font-size:8.5px; }
     .caps{ background:#ccc; border-color:#999; }
     .tags span{ background:#fff; border-color:#bbb; font-size:9px; }
     .foot{ background:#fff !important; color:#000 !important;
@@ -421,9 +467,10 @@
   <a href="#profile"><span class="rl">Profile</span><em>01</em><b></b></a>
   <a href="#experience"><span class="rl">Experience</span><em>02</em><b></b></a>
   <a href="#practice"><span class="rl">Practice</span><em>03</em><b></b></a>
-  <a href="#capabilities"><span class="rl">Capabilities</span><em>04</em><b></b></a>
-  <a href="#education"><span class="rl">Education</span><em>05</em><b></b></a>
-  <a href="#contact"><span class="rl">Contact</span><em>06</em><b></b></a>
+  <a href="#common"><span class="rl">Common Ground</span><em>04</em><b></b></a>
+  <a href="#capabilities"><span class="rl">Capabilities</span><em>05</em><b></b></a>
+  <a href="#education"><span class="rl">Education</span><em>06</em><b></b></a>
+  <a href="#contact"><span class="rl">Contact</span><em>07</em><b></b></a>
 </nav>
 
 <!-- ═══════ 封面 ═══════ -->
@@ -434,6 +481,7 @@
     <div class="hero-rule"></div>
     <p class="disc-main">Client Advisory &amp; Investigative Review</p>
     <p class="disc-sub">Photography <em>·</em> Graphic &amp; Interface Design</p>
+    <p class="disc-note">One discipline, practised twice.</p>
     <p class="hero-meta">
       <a href="mailto:alexandraiaohiokei@gmail.com">alexandraiaohiokei@gmail.com</a>
       <a href="tel:+17789227555">778 922 7555</a>
@@ -468,6 +516,11 @@
           <b>A visual practice alongside it</b>
           <i>Professional photography and design, with full post-production in the Adobe suite
              and layouts built to hold up on every screen they land on.</i>
+        </li>
+        <li>
+          <b>One discipline, practised twice</b>
+          <i>Advising a client and photographing one turn out to be the same job: listen first,
+             offer real options, protect what you are given, and get it right the first time.</i>
         </li>
         <li>
           <b>Trilingual</b>
@@ -559,6 +612,9 @@
            comfortable staying out of the way when the room is already doing the work.</p>
         <p>Full post-production in the Adobe suite — colour, retouching and print preparation,
            delivered to specification and on schedule.</p>
+        <p>Sittings are run the way a client meeting is run: what the picture is for is agreed
+           before the camera comes out, permission is asked rather than assumed, and files are
+           handled as someone else's property — because they are.</p>
         <div class="tags">
           <span>Portrait</span><span>Documentary</span><span>Events</span>
           <span>Product</span><span>Editorial Still Life</span><span>Retouching</span>
@@ -574,6 +630,9 @@
         <p>Works to an existing brand system or establishes one, and hands off to developers
            with the detail already resolved — every layout tested on desktop and on a phone
            before it ships.</p>
+        <p>Briefs are taken the way a file is taken: the requirement written down, the options
+           laid out with their trade-offs, and one of them recommended in plain language rather
+           than left to the client to guess at.</p>
         <div class="tags">
           <span>Identity</span><span>Print Collateral</span><span>Art Direction</span>
           <span>Web Layout</span><span>Responsive Systems</span><span>Adobe Suite</span>
@@ -583,11 +642,95 @@
   </div>
 </section>
 
-<!-- ═══════ 04 能力 ═══════ -->
-<section class="band tint" id="capabilities">
+<!-- ═══════ 04 兩者嘅共通點 ═══════ -->
+<section class="band" id="common">
   <div class="wrap rv">
     <div class="sec-head">
       <span class="sec-no">04</span>
+      <h2 class="sec-t">Common Ground</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <p class="lede cg-lede">The bank and the camera ask the same four things of you.
+      One taught them as policy; the other made them a habit.</p>
+
+    <div class="cgs">
+      <article class="cg">
+        <span class="cg-n">i</span>
+        <div class="cg-b">
+          <h3 class="cg-t">Listen before proposing</h3>
+          <div class="cg-pair">
+            <p><b>Advisory</b>You do not open with a product. You ask what the year actually
+               looks like — the move, the business, the parent who needs care — and only then
+               does the right structure become obvious.</p>
+            <p><b>Practice</b>You do not open with a lens. You ask what the picture is <em>for</em>,
+               who will see it, and what the person is worried about — and only then does the
+               right frame become obvious.</p>
+          </div>
+          <p class="cg-sum">Both go wrong in exactly the same way: when the answer arrives
+             before the question does.</p>
+        </div>
+      </article>
+
+      <article class="cg">
+        <span class="cg-n">ii</span>
+        <div class="cg-b">
+          <h3 class="cg-t">Give options, then a recommendation</h3>
+          <div class="cg-pair">
+            <p><b>Advisory</b>A client is owed more than one path — and a clear view on which
+               one you would take. Name the trade-off before they find it themselves.</p>
+            <p><b>Practice</b>Three approaches to a portrait, three ways to lay out a page.
+               Show the range, say what each one costs, then say which one you would choose.</p>
+          </div>
+          <p class="cg-sum">Presenting choices is service. Withholding a recommendation is not
+             neutrality — it is leaving the decision heavier than you found it.</p>
+        </div>
+      </article>
+
+      <article class="cg">
+        <span class="cg-n">iii</span>
+        <div class="cg-b">
+          <h3 class="cg-t">Treat discretion as the default</h3>
+          <div class="cg-pair">
+            <p><b>Advisory</b>Account records, medical cancellations and appeal files are handed
+               over on trust and under policy. Nothing leaves the desk, and nothing is discussed
+               where it can be overheard.</p>
+            <p><b>Practice</b>A photograph of someone's face is the same kind of object. Consent
+               is asked for, not assumed; files are stored, not scattered; and the frame that
+               should not exist is simply not taken.</p>
+          </div>
+          <p class="cg-sum">Knowing what not to leave on a desk and knowing when not to press
+             the shutter are the same instinct.</p>
+        </div>
+      </article>
+
+      <article class="cg">
+        <span class="cg-n">iv</span>
+        <div class="cg-b">
+          <h3 class="cg-t">Hold the room steady</h3>
+          <div class="cg-pair">
+            <p><b>Advisory</b>People arrive at a counter or an appeal at their least comfortable
+               — embarrassed about money, anxious about a decision. Half the work is lowering the
+               temperature before anything else can happen.</p>
+            <p><b>Practice</b>People arrive in front of a camera the same way. The picture only
+               opens up once they stop performing, and that is a matter of manner, not equipment.</p>
+          </div>
+          <p class="cg-sum">In both, the technical part is the easy part. The person is the work.</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="cg-close">And both are unforgiving of the same failure: a misfiled document and a
+      missed frame cost the same thing — you cannot go back for either. Preparation, checking,
+      and a tolerance for doing the unglamorous part properly are not two disciplines. They are
+      one discipline, practised twice.</p>
+  </div>
+</section>
+
+<!-- ═══════ 05 能力 ═══════ -->
+<section class="band tint" id="capabilities">
+  <div class="wrap rv">
+    <div class="sec-head">
+      <span class="sec-no">05</span>
       <h2 class="sec-t">Capabilities</h2>
       <span class="sec-rule"></span>
     </div>
@@ -633,17 +776,25 @@
       <div class="cap"><b>Languages</b><i>English, Cantonese and Mandarin — advising, drafting
         and de-escalating in all three.</i></div>
 
+      <div class="cap"><b>Confidentiality &amp; Consent</b><i>Client information, case files and
+        photographic likeness treated to one standard — asked for, minimised, stored properly,
+        and never discussed where it can be overheard.</i></div>
+
+      <div class="cap"><b>Needs Analysis &amp; Recommendation</b><i>Drawing out what a client
+        actually needs before proposing anything, then presenting real alternatives with their
+        trade-offs named and one of them recommended.</i></div>
+
       <div class="cap"><b>Working Manner</b><i>Self-directed, unflustered, and specific. Follows
         through without being chased, and asks the question early rather than guessing late.</i></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════ 05 學歷 ═══════ -->
+<!-- ═══════ 06 學歷 ═══════ -->
 <section class="band" id="education">
   <div class="wrap rv">
     <div class="sec-head">
-      <span class="sec-no">05</span>
+      <span class="sec-no">06</span>
       <h2 class="sec-t">Education &amp; Languages</h2>
       <span class="sec-rule"></span>
     </div>
@@ -670,11 +821,11 @@
   </div>
 </section>
 
-<!-- ═══════ 06 聯絡 ═══════ -->
+<!-- ═══════ 07 聯絡 ═══════ -->
 <footer class="foot" id="contact">
   <div class="wrap rv">
     <div class="sec-head">
-      <span class="sec-no">06</span>
+      <span class="sec-no">07</span>
       <h2 class="sec-t">Contact</h2>
       <span class="sec-rule"></span>
     </div>
