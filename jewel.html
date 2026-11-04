@@ -22,8 +22,8 @@
   <meta name="author" content="hikki photography"/>
   <meta name="theme-color" content="#ffffff"/>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css?v=130"/>
-  <script src="/site.js?v=130" defer></script>
+  <link rel="stylesheet" href="/site.css?v=131"/>
+  <script src="/site.js?v=131" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     /* 白紙黑字，正文 Courier（同 about 一致），Helvetica 淨係留畀大標題。
@@ -55,6 +55,8 @@
 
     /* ── 分段 ── */
     .sec { margin-top:clamp(38px,6.5vh,72px); }
+    /* 大標題下面第一段收窄：副標題拆走咗之後，個窿大過其餘段落之間 */
+    h1 + .sec { margin-top:clamp(20px,3.2vh,34px); }
     .sec-h { display:flex; align-items:baseline; gap:.7em;
       font-family:var(--hk-font-mono); font-weight:400;
       font-size:11px; letter-spacing:.24em; text-transform:uppercase;

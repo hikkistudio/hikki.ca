@@ -21,8 +21,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
   <link rel="preload" as="image" href="hero_poster.jpg"/>
-  <link rel="stylesheet" href="site.css?v=130"/>
-  <script src="site.js?v=130" defer></script>
+  <link rel="stylesheet" href="site.css?v=131"/>
+  <script src="site.js?v=131" defer></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -104,11 +104,13 @@
     }
     .chinese .english { display: block; margin-top: 1ch; font-family: var(--hk-font-mono); letter-spacing: -0.005em; }
 
+    /* 工作室說明句：畫面上收起咗（用戶嫌佢冇詩意），但唔刪——
+       首頁手機版可見英文本來得六隻字，Google 係 mobile-first，
+       呢段留喺 DOM 入面畀爬蟲同螢幕閱讀器讀。 */
     .tagline {
-      margin-top: 8px; max-width: 34ch;
-      font-family: var(--hk-font-mono); font-size: clamp(10px, 0.95vw, 12px);
-      line-height: 1.55; letter-spacing: -0.005em;
-      color: inherit; opacity: .72;    /* 跟 hero 嘅字色，唔寫死黑定白 */
+      position: absolute; width: 1px; height: 1px; margin: -1px;
+      padding: 0; overflow: hidden; clip: rect(0 0 0 0);
+      white-space: nowrap; border: 0;
     }
 
     .copyright {
@@ -136,7 +138,6 @@
       }
       .left { text-align: left; }  /* 塊內靠左：h3 同 > 及座標對齊 */
       .left h3 { font-size: 14px; white-space: normal; }
-      .tagline { font-size: 10.5px; max-width: 42ch; margin-top: 10px; }  /* 同下面座標行等闊 */
       .locations {
         font-size: 11px; margin-top: 14px;
       }
@@ -217,9 +218,8 @@
     <div class="grid-container">
       <div class="left">
         <h3>hikki photography &amp; philosophy</h3>
-        <!-- 工作室說明句：MONOLOG 嗰種署名下面一行。唔係口號，係講實際做乜、
-             喺邊度做、講咩話——首頁得 54 隻字，而手機版連詩同版權都收埋咗，
-             呢行係唯一兩邊都見得到、又唔會破壞單屏構圖嘅位。 -->
+        <!-- 工作室說明句：畫面上唔顯示（見上面 .tagline），淨係留畀搜尋引擎。
+             首頁可見英文得 54 隻字，手機版連詩同版權都收埋，冇呢段就只剩六隻。 -->
         <p class="tagline">Film and documentary photography, and bespoke jewellery design.
           Burnaby-based, working across Metro Vancouver and Victoria, British Columbia.
           English, Cantonese and Mandarin.</p>
