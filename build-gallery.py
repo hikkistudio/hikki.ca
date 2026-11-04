@@ -79,6 +79,8 @@ TYPO = {
     'marketsquare': 'market square', 'wetmarket': 'wet market',
     'dogwalk': 'dog walk', 'cagecity': 'cage city', 'hmart': 'H Mart',
     'tnt': 'T&T', 'mplus': 'M+', 'girlpower': 'girl power',
+    'ourlet': 'outlet', 'vauged': 'vague', 'preperation': 'preparation',
+    'fairmount': 'Fairmont', 'richomnd': 'richmond', 'couquitlam': 'coquitlam',
 }
 
 # 地名（連唔喺 BC 嘅都要識，先至拎得走）
@@ -101,7 +103,7 @@ PLACES = {
     'westvan': 'West Vancouver', 'yvr': 'Vancouver', 'yyc': 'Calgary',
     'shenzhen': 'Shenzhen', 'brentwood': 'Brentwood', 'gilmore': 'Gilmore',
     'renfrew': 'Renfrew', 'fisgard': 'Fisgard', 'capilano': 'Capilano',
-    'fraser': 'Fraser', 'sfu': 'SFU',
+    'fraser': 'Fraser', 'sfu': 'SFU', 'eastvan': 'East Vancouver',
 }
 
 # 檔名入面拆開咗嘅地名：hong_kong、mong_kok
@@ -131,7 +133,7 @@ MAXW = 5          # 主體最多五隻字：夠描述，唔夠堆砌
 
 def alt_text(fname):
     n = re.sub(r'\.(webp|jpe?g|png)$', '', fname, flags=re.I)
-    n = re.sub(r'^x?g\d+_?', '', n)
+    n = re.sub(r'^x?g\d+[-_]?', '', n)
 
     raw = [t.strip().lower() for t in re.split(r'[_\-\s]+', n) if t.strip()]
     toks, i = [], 0
@@ -191,8 +193,8 @@ def variants(fname):
 
 
 RULES = [
-    ('times',   r'wedding|bride|bridesmate|vow|prewedding|family|party|birthday|thanksgiving|anniversary'),
-    ('friends', r'dog|cat_|_cat|kitten|puppy|pet|bird|birl|shelti|tabby|coon|parrot|myna|pheasant|straydog'),
+    ('times',   r'wedding|bride|bridesmaid|bridesmate|vow|prewedding|family|party|birthday|thanksgiving|anniversary'),
+    ('friends', r'dog|[-_]cat|cat[-_]|kitten|puppy|pet|bird|birl|shelti|tabby|coon|parrot|myna|pheasant|stray'),
     ('souls',   r'portrait|soul'),
 ]
 

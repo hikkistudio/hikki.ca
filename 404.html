@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>404 — nothing is here | hikki photography</title>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css?v=127"/>
-  <script src="/site.js?v=127" defer></script>
+  <link rel="stylesheet" href="/site.css?v=130"/>
+  <script src="/site.js?v=130" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -49,19 +49,32 @@
     .vig{ position:fixed; inset:0; z-index:2; pointer-events:none;
       background:radial-gradient(120% 90% at 50% 45%, transparent 46%, rgba(11,7,5,.58) 100%); }
 
-    /* ===== 中央：淨係呢三個字係啱嘅 ===== */
+    /* ===== 中央：淨係呢三個字係啱嘅 ─ 立體字，水平慢轉 =====
+       厚度係一疊 <b>，每塊相差大約一個像素，由前面逐塊向後推同時收暗，
+       所以側面睇落去就係一塊實心嘅厚字，而唔係一疊透明片。
+       層數同厚度跟實際 font-size 計，喺頁底嗰段 JS 砌。 */
     .four{ position:fixed; inset:0; z-index:5; display:flex;
-      align-items:center; justify-content:center; pointer-events:none; }
-    .four b{
+      align-items:center; justify-content:center; pointer-events:none;
+      perspective:1500px; perspective-origin:50% 47%;
+      /* 底下嘅亂碼要壓落去：中央一團暖黑，外加一圈好淡嘅橙光。
+         畫喺 .four 自己個底，所以一定喺所有立體層後面，唔使夾 z。 */
+      background:
+        radial-gradient(34% 30% at 50% 48%, rgba(231,76,60,.10), transparent 70%),
+        radial-gradient(40% 36% at 50% 48%, rgba(11,7,5,.95) 0%, rgba(11,7,5,.80) 52%, transparent 78%);
+    }
+    .four-tilt{ transform-style:preserve-3d; transform:rotateX(7deg); }
+    .four-spin{ position:relative; transform-style:preserve-3d;
+      animation:spin404 26s linear infinite; }
+    .four-spin b{
+      display:block; white-space:nowrap;
       font-family:var(--hk-font-sans); font-weight:700;
       font-size:clamp(108px, 25vw, 380px); line-height:1;
       letter-spacing:-0.04em; color:var(--amb);
-      animation:spin404 19s linear infinite;
-      /* 兩層陰影：外面一圈暖黑把底下嘅亂碼壓落去，再加一層橙光 */
-      text-shadow:0 0 26px rgba(11,7,5,.92), 0 0 60px rgba(11,7,5,.8),
-                  0 0 44px rgba(231,76,60,.3);
     }
-    @keyframes spin404{ to{ transform:rotate(360deg); } }
+    .four-spin b + b{ position:absolute; left:0; top:0; }
+    @keyframes spin404{ to{ transform:rotateY(360deg); } }
+    .sr-only{ position:absolute; width:1px; height:1px; margin:-1px;
+      padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
 
     /* ===== 側邊 UI：rainfall 嗰套，一個都冇少，但全部讀唔到 ===== */
     .hud{ position:fixed; z-index:4; pointer-events:none;
@@ -139,7 +152,7 @@
       .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 148px); right:clamp(14px,3vw,38px); }
       .botL{ width:min(70vw,290px); bottom:44px; }
       .ctl{ bottom:44px; }
-      .four b{ font-size:min(30vw,168px); }
+      .four-spin b{ font-size:min(30vw,168px); }
       .ret{ bottom:14px; font-size:11px; }
     }
     @media (max-height:520px){
@@ -236,9 +249,54 @@
     <span data-g="8">AUDIO ○</span>
   </div>
 
-  <div class="four"><b>404</b></div>
+  <h1 class="sr-only">404 — page not found</h1>
+  <div class="four" aria-hidden="true"><div class="four-tilt"><div class="four-spin" id="four404"></div></div></div>
 
   <p class="ret"><a href="/">&gt;return to index</a> <span class="hk-blink">■</span></p>
+
+  <script>
+  /* 立體 404：砌一疊 <b>，每塊差大約一個像素。
+     一個像素係關鍵——疊得太疏，轉到側面就會見到一片片，唔似實心。
+     層數同厚度跟實際 font-size 計，所以手機細字一樣啱比例。 */
+  (function () {
+    var host = document.getElementById('four404');
+    if (!host) return;
+    function build() {
+      host.textContent = '';
+      var probe = document.createElement('b');
+      probe.textContent = '404';
+      host.appendChild(probe);
+      var fs = parseFloat(getComputedStyle(probe).fontSize) || 160;
+      var depth = fs * 0.2;                                /* 厚度 = 字高嘅 20% */
+      /* 層數唔可以貪多：55 層喺 1100×760 實測得 32fps（落雨 canvas 同時行緊），
+         22 層就 58fps，而層與層之間嘅階級喺 2.4px 以內，肉眼睇唔出。 */
+      var n = Math.max(10, Math.min(24, Math.round(depth / 2.4)));
+      var step = depth / (n - 1);
+      host.textContent = '';
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < n; i++) {
+        var b = document.createElement('b');
+        b.textContent = '404';
+        b.style.transform = 'translateZ(' + (-i * step).toFixed(2) + 'px)';
+        var t = i / (n - 1);
+        if (i === 0) {
+          b.style.color = 'var(--amb)';                    /* 正面：打足光 */
+        } else if (i === n - 1) {
+          b.style.color = 'rgb(146,47,37)';                /* 背面：轉到後面都唔會黑一撻 */
+        } else {
+          b.style.color = 'rgb(' + Math.round(231 - 156 * t) + ','
+                                 + Math.round(76 - 54 * t) + ','
+                                 + Math.round(60 - 44 * t) + ')';
+        }
+        frag.appendChild(b);
+      }
+      host.appendChild(frag);
+    }
+    build();
+    var t;
+    addEventListener('resize', function () { clearTimeout(t); t = setTimeout(build, 220); });
+  })();
+  </script>
 
   <script>
   (function(){
