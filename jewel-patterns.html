@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.className+=" js";</script>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Castable patterns, in detail — 25 µm, wax-filled resin, 0.03% ash | hikki jewel design</title>
+
+  <meta name="description" content="3D printed castable wax patterns for lost-wax casting, from Burnaby BC. 25 micron layers, wax-filled castable resin rated at 0.03 percent ash, low thermal expansion. Castability check included; dispatched in three business days."/>
+  <link rel="canonical" href="https://hikki.ca/jewel-patterns.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="Castable patterns, in detail — 25 µm, wax-filled resin, 0.03% ash"/>
+  <meta property="og:description" content="What the resin, the layer height and the ash figure actually mean at the flask. Castable wax patterns printed in Burnaby, BC."/>
+  <meta property="og:url" content="https://hikki.ca/jewel-patterns.html"/>
+  <meta property="og:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta property="og:image:alt" content="Three signet patterns printed in castable wax resin"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Castable patterns, in detail — 25 µm, wax-filled resin, 0.03% ash"/>
+  <meta name="twitter:description" content="Layer height, ash content and burnout, explained for the bench. Burnaby, BC."/>
+  <meta name="twitter:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="/site.css?v=127"/>
+  <script src="/site.js?v=127" defer></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    /* 同 jewel.html 一條語言：白紙黑字，正文 Courier。
+       紅色大幅收起——淨係留畀每段開頭嗰粒閃動 ■、「免費首件」嗰條側邊、
+       主掣，同埋連結 hover。骨架線一律黑色低透明度，唔再用紅。 */
+    :root {
+      --hk-bar-alpha:.92;
+      --paper:#ffffff;
+      --ink:#111111;
+      --ink-2:rgba(0,0,0,.68);
+      --ink-3:rgba(0,0,0,.48);
+      --gold:#e74c3c;                 /* 用得好慳 */
+      --rule:rgba(0,0,0,.13);
+      --rule-2:rgba(0,0,0,.26);
+      --tint:rgba(0,0,0,.035);
+    }
+    html, body { background:var(--paper); color:var(--ink); }
+    body { font-family:var(--hk-font-mono); line-height:1.8;
+      -webkit-text-size-adjust:100%; }
+    ::selection { background:rgba(0,0,0,.12); }
+
+    .jw { max-width:min(960px, 92vw); margin:0 auto;
+      padding:calc(var(--hk-bar-h) + clamp(30px,7vh,72px)) 0 clamp(44px,8vh,96px); }
+
+    h1 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(34px,6vw,64px); letter-spacing:-.03em; line-height:1.03;
+      color:var(--ink); max-width:17ch; }
+    .jw-sub { margin-top:14px; font-family:var(--hk-font-mono);
+      font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--ink-3); }
+    /* µ 唔可以畀 text-transform:uppercase 碰——佢會變成希臘大寫 Μ，
+       畫面上睇落就係「25 MM」，成版文章最緊要嗰個數字即刻錯。 */
+    /* 要夠 specificity：.figs dd span 本身已經係 (0,1,2)，淨寫 .si 蓋唔過佢 */
+    .si, .jw-sub .si, .figs dd span.si { text-transform:none; font-style:normal; }
+    .lede { margin-top:clamp(20px,3.4vh,30px);
+      font-size:clamp(16px,1.9vw,19px); line-height:1.72;
+      color:var(--ink); max-width:58ch; }
+
+    .sec { margin-top:clamp(38px,6.5vh,72px); }
+    .sec-h { display:flex; align-items:baseline; gap:.7em;
+      font-family:var(--hk-font-mono); font-weight:400;
+      font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+      color:rgba(0,0,0,.52);
+      padding-bottom:10px; border-bottom:1px solid var(--rule-2); }
+    /* 成段標題淨返粒 ■ 係紅——全頁最細嗰一點紅，做記號用 */
+    .sec-h .hk-blink { font-size:8px; line-height:1; color:var(--gold); }
+
+    /* 一步＝一個 h2 ＋ 幾段。左邊一個 Courier 步號，同 specs 嗰種讀數語言一致。 */
+    .step { margin-top:clamp(26px,4.4vh,44px);
+      display:grid; grid-template-columns:3.2em 1fr; gap:0 clamp(14px,2.2vw,26px); }
+    .step-n { font-family:var(--hk-font-mono); font-size:11px; letter-spacing:.12em;
+      color:rgba(0,0,0,.42); padding-top:.55em; font-variant-numeric:tabular-nums; }
+    h2 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(19px,2.5vw,25px); letter-spacing:-.02em; line-height:1.22;
+      color:var(--ink); }
+    .step h2 { grid-column:2; }
+    .step .bd { grid-column:2; }
+    .bd p { margin-top:clamp(11px,1.7vh,15px);
+      font-size:15px; line-height:1.8; color:var(--ink-2); max-width:62ch; }
+    .bd p strong { color:var(--ink); font-weight:700; }
+    .bd a { color:var(--ink); text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,.3); }
+    .bd a:hover { border-bottom-color:var(--gold); }
+    .bd ul { list-style:none; margin-top:clamp(11px,1.7vh,15px); max-width:62ch; }
+    .bd li { position:relative; padding-left:18px;
+      font-size:14.5px; line-height:1.75; color:var(--ink-2); }
+    .bd li + li { margin-top:.45em; }
+    .bd li::before { content:''; position:absolute; left:0; top:.8em;
+      width:9px; height:1px; background:var(--rule-2); }
+
+    /* 數字讀數條：全頁得呢度用大字講規格 */
+    .figs { margin-top:clamp(24px,4vh,40px); display:grid; gap:1px;
+      background:var(--rule); border:1px solid var(--rule);
+      grid-template-columns:1fr; }
+    @media (min-width:620px) { .figs { grid-template-columns:repeat(3,1fr); } }
+    .figs div { background:var(--paper); padding:15px 17px; }
+    .figs dt { font-family:var(--hk-font-mono); font-size:9.5px; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--ink-3); }
+    .figs dd { margin-top:5px; font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(19px,2.5vw,26px); letter-spacing:-.02em; color:var(--ink);
+      font-variant-numeric:tabular-nums; }
+    .figs dd span { font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--ink-3); margin-left:.45em; font-weight:400; }
+
+    .free { margin-top:clamp(26px,4.4vh,42px);
+      background:rgba(0,0,0,.035); border-left:3px solid var(--gold);
+      padding:clamp(16px,2.6vw,24px) clamp(18px,3vw,28px); }
+    .free h3 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(16px,2.1vw,20px); letter-spacing:-.015em; color:var(--ink); }
+    .free p { margin-top:8px; font-size:14px; line-height:1.7; color:var(--ink-2);
+      max-width:60ch; }
+
+    .cta { margin-top:clamp(28px,4.6vh,48px); display:flex; flex-wrap:wrap;
+      gap:12px 18px; align-items:center; }
+    .btn, a.btn { appearance:none; cursor:pointer;
+      background:none; border:1px solid var(--gold); border-radius:2px;
+      color:var(--gold); font-family:var(--hk-font-mono);
+      font-size:14px; letter-spacing:.06em; padding:13px 24px;
+      text-decoration:none; display:inline-block;
+      transition:color .2s, border-color .2s, background .2s; touch-action:manipulation; }
+    .btn:hover, a.btn:hover { background:var(--gold);
+      border-color:var(--gold); color:#fff; }
+    .alt { font-size:13px; color:var(--ink-2); }
+    .alt a { color:var(--ink); text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,.3); }
+    .alt a:hover { border-bottom-color:var(--gold); }
+
+    .foot { margin-top:clamp(40px,7vh,84px); padding-top:15px;
+      border-top:1px solid var(--rule);
+      font-family:var(--hk-font-mono);
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      color:rgba(0,0,0,.56);
+      display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:space-between; }
+    .foot a { color:inherit; }
+    .foot a:hover { color:var(--ink); }
+
+    @media (max-width:640px) {
+      .step { grid-template-columns:1fr; gap:0; }
+      .step-n { padding-top:0; padding-bottom:5px; }
+      .step h2, .step .bd { grid-column:1; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","@id":"https://hikki.ca/jewel-patterns.html#article",
+   "headline":"Castable patterns, in detail",
+   "description":"What layer height, resin ash content and burnout behaviour mean for a shop casting someone else's pattern.",
+   "inLanguage":"en-CA","url":"https://hikki.ca/jewel-patterns.html",
+   "image":"https://hikki.ca/jewel/og-jewel.webp",
+   "author":{"@id":"https://hikki.ca/#hikki"},
+   "publisher":{"@id":"https://hikki.ca/#business"},
+   "isPartOf":{"@id":"https://hikki.ca/#website"},
+   "about":{"@id":"https://hikki.ca/#jewel"},
+   "articleSection":"Jewellery manufacturing"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Service","@id":"https://hikki.ca/jewel-patterns.html#service",
+   "serviceType":"3D printed castable wax pattern production",
+   "name":"Castable pattern printing from your file",
+   "url":"https://hikki.ca/jewel-patterns.html",
+   "provider":{"@id":"https://hikki.ca/#jewel"},
+   "areaServed":[{"@type":"State","name":"British Columbia"},{"@type":"Country","name":"Canada"}],
+   "offers":[
+     {"@type":"Offer","priceCurrency":"CAD","price":"35","availability":"https://schema.org/InStock",
+      "itemOffered":{"@type":"Service","name":"Small pattern — rings, studs, small pendants"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"55","availability":"https://schema.org/InStock",
+      "itemOffered":{"@type":"Service","name":"Medium pattern — heavier rings, mid-size pendants"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"75","availability":"https://schema.org/InStock",
+      "itemOffered":{"@type":"Service","name":"Large pattern — large signet rings, heavy pieces"}}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},
+    {"@type":"ListItem","position":2,"name":"Jewel design","item":"https://hikki.ca/jewel.html"},
+    {"@type":"ListItem","position":3,"name":"Patterns","item":"https://hikki.ca/jewel-patterns.html"}]}
+  </script>
+</head>
+<body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/jewel-process.html">process</a>
+    <a href="/jewel-patterns.html">patterns</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
+  <main class="jw hk-selectable">
+    <h1>Castable patterns, in detail</h1>
+    <p class="jw-sub">25&nbsp;<span class="si">µm</span> &nbsp;·&nbsp; wax-filled castable resin &nbsp;·&nbsp; 0.03% ash</p>
+
+    <p class="lede">Most pattern printers will quote you a price and a turnaround and tell
+      you nothing else. The three numbers that decide whether a pattern is worth casting —
+      layer height, ash content and how the resin behaves on the way up to temperature —
+      are usually left off the page entirely. Here they are.</p>
+
+    <dl class="figs">
+      <div><dt>Layer height</dt><dd>25 <span class="si">µm</span></dd></div>
+      <div><dt>Resin ash, manufacturer-rated</dt><dd>0.03 <span>%</span></dd></div>
+      <div><dt>Dispatch, print only</dt><dd>3 <span>business days</span></dd></div>
+    </dl>
+
+    <section class="sec">
+      <h2 class="sec-h">What you are actually buying <span class="hk-blink">■</span></h2>
+
+      <div class="step">
+        <div class="step-n">01</div>
+        <h2>A pattern is a thing designed to disappear</h2>
+        <div class="bd">
+          <p>Everything else in jewellery manufacturing is made to last. A pattern is made
+            to burn out completely and leave a clean void behind. That is the whole job, and
+            every property worth arguing about follows from it: how much residue is left in
+            the flask, whether the material pushes outward on the investment as it heats,
+            and how much of the surface detail survives into the metal.</p>
+          <p>A pattern that looks perfect on the bench and leaves grey residue in the cavity
+            has failed. So has one that cracks the investment on its way out. Neither failure
+            is visible when you accept delivery.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">02</div>
+        <h2>The resin: wax-filled, castable, 0.03% ash</h2>
+        <div class="bd">
+          <p>Patterns here print in a <strong>wax-filled castable resin</strong>. The
+            manufacturer rates it at <strong>0.03% ash</strong> — that is the fraction of the
+            pattern&rsquo;s own mass still sitting in your flask when burnout finishes.</p>
+          <p>Why it matters more than it sounds: ash does not distribute itself politely.
+            It collects in the finest parts of the cavity — prong tips, bead work, the
+            undercut of an engraving — which is precisely where a casting is judged. The
+            same resin is rated for low thermal expansion and shrinkage, which is the other
+            half of the problem: a pattern that swells before it softens is what splits
+            investment and ruins a whole flask rather than one piece.</p>
+          <p>This is why the figure is printed on this page instead of being left to
+            goodwill. If you cast someone else&rsquo;s patterns for a living, it is the
+            number you would ask for first.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">03</div>
+        <h2>25 µm layers, and what they are worth</h2>
+        <div class="bd">
+          <p>Twenty-five microns is a quarter of the thickness of a sheet of paper. At that
+            height, stepping on a shallow curve stops being something you can feel with a
+            fingernail, and the features that usually suffer first survive the print:</p>
+          <ul>
+            <li>milgrain beading, which turns into a smooth rope at coarser layers</li>
+            <li>hand-engraving and relief, where the step lines read as tool chatter</li>
+            <li>bright-cut edges and the inside walls of bead settings</li>
+            <li>prong tips, which blunt before anything else does</li>
+          </ul>
+          <p>Finer layers are possible on most machines and are mostly a way of selling
+            print time. The honest statement is that 25&nbsp;µm is the point past which the
+            investment surface, not the pattern, becomes the limit on what you can see in
+            the cast metal.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">04</div>
+        <h2>You cast it. In your own furnace.</h2>
+        <div class="bd">
+          <p>Patterns leave here cleaned and ready to sprue. Burnout stays yours, on your
+            own schedule, in your own kiln — I do not ask anyone to change a burnout cycle
+            that already works for them, and I do not cast on your behalf unless you ask
+            for a finished piece.</p>
+          <p>That division is deliberate. <strong>Casting, setting and finishing stay at
+            your bench.</strong> I make the pattern; the craft after the flask is yours, and
+            I am not interested in quietly competing with the shops I supply.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">05</div>
+        <h2>Every file gets checked before it prints</h2>
+        <div class="bd">
+          <p>Print-only orders still get a castability check, at no extra cost, because a
+            pattern that cannot cast is a waste of both our time. What gets looked at is the
+            same list as for my own designs — wall thickness, prong and stone seats, sprue
+            placement, and any volume that investment cannot drain out of.</p>
+          <p>If something is going to cause trouble I tell you before printing and say what
+            I would change. I do not silently alter your model; it is your design.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-n">06</div>
+        <h2>Sending a file, and what it costs</h2>
+        <div class="bd">
+          <p>Send whatever your CAD produces, along with the finger size or finished
+            dimensions and anything you want held exactly. If the format is unusual, ask
+            first and I will tell you straight away whether it opens cleanly.</p>
+          <p>Print-only pricing goes by size — $35 small, $55 medium, $75 large — and
+            repeats of the same model come down steeply: 15% off from two, 25% from five,
+            35% from ten. Print-only orders dispatch within three business days. Metro
+            Vancouver delivery is free and by hand; elsewhere in B.C. it is a $20 tracked
+            flat rate, $22 to the other western provinces, $30 east. Everything is on
+            <a href="/jewel.html">the rates page</a>.</p>
+          <p>If you want the design done as well as the pattern, that route is written up in
+            <a href="/jewel-process.html">from a sketch to something you can cast</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2 class="sec-h">Try it on me <span class="hk-blink">■</span></h2>
+      <div class="free">
+        <h3>First one&rsquo;s on me.</h3>
+        <p>Any shop in B.C. — I&rsquo;ll print your first test pattern free. Cast it in your
+          own furnace and tell me how it burned out. That&rsquo;s the whole deal, no strings.
+          It is the only honest way to settle an argument about ash content.</p>
+      </div>
+
+      <div class="cta">
+        <a class="btn hk-enq" href="#" data-enq-source="jewel" role="button">&gt;send a file</a>
+        <span class="alt">or see <a href="/jewel-gallery.html">the pieces</a>,
+          or write to <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a></span>
+      </div>
+    </section>
+
+    <div class="foot">
+      <span>&copy; 2026 hikki photography &amp; philosophy</span>
+      <span><a href="/jewel.html">rates</a> &nbsp;·&nbsp; <a href="/jewel-process.html">process</a>
+        &nbsp;·&nbsp; <a href="/privacy.html">privacy</a> &nbsp;·&nbsp; <a href="/">index</a></span>
+    </div>
+  </main>
+</body>
+</html>

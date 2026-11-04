@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
+  <script>document.documentElement.className+=" js";</script>
+
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-  <title>rainfall | hikki photography</title>
-  <meta name="robots" content="noindex"/>
-  <meta name="theme-color" content="#0b0705"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Rainfall — live rain over Macau &amp; Victoria | hikki</title>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=96"/>
-  <script src="site.js?v=96" defer></script>
+  <link rel="stylesheet" href="site.css?v=127"/>
+  <script src="site.js?v=127" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -293,8 +293,45 @@
     }
 
   </style>
+  <meta name="description" content="A rain-watching instrument: live precipitation, wind, tide and ephemeris rendered over a 3D map of Macau or Victoria BC, with real weather data."/>
+  <link rel="canonical" href="https://hikki.ca/rainfall.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="Rainfall — live rain over Macau &amp; Victoria | hikki"/>
+  <meta property="og:description" content="A rain-watching instrument: live precipitation, wind, tide and ephemeris rendered over a 3D map of Macau or Victoria BC, with real weather data."/>
+  <meta property="og:url" content="https://hikki.ca/rainfall.html"/>
+  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta property="og:image:alt" content="A photograph by hikki"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Rainfall — live rain over Macau &amp; Victoria | hikki"/>
+  <meta name="twitter:description" content="A rain-watching instrument: live precipitation, wind, tide and ephemeris rendered over a 3D map of Macau or Victoria BC, with real weather data."/>
+  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#101010"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Rainfall","url":"https://hikki.ca/rainfall.html","description":"Live rain, wind and tide rendered over a 3D map of Macau or Victoria.","applicationCategory":"EntertainmentApplication","operatingSystem":"Web browser","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},"author":{"@id":"https://hikki.ca/#hikki"},"isPartOf":{"@id":"https://hikki.ca/#website"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},{"@type":"ListItem","position":2,"name":"Rainfall","item":"https://hikki.ca/rainfall.html"}]}</script>
 </head>
 <body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
   <canvas id="city"></canvas>
   <canvas id="wx"></canvas>
   <div class="grain"></div>
@@ -735,6 +772,13 @@
       var cap = lowDetail ? (TIER<1?1200:2200) : (TIER<2?5000:9000);
       var drawn=0,i,bi,h,f;
 
+      /* 盒子面層：好淡嘅紅，令建築物讀起上嚟係體積而唔係純線框。
+         用返同一條 path 填（fill 再 stroke），所以冇多咗一次投影；
+         垂直邊果啲 subpath 面積係零，fill 唔會畫到任何嘢。
+         nonzero 填法令重疊嘅樓唔會疊色變一嚿實紅。
+         拖緊（moving）同埋 FPS 跌到 TIER 0 嗰陣唔填——保住拖動順暢。 */
+      var boxFill = !moving && TIER>=1;
+
       if(!NIGHT||!bBucket){
         g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,.44)'; g.beginPath();
         for(i=0;i<B.length;i++){
@@ -744,15 +788,32 @@
           buildingPath(g,f,h,vstep);
           if(++drawn>cap) break;
         }
+        if(boxFill){ g.fillStyle='rgba(231,76,60,.075)'; g.fill(); }
         g.stroke();
         return;
       }
       drawLamps(g,lodTop,lodStride);
       /* 夜晚靜態部分：暗嗰兩層（如果 TIER 低就連光層都靜態化） */
       var ALPHA=[0.13,0.26,0.46,0.9];
+      var FILLA=[0.028,0.05,0.085,0.14];           /* 越高嘅樓填得越明顯 */
       for(var bk=3;bk>=0;bk--){
-        if(isGlowBucket(bk)) continue;             /* 交畀 drawGlow 逐格畫 */
         var idx=bIdx[bk]; if(!idx.length) continue;
+        if(isGlowBucket(bk)){                      /* 線條交畀 drawGlow 逐格畫 */
+          /* 但「盒子面」唔使跟住閃——喺靜態層填一次就夠，
+             夜晚一樣係零逐格成本。bk3 drawGlow 本身已經有 fill，唔好疊。
+             用自己嘅細 budget，唔好蝕咗下面兩層嘅 cap。 */
+          if(!boxFill || bk!==2) continue;
+          g.beginPath();
+          for(i=0,bi=0;i<idx.length;i++){
+            var b2=idx[i];
+            if(b2>=lodTop && ((b2-lodTop)%lodStride)!==0) continue;
+            if(!inView(B[b2][1])) continue;
+            poly(g,B[b2][1],B[b2][0],true);
+            if(++bi>2500) break;
+          }
+          g.fillStyle='rgba(231,76,60,'+FILLA[bk]+')'; g.fill();
+          continue;
+        }
         g.lineWidth=bw; g.strokeStyle='rgba(231,76,60,'+ALPHA[bk]+')'; g.beginPath();
         for(i=0;i<idx.length;i++){
           bi=idx[i];
@@ -762,6 +823,7 @@
           buildingPath(g,f,h,vstep);
           if(++drawn>cap) break;
         }
+        if(boxFill){ g.fillStyle='rgba(231,76,60,'+FILLA[bk]+')'; g.fill(); }
         g.stroke();
         if(drawn>cap) break;
       }
@@ -1978,7 +2040,7 @@
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch(CITY.map+'?v=96')
+    fetch(CITY.map+'?v=127')
       .then(function(r){
         if(!r.ok) throw new Error('HTTP '+r.status+' '+CITY.map);
         return r.json();

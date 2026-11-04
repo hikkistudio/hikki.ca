@@ -1,22 +1,16 @@
 /* =========================================================
    hikki photography — shared behaviour
-   header 注入 / 語錄 rotator / menu overlay / about panel /
+   header 注入 / 語錄 rotator / menu overlay /
    HikkiCrack 解碼引擎（供各頁重用）
    ========================================================= */
 (function () {
   'use strict';
 
-  /* ===== 全站禁縮放（pinch / 雙擊 / ctrl+滾輪）=====
-     model-viewer / game 用原始 touch 事件做自己嘅縮放，唔受影響。 */
-  document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
-  document.addEventListener('gesturechange', function (e) { e.preventDefault(); }, { passive: false });
-  document.addEventListener('gestureend', function (e) { e.preventDefault(); }, { passive: false });
-  document.addEventListener('wheel', function (e) { if (e.ctrlKey || e.metaKey) e.preventDefault(); }, { passive: false });
-  (function () {                                    /* 雙指以上手勢＝縮放意圖，攔截 */
-    document.addEventListener('touchmove', function (e) {
-      if (e.touches && e.touches.length > 1 && !e.target.closest('model-viewer, canvas')) e.preventDefault();
-    }, { passive: false });
-  })();
+  /* ===== 縮放 =====
+     以前全站攔截 pinch / 雙擊 / ctrl+滾輪，令用家放大唔到相，
+     係 WCAG 1.4.4 (AA) 失效。而家一律唔攔：
+     儀器嘅互動面（地圖 canvas、旋鈕、model-viewer）各自用
+     CSS touch-action:none 收自己嗰份手勢，唔使全域封鎖。 */
 
   /* ===== 全站 ■ 閃動相位對齊 =====
      所有 .blink-block / .hk-blink 對齊同一個 3s 全域時間格，
@@ -54,10 +48,6 @@
     "Marriage is war.", "A Royale with cheese.", "Don’t call me Mr. Pink."
   ];
 
-  var MANIFESTO_HTML =
-    '<p>Somewhere along the way, photography learned to lie—magic-moment presets, AI faces, filters that sand away everything true. We are not interested.</p>' +
-    '<p>A photograph should feel like the moment it was made: the quiet light that belongs to you and the people you love, not the person you pretend to be.</p>' +
-    '<p>Emotions, not imitate perfection.<br><p><br>Job invitations are welcomed. <span class="hk-blink">■</span></p>';
 
   var isCJK = function (s) { return /[一-鿿぀-ヿ가-힯]/.test(s); };
 
@@ -166,12 +156,30 @@
       '</header>' +
       '<nav class="hk-menu" id="hkMenu" aria-label="site menu" aria-hidden="true">' +
         '<ul class="hk-menu-list">' +
-          '<li><button type="button" id="hkAboutBtn">about</button></li>' +
-          '<li><a href="gallery.html">gallery</a></li>' +
-          '<li><a href="jewel.html">jeweldesign</a></li>' +
-          '<li><a href="iching.html">iching</a></li>' +
-          '<li><a href="game.html">macau17 (beta)</a></li>' +
-          '<li><a href="console.html">rainfall (beta)</a></li>' +
+          '<li class="hk-grp open" id="hkGrpPhoto">' +
+            '<button type="button" class="hk-grp-btn" id="hkPhotoBtn"' +
+              ' aria-expanded="true" aria-controls="hkPhotoSub">' +
+              'Photography<i class="hk-grp-caret" aria-hidden="true"></i>' +
+            '</button>' +
+            '<ul class="hk-sub" id="hkPhotoSub">' +
+              '<li><a href="about.html">about</a></li>' +
+              '<li><a href="gallery.html">gallery</a></li>' +
+            '</ul>' +
+          '</li>' +
+          '<li class="hk-grp open" id="hkGrpJewel">' +
+            '<button type="button" class="hk-grp-btn" id="hkJewelBtn"' +
+              ' aria-expanded="true" aria-controls="hkJewelSub">' +
+              'Jewel Design<i class="hk-grp-caret" aria-hidden="true"></i>' +
+            '</button>' +
+            '<ul class="hk-sub" id="hkJewelSub">' +
+              '<li><a href="jewel.html">about</a></li>' +
+              '<li><a href="jewel-gallery.html">gallery</a></li>' +
+            '</ul>' +
+          '</li>' +
+          '<li class="hk-side-h" aria-hidden="true">side projects</li>' +
+          '<li class="hk-side"><a href="iching.html">iching</a></li>' +
+          '<li class="hk-side"><a href="game.html">macau17</a></li>' +
+          '<li class="hk-side"><a href="console.html">rainfall</a></li>' +
         '</ul>' +
         '<div class="hk-menu-contact">' +
           '<h2 class="hk-contact-head">contact</h2>' +
@@ -188,19 +196,17 @@
         '</div>' +
         '<div class="hk-menu-copy">© 2026 hikki photography &amp; philosophy.</div>' +
       '</nav>' +
-      '<div class="hk-about" id="hkAbout" role="dialog" aria-modal="true" aria-label="about hikki photography" aria-hidden="true">' +
-        '<button type="button" class="hk-about-close" id="hkAboutClose" aria-label="close">&times;</button>' +
-        '<div class="hk-about-body" id="hkAboutBody">' + MANIFESTO_HTML + '</div>' +
-        '<div class="hk-about-foot" id="hkAboutFoot">Nightcity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;36.245993&nbsp;|&nbsp;-115.980127</div>' +
-      '</div>' +
+
       /* ===== Enquiry：由右邊彈出、佔全屏嘅終端表單 ===== */
       '<div class="hk-enq-panel" id="hkEnq" role="dialog" aria-modal="true" aria-label="enquiry" aria-hidden="true">' +
         '<button type="button" class="hk-enq-close" id="hkEnqClose" aria-label="close">&times;</button>' +
         '<form class="hk-enq-form" id="hkEnqForm" novalidate>' +
-          '<div class="hk-enq-head">connected</div>' +
-          '<div class="hk-enq-sub">Wer jetzt allein ist, wird es lange bleiben,<br>wird wachen, lesen, lange Briefe schreiben…<span class="hk-enq-cite">—— Herbsttag</span></div>' +
+          '<div class="hk-enq-head" id="hkEnqHead">' +
+            '<span class="hk-enq-state">connecting</span><i class="hk-enq-dots" aria-hidden="true"><b>.</b><b>.</b><b>.</b></i>' +
+          '</div>' +
+          '<p class="hk-enq-sub">Tell me what you have in mind. I read every one of these myself.</p>' +
           '<label class="hk-enq-row"><span>&gt;name</span><input name="name" autocomplete="name"></label>' +
-          '<label class="hk-enq-row"><span>&gt;email</span><input name="email" type="email" autocomplete="email" inputmode="email"></label>' +
+          '<label class="hk-enq-row"><span>&gt;email</span><input name="email" type="email" autocomplete="email" inputmode="email" required></label>' +
           '<label class="hk-enq-row"><span>&gt;city</span><input name="city" autocomplete="address-level2"></label>' +
           '<div class="hk-enq-row"><span>&gt;type</span><div class="hk-enq-opts" id="hkEnqTypes">' +
             '<button type="button" data-type="photography">photography</button>' +
@@ -209,8 +215,14 @@
           '</div></div>' +
           '<label class="hk-enq-row hk-enq-msg"><span>&gt;message</span><textarea name="message" rows="3"></textarea></label>' +
           '<input type="hidden" name="source" id="hkEnqSource">' +
-          '<button type="submit" class="hk-enq-send">&gt;send <span class="hk-blink">■</span></button>' +
-          '<div class="hk-enq-note" id="hkEnqNote"></div>' +
+          /* 蜜罐：螢幕閱讀器同真人都接觸唔到，機械人會照填 */
+          '<div class="hk-hp" aria-hidden="true">' +
+            '<label>Leave this empty<input type="text" name="botcheck" tabindex="-1" autocomplete="off"></label>' +
+          '</div>' +
+          '<div class="hk-enq-foot">' +
+            '<button type="submit" class="hk-enq-send">&gt;send <span class="hk-blink">■</span></button>' +
+            '<div class="hk-enq-note" id="hkEnqNote" role="status" aria-live="polite"></div>' +
+          '</div>' +
         '</form>' +
       '</div>';
     while (frag.firstChild) document.body.insertBefore(frag.firstChild, document.body.firstChild);
@@ -259,7 +271,8 @@
   }
 
   /* ===== Menu 定位訊號：IP 城市 + 座標（微跳動）+ 天氣 + 當地時間 =====
-     只喺 menu 首次打開時 fetch 一次（ipapi.co 定位 + open-meteo 天氣，
+     位置由瀏覽器時區推算（零外部請求）；天氣只喺 menu 首次打開時
+     向 open-meteo 攞一次（只送座標，唔送任何個人資料），
      兩者免 key / HTTPS / CORS），sessionStorage 快取；座標跳動同時鐘只喺
      menu 打開時行——唔追蹤、唔輪詢，資源極輕。取唔到位置就用南極 Dome Fuji。 */
   function initGeo() {
@@ -320,34 +333,49 @@
       }
     }
 
+    /* IANA 時區 → 大概位置。估唔到就 fallback 去大三巴。 */
+    var TZ_MAP = {
+      'America/Vancouver':   { city: 'Vancouver',  cc: 'CA', lat: 49.2827, lon: -123.1207 },
+      'America/Edmonton':    { city: 'Edmonton',   cc: 'CA', lat: 53.5461, lon: -113.4938 },
+      'America/Winnipeg':    { city: 'Winnipeg',   cc: 'CA', lat: 49.8951, lon:  -97.1384 },
+      'America/Toronto':     { city: 'Toronto',    cc: 'CA', lat: 43.6532, lon:  -79.3832 },
+      'America/Halifax':     { city: 'Halifax',    cc: 'CA', lat: 44.6488, lon:  -63.5752 },
+      'America/Los_Angeles': { city: 'Los Angeles',cc: 'US', lat: 34.0522, lon: -118.2437 },
+      'America/New_York':    { city: 'New York',   cc: 'US', lat: 40.7128, lon:  -74.0060 },
+      'America/Chicago':     { city: 'Chicago',    cc: 'US', lat: 41.8781, lon:  -87.6298 },
+      'Asia/Macau':          { city: 'Macau',      cc: 'MO', lat: 22.1930, lon:  113.5490 },
+      'Asia/Hong_Kong':      { city: 'Hong Kong',  cc: 'HK', lat: 22.3193, lon:  114.1694 },
+      'Asia/Taipei':         { city: 'Taipei',     cc: 'TW', lat: 25.0330, lon:  121.5654 },
+      'Asia/Shanghai':       { city: 'Shanghai',   cc: 'CN', lat: 31.2304, lon:  121.4737 },
+      'Asia/Tokyo':          { city: 'Tokyo',      cc: 'JP', lat: 35.6762, lon:  139.6503 },
+      'Asia/Seoul':          { city: 'Seoul',      cc: 'KR', lat: 37.5665, lon:  126.9780 },
+      'Asia/Singapore':      { city: 'Singapore',  cc: 'SG', lat:  1.3521, lon:  103.8198 },
+      'Europe/London':       { city: 'London',     cc: 'GB', lat: 51.5074, lon:   -0.1278 },
+      'Europe/Paris':        { city: 'Paris',      cc: 'FR', lat: 48.8566, lon:    2.3522 },
+      'Europe/Berlin':       { city: 'Berlin',     cc: 'DE', lat: 52.5200, lon:   13.4050 },
+      'Australia/Sydney':    { city: 'Sydney',     cc: 'AU', lat: -33.8688, lon: 151.2093 }
+    };
+    function guessFromTimezone() {
+      var tz = '';
+      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+      var hit = TZ_MAP[tz];
+      if (hit) return { city: hit.city, cc: hit.cc, lat: hit.lat, lon: hit.lon, tz: tz };
+      return DOME;
+    }
+
     var lc = null;
     try { lc = JSON.parse(sessionStorage.getItem('hk_loc') || 'null'); } catch (e) {}
     if (lc && lc.lat != null) { apply(lc); return; }
 
-    fetch('https://ipapi.co/json/')
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        if (!d || d.latitude == null) throw 0;
-        var loc = {
-          city: d.city || d.region || 'Somewhere',
-          cc: d.country_code || d.country || '',
-          lat: +d.latitude, lon: +d.longitude, tz: d.timezone || 'UTC'
-        };
-        try { sessionStorage.setItem('hk_loc', JSON.stringify(loc)); } catch (e) {}
-        apply(loc);
-      })
-      .catch(function () { apply(DOME); });
+    /* 以前 fetch ipapi.co：為咗 menu 一行天氣，就將訪客 IP 交畀第三方。
+       而家改用瀏覽器本身報嘅時區推算城市 —— 零外部請求、零個人資料出境。 */
+    apply(guessFromTimezone());
   }
 
   /* ===== Menu / About 開關 ===== */
   function wireMenu() {
     var btn = document.getElementById('hkMenuBtn');
     var menu = document.getElementById('hkMenu');
-    var about = document.getElementById('hkAbout');
-    var aboutBtn = document.getElementById('hkAboutBtn');
-    var aboutClose = document.getElementById('hkAboutClose');
-    var aboutBody = document.getElementById('hkAboutBody');
-    var stopAboutCrack = null;
 
     function setMenu(open) {
       menu.classList.toggle('open', open);
@@ -362,77 +390,35 @@
       }
     }
     /* 面板底邊精確對齊 menu 最後一項（macau17）嗰條虛線——齊整 */
-    function sizeAbout() {
-      var list = menu.querySelector('.hk-menu-list');
-      var bar = document.querySelector('.hk-bar');
-      if (!list || !bar) return;
-      var barBottom = bar.getBoundingClientRect().bottom;
-      var lineBottom = list.getBoundingClientRect().bottom; // 最後一項嘅 border-bottom
-      var h = lineBottom - barBottom;
-      if (h > 160) about.style.height = h + 'px';
-      else about.style.removeProperty('height'); // 量唔到就用 CSS fallback
-    }
-
-    function setAbout(open) {
-      if (open) sizeAbout();
-      about.classList.toggle('open', open);
-      about.setAttribute('aria-hidden', String(!open));
-      if (open) {
-        if (stopAboutCrack) stopAboutCrack();
-        stopAboutCrack = Crack.startOn(Crack.collect(aboutBody), { budgetMs: 450 });
-        aboutClose.focus();
-      }
-    }
-    window.addEventListener('resize', function () {
-      if (about.classList.contains('open')) sizeAbout();
-    });
-
-    /* about 底部 nightcity 座標漂移（虛構座標） */
-    (function () {
-      var foot = document.getElementById('hkAboutFoot');
-      if (!foot) return;
-      var textNode = foot.firstChild; // "Nightcity ... -115.980127 " 嘅純文字節點
-      if (!textNode || textNode.nodeType !== 3) return;
-      var BOUNDS = { lat: [36.001, 36.489], lon: [115.501, 116.489] }; // 顯示為 -1xx，負號唔郁
-      var RE = /(\d+\.\d+)(\D+)(\d+\.\d+)/;
-      function tick() {
-        if (!document.hidden && about.classList.contains('open')) {
-          var flat = textNode.nodeValue;
-          var m = flat.match(RE);
-          if (m) {
-            var latNew = (BOUNDS.lat[0] + Math.random() * (BOUNDS.lat[1] - BOUNDS.lat[0])).toFixed(6);
-            var lonNew = (BOUNDS.lon[0] + Math.random() * (BOUNDS.lon[1] - BOUNDS.lon[0])).toFixed(6);
-            var chars = flat.split('');
-            var swapDigits = function (start, target) {
-              var idxs = [];
-              for (var i = 0; i < target.length; i++) { if (target[i] >= '0' && target[i] <= '9') idxs.push(i); }
-              var take = 1 + ((Math.random() * 3) | 0);
-              for (var k = 0; k < take && idxs.length; k++) {
-                var p = idxs.splice((Math.random() * idxs.length) | 0, 1)[0];
-                if (start + p < chars.length) chars[start + p] = target[p];
-              }
-            };
-            swapDigits(m.index, latNew);
-            swapDigits(m.index + m[1].length + m[2].length, lonNew);
-            textNode.nodeValue = chars.join('');
-          }
-        }
-        setTimeout(tick, 40 + Math.random() * 80);
-      }
-      tick();
-    })();
 
     btn.addEventListener('click', function () {
-      if (about.classList.contains('open')) setAbout(false);
       setMenu(!menu.classList.contains('open'));
     });
-    aboutBtn.addEventListener('click', function () { setAbout(true); });
-    aboutClose.addEventListener('click', function () { setAbout(false); });
     document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      if (about.classList.contains('open')) setAbout(false);
-      else if (menu.classList.contains('open')) setMenu(false);
+      if (e.key === 'Escape' && menu.classList.contains('open')) setMenu(false);
     });
+
+    /* ── 兩個組（photography / jewel design）：撳開先見到 about / gallery ── */
+    (function () {
+      var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+      [{ b: 'hkPhotoBtn', g: 'hkGrpPhoto', on: ['about.html', 'gallery.html'] },
+       { b: 'hkJewelBtn', g: 'hkGrpJewel', on: ['jewel.html', 'jewel-gallery.html'] }
+      ].forEach(function (cfg) {
+        var gBtn = document.getElementById(cfg.b);
+        var grp = document.getElementById(cfg.g);
+        if (!gBtn || !grp) return;
+        function setGrp(open) {
+          grp.classList.toggle('open', open);
+          gBtn.setAttribute('aria-expanded', String(open));
+        }
+        gBtn.addEventListener('click', function () {
+          setGrp(!grp.classList.contains('open'));
+        });
+        /* 兩個組預設喺 markup 就開咗（photography / jewel design 係主線），
+           呢度淨係保證當前頁所屬嗰組一定開住——就算日後改咗預設都唔會收埋。 */
+        if (cfg.on.indexOf(here) >= 0) setGrp(true);
+      });
+    })();
     // 點 menu 內連結後，行去新頁前唔使處理；同頁 anchor 情況收返個 menu
     menu.addEventListener('click', function (e) {
       var a = e.target.closest && e.target.closest('a');
@@ -473,6 +459,16 @@
       b.classList.add('on'); chosenType = b.dataset.type;
     });
 
+    /* 標題：connecting（搜尋緊）→ 送出成功先至 connected */
+    var headEl = document.getElementById('hkEnqHead');
+    function setState(st) {
+      if (!headEl) return;
+      var lab = headEl.querySelector('.hk-enq-state');
+      if (lab) lab.textContent = st;
+      headEl.classList.toggle('is-connected', st === 'connected');
+      headEl.classList.toggle('is-sending', st === 'transmitting');
+    }
+
     function open(source) {
       sourceInput.value = source || '';
       var preset = { session: 'photography', jewel: 'jeweldesign' }[source] || '';
@@ -482,6 +478,7 @@
         typesWrap.children[i].classList.toggle('on', !!on);
         if (on) chosenType = preset;
       }
+      setState('connecting');            /* 每次開都由 connecting 開始 */
       panel.classList.add('open');
       panel.setAttribute('aria-hidden', 'false');
       document.documentElement.style.overflow = 'hidden';
@@ -497,11 +494,27 @@
     closeBtn.addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && panel.classList.contains('open')) close(); });
 
+    function focusRow(n) {
+      var el = form.querySelector('[name="' + n + '"]');
+      if (el) { el.focus(); el.setAttribute('aria-invalid', 'true'); }
+    }
+    form.addEventListener('input', function (e) {
+      if (e.target.name) e.target.removeAttribute('aria-invalid');
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var d = new FormData(form);
       var name = (d.get('name') || '').trim();
-      if (!name) { note.textContent = '> name required.'; return; }
+      var email = (d.get('email') || '').trim();
+      if (!name) { note.textContent = '> name required.'; focusRow('name'); return; }
+      /* 以前冇驗 email，結果會收到覆唔返嘅查詢，而對方以為聯絡咗你。 */
+      if (!email) { note.textContent = '> email required — 冇佢我覆唔到你。'; focusRow('email'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        note.textContent = '> email 格式好似唔啱，再檢查一次？'; focusRow('email'); return;
+      }
+      /* 蜜罐：真人見唔到呢格，填咗嘅一定係機械人。靜靜當成功，唔好畀佢知。 */
+      if ((d.get('botcheck') || '') !== '') { note.textContent = '> received.'; form.reset(); return; }
       var type = chosenType || 'enquiry';
       var subject = '[hikki] ' + type + ' — ' + name;
       var body =
@@ -522,6 +535,7 @@
       /* 直送：唔會開用戶個 mail app */
       var btn = form.querySelector('.hk-enq-send');
       btn.disabled = true;
+      setState('transmitting');
       note.textContent = '> transmitting…';
       var payload = {
         name: name,
@@ -533,7 +547,7 @@
         subject: subject,
         _replyto: d.get('email') || ''
       };
-      if (ENQ_KEY) payload.access_key = ENQ_KEY;      /* Web3Forms */
+      if (ENQ_KEY) { payload.access_key = ENQ_KEY; payload.botcheck = ''; }   /* Web3Forms */
       fetch(ENQ_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -541,6 +555,7 @@
       })
       .then(function (r) { return r.ok ? r.json().catch(function(){ return {}; }) : Promise.reject(r.status); })
       .then(function () {
+        setState('connected');             /* 真係送到，先至變 connected */
         note.textContent = '> received. 多謝，我會回覆你。';
         form.reset();
         for (var i = 0; i < typesWrap.children.length; i++) typesWrap.children[i].classList.remove('on');
@@ -549,6 +564,7 @@
       })
       .catch(function () {
         /* 送唔到：唔好蝕咗人哋打嘅字，退返去 mailto */
+        setState('connecting');            /* 冇接通，唔可以扮 connected */
         note.textContent = '> line down — opening mail instead…';
         window.location.href = 'mailto:hikki.pnp@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       })
@@ -704,6 +720,33 @@
     }
   }
 
+  /* ===== Service worker =====
+     淨係為咗唔使每次入 rainfall 都重載 580–868KB 地圖。
+     localhost 唔註冊，免得改嘢嗰陣食住舊 cache。 */
+  function wireSW() {
+    if (!('serviceWorker' in navigator)) return;
+    if (/^(localhost|127\.|\[::1\])/.test(location.hostname)) return;
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+
+  /* ===== Analytics（預設唔開）=====
+     填咗 domain 之後會載入 Plausible —— 唔用 cookie、唔收 IP、
+     唔追蹤個人，所以唔使 cookie banner，亦唔抵觸私隱頁講嘅嘢。
+     自架 Umami 嘅話改 ANALYTICS_SRC 就得。
+     留空 = 一個第三方請求都唔會發出。 */
+  var ANALYTICS_DOMAIN = 'hikki.ca';
+  var ANALYTICS_SRC = 'https://plausible.io/js/script.js';
+  function wireAnalytics() {
+    if (!ANALYTICS_DOMAIN) return;
+    var t = document.createElement('script');
+    t.defer = true;
+    t.setAttribute('data-domain', ANALYTICS_DOMAIN);
+    t.src = ANALYTICS_SRC;
+    document.head.appendChild(t);
+  }
+
   function init() {
     buildUI();
     startRotator();
@@ -711,6 +754,8 @@
     wireEnq();
     wirePrint();
     wireTty();
+    wireSW();
+    wireAnalytics();
     window.hkSyncBlink();          /* 對齊 header 及靜態 ■ */
     setTimeout(window.hkSyncBlink, 900);  /* 再對齊延遲插入嘅 ■（如 jewel 規格） */
   }

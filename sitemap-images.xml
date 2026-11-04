@@ -1,975 +1,1562 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
-  <!-- Gallery page with all images (enhanced: title, caption, geo_location, license) -->
   <url>
     <loc>https://hikki.ca/gallery.html</loc>
-    <lastmod>2025-09-10T00:51:24+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-
     <image:image>
-      <image:loc>https://hikki.ca/g1_vancouver_prewedding_cityview.webp</image:loc>
-      <image:title>Vancouver Prewedding City View — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Prewedding City View (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp</image:loc>
+      <image:title>Prewedding city view — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g2_hongkong_art_skycraper.webp</image:loc>
-      <image:title>Hong Kong Art Skycraper — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Art Skycraper (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g2_hongkong_art_skyscraper.webp</image:loc>
+      <image:title>Art skyscraper — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g3_portrait_with_orange_tabby.webp</image:loc>
-      <image:title>Portrait With Orange Tabby — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Portrait With Orange Tabby</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g3_portrait_with_orange_tabby.webp</image:loc>
+      <image:title>Portrait orange tabby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g4_black_and_white_dog_running.webp</image:loc>
-      <image:title>Black And White Dog Running — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Black And White Dog Running</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g4_black_and_white_dog_running.webp</image:loc>
+      <image:title>Black white dog running</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g5_pet_owner_Wheatfield_family_photo.webp</image:loc>
-      <image:title>Pet Owner Wheatfield Family Photo — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Pet Owner Wheatfield Family Photo</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g5_pet_owner_Wheatfield_family_photo.webp</image:loc>
+      <image:title>Pet owner wheatfield family</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g6_Portrait_film_Vintage.webp</image:loc>
-      <image:title>Portrait Film Vintage — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Portrait Film Vintage</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g6_Portrait_film_Vintage.webp</image:loc>
+      <image:title>Portrait vintage</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g7_Kerrisdale_moment_poverty.webp</image:loc>
-      <image:title>Kerrisdale Moment Poverty — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Kerrisdale Moment Poverty</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g7_Kerrisdale_moment_poverty.webp</image:loc>
+      <image:title>Moment poverty — Kerrisdale</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g8_macau_architecture_concrete.webp</image:loc>
-      <image:title>Macau Architecture Concrete — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Architecture Concrete (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g8_macau_architecture_concrete.webp</image:loc>
+      <image:title>Architecture concrete — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g9_oriental_confused_moment_misty.webp</image:loc>
-      <image:title>Oriental Confused Moment Misty — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Oriental Confused Moment Misty</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g9_oriental_confused_moment_misty.webp</image:loc>
+      <image:title>Oriental confused moment misty</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g10_asia_brutalist_textures_black_and_white.webp</image:loc>
-      <image:title>Asia Brutalist Textures Black And White — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Asia Brutalist Textures Black And White</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g10_asia_brutalist_textures_black_and_white.webp</image:loc>
+      <image:title>Brutalist textures black white — Asia</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g11_vancouver_kitsilano_lonely_fastfood.webp</image:loc>
-      <image:title>Vancouver Kitsilano Lonely Fastfood — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Kitsilano Lonely Fastfood (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g11_vancouver_kitsilano_lonely_fastfood.webp</image:loc>
+      <image:title>Lonely fastfood — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g12_Shelti_smile_field_vancouver.webp</image:loc>
-      <image:title>Shelti Smile Field Vancouver — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Shelti Smile Field Vancouver (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g12_Shelti_smile_field_vancouver.webp</image:loc>
+      <image:title>Shelti smile field — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g13_burnaby_wedding_dance_couple.webp</image:loc>
-      <image:title>Burnaby Wedding Dance Couple — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Wedding Dance Couple (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g13_young_girl_matcha_latte_ski_village_whistler_vancouver_snow_season.webp</image:loc>
+      <image:title>Latte ski village snow season — Whistler</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g14_crane_poise_modern_construction.webp</image:loc>
-      <image:title>Crane Poise Modern Construction — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Crane Poise Modern Construction</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g14_crane_poise_modern_construction.webp</image:loc>
+      <image:title>Crane poise modern construction</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g15_macau_alley_market_dreams.webp</image:loc>
-      <image:title>Macau Alley Market Dreams — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Alley Market Dreams (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g15_macau_alley_market_dreams.webp</image:loc>
+      <image:title>Alley market dreams — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g16_redline_utility_core_noise_barrier.webp</image:loc>
-      <image:title>Redline Utility Core Noise Barrier — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Redline Utility Core Noise Barrier</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g16_redline_utility_core_noise_barrier.webp</image:loc>
+      <image:title>Redline utility core noise barrier</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g17_wedding_photography_crew_victoria_BC.jpg</image:loc>
-      <image:title>Wedding Photography Crew Victoria Bc — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wedding Photography Crew Victoria Bc (Victoria, Canada)</image:caption>
-      <image:geo_location>Victoria, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g17_wedding_photography_crew_victoria_BC.jpg</image:loc>
+      <image:title>Wedding crew — Victoria</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g18_courtyard_stillness_temple_bells.webp</image:loc>
-      <image:title>Courtyard Stillness Temple Bells — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Courtyard Stillness Temple Bells</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g18_courtyard_stillness_temple_bells.webp</image:loc>
+      <image:title>Courtyard stillness temple bells</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g19_macau_brutalist_facade_raw_concrete.webp</image:loc>
-      <image:title>Macau Brutalist Facade Raw Concrete — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Brutalist Facade Raw Concrete (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g19_macau_brutalist_facade_raw_concrete.webp</image:loc>
+      <image:title>Brutalist facade concrete — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g20_infrastructural_romance_deconstructivist_angles.webp</image:loc>
-      <image:title>Infrastructural Romance Deconstructivist Angles — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Infrastructural Romance Deconstructivist Angles</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g20_infrastructural_romance_deconstructivist_angles.webp</image:loc>
+      <image:title>Infrastructural romance deconstructivist angles</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g21_light_warm_nightime.webp</image:loc>
-      <image:title>Light Warm Nightime — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Light Warm Nightime</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g21_light_warm_nightime.webp</image:loc>
+      <image:title>Light warm night</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g22_sunset_burnaby_streets_respite.webp</image:loc>
-      <image:title>Sunset Burnaby Streets Respite — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Sunset Burnaby Streets Respite (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g22_sunset_burnaby_streets_respite.webp</image:loc>
+      <image:title>Sunset streets respite — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g23_wall_offset_grid_liminal_city.webp</image:loc>
-      <image:title>Wall Offset Grid Liminal City — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wall Offset Grid Liminal City</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g23_wall_offset_grid_liminal_city.webp</image:loc>
+      <image:title>Wall offset grid liminal city</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g24_Vinyl_slience_man_couple_wedding.jpg</image:loc>
-      <image:title>Vinyl Slience Man Couple Wedding — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vinyl Slience Man Couple Wedding</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g24_Vinyl_silence_man_couple_wedding.jpg</image:loc>
+      <image:title>Vinyl silence man couple wedding</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g25_party_wedding_ccd_moment_souls.webp</image:loc>
-      <image:title>Party Wedding Ccd Moment Souls — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Party Wedding Ccd Moment Souls</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g25_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_kiki.webp</image:loc>
+      <image:title>Design flower shop florist kiki — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g26_shelti_mountain_northvan_hiking.webp</image:loc>
-      <image:title>Shelti Mountain Northvan Hiking — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Shelti Mountain Northvan Hiking</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g26_shelti_mountain_northvan_hiking.webp</image:loc>
+      <image:title>Shelti mountain hiking — North Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g27_dog_portrait_moment_capture_home.webp</image:loc>
-      <image:title>Dog Portrait Moment Capture Home — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Portrait Moment Capture Home</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g28_Vancouver_whistler_ski_village_glow_city_photographer_hill.webp</image:loc>
+      <image:title>Ski village glow city hill — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g28_wedding_black_and_white_emotion_momment_forgotten.webp</image:loc>
-      <image:title>Wedding Black And White Emotion Momment — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wedding Black And White Emotion Momment</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g29_portrait_couple_classic_love_wedding.webp</image:loc>
+      <image:title>Portrait couple classic love wedding</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g29_portrait_couple_classic_love_wedding.webp</image:loc>
-      <image:title>Portrait Couple Classic Love Wedding — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Portrait Couple Classic Love Wedding</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g32_party_wedding_food_friendship.webp</image:loc>
+      <image:title>Party wedding food friendship</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g30_moment_joy_caring_wedding.webp</image:loc>
-      <image:title>Moment Joy Caring Wedding — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Moment Joy Caring Wedding</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g33_urban_cat_outdoor_owner.webp</image:loc>
+      <image:title>Urban cat outdoor owner</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g31_portrait_oldschool_traitional_emotions.webp</image:loc>
-      <image:title>Portrait Oldschool Traitional Emotions — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Portrait Oldschool Traitional Emotions</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g34_vow_wedding_preperation_moment.webp</image:loc>
+      <image:title>Vow wedding preperation moment</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g32_party_wedding_food_friendship.webp</image:loc>
-      <image:title>Party Wedding Food Friendship — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Party Wedding Food Friendship</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g35_whistler_vancouver_street_photographer_rainbow_library_village_signage.webp</image:loc>
+      <image:title>Street rainbow library village signage — Whistler</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g33_urban_cat_outdoor_owner.webp</image:loc>
-      <image:title>Urban Cat Outdoor Owner — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Urban Cat Outdoor Owner</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g36_adopted_stray_dog_mixed_rescued.webp</image:loc>
+      <image:title>Adopted stray dog mixed rescued</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g34_vow_wedding_preperation_moment.webp</image:loc>
-      <image:title>Vow Wedding Preperation Moment — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vow Wedding Preperation Moment</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g37_prefab_panels_ribbed_slab.webp</image:loc>
+      <image:title>Prefab panels ribbed slab</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g35_toss_wedding_wine_champaign_rose.webp</image:loc>
-      <image:title>Toss Wedding Wine Champaign Rose — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Toss Wedding Wine Champaign Rose</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g38_late_capital_vistas_concrete_jungle_dream.webp</image:loc>
+      <image:title>Capital vistas concrete jungle dream</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g36_adopted_stray_dog_mixed_rescued.webp</image:loc>
-      <image:title>Adopted Stray Dog Mixed Rescued — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Adopted Stray Dog Mixed Rescued</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g39_gilmore_monochrome_city_highrise_intimacy.webp</image:loc>
+      <image:title>Monochrome city highrise intimacy — Gilmore</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g37_prefab_panels_ribbed_slab.webp</image:loc>
-      <image:title>Prefab Panels Ribbed Slab — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Prefab Panels Ribbed Slab</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g40_sound_wall_prefab_panels_west_end_beach_vancouver.webp</image:loc>
+      <image:title>Prefab panels west end beach — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g38_late_capital_vistas_concrete_jungle_dream.webp</image:loc>
-      <image:title>Late Capital Vistas Concrete Jungle Dream — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Late Capital Vistas Concrete Jungle Dream</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g41_black_and_white_wedding_grand_dressing_timeless_breath.webp</image:loc>
+      <image:title>Wedding grand dressing timeless breath</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g39_gilmore_monochrome_city_highrise_intimacy.webp</image:loc>
-      <image:title>Gilmore Monochrome City Highrise Intimacy — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Gilmore Monochrome City Highrise Intimacy</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g42_victoria_marketsquare_photographer_model_art_lens.webp</image:loc>
+      <image:title>Market square model art — Victoria</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g40_sound_wall_prefab_panels_west_end_beach_vancouver.webp</image:loc>
-      <image:title>Sound Wall Prefab Panels West End — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Sound Wall Prefab Panels West End (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g43_dog_disability_running_speed_moment.webp</image:loc>
+      <image:title>Dog disability running speed moment</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g41_black_and_white_wedding_grand_dressing_timeless_breath.webp</image:loc>
-      <image:title>Black And White Wedding Grand Dressing — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Black And White Wedding Grand Dressing</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g44_shelti_cornfield_sun_outdoor_love.webp</image:loc>
+      <image:title>Shelti cornfield sun outdoor love</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g42_victoria_marketsquare_photographer_model_art_lens.webp</image:loc>
-      <image:title>Victoria Marketsquare Photographer Model Art Lens — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Victoria Marketsquare Photographer Model Art Lens (Victoria, Canada)</image:caption>
-      <image:geo_location>Victoria, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g45_blueberry_dog_korean_instragram.webp</image:loc>
+      <image:title>Blueberry dog korean Instagram</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g43_dog_disability_running_speed_moment.webp</image:loc>
-      <image:title>Dog Disability Running Speed Moment — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Disability Running Speed Moment</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g46_portrait_dog_pet_german.webp</image:loc>
+      <image:title>Portrait dog pet German</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g44_shelti_cornfield_sun_outdoor_love.webp</image:loc>
-      <image:title>Shelti Cornfield Sun Outdoor Love — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Shelti Cornfield Sun Outdoor Love</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g48_elegant_dog_hunt_river_white.webp</image:loc>
+      <image:title>Elegant dog hunt river white</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g45_blueberry_dog_korean_instragram.webp</image:loc>
-      <image:title>Blueberry Dog Korean Instragram — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Blueberry Dog Korean Instragram</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g49_dog_portrait_mountain_vancouver_capilano_commercial_photoshoot.webp</image:loc>
+      <image:title>Dog portrait mountain commercial — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g46_portrait_dog_pet_german.webp</image:loc>
-      <image:title>Portrait Dog Pet German — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Portrait Dog Pet German</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g50_window_light_portrait_shadow_play_leading_lines_symmetry_balance.webp</image:loc>
+      <image:title>Play leading lines symmetry balance</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g47_neighbour_unexpected_pitbull_pet_nighttime.webp</image:loc>
-      <image:title>Neighbour Unexpected Pitbull Pet Nighttime — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Neighbour Unexpected Pitbull Pet Nighttime</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g51_Macau_asian_concrete_jungle.webp</image:loc>
+      <image:title>Concrete jungle — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g48_elegant_dog_hunt_river_white.webp</image:loc>
-      <image:title>Elegant Dog Hunt River White — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Elegant Dog Hunt River White</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g52_macau_bay_darkness_wings_storm.webp</image:loc>
+      <image:title>Bay darkness wings storm — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g49_dog_portrait_mountain_vancouver_capilano_commercial_photoshoot.webp</image:loc>
-      <image:title>Dog Portrait Mountain Vancouver Capilano Commercial — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Portrait Mountain Vancouver Capilano Commercial (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g53_street_cat_store_memory_macau.webp</image:loc>
+      <image:title>Street cat store memory — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g50_window_light_portrait_shadow_play_leading_lines_symmetry_balance.webp</image:loc>
-      <image:title>Window Light Portrait Shadow Play Leading — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Window Light Portrait Shadow Play Leading</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g54_red_architecture_mong_kok_night_liminal_.webp</image:loc>
+      <image:title>Red architecture night liminal — Mong Kok</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g51_Macau_asian_concrete_jungle.webp</image:loc>
-      <image:title>Macau Asian Concrete Jungle — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Asian Concrete Jungle (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g55_stairwell_geometry_window_building.webp</image:loc>
+      <image:title>Stairwell geometry window building</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g52_macau_bay_darkness_wings_storm.webp</image:loc>
-      <image:title>Macau Bay Darkness Wings Storm — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Bay Darkness Wings Storm (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g56_analog_portrait_chinatown_family_warm_vibe.jpg</image:loc>
+      <image:title>Analog portrait family warm vibe — Chinatown</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g53_street_cat_store_memory_macau.webp</image:loc>
-      <image:title>Street Cat Store Memory Macau — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Street Cat Store Memory Macau (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g57_professional_camera_ginger_tabby_maine_coon_lens.webp</image:loc>
+      <image:title>Camera ginger tabby maine coon</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g54_red_architecture_mong_kok_night_liminal_.webp</image:loc>
-      <image:title>Red Architecture Mong Kok Night Liminal — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Red Architecture Mong Kok Night Liminal</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g58_ceramics_sculpture_glaze_earthware_stoneware.webp</image:loc>
+      <image:title>Ceramics sculpture glaze earthware stoneware</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g55_stairwell_geometry_window_building.webp</image:loc>
-      <image:title>Stairwell Geometry Window Building — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Stairwell Geometry Window Building</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g59_Westvan_beachside_social_photography_billboard.webp</image:loc>
+      <image:title>Beachside social billboard — West Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g56_analog_portrait_chinatown_family_warm_vibe.jpg</image:loc>
-      <image:title>Analog Portrait Chinatown Family Warm Vibe — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Analog Portrait Chinatown Family Warm Vibe</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g60_street_barber_glimpse_vauged_eyes_warm.webp</image:loc>
+      <image:title>Barber glimpse vauged eyes warm</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g57_professional_camera_ginger_tabby_maine_coon_lens.webp</image:loc>
-      <image:title>Professional Camera Ginger Tabby Maine Coon — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Professional Camera Ginger Tabby Maine Coon</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g61_japanese_girl_cat_main_coon_playing.webp</image:loc>
+      <image:title>Girl cat main coon playing</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g58_ceramics_sculpture_glaze_earthware_stoneware.webp</image:loc>
-      <image:title>Ceramics Sculpture Glaze Earthware Stoneware — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Ceramics Sculpture Glaze Earthware Stoneware</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g62_straydog_adoption_leash_dogwalk_petphoto.webp</image:loc>
+      <image:title>Stray dog adoption leash dog walk</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g59_Westvan_beachside_social_photography_billboard.webp</image:loc>
-      <image:title>West Van Beachside Social Photography Billboard — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — West Van Beachside Social Photography Billboard (West Vancouver, Canada)</image:caption>
-      <image:geo_location>West Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g63_mushroom_burnaby_product_photography_lighting_zoom.webp</image:loc>
+      <image:title>Mushroom product lighting — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g60_street_barber_glimpse_vauged_eyes_warm.webp</image:loc>
-      <image:title>Street Barber Glimpse Vauged Eyes Warm — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Street Barber Glimpse Vauged Eyes Warm</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g64_eastvan_streetview_silence_moment_sunlight.webp</image:loc>
+      <image:title>Eastvan streetview silence moment sunlight</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g61_japanese_girl_cat_main_coon_playing.webp</image:loc>
-      <image:title>Japanese Girl Cat Main Coon Playing — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Japanese Girl Cat Main Coon Playing</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g65_stray_dog_leash_foster_family_photography_pet.webp</image:loc>
+      <image:title>Dog leash foster family pet</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g62_straydog_adoption_leash_dogwalk_petphoto.webp</image:loc>
-      <image:title>Straydog Adoption Leash Dogwalk Petphoto — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Straydog Adoption Leash Dogwalk Petphoto</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g66_wheelchair_pet_owner_feeding_portrait.webp</image:loc>
+      <image:title>Wheelchair pet owner feeding portrait</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g63_mushroom_burnaby_product_photography_lighting_zoom.webp</image:loc>
-      <image:title>Mushroom Burnaby Product Photography Lighting Zoom — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Mushroom Burnaby Product Photography Lighting Zoom (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g67_dog_portrait_smile_capturing_moments.webp</image:loc>
+      <image:title>Dog portrait smile moments</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g64_eastvan_streetview_silence_moment_sunlight.webp</image:loc>
-      <image:title>Eastvan Streetview Silence Moment Sunlight — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Eastvan Streetview Silence Moment Sunlight (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g68_dogs_playing_grooming_petphoto_evening.webp</image:loc>
+      <image:title>Dogs playing grooming evening</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g65_stray_dog_leash_foster_family_photography_pet.webp</image:loc>
-      <image:title>Stray Dog Leash Foster Family Photography — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Stray Dog Leash Foster Family Photography</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g69_macau_colonialism_modern_architecture_abstract_city.webp</image:loc>
+      <image:title>Colonialism modern architecture abstract city — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g66_wheelchair_pet_owner_feeding_portrait.webp</image:loc>
-      <image:title>Wheelchair Pet Owner Feeding Portrait — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wheelchair Pet Owner Feeding Portrait</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g70_macau_colonialism_oldbuilding_city_rain_traditional.webp</image:loc>
+      <image:title>Colonialism old building city rain traditional — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g67_dog_portrait_smile_capturing_moments.webp</image:loc>
-      <image:title>Dog Portrait Smile Capturing Moments — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Portrait Smile Capturing Moments</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g71_macau_colonialism_building_complex_cityview_photographer.webp</image:loc>
+      <image:title>Colonialism building complex city view — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g68_dogs_playing_grooming_petphoto_evening.webp</image:loc>
-      <image:title>Dogs Playing Grooming Petphoto Evening — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dogs Playing Grooming Petphoto Evening</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g72_macau_colonialism_building_brutalism_cage_grey_blue_city_photograph.webp</image:loc>
+      <image:title>Brutalism cage grey blue city — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g69_macau_colonialism_modern_architecture_abstract_city.webp</image:loc>
-      <image:title>Macau Colonialism Modern Architecture Abstract City — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Modern Architecture Abstract City (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g73_macau_streetfood_colonialism_local_snacks_culture_street_photographer.webp</image:loc>
+      <image:title>Colonialism local snacks culture street — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g70_macau_colonialism_oldbuilding_city_rain_traditional.webp</image:loc>
-      <image:title>Macau Colonialism Oldbuilding City Rain Traditional — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Oldbuilding City Rain Traditional (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g74_macau_colonialism_building_architecture_citycentre_rain_color.webp</image:loc>
+      <image:title>Building architecture city centre rain color — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g71_macau_colonialism_building_complex_cityview_photographer.webp</image:loc>
-      <image:title>Macau Colonialism Building Complex City View Photographer — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Building Complex City View Photographer (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g75_macau_colonialism_signage_steel_brutalism_rain_newspaper.webp</image:loc>
+      <image:title>Signage steel brutalism rain newspaper — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g72_macau_colonialism_building_brutalism_cage_grey_blue_city_photograph.webp</image:loc>
-      <image:title>Macau Colonialism Building Brutalism Cage Grey — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Building Brutalism Cage Grey (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g76_macau_colonialism_signage_street_view_photography.webp</image:loc>
+      <image:title>Colonialism signage street view — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g73_macau_streetfood_colonialism_local_snacks_culture_street_photographer.webp</image:loc>
-      <image:title>Macau Streetfood Colonialism Local Snacks Culture — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Streetfood Colonialism Local Snacks Culture (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g77_macau_colonialism_signage_stopsign_building_cityview.webp</image:loc>
+      <image:title>Colonialism signage stopsign building city view — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g74_macau_colonialism_building_architecture_citycentre_rain_color.webp</image:loc>
-      <image:title>Macau Colonialism Building Architecture Citycentre Rain — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Building Architecture Citycentre Rain (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g78_macau_colonialism_signage_chinese_number_mm6_maison_margiela.webp</image:loc>
+      <image:title>Signage Chinese number maison margiela — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g75_macau_colonialism_signage_steel_brutalism_rain_newspaper.webp</image:loc>
-      <image:title>Macau Colonialism Signage Steel Brutalism Rain — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Signage Steel Brutalism Rain (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g79_macau_colonialism_building_street_cinematic_scene_filmic.webp</image:loc>
+      <image:title>Colonialism building street cinematic scene — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g76_macau_colonialism_signage_street_view_photography.webp</image:loc>
-      <image:title>Macau Colonialism Signage Street View Photography — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Signage Street View Photography (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g80_macau_colonialism_artistic_banner_contrast_street_photographer.webp</image:loc>
+      <image:title>Colonialism artistic banner contrast street — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g77_macau_colonialism_signage_stopsign_building_cityview.webp</image:loc>
-      <image:title>Macau Colonialism Signage Stopsign Building City View — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Signage Stopsign Building City View (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g81_hongkong_colonialism_street_liminal_lighting_city_space_tunnel_filmic.webp</image:loc>
+      <image:title>Liminal lighting city space tunnel — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g78_macau_colonialism_signage_chinese_number_mm6_maison_margiela.webp</image:loc>
-      <image:title>Macau Colonialism Signage Chinese Number Mm6 — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Signage Chinese Number Mm6 (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g82_wedding_moment_filmic_floral_victoria_ceramic_moment_precious_bride.webp</image:loc>
+      <image:title>Moment floral ceramic precious bride — Victoria</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g79_macau_colonialism_building_street_cinematic_scene_filmic.webp</image:loc>
-      <image:title>Macau Colonialism Building Street Cinematic Scene — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Building Street Cinematic Scene (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g83_wedding_filmic_film_camera_bride_precious_moment_capture_love_floral.webp</image:loc>
+      <image:title>Bride precious moment love floral</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g80_macau_colonialism_artistic_banner_contrast_street_photographer.webp</image:loc>
-      <image:title>Macau Colonialism Artistic Banner Contrast Street — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Macau Colonialism Artistic Banner Contrast Street (Macau)</image:caption>
-      <image:geo_location>Macau</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g84_Vancouver_crane_construction_industrial_brutalism_metal_black_and_white_city.webp</image:loc>
+      <image:title>Brutalism metal black white city — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g81_hongkong_colonialism_street_liminal_lighting_city_space_tunnel_filmic.webp</image:loc>
-      <image:title>Hong Kong Colonialism Street Liminal Lighting City — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Colonialism Street Liminal Lighting City (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g85_Vancouver_burnaby_construction_metal_worker_.webp</image:loc>
+      <image:title>Construction metal worker — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g82_wedding_moment_filmic_floral_victoria_ceramic_moment_precious_bride.webp</image:loc>
-      <image:title>Wedding Moment Filmic Floral Victoria Ceramic — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wedding Moment Filmic Floral Victoria Ceramic (Victoria, Canada)</image:caption>
-      <image:geo_location>Victoria, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g86_Vancouver_flower_love_girl_floral_city_photography.webp</image:loc>
+      <image:title>Flower love girl floral city — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g83_wedding_filmic_film_camera_bride_precious_moment_capture_love_floral.webp</image:loc>
-      <image:title>Wedding Filmic Film Camera Bride Precious — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Wedding Filmic Film Camera Bride Precious</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g87_Vancouver_brentwood_missionary_preach_bible_black_white_filmic.webp</image:loc>
+      <image:title>Missionary preach bible black white — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g84_Vancouver_crane_construction_industrial_brutalism_metal_black_and_white_city.webp</image:loc>
-      <image:title>Vancouver Crane Construction Industrial Brutalism Metal — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Crane Construction Industrial Brutalism Metal (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g88_Richmond_geometrical_shade_traffic_cityview_photographer_black_and_white.webp</image:loc>
+      <image:title>Shade traffic city view black white — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g85_Vancouver_burnaby_construction_metal_worker_.webp</image:loc>
-      <image:title>Vancouver Burnaby Construction Metal Worker — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Burnaby Construction Metal Worker (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g89_burnaby_crystal_mall_chinese_market_life_vandor_street_photographer.webp</image:loc>
+      <image:title>Chinese market life vandor street — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g86_Vancouver_flower_love_girl_floral_city_photography.webp</image:loc>
-      <image:title>Vancouver Flower Love Girl Floral City — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Flower Love Girl Floral City (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g90_Vancouver_kerrisdale_japanese_gacha_hobby_store_color_grading_photographer.webp</image:loc>
+      <image:title>Gacha hobby store color grading — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g87_Vancouver_brentwood_missionary_preach_bible_black_white_filmic.webp</image:loc>
-      <image:title>Vancouver Brentwood Missionary Preach Bible Black — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Brentwood Missionary Preach Bible Black (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g91_Richomnd_night_market_girl_erring_romance_filmic_photography.webp</image:loc>
+      <image:title>Night market girl earring romance</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g88_Richmond_geometrical_shade_traffic_cityview_photographer_black_and_white.webp</image:loc>
-      <image:title>Richmond Geometrical Shade Traffic City View Photographer — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Geometrical Shade Traffic City View Photographer (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g92_Richmond_night_market_street_food_couple_smoke_filmic_photography_street_reallife.webp</image:loc>
+      <image:title>Street food couple smoke real life — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g89_burnaby_crystal_mall_chinese_market_life_vandor_street_photographer.webp</image:loc>
-      <image:title>Burnaby Crystal Mall Chinese Market Life — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Crystal Mall Chinese Market Life (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g93_Richmond_night_market_street_food_girl_filmic_game.webp</image:loc>
+      <image:title>Market street food girl game — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g90_Vancouver_karrisdale_japanese_gacha_hobby_store_color_grading_photographer.webp</image:loc>
-      <image:title>Vancouver Karrisdale Japanese Gacha Hobby Store — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Karrisdale Japanese Gacha Hobby Store (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g95_Richmond_night_market_street_food_vandor_social_photography_girl_mother.webp</image:loc>
+      <image:title>Food vandor social girl mother — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g91_Richomnd_night_market_girl_erring_romance_filmic_photography.webp</image:loc>
-      <image:title>Richomnd Night Market Girl Erring Romance — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richomnd Night Market Girl Erring Romance</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g96_Richmond_night_market_street_food_girl_chanel_jeans_city_photographer.webp</image:loc>
+      <image:title>Food girl chanel jeans city — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g92_Richmond_night_market_street_food_couple_smoke_filmic_photography_street_reallife.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Couple — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Couple (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g97_Richmond_night_market_street_food_girl_working_vandor_filmic_eye.webp</image:loc>
+      <image:title>Food girl working vandor eye — Richmond</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g93_Richmond_night_market_street_food_girl_filmic_game.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Girl (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g98_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer_cafe.webp</image:loc>
+      <image:title>City girl matcha street cafe — Kitsilano</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g94_Richmond_night_market_street_food_matsuri_photographer_japanese_vibe.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Matsuri — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Matsuri (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g99_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer_dior_maison_margiela.webp</image:loc>
+      <image:title>Matcha street dior maison margiela — Kitsilano</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g95_Richmond_night_market_street_food_vandor_social_photography_girl_mother.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Vandor — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Vandor (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g100_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer.webp</image:loc>
+      <image:title>Bay city girl matcha street — Kitsilano</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g96_Richmond_night_market_street_food_girl_chanel_jeans_city_photographer.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Girl (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g101_Vancouver_city_girl_matcha_street_food_art_gallery_photographer.webp</image:loc>
+      <image:title>Matcha street food art gallery — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g97_Richmond_night_market_street_food_girl_working_vandor_filmic_eye.webp</image:loc>
-      <image:title>Richmond Night Market Street Food Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richmond Night Market Street Food Girl (Richmond, Canada)</image:caption>
-      <image:geo_location>Richmond, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g102_Vancouver_city_richmond_airport_ourlet_girl_matcha_street_photographer.webp</image:loc>
+      <image:title>Airport ourlet girl matcha street — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g98_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer_cafe.webp</image:loc>
-      <image:title>Kitsilano English Bay Vancouver City Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Kitsilano English Bay Vancouver City Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g103_Metrotown_metropolis_girl_vancouver_city_shopping_filmic_photography.webp</image:loc>
+      <image:title>Metropolis girl city shopping — Metrotown</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g99_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer_dior_maison_margielawebp.webp</image:loc>
-      <image:title>Kitsilano English Bay Vancouver City Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Kitsilano English Bay Vancouver City Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g104_Victoria_architecture_reflextion_thrift_cityview_building_main_street_government.webp</image:loc>
+      <image:title>City view building main street government — Victoria</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g100_Kitsilano_english_bay_Vancouver_city_girl_matcha_street_photographer.webp</image:loc>
-      <image:title>Kitsilano English Bay Vancouver City Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Kitsilano English Bay Vancouver City Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g105_coquitlam_cafe_square_red_sunset_playground_girl_playing_glow.webp</image:loc>
+      <image:title>Sunset playground girl playing glow — Coquitlam</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g101_Vancouver_city_girl_matcha_street_food_art_gallery_photographer.webp</image:loc>
-      <image:title>Vancouver City Girl Matcha Street Food — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver City Girl Matcha Street Food (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g106_Vancouver_downtown_girl_yoga_pants_sunglasses_art_gallery_chic.webp</image:loc>
+      <image:title>Pants sunglasses art gallery chic — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g102_Vancouver_city_richmond_airport_ourlet_girl_matcha_street_photographer.webp</image:loc>
-      <image:title>Vancouver City Richmond Airport Ourlet Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver City Richmond Airport Ourlet Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g107_coquitlam_cafe_square_red_sunset_playground_girl_playing_glow_running_white_dress_moment_photographer.webp</image:loc>
+      <image:title>Glow running white dress moment — Coquitlam</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g103_Metrotown_metropolis_girl_vancouver_city_shopping_filmic_photography.webp</image:loc>
-      <image:title>Metrotown Metropolis Girl Vancouver City Shopping — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Metrotown Metropolis Girl Vancouver City Shopping (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g108_richomnd_ikea_contrast_american_filmic_modernism_capitalism.webp</image:loc>
+      <image:title>IKEA contrast american modernism capitalism</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g104_Victoria_architecture_reflextion_thrift_cityview_building_main_street_government.webp</image:loc>
-      <image:title>Victoria Architecture Reflextion Thrift City View Building — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Victoria Architecture Reflextion Thrift City View Building (Victoria, Canada)</image:caption>
-      <image:geo_location>Victoria, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g109_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic.webp</image:loc>
+      <image:title>Mall shopping customer scene moment — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g105_coquitlam_cafe_square_red_sunset_playground_girl_playing_glow.webp</image:loc>
-      <image:title>Coquitlam Cafe Square Red Sunset Playground — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Coquitlam Cafe Square Red Sunset Playground (Coquitlam, Canada)</image:caption>
-      <image:geo_location>Coquitlam, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g111_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl_tension_love_emotion_capture.webp</image:loc>
+      <image:title>Boy girl tension love emotion — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g106_Vancouver_downtown_girl_yoga_pants_sunglasses_art_gallery_chic.webp</image:loc>
-      <image:title>Vancouver Downtown Girl Yoga Pants Sunglasses — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Downtown Girl Yoga Pants Sunglasses (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g112_liminal_space_plant_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic.webp</image:loc>
+      <image:title>Mall shopping customer scene moment — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g107_coquitlam_cafe_square_red_sunset_playground_girl_playing_glow_running_white_dress_moment_photographer.webp</image:loc>
-      <image:title>Coquitlam Cafe Square Red Sunset Playground — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Coquitlam Cafe Square Red Sunset Playground (Coquitlam, Canada)</image:caption>
-      <image:geo_location>Coquitlam, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g113_couquitlam_center_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl.webp</image:loc>
+      <image:title>Customer scene moment boy girl</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g108_richomnd_ikea_contrast_american_filmic_modernism_capitalism.webp</image:loc>
-      <image:title>Richomnd Ikea Contrast American Filmic Modernism — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Richomnd Ikea Contrast American Filmic Modernism</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g115_Vancouver_downtown_shopping_holt_renfrew_girl_chic_driving_gas_station_capture.webp</image:loc>
+      <image:title>Girl chic driving gas station — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g109_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic.webp</image:loc>
-      <image:title>Burnaby Metrotown Metropolis Mall Shopping Customer — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Metrotown Metropolis Mall Shopping Customer (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g116_Vancouver_downtown_shopping_fire_hose_flower_filmic.webp</image:loc>
+      <image:title>Downtown shopping fire hose flower — Vancouver</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g110_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl.webp</image:loc>
-      <image:title>Burnaby Metrotown Metropolis Mall Shopping Customer — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Metrotown Metropolis Mall Shopping Customer (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g117_burnaby_brentwood_walking_chic_coffee_walking_filmic_green_yellow.webp</image:loc>
+      <image:title>Walking chic coffee green yellow — Burnaby</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g111_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl_tension_love_emotion_capture.webp</image:loc>
-      <image:title>Burnaby Metrotown Metropolis Mall Shopping Customer — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Metrotown Metropolis Mall Shopping Customer (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g118_Dog_training_Langley_dog_walking_pet_photographer_agility_speed_training_photographer.webp</image:loc>
+      <image:title>Training walking pet agility speed — Langley</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g112_limina_space_plant_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmicl.webp</image:loc>
-      <image:title>Limina Space Plant Burnaby Metrotown Metropolis — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Limina Space Plant Burnaby Metrotown Metropolis (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g119_Dog_training_Langley_dog_walking_pet_photographer_agility_speed_training_photographer_flash.webp</image:loc>
+      <image:title>Walking pet agility speed flash — Langley</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g113_couquitlam_center_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl.webp</image:loc>
-      <image:title>Couquitlam Center Mall Shopping Customer Scene — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Couquitlam Center Mall Shopping Customer Scene</image:caption>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g121_Coquitlam_cafe_Matcha_latte_Coffee_cool_girl_lighting_photographer_food_study_baby.webp</image:loc>
+      <image:title>Girl lighting food study baby — Coquitlam</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g114_Vancouver_downtown_shopping_holt_renfrew_girl_chic_walking.webp</image:loc>
-      <image:title>Vancouver Downtown Shopping Holt Renfrew Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Downtown Shopping Holt Renfrew Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g122_HongKong_birl_filmic_photographer_Treron_curvirostra.webp</image:loc>
+      <image:title>Girl treron curvirostra — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g115_Vancouver_downtown_shopping_holt_renfrew_girl_chic_driving_gas_station_capture.webp</image:loc>
-      <image:title>Vancouver Downtown Shopping Holt Renfrew Girl — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Downtown Shopping Holt Renfrew Girl (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g123_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
+      <image:title>Girl bali myna — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g116_Vancouver_downtown_shopping_fire_hose_flower_filmic.webp</image:loc>
-      <image:title>Vancouver Downtown Shopping Fire Hose Flower — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Downtown Shopping Fire Hose Flower (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g124_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
+      <image:title>Girl bali myna — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g117_burnaby_brentwood_walking_chic_coffee_walking_filmic_green_yellow.webp</image:loc>
-      <image:title>Burnaby Brentwood Walking Chic Coffee Walking — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Burnaby Brentwood Walking Chic Coffee Walking (Burnaby, Canada)</image:caption>
-      <image:geo_location>Burnaby, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g125_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
+      <image:title>Girl bali myna — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g118_Dog_training_Langley_dog_walking_pet_photographer_agility_speed_training_photographer.webp</image:loc>
-      <image:title>Dog Training Langley Dog Walking Pet — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Training Langley Dog Walking Pet (Langley, Canada)</image:caption>
-      <image:geo_location>Langley, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g126_HongKong_birl_filmic_photographer_red_lored_amazon_parrot.webp</image:loc>
+      <image:title>Girl red lored amazon parrot — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g119_Dog_training_Langley_dog_walking_pet_photographer_agility_speed_training_photographer_flash.webp</image:loc>
-      <image:title>Dog Training Langley Dog Walking Pet — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Dog Training Langley Dog Walking Pet (Langley, Canada)</image:caption>
-      <image:geo_location>Langley, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g127_HongKong_birl_filmic_photographer_Silver_pheasant.webp</image:loc>
+      <image:title>Girl silver pheasant — Hong Kong</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g120_Vancouver_DT_Girl_Crossroad_street_Luxary_asian_photography_filmic.webp</image:loc>
-      <image:title>Vancouver Dt Girl Crossroad Street Luxary — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Vancouver Dt Girl Crossroad Street Luxary (Vancouver, Canada)</image:caption>
-      <image:geo_location>Vancouver, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g128_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture.webp</image:loc>
+      <image:title>Block concrete brutalism steel architecture — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g121_Coquitlam_cafe_Matcha_latte_Coffee_cool_girl_lighting_photographer_food_study_baby.webp</image:loc>
-      <image:title>Coquitlam Cafe Matcha Latte Coffee Cool — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Coquitlam Cafe Matcha Latte Coffee Cool (Coquitlam, Canada)</image:caption>
-      <image:geo_location>Coquitlam, Canada</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g129_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_pillar_pale_mosaic.webp</image:loc>
+      <image:title>Steel architecture pillar pale mosaic — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g122_HongKong_birl_filmic_photographer_Treron_curvirostra.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Treron Curvirostra — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Treron Curvirostra (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g130_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_window.webp</image:loc>
+      <image:title>Concrete brutalism steel architecture window — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g123_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Bali Myna — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Bali Myna (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g131_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_parking.webp</image:loc>
+      <image:title>Concrete brutalism steel architecture parking — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g124_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Bali Myna — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Bali Myna (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g132_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_traffic_light_cctv.webp</image:loc>
+      <image:title>Steel architecture traffic light cctv — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g125_HongKong_birl_filmic_photographer_Bali_myna.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Bali Myna — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Bali Myna (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g133_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall.webp</image:loc>
+      <image:title>Concrete brutalism steel architecture wall — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g126_HongKong_birl_filmic_photographer_red_lored_amazon_parrot.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Red Lored — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Red Lored (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g134_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_mega_building_tall.webp</image:loc>
+      <image:title>Brutalism steel architecture mega tall — Macau</image:title>
     </image:image>
-
     <image:image>
-      <image:loc>https://hikki.ca/g127_HongKong_birl_filmic_photographer_Silver_pheasant.webp</image:loc>
-      <image:title>Hong Kong Birl Filmic Photographer Silver Pheasant — Hikki Photography</image:title>
-      <image:caption>Hikki Photography gallery — Hong Kong Birl Filmic Photographer Silver Pheasant (Hong Kong)</image:caption>
-      <image:geo_location>Hong Kong</image:geo_location>
-      <image:license>https://hikki.ca/license.html</image:license>
+      <image:loc>https://hikki.ca/photos/g135_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_stack.webp</image:loc>
+      <image:title>Concrete brutalism steel architecture stack — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g136_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk.webp</image:loc>
+      <image:title>Brutalism steel architecture wall cyberpunk — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g137_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_pink.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime pink — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g138_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_dystopia_dying_city.webp</image:loc>
+      <image:title>Wall cyberpunk anime dystopia dying — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g139_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_tall_condo_house.webp</image:loc>
+      <image:title>Cyberpunk anime tall condo house — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g140_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_rain.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime rain — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g141_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_street_lighting_neon_glow.webp</image:loc>
+      <image:title>Anime street lighting neon glow — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g142_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_skyline2.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime skyline — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g143_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_skyline_azure.webp</image:loc>
+      <image:title>Wall cyberpunk anime skyline azure — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g144_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_skyline3.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime skyline — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g145_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_divided.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime divided — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g146_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_rusty_window_hanging.webp</image:loc>
+      <image:title>Cyberpunk anime rusty window hanging — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g147_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_construction_builder.webp</image:loc>
+      <image:title>Wall cyberpunk anime construction builder — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g148_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_tropical_plants.webp</image:loc>
+      <image:title>Wall cyberpunk anime tropical plants — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g149_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_valut_arch_church.webp</image:loc>
+      <image:title>Cyberpunk anime vault arch church — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g150_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_another.webp</image:loc>
+      <image:title>Architecture wall cyberpunk anime another — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g151_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_pink_red_light_zone_neon.webp</image:loc>
+      <image:title>Pink red light zone neon — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g152_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_neon_light_signage_motel.webp</image:loc>
+      <image:title>Anime neon light signage motel — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g153_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_social_housing.webp</image:loc>
+      <image:title>Wall cyberpunk anime social housing — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g154_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_commercial_local_store.webp</image:loc>
+      <image:title>Cyberpunk anime commercial local store — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g155_Macau_asia_china_portugal_building_city_block_concrete_brutalism_steel_architecture_wall_of_cyberpunk_anime_stack_viewpoint.webp</image:loc>
+      <image:title>Wall cyberpunk anime stack viewpoint — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g156_victoria_vancouver_canada_portrait_wedding_citygirl_sunglasses_chic_chinese_fisgard_market_grocery.webp</image:loc>
+      <image:title>Sunglasses chic Chinese market grocery — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g157_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_gathering2.webp</image:loc>
+      <image:title>Beach summer gathering — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g158_victoria_vancouver_canada_portrait_temple_community_worship_ritual_peace_love.webp</image:loc>
+      <image:title>Community worship ritual peace love — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g159_vancouver_camera_glow_shade_light_stilllife_peace.webp</image:loc>
+      <image:title>Glow shade light still life peace — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g160_Vancouver_richmond_fishmonger_woman_worker_boat_wharf_travel_red_fish.webp</image:loc>
+      <image:title>Boat wharf travel red fish — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g161_Vancouver_airport_man_travel_facetime_moment_connection.webp</image:loc>
+      <image:title>Man travel facetime moment connection — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g162_Vancouver_richmond_mall_moment_opening_consulting_art_and_craft_yellow_and_blue.webp</image:loc>
+      <image:title>Consulting art craft yellow blue — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g163_Vancouver_richmond_mall_soft_light_Maid_cosplay_hobby_shopping_bunny.webp</image:loc>
+      <image:title>Maid cosplay hobby shopping bunny — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g164_victoria_vancouver_canada_portrait_temple_community_worship_ritual_peace_love_chinese_buddist.webp</image:loc>
+      <image:title>Ritual peace love Chinese Buddhist — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g165_victoria_vancouver_canada_portrait_temple_community_worship_ritual_peace_stone_crafting_construction_grandhall_love.webp</image:loc>
+      <image:title>Stone crafting construction grandhall love — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g166_Vancouver_pet_photographer_orange_tabby_cat_still_peace_color_grading.webp</image:loc>
+      <image:title>Cat still peace color grading — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g167_vancouver_public_market_chinese_foodcourt_street_food_moment_sharing.webp</image:loc>
+      <image:title>Food court street food moment sharing — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g169_Vancouver_downtown_harbour_woodward_construction_modern_city_mist_rain_winter_crane_fraser.webp</image:loc>
+      <image:title>City mist rain winter crane — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g170_Vancouver_downtown_harbour_woodward_construction_modern_city_mist_rain_winter_crane_fraser_signage.webp</image:loc>
+      <image:title>Mist rain winter crane signage — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g171_polaroid_wedding_vintage_film_color_gradient_photographer_mountain_girls.jpg</image:loc>
+      <image:title>Vintage color gradient mountain girls</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g172_polaroid_wedding_vintage_film_color_gradient_photographer_bride_arch_fairmount.jpg</image:loc>
+      <image:title>Color gradient bride arch fairmount</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g173_polaroid_wedding_vintage_film_color_gradient_photographer_real_life_moment.jpg</image:loc>
+      <image:title>Color gradient real life moment</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g174_polaroid_wedding_vintage_film_color_gradient_photographer_girls_chic_drink_party.jpg</image:loc>
+      <image:title>Gradient girls chic drink party</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g175_polaroid_wedding_vintage_film_color_gradient_photographer_friendship_moment_real_life.jpg</image:loc>
+      <image:title>Gradient friendship moment real life</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g176_vancouver_canada_costco_dailylife_city_polaroid_film_photography.jpg</image:loc>
+      <image:title>Costco daily life city Polaroid — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g177_polaroid_wedding_vintage_film_color_gradient_photographer_professional_bride_shot_lighting.jpg</image:loc>
+      <image:title>Color gradient professional bride lighting</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g178_polaroid_wedding_vintage_film_color_gradient_photographer_bride_arch_door_fairmount_hotel_empress.jpg</image:loc>
+      <image:title>Arch door fairmount hotel empress</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g179_polaroid_wedding_vintage_film_color_gradient_photographer_party_friends_library.jpg</image:loc>
+      <image:title>Color gradient party friends library</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g180_polaroid_wedding_vintage_film_color_gradient_photographer_bride_portrait_close_up.jpg</image:loc>
+      <image:title>Color gradient bride portrait close</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g181_Vancouver_plants_still_life_nature_coloring_romantic_scene_filmic_film_photographer.webp</image:loc>
+      <image:title>Life nature coloring romantic scene — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g182_Vancouver_plants_still_life_nature_coloring_romantic_scene_filmic_film_photographer_sakura_cherry_blossom_kerrisdale.webp</image:loc>
+      <image:title>Romantic scene sakura cherry blossom — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g183_Vancouver_plants_still_life_nature_coloring_romantic_scene_filmic_film_photographer_sakura_cherry_blossm_kerrisdale_moment.webp</image:loc>
+      <image:title>Scene sakura cherry blossom moment — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g184_Vancouver_plants_still_life_nature_coloring_romantic_scene_filmic_film_photographer_bus_SFU.webp</image:loc>
+      <image:title>Nature coloring romantic scene bus — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g185_Vancouver_whistler_big_white_snow_capilano_mist_nature_wild_ski.webp</image:loc>
+      <image:title>Snow mist nature wild ski — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g186_Vancouver_road_people_emotion_scene_filmic_burnaby_driver.webp</image:loc>
+      <image:title>Road people emotion scene driver — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g187_Vancouver_road_people_emotion_scene_filmic_burnaby_Bnw_bus_stop.webp</image:loc>
+      <image:title>Emotion scene black and white bus stop — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g188_Vancouver_road_people_emotion_scene_filmic_burnaby_girls.webp</image:loc>
+      <image:title>Road people emotion scene girls — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g189_Vancouver_road_people_emotion_scene_filmic_burnaby_still_life_flower_plants_north_vancouver.webp</image:loc>
+      <image:title>Still life flower plants north — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g190_Vancouver_road_people_emotion_scene_filmic_burnaby_still_life_sewing_tools_local_store.webp</image:loc>
+      <image:title>Life sewing tools local store — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g191_Vancouver_road_people_emotion_scene_filmic_burnaby_psychic_record_store_main_street.webp</image:loc>
+      <image:title>Psychic record store main street — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g192_Vancouver_road_people_emotion_scene_filmic_burnaby_local_store_kerrisdale_richmond.webp</image:loc>
+      <image:title>People emotion scene local store — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g193_Vancouver_road_people_emotion_scene_filmic_burnaby_coquitlam_mall_girls.webp</image:loc>
+      <image:title>People emotion scene mall girls — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g194_Vancouver_road_people_emotion_scene_filmic_burnaby_costco_shopping_couple.webp</image:loc>
+      <image:title>Emotion scene Costco shopping couple — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g195_Vancouver_road_people_emotion_scene_filmic_burnaby_costco_tire_service_professional_worker.webp</image:loc>
+      <image:title>Costco tire service professional worker — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g196_Vancouver_road_people_emotion_scene_filmic_burnaby_costco_tire_service_car_labour_working.webp</image:loc>
+      <image:title>Tire service car labour working — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g197_Vancouver_richmond_canada_west_coast_chinese_easten_market_y2k_fishmonger_local_store.webp</image:loc>
+      <image:title>Market y2k fishmonger local store — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g198_Vancouver_richmond_canada_west_coast_chinese_easten_market_y2k_meat_butcher_deli.webp</image:loc>
+      <image:title>Market y2k meat butcher deli — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g199_Vancouver_richmond_canada_west_coast_chinese_easten_market_y2k_apperal_fashion.webp</image:loc>
+      <image:title>Eastern market y2k apparel fashion — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g200_Vancouver_richmond_canada_west_coast_chinese_easten_market_y2k_barber_old_fashion_vintage_filmic.webp</image:loc>
+      <image:title>Y2k barber old fashion vintage — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g202_richmond_public_market_canada_chinese_mall_center_foodcourt_filmic_vintage_hongkong.webp</image:loc>
+      <image:title>Chinese mall center food court vintage — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g203_richmond_public_market_canada_chinese_mall_center_foodcourt_filmic_vintage_hongkong_trading_local_store.webp</image:loc>
+      <image:title>Food court vintage trading local store — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g204_Richmond_airport_YYC_YVR_guy_with_tote_bag_filmic.webp</image:loc>
+      <image:title>Airport guy tote bag — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g205_richmond_public_market_canada_chinese_mall_center_foodcourt_filmic_vintage_hongkong_worker_book_store.webp</image:loc>
+      <image:title>Food court vintage worker book store — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g206_richmond_public_market_canada_chinese_mall_center_foodcourt_filmic_vintage_hongkong_butcher_fresh_meat_deli.webp</image:loc>
+      <image:title>Vintage butcher fresh meat deli — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g207_richmond_public_market_canada_chinese_mall_center_foodcourt_filmic_vintage_hongkong_jade_gold_chain_local_shopkeeper.webp</image:loc>
+      <image:title>Jade gold chain local shopkeeper — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g209_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_brentwood_evening.webp</image:loc>
+      <image:title>Street city people evening — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g210_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_sweing_local_store_threads.webp</image:loc>
+      <image:title>People sewing local store threads — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g211_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_langley_pet_shop_sun_glow.webp</image:loc>
+      <image:title>People pet shop sun glow — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g212_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_metrotown_guard_indian_tnt_supermarket_grocery.webp</image:loc>
+      <image:title>Guard indian T&amp;T supermarket grocery — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g213_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_richmond_supermarket_foody_world_seafood_crab_senior.webp</image:loc>
+      <image:title>Foody world seafood crab senior — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g214_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_metrotown_aritzia_fashion_chic_mall.webp</image:loc>
+      <image:title>People aritzia fashion chic mall — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g215_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_metrotown_jewellery_crowd_mall.webp</image:loc>
+      <image:title>City people jewellery crowd mall — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g216_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_metrotown_socking_AnF_BnW.webp</image:loc>
+      <image:title>Street city people socking black and white — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g217_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_grocery_white_van_trader.webp</image:loc>
+      <image:title>People grocery white van trader — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g218_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_richmond_old_mall_neon_glow.webp</image:loc>
+      <image:title>People old mall neon glow — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g219_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_coquitlam_Hmart_lottery_room.webp</image:loc>
+      <image:title>City people H Mart lottery room — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g220_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_dt_gastown_chic_bicycle_homeless_shade_pacific_center.webp</image:loc>
+      <image:title>Bicycle homeless shade pacific center — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g221_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_richmond_cosplay_idol_in_pink.webp</image:loc>
+      <image:title>City people cosplay idol pink — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g222_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_richmond_mall_cosplay_anime.webp</image:loc>
+      <image:title>City people mall cosplay anime — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g223_Vancouver_burnaby_photographer_filmic_Street_city_people_canada_bridge_skytrain_pigeon_bnw.webp</image:loc>
+      <image:title>People bridge skytrain pigeon black and white — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g224_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_shade_of_chinatown.webp</image:loc>
+      <image:title>Beach summer shade — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g226_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_wet_market_gentleman.webp</image:loc>
+      <image:title>Beach summer wet market gentleman — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g227_Victoria_Canada_photograher_portrait_prewedding_city_street_market_square_dt_red_brick.webp</image:loc>
+      <image:title>Market square downtown red brick — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g228_hongkong_night_city_glow_canon_street_in_rain_shenzhen.webp</image:loc>
+      <image:title>City glow canon street rain — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g229_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_.webp</image:loc>
+      <image:title>City view — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g230_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_downtown_woman_business_flea_craft.webp</image:loc>
+      <image:title>Downtown woman business flea craft — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g231_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_breakfest_girl_working_brunch.webp</image:loc>
+      <image:title>View breakfast girl working brunch — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g232_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_energy_new_age_occultist.webp</image:loc>
+      <image:title>City view energy age occultist — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g233_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_wetmarket_fashion_sunglasses.webp</image:loc>
+      <image:title>City view wet market fashion sunglasses — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g234_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_wetmarket_stilllife.webp</image:loc>
+      <image:title>City view wet market still life — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g235_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_wetmarket_girl_lottery_glow.webp</image:loc>
+      <image:title>View wet market girl lottery glow — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g236_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_hmart_family_grocery_whitevan.webp</image:loc>
+      <image:title>View H Mart family grocery white van — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g237_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_capilano_sea_and_sky_mountain_dam.webp</image:loc>
+      <image:title>View sea sky mountain dam — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g238_Canada_vancouver_coquitlam_burnaby_city_view_photographer_city_yellow_cat_tabby_coon.webp</image:loc>
+      <image:title>View yellow cat tabby coon — Canada</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g239_hongkong_filmic_nostalgia_rain_forest_sunset_purple_sky.webp</image:loc>
+      <image:title>Rain forest sunset purple sky — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g240_hongkong_filmic_nostalgia_rain_city_tear_shenzhen.webp</image:loc>
+      <image:title>Nostalgia rain city tear — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g241_China_gansu_hongkong_filmic_nostalgia_rain_nighttime_minimal_wifi_social_photography.webp</image:loc>
+      <image:title>Rain nighttime minimal wifi social — China</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g242_Macau_temple_smoke_telephone_hongkong_filmic_nostalgia_rain_chic.webp</image:loc>
+      <image:title>Smoke telephone nostalgia rain chic — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g243_burnaby_wetmarket_grocery_street_photography_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Wet market grocery street nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g244_butcher_vancouver_traditional_wetmarket_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Butcher traditional wet market nostalgia rain — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g245_burnaby_wetmarket_lineup_wonton_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Wet market lineup wonton nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g246_burnaby_wetmarket_canada_grocery_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Wet market grocery nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g247_burnaby_wetmarket_sanrio_doll_toystore_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Sanrio doll toystore nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g248_burnaby_wetmarket_lighting_street_photographer_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Wet market lighting street nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g249_burnaby_wetmarket_barber_jacky_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Wet market barber jacky nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g250_richmond_arberdeen_mall_lighting_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Mall lighting nostalgia rain — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g251_burnaby_wetmarket_orange_sharing_moment_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Orange sharing moment nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g252_burnaby_wetmarket_vegetable_chic_local_business_hongkong_filmic_nostalgia_rain.webp</image:loc>
+      <image:title>Chic local business nostalgia rain — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g253_family_photo_playground_thanksgiving_vancouver_canada_BC_professional_portrait.webp</image:loc>
+      <image:title>Family playground thanksgiving professional portrait — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g254_family_photo_playground_thanksgiving_vancouver_canada_BC_professional_portrait_lighting.webp</image:loc>
+      <image:title>Playground thanksgiving professional portrait lighting — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g255_burnaby_H_and_M_female_security_blackbird_girlpower_ponytail_pillar_white_mall_city.webp</image:loc>
+      <image:title>Ponytail pillar white mall city — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g256_richmond_arberdeen_mall_japanese_sweet_store_blue_jeans_citygirl.webp</image:loc>
+      <image:title>Sweet store blue jeans city girl — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g257_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_narrow_street.webp</image:loc>
+      <image:title>East Portuguese old building narrow — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g258_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_wetmarket_grocery.webp</image:loc>
+      <image:title>Portuguese old building wet market grocery — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g259_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_church_garage.webp</image:loc>
+      <image:title>Portuguese old building church garage — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g260_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_yellow_wall_balcony.webp</image:loc>
+      <image:title>Old building yellow wall balcony — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g261_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_clinic_skeleton_model_chinese_medicine.webp</image:loc>
+      <image:title>Clinic skeleton model Chinese medicine — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g262_macau_street_photography_hongkong_china_far_east_pourtgese_old_building_massage_rose.webp</image:loc>
+      <image:title>Portuguese old building massage rose — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g263_Vancouver_canada_film_photography_city_walk_rain_heritage_cosplay_maid_whitesocks_richmond_anime.webp</image:loc>
+      <image:title>Heritage cosplay maid white socks anime — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g264_Vancouver_canada_film_photography_city_walk_rain_heritage_burnany_culture_gacha_wetmarket.webp</image:loc>
+      <image:title>Rain heritage culture gacha wet market — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g265_Vancouver_canada_film_photography_city_walk_rain_heritage_richmond_wetmarket_chinese_medicine.webp</image:loc>
+      <image:title>Rain heritage wet market Chinese medicine — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g266_Vancouver_canada_film_photography_city_walk_rain_heritage_metrotown_mall_artizia.webp</image:loc>
+      <image:title>Walk rain heritage mall Aritzia — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g267_Vancouver_canada_film_photography_city_walk_rain_heritage_metrotown_mall_liminal_space_architecture.webp</image:loc>
+      <image:title>Heritage mall liminal space architecture — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g268_Vancouver_canada_film_photography_city_walk_rain_heritage_sticker_photo_cosplay_japan_kawaii_wigs.webp</image:loc>
+      <image:title>Heritage sticker cosplay kawaii wigs — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g269_Vancouver_canada_film_photography_city_walk_rain_heritage_homesense_mother_baby_janitor.webp</image:loc>
+      <image:title>Heritage homesense mother baby janitor — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g270_Vancouver_canada_film_photography_city_walk_rain_heritage_metrotown_mother_baby_janitor_grocery_peace.webp</image:loc>
+      <image:title>Mother baby janitor grocery peace — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g271_Vancouver_canada_film_photography_city_walk_rain_heritage_building_downtown_rain.webp</image:loc>
+      <image:title>Walk rain heritage building downtown — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g272_Vancouver_canada_film_photography_city_walk_rain_heritage_macau_temple_decor.webp</image:loc>
+      <image:title>Walk rain heritage temple decor — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g273_Vancouver_canada_film_photography_city_walk_rain_heritage_casino_building_architecture_burnaby.webp</image:loc>
+      <image:title>Rain heritage casino building architecture — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g274_macau_hongkong_city_in_rain_walking_filmic_photography_life_Mplus_sadgirl_wedding.webp</image:loc>
+      <image:title>Rain walking life sad girl wedding — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g275_macau_hongkong_city_in_rain_walking_filmic_photography_cagecity_flower.webp</image:loc>
+      <image:title>City rain walking cage city flower — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g276_macau_hongkong_city_in_rain_walking_filmic_photography_red_dragon_rice_bag_grocery.webp</image:loc>
+      <image:title>Red dragon rice bag grocery — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g277_macau_hongkong_city_in_rain_walking_filmic_photography_tall_building.webp</image:loc>
+      <image:title>City rain walking tall building — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g278_macau_hongkong_city_in_rain_walking_filmic_photography_green_flower_cage_life_behind_bars.webp</image:loc>
+      <image:title>Flower cage life behind bars — Macau</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g279_wedding_victoria_vancouver_ontario_calgary_canada_black_and_white_moment_filmic_photography_gloves.webp</image:loc>
+      <image:title>Wedding black white moment gloves — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g280_wedding_victoria_vancouver_ontario_calgary_canada_black_and_white_moment_filmic_photography_bride_walking_in_the_light.webp</image:loc>
+      <image:title>White moment bride walking light — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g282_wedding_victoria_vancouver_ontario_calgary_canada_black_and_white_moment_filmic_photography_hair_band_2_mirror.webp</image:loc>
+      <image:title>White moment hair band mirror — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g283_victoria_girl_cafe_beans_matcha_chinatown_herigate_tourist_bike_cruise_canada.webp</image:loc>
+      <image:title>Matcha heritage tourist bike cruise — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g284_Vancouver_canada_film_photography_city_walk_rain_heritage_victoria_gordon_head_mountain.webp</image:loc>
+      <image:title>Rain heritage gordon head mountain — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g285_victoria_parkside_mountain_church_school_canada_fall_maple_leaf.webp</image:loc>
+      <image:title>Church school fall maple leaf — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g286_Vancouver_downtown_thrift_store_vintage_fashion_street_photography.webp</image:loc>
+      <image:title>Thrift store vintage fashion street — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g287_Vancouver_downtown_gastown_english_bay_street_photographer.webp</image:loc>
+      <image:title>Downtown English bay street — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g289_Vancouver_downtown_gastown_english_bay_social_photography.webp</image:loc>
+      <image:title>Downtown English bay social — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g290_Vancouver_downtown_gastown_english_bay_mall_elevator_luxary_tourist.webp</image:loc>
+      <image:title>Bay mall elevator luxury tourist — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g291_Vancouver_downtown_gastown_english_bay_social_photography_luxary_mall_perfume_skims_feminism.webp</image:loc>
+      <image:title>Luxury mall perfume skims feminism — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g292_Vancouver_downtown_gastown_english_bay_sephora_stuff_feminism.webp</image:loc>
+      <image:title>English bay sephora stuff feminism — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g293_Vancouver_downtown_gastown_english_bay_building_light_architecture.webp</image:loc>
+      <image:title>English bay building light architecture — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g294_Vancouver_downtown_gastown_english_bay_building_light_architecture_window_vertical.webp</image:loc>
+      <image:title>Building light architecture window vertical — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g295_Vancouver_downtown_gastown_english_bay_building_light_architecture_doorway.webp</image:loc>
+      <image:title>Bay building light architecture doorway — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g296_Vancouver_downtown_gastown_english_bay_building_light_architecture_window_with_plants.webp</image:loc>
+      <image:title>Building light architecture window plants — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g297_Vancouver_downtown_gastown_english_bay_building_light_architecture_social_photography_gallery.webp</image:loc>
+      <image:title>Building light architecture social gallery — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g298_Vancouver_downtown_gastown_english_bay_building_light_architecture_parking_in_rain.webp</image:loc>
+      <image:title>Building light architecture parking rain — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g299_Vancouver_downtown_gastown_english_bay_building_light_architecture_santa_scooter.webp</image:loc>
+      <image:title>Building light architecture santa scooter — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g300_Vancouver_beach_photographer_filmic_ocean_wedding.webp</image:loc>
+      <image:title>Beach ocean wedding — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g301_victoria_Vancouver_beach_photographer_filmic_dating_design.webp</image:loc>
+      <image:title>Beach dating design — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g302_Vancouver_photographer_filmic_interior_design_floral_architecture_family_reunion.webp</image:loc>
+      <image:title>Design floral architecture family reunion — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g303_Vancouver_photographer_filmic_interior_design_floral_architecture.webp</image:loc>
+      <image:title>Interior design floral architecture — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g304_Vancouver_photographer_filmic_interior_design_floral_architecture_wedding_setup_stilllife.webp</image:loc>
+      <image:title>Floral architecture wedding setup still life — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g305_Vancouver_photographer_filmic_interior_design_floral_architecture_birthday_party_80.webp</image:loc>
+      <image:title>Design floral architecture birthday party — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g306_Vancouver_photographer_filmic_interior_design_floral_architecture_kids_family_party.webp</image:loc>
+      <image:title>Floral architecture kids family party — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g307_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design.webp</image:loc>
+      <image:title>Casino concrete brutalism interior design — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g308_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist.webp</image:loc>
+      <image:title>Interior design flower shop florist — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g309_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_gas_minibus.webp</image:loc>
+      <image:title>Flower shop florist gas minibus — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g310_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_double_deck_bus.webp</image:loc>
+      <image:title>Shop florist double deck bus — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g311_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_white_tower_floristwebp.webp</image:loc>
+      <image:title>Flower shop white tower florist — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g312_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist__green_tower.webp</image:loc>
+      <image:title>Flower shop florist green tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g313_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_red_tower.webp</image:loc>
+      <image:title>Flower shop florist red tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g314_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_white_tower.webp</image:loc>
+      <image:title>Flower shop florist white tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g315_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_grey_tower.webp</image:loc>
+      <image:title>Flower shop florist grey tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g316_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_jade_tower.webp</image:loc>
+      <image:title>Flower shop florist jade tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g317_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_fire_hose.webp</image:loc>
+      <image:title>Flower shop florist fire hose — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g318_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_twin_bilding.webp</image:loc>
+      <image:title>Flower shop florist twin building — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g319_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_gas_in_shade.webp</image:loc>
+      <image:title>Flower shop florist gas shade — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g320_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_pale_tower.webp</image:loc>
+      <image:title>Flower shop florist pale tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g321_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_tower_from_the_under.webp</image:loc>
+      <image:title>Flower shop florist tower under — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g322_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_CCTV_machine_shock.webp</image:loc>
+      <image:title>Shop florist cctv machine shock — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g323_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_pink_tower.webp</image:loc>
+      <image:title>Flower shop florist pink tower — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g324_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_dusty_in_between.webp</image:loc>
+      <image:title>Flower shop florist dusty between — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g325_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_girl_under_umbrella.webp</image:loc>
+      <image:title>Shop florist girl under umbrella — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g326_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_red_scene.webp</image:loc>
+      <image:title>Flower shop florist red scene — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g327_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_shade_of_concrete.webp</image:loc>
+      <image:title>Design flower shop florist shade — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g328_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_bedroom.webp</image:loc>
+      <image:title>Design flower shop florist bedroom — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g329_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_yellow_dream.webp</image:loc>
+      <image:title>Design flower shop florist yellow — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g330_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_jade_balcony.webp</image:loc>
+      <image:title>Flower shop florist jade balcony — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g331_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_kitchen_behind.webp</image:loc>
+      <image:title>Flower shop florist kitchen behind — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g332_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_sky_under.webp</image:loc>
+      <image:title>Flower shop florist sky under — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g333_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_fishmonger.webp</image:loc>
+      <image:title>Design flower shop florist fishmonger — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g334_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_fishmonger2.webp</image:loc>
+      <image:title>Design flower shop florist fishmonger — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g335_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_swirl.webp</image:loc>
+      <image:title>Design flower shop florist swirl — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g336_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_bridge.webp</image:loc>
+      <image:title>Design flower shop florist bridge — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g337_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_tilt.webp</image:loc>
+      <image:title>Design flower shop florist tilt — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g338_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_holt_heels.webp</image:loc>
+      <image:title>Beach summer holt heels — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g339_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_family_from_balcony.webp</image:loc>
+      <image:title>Flower shop florist family balcony — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g340_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_chair_tree.webp</image:loc>
+      <image:title>Flower shop florist chair tree — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g341_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_crossroad_florist.webp</image:loc>
+      <image:title>Design flower shop crossroad florist — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g342_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_orange_building.webp</image:loc>
+      <image:title>Flower shop florist orange building — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g343_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_red_gate.webp</image:loc>
+      <image:title>Flower shop florist red gate — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g344_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_yellow_house.webp</image:loc>
+      <image:title>Flower shop florist yellow house — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g345_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_yellow_house2.webp</image:loc>
+      <image:title>Flower shop florist yellow house — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g346_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_200.webp</image:loc>
+      <image:title>Interior design flower shop florist — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g347_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_bridge_to_donki.webp</image:loc>
+      <image:title>Flower shop florist bridge donki — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g348_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_dust.webp</image:loc>
+      <image:title>Design flower shop florist dust — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g349_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_300.webp</image:loc>
+      <image:title>Interior design flower shop florist — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g350_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_red_carpet.webp</image:loc>
+      <image:title>Flower shop florist red carpet — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g351_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_danger_sign.webp</image:loc>
+      <image:title>Flower shop florist danger sign — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g352_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_shade.webp</image:loc>
+      <image:title>Design flower shop florist shade — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g353_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_pier_dusty.webp</image:loc>
+      <image:title>Flower shop florist pier dusty — Hong Kong</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g354_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer.webp</image:loc>
+      <image:title>Beach summer — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g355_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_herb_store.webp</image:loc>
+      <image:title>Beach summer herb store — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g356_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_goose.webp</image:loc>
+      <image:title>Beach summer goose — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g357_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_UBC_sakura.webp</image:loc>
+      <image:title>Beach summer sakura — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g358_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_pistol_behind.webp</image:loc>
+      <image:title>Beach summer pistol behind — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g359_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_gathering.webp</image:loc>
+      <image:title>Beach summer gathering — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g360_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_wet_market_dog.webp</image:loc>
+      <image:title>Beach summer wet market dog — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g361_victoria_vancouver_bc_canada_beach_summer_filmic_lens_photographer_red_cat.webp</image:loc>
+      <image:title>Beach summer red cat — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g362_Victoria_wedding_photography_dining_event_ballroom_girl_with_qipao.webp</image:loc>
+      <image:title>Dining event ballroom girl qipao — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g363_Victoria_wedding_photography_dining_event_ballroom_girl_with_rose.webp</image:loc>
+      <image:title>Dining event ballroom girl rose — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g364_Victoria_wedding_photography_dining_event_ballroom_lady_bartable_portrait.webp</image:loc>
+      <image:title>Event ballroom lady bartable portrait — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g365_Victoria_wedding_photography_dining_event_ballroom_parkside_bride.webp</image:loc>
+      <image:title>Dining event ballroom parkside bride — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g366_Victoria_wedding_photography_dining_event_ballroom_bridal_dress_bnw.webp</image:loc>
+      <image:title>Event ballroom bridal dress black and white — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g367_Victoria_wedding_photography_dining_event_ballroom_bride_with_polaroid.webp</image:loc>
+      <image:title>Dining event ballroom bride Polaroid — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g368_Victoria_wedding_photography_dining_event_ballroom_sunset_glow.webp</image:loc>
+      <image:title>Dining event ballroom sunset glow — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g369_Victoria_wedding_photography_dining_event_ballroom_sunset_glow_blind.webp</image:loc>
+      <image:title>Event ballroom sunset glow blind — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g370_Victoria_wedding_photography_dining_event_ballroom_love.webp</image:loc>
+      <image:title>Wedding dining event ballroom love — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g371_Victoria_wedding_photography_dining_event_ballroom_inner_harbour.webp</image:loc>
+      <image:title>Dining event ballroom inner harbour — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g372_Victoria_wedding_photography_dining_event_ballroom_hikki.webp</image:loc>
+      <image:title>Wedding dining event ballroom — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g373_Victoria_wedding_photography_dining_event_ballroom_vow_among_the_stars.webp</image:loc>
+      <image:title>Event ballroom vow among stars — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g374_Victoria_wedding_photography_dining_event_ballroom_orange_tone_dress.webp</image:loc>
+      <image:title>Event ballroom orange tone dress — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g375_Victoria_wedding_photography_dining_event_ballroom_bridge_on_koi_pool.webp</image:loc>
+      <image:title>Event ballroom bridge koi pool — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g376_Victoria_wedding_photography_dining_event_ballroom_D7.webp</image:loc>
+      <image:title>Wedding dining event ballroom — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g377_Victoria_wedding_photography_dining_event_ballroom_bridesmate_garden_dancing.webp</image:loc>
+      <image:title>Event ballroom bridesmaid garden dancing — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g378_Victoria_wedding_photography_dining_event_ballroom_bridesmate_garden_stairs.webp</image:loc>
+      <image:title>Event ballroom bridesmaid garden stairs — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g379_Victoria_wedding_photography_dining_event_ballroom_bridesmate_church.webp</image:loc>
+      <image:title>Dining event ballroom bridesmaid church — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g380_vancouver_the_quay_harbour.webp</image:loc>
+      <image:title>Quay harbour — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g381_vancouver_the_quay_harbour_hongkonger_event_chinese_medicine_herbal.webp</image:loc>
+      <image:title>Hongkonger event Chinese medicine herbal — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g382_vancouver_the_quay_harbour_demolish.webp</image:loc>
+      <image:title>Quay harbour demolish — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g27_dog_portrait_moment_capture_home.webp</image:loc>
+      <image:title>Dog portrait moment home</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g30_moment_joy_caring_wedding.webp</image:loc>
+      <image:title>Moment joy caring wedding</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g31_portrait_oldschool_traditional_emotions.webp</image:loc>
+      <image:title>Portrait old school traditional emotions</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g47_neighbour_unexpected_pitbull_pet_nighttime.webp</image:loc>
+      <image:title>Neighbour unexpected pitbull pet nighttime</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g94_Richmond_night_market_street_food_matsuri_photographer_japanese_vibe.webp</image:loc>
+      <image:title>Street food matsuri Japanese vibe — Richmond</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g110_Burnaby_metrotown_metropolis_mall_shopping_customer_scene_moment_streetphotographer_filmic_boy_girl.webp</image:loc>
+      <image:title>Customer scene moment boy girl — Burnaby</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g114_Vancouver_downtown_shopping_holt_renfrew_girl_chic_walking.webp</image:loc>
+      <image:title>Shopping holt girl chic walking — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g120_Vancouver_DT_Girl_Crossroad_street_Luxary_asian_photography_filmic.webp</image:loc>
+      <image:title>Downtown girl crossroad street luxury — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g201_Vancouver_richmond_canada_west_coast_chinese_easten_market_y2k_print_shop_girl_working.webp</image:loc>
+      <image:title>Y2k print shop girl working — Vancouver</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g225_Victoria_Canada_photograher_portrait_prewedding_city_street_china_town_grocery.webp</image:loc>
+      <image:title>Prewedding city street town grocery — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g281_wedding_victoria_vancouver_ontario_calgary_canada_black_and_white_moment_filmic_photography_wedding_victoria_vancouver_ontario_calgary_canada_black_and_white_moment_filmic_photography_hair_band.webp</image:loc>
+      <image:title>Black white moment hair band — Victoria</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/photos/g288_Vancouver_downtown_gastown_english_bay_photographe_filmic_street.webp</image:loc>
+      <image:title>Downtown English bay street — Vancouver</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://hikki.ca/jewel-gallery.html</loc>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w1-1400.webp</image:loc>
+      <image:title>Openwork filigree band printed in castable resin, still standing on its support pillars</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w2-1400.webp</image:loc>
+      <image:title>Printed band with milgrained stone seats, a second floral band behind it</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w3-1400.webp</image:loc>
+      <image:title>Ring pattern on its support tree, still attached to the build plate</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w4-1400.webp</image:loc>
+      <image:title>Three signet patterns with engraved intaglio faces</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w5-1400.webp</image:loc>
+      <image:title>Prong cups held up on their support pillars, close up</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w6-1400.webp</image:loc>
+      <image:title>Solitaire pattern with a printed stone and claw setting</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w7-1400.webp</image:loc>
+      <image:title>Ring pattern with a cluster head and prong seats</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://hikki.ca/jewel/wax/w8-1400.webp</image:loc>
+      <image:title>Winged openwork pattern, layered blades</image:title>
     </image:image>
   </url>
 </urlset>

@@ -1,32 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="en">
 <head>
+  <script>document.documentElement.className+=" js";</script>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-  <title>Gallery | hikki photography</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Gallery — portraits, weddings &amp; street photography | hikki</title>
 
-  <link rel="canonical" href="https://hikki.ca/gallery.html"/>
 
-  <meta name="description" content="hikki photography gallery — weddings, portraits, pets and cities across vancouver, hong kong and macau. honest, human, emotional photography."/>
-  <meta name="robots" content="index,follow,max-image-preview:large"/>
-  <meta name="author" content="hikki photography & philosophy"/>
-  <meta name="theme-color" content="#000000"/>
 
-  <meta property="og:type" content="website"/>
-  <meta property="og:site_name" content="hikki photography"/>
-  <meta property="og:title" content="gallery | hikki photography"/>
-  <meta property="og:description" content="weddings, portraits, pets and cities — honest, human, emotional photography."/>
-  <meta property="og:url" content="https://hikki.ca/gallery.html"/>
-  <meta property="og:image" content="https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp"/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=96"/>
-  <script src="site.js?v=96" defer></script>
-  <script src="gallery-data.js?v=96"></script>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="site.css?v=127"/>
+  <script src="site.js?v=127" defer></script>
+  <script src="gallery-data.js?v=127"></script>
 
   <style>
     :root {
@@ -87,7 +79,7 @@
     }
     .filter-btn:hover { color: #f1c232; }
     .filter-btn.active { border-bottom-color: var(--ivory); }
-    .fsep { color: rgba(244,242,240,.45); margin: 0 10px; font-size: 14px; user-select: none; }
+    .fsep { color: rgba(244,242,240,.45); margin: 0 10px; font-size: 14px; }
 
     /* ===== 藝廊與遮罩動畫 ===== */
     .gallery-wrapper {
@@ -230,18 +222,115 @@
       .ph { flex: 0 0 calc(33.33% - 6.7px); }
     }
 
+  
+    /* 減少動態：掃描線係會自己郁嘅，收起；■ 閃動同圖片淡入唔屬於
+       前庭刺激，照留（全站規則見 site.css）。 */
+    @media (prefers-reduced-motion: reduce) {
+      .ph-mask::before { animation: none !important; }
+    }
   </style>
+  <meta name="description" content="380 photographs across Vancouver, Victoria, Hong Kong and Macau — portraits, weddings, pets, street and architecture, shot on film and digital."/>
+  <link rel="canonical" href="https://hikki.ca/gallery.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="Gallery — portraits, weddings &amp; street photography | hikki"/>
+  <meta property="og:description" content="380 photographs across Vancouver, Victoria, Hong Kong and Macau — portraits, weddings, pets, street and architecture, shot on film and digital."/>
+  <meta property="og:url" content="https://hikki.ca/gallery.html"/>
+  <meta property="og:image" content="https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp"/>
+  <meta property="og:image:alt" content="A photograph by hikki"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Gallery — portraits, weddings &amp; street photography | hikki"/>
+  <meta name="twitter:description" content="380 photographs across Vancouver, Victoria, Hong Kong and Macau — portraits, weddings, pets, street and architecture, shot on film and digital."/>
+  <meta name="twitter:image" content="https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#101010"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ImageGallery","@id":"https://hikki.ca/gallery.html#gallery","name":"Photography — Vancouver, Victoria & Macau","description":"Portraits, weddings, pets, street and architecture photographed by hikki.","url":"https://hikki.ca/gallery.html","inLanguage":"en-CA","isPartOf":{"@id":"https://hikki.ca/#website"},"author":{"@id":"https://hikki.ca/#hikki"},"numberOfItems":380,"associatedMedia":[{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g1_vancouver_prewedding_cityview.webp","name":"Vancouver prewedding cityview — photograph by hikki, Vancouver","caption":"Vancouver prewedding cityview — photograph by hikki, Vancouver","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g2_hongkong_art_skyscraper.webp","name":"Hong Kong art skyscraper — photograph by hikki, Hong Kong","caption":"Hong Kong art skyscraper — photograph by hikki, Hong Kong","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g3_portrait_with_orange_tabby.webp","name":"Portrait orange tabby — photograph by hikki, Canada","caption":"Portrait orange tabby — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g4_black_and_white_dog_running.webp","name":"Black white dog running — photograph by hikki, Canada","caption":"Black white dog running — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g5_pet_owner_Wheatfield_family_photo.webp","name":"Pet owner wheatfield family photo — photograph by hikki, Canada","caption":"Pet owner wheatfield family photo — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g6_Portrait_film_Vintage.webp","name":"Portrait vintage — photograph by hikki, Canada","caption":"Portrait vintage — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g7_Kerrisdale_moment_poverty.webp","name":"Kerrisdale moment poverty — photograph by hikki, Canada","caption":"Kerrisdale moment poverty — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g8_macau_architecture_concrete.webp","name":"Macau architecture concrete — photograph by hikki, Macau","caption":"Macau architecture concrete — photograph by hikki, Macau","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g9_oriental_confused_moment_misty.webp","name":"Oriental confused moment misty — photograph by hikki, Canada","caption":"Oriental confused moment misty — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g10_asia_brutalist_textures_black_and_white.webp","name":"Asia brutalist textures black white — photograph by hikki, Asia","caption":"Asia brutalist textures black white — photograph by hikki, Asia","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g11_vancouver_kitsilano_lonely_fastfood.webp","name":"Vancouver Kitsilano lonely fastfood — photograph by hikki, Vancouver","caption":"Vancouver Kitsilano lonely fastfood — photograph by hikki, Vancouver","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g12_Shelti_smile_field_vancouver.webp","name":"Shelti smile field Vancouver — photograph by hikki, Vancouver","caption":"Shelti smile field Vancouver — photograph by hikki, Vancouver","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g13_young_girl_matcha_latte_ski_village_whistler_vancouver_snow_season.webp","name":"Young girl matcha latte ski village Whistler Vancouver snow season — photograph by hikki, Whistler","caption":"Young girl matcha latte ski village Whistler Vancouver snow season — photograph by hikki, Whistler","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g14_crane_poise_modern_construction.webp","name":"Crane poise modern construction — photograph by hikki, Canada","caption":"Crane poise modern construction — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g15_macau_alley_market_dreams.webp","name":"Macau alley market dreams — photograph by hikki, Macau","caption":"Macau alley market dreams — photograph by hikki, Macau","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g16_redline_utility_core_noise_barrier.webp","name":"Redline utility core noise barrier — photograph by hikki, Canada","caption":"Redline utility core noise barrier — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g17_wedding_photography_crew_victoria_BC.jpg","name":"Wedding crew Victoria BC — photograph by hikki, Victoria","caption":"Wedding crew Victoria BC — photograph by hikki, Victoria","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g18_courtyard_stillness_temple_bells.webp","name":"Courtyard stillness temple bells — photograph by hikki, Canada","caption":"Courtyard stillness temple bells — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g19_macau_brutalist_facade_raw_concrete.webp","name":"Macau brutalist facade raw concrete — photograph by hikki, Macau","caption":"Macau brutalist facade raw concrete — photograph by hikki, Macau","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g20_infrastructural_romance_deconstructivist_angles.webp","name":"Infrastructural romance deconstructivist angles — photograph by hikki, Canada","caption":"Infrastructural romance deconstructivist angles — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g21_light_warm_nightime.webp","name":"Light warm nightime — photograph by hikki, Canada","caption":"Light warm nightime — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g22_sunset_burnaby_streets_respite.webp","name":"Sunset Burnaby streets respite — photograph by hikki, Burnaby","caption":"Sunset Burnaby streets respite — photograph by hikki, Burnaby","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g23_wall_offset_grid_liminal_city.webp","name":"Wall offset grid liminal city — photograph by hikki, Canada","caption":"Wall offset grid liminal city — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"},{"@type":"ImageObject","contentUrl":"https://hikki.ca/photos/g24_Vinyl_silence_man_couple_wedding.jpg","name":"Vinyl silence man couple wedding — photograph by hikki, Canada","caption":"Vinyl silence man couple wedding — photograph by hikki, Canada","creditText":"hikki photography","creator":{"@id":"https://hikki.ca/#hikki"},"license":"https://hikki.ca/privacy.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},{"@type":"ListItem","position":2,"name":"Gallery","item":"https://hikki.ca/gallery.html"}]}</script>
 </head>
 <body>
-
-  <div class="filter-bar" role="toolbar" aria-label="gallery filters">
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+    <div class="filter-bar" role="toolbar" aria-label="gallery filters">
     <button class="filter-btn" data-filter="souls">souls</button><span class="fsep">/</span><button class="filter-btn" data-filter="times">times</button><span class="fsep">/</span><button class="filter-btn" data-filter="cities">cities</button><span class="fsep">/</span><button class="filter-btn" data-filter="friends">friends</button>
   </div>
 
   <main class="gallery-wrapper">
+    <!-- 標題用 .sr-only 收起：搜尋引擎同讀屏軟件攞得到，畫面上一隻字都唔見，
+         唔會破壞成版相。呢個係正規做法，唔係藏字——內容同頁面講嘅係同一件事。 -->
+    <h1 class="sr-only">Photography gallery — portraits, weddings, pets and street photography by hikki, Vancouver, Victoria and Macau</h1>
     <div class="gallery" id="mainGallery">
       </div>
-    <div class="load-more-wrap">
+      <noscript>
+    <h2>Selected photographs</h2>
+    <ul class="gal-static">
+      <li><img src="photos/g1_vancouver_prewedding_cityview.webp" alt="Prewedding city view — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g2_hongkong_art_skyscraper.webp" alt="Art skyscraper — Hong Kong" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g3_portrait_with_orange_tabby.webp" alt="Portrait orange tabby" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g4_black_and_white_dog_running.webp" alt="Black white dog running" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g5_pet_owner_Wheatfield_family_photo.webp" alt="Pet owner wheatfield family" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g6_Portrait_film_Vintage.webp" alt="Portrait vintage" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g7_Kerrisdale_moment_poverty.webp" alt="Moment poverty — Kerrisdale" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g8_macau_architecture_concrete.webp" alt="Architecture concrete — Macau" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g9_oriental_confused_moment_misty.webp" alt="Oriental confused moment misty" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g10_asia_brutalist_textures_black_and_white.webp" alt="Brutalist textures black white — Asia" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g11_vancouver_kitsilano_lonely_fastfood.webp" alt="Lonely fastfood — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g12_Shelti_smile_field_vancouver.webp" alt="Shelti smile field — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g13_young_girl_matcha_latte_ski_village_whistler_vancouver_snow_season.webp" alt="Latte ski village snow season — Whistler" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g14_crane_poise_modern_construction.webp" alt="Crane poise modern construction" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g15_macau_alley_market_dreams.webp" alt="Alley market dreams — Macau" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g16_redline_utility_core_noise_barrier.webp" alt="Redline utility core noise barrier" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g17_wedding_photography_crew_victoria_BC.jpg" alt="Wedding crew — Victoria" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g18_courtyard_stillness_temple_bells.webp" alt="Courtyard stillness temple bells" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g19_macau_brutalist_facade_raw_concrete.webp" alt="Brutalist facade concrete — Macau" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g20_infrastructural_romance_deconstructivist_angles.webp" alt="Infrastructural romance deconstructivist angles" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g21_light_warm_nightime.webp" alt="Light warm night" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g22_sunset_burnaby_streets_respite.webp" alt="Sunset streets respite — Burnaby" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g23_wall_offset_grid_liminal_city.webp" alt="Wall offset grid liminal city" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g24_Vinyl_silence_man_couple_wedding.jpg" alt="Vinyl silence man couple wedding" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g25_HongKong_Macau_architecture_heritage_city_of_dream_casion_concrete_brutalism_interior_design_flower_shop_florist_kiki.webp" alt="Design flower shop florist kiki — Hong Kong" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g26_shelti_mountain_northvan_hiking.webp" alt="Shelti mountain hiking — North Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g28_Vancouver_whistler_ski_village_glow_city_photographer_hill.webp" alt="Ski village glow city hill — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g29_portrait_couple_classic_love_wedding.webp" alt="Portrait couple classic love wedding" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g32_party_wedding_food_friendship.webp" alt="Party wedding food friendship" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g33_urban_cat_outdoor_owner.webp" alt="Urban cat outdoor owner" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g34_vow_wedding_preperation_moment.webp" alt="Vow wedding preperation moment" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g35_whistler_vancouver_street_photographer_rainbow_library_village_signage.webp" alt="Street rainbow library village signage — Whistler" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g36_adopted_stray_dog_mixed_rescued.webp" alt="Adopted stray dog mixed rescued" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g37_prefab_panels_ribbed_slab.webp" alt="Prefab panels ribbed slab" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g38_late_capital_vistas_concrete_jungle_dream.webp" alt="Capital vistas concrete jungle dream" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g39_gilmore_monochrome_city_highrise_intimacy.webp" alt="Monochrome city highrise intimacy — Gilmore" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g40_sound_wall_prefab_panels_west_end_beach_vancouver.webp" alt="Prefab panels west end beach — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g41_black_and_white_wedding_grand_dressing_timeless_breath.webp" alt="Wedding grand dressing timeless breath" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g42_victoria_marketsquare_photographer_model_art_lens.webp" alt="Market square model art — Victoria" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g43_dog_disability_running_speed_moment.webp" alt="Dog disability running speed moment" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g44_shelti_cornfield_sun_outdoor_love.webp" alt="Shelti cornfield sun outdoor love" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g45_blueberry_dog_korean_instragram.webp" alt="Blueberry dog korean Instagram" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g46_portrait_dog_pet_german.webp" alt="Portrait dog pet German" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g48_elegant_dog_hunt_river_white.webp" alt="Elegant dog hunt river white" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g49_dog_portrait_mountain_vancouver_capilano_commercial_photoshoot.webp" alt="Dog portrait mountain commercial — Vancouver" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g50_window_light_portrait_shadow_play_leading_lines_symmetry_balance.webp" alt="Play leading lines symmetry balance" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g51_Macau_asian_concrete_jungle.webp" alt="Concrete jungle — Macau" width="800" height="1200" loading="lazy"></li>
+      <li><img src="photos/g52_macau_bay_darkness_wings_storm.webp" alt="Bay darkness wings storm — Macau" width="800" height="1200" loading="lazy"></li>
+    </ul>
+  </noscript>
+  <div class="load-more-wrap">
       <button id="loadMore" class="load-more-btn">&gt;extract</button>
     </div>
     <div class="booking-wrap">
@@ -260,6 +349,15 @@
 
   <script>
     /* IMAGE_DATA 由 gallery-data.js 提供 */
+
+    /* 四欄（桌面）／兩欄（手機）→ 畀瀏覽器自己揀最細夠用嗰張 */
+    const SIZES = '(max-width:480px) 50vw, (max-width:900px) 33vw, 25vw';
+    const VAR_DIR = 'photos/r/';
+    function srcsetFor(item) {
+      if (!item.w || !item.w.length) return '';
+      const base = item.src.replace(/\.[^.]+$/, '');
+      return item.w.map(w => `${VAR_DIR}${base}-${w}.webp ${w}w`).join(', ');
+    }
 
     const BATCH_SIZE = 24;
     let currentOffset = 0;
@@ -322,10 +420,13 @@
         }
         
         const img = new Image();
-        img.alt = `hikki photography - ${item.cat.join(', ')}`;
+        img.alt = item.alt || `hikki photography - ${item.cat.join(', ')}`;
         img.decoding = 'async';
         img.loading = (currentOffset + i < 8) ? 'eager' : 'lazy';
         if (currentOffset + i < 8) img.setAttribute('fetchpriority', 'high');
+        /* responsive：手機以前硬食 1200px 去填一個 375px 嘅格 */
+        const ss = srcsetFor(item);
+        if (ss) { img.srcset = ss; img.sizes = SIZES; }
         img.src = PHOTO_DIR + item.src; /* 屬性設齊先至 set src，lazy/priority 先生效 */
         
         // 絕對湮滅法則：加載完成後移除遮罩節點
@@ -348,7 +449,7 @@
           };
         }
         
-        img.onclick = () => openLightbox(img.src);
+        img.onclick = () => openLightbox(img.src, img.alt);  /* .src = 原圖，唔係 srcset 揀嗰張 */
         
         container.appendChild(img);
         container.appendChild(mask);
@@ -398,7 +499,8 @@
       lightboxImg.src = lbList[lbIdx];
       lbPreload(lbIdx);
     }
-    function openLightbox(src) {
+    function openLightbox(src, alt) {
+      lightboxImg.alt = alt || 'expanded view';
       /* 導覽清單 = 而家喺頁面上、冇死圖嘅相（跟住 filter 同已 extract 嘅次序） */
       lbList = [...document.querySelectorAll('#mainGallery .ph img')]
         .filter(im => im.style.display !== 'none')

@@ -19,16 +19,21 @@
   :root { --hk-bar-h: 42px; }
 }
 
-/* ===== 全站：禁反白 / 禁選取 / 禁圖片拖拽 / 禁雙擊縮放 =====
-   （game 按鈕、對話選項、iching、jewel 戒指等互動元素照樣接收 tap/click，
-     唔受 user-select 影響；如個別位需要選字，加 class="hk-selectable"） */
+/* ===== 全站：文字一律揀得、複製得 =====
+   最後一批封鎖都拆咗：閃動嘅 ■（.hk-blink / .blink-block）同正文係
+   同一句嚟，封鎖佢等於 select 到一半就斷。而家淨係剩返真·裝飾層
+   （噪點、暗角、掃描線、極光）同兩隻操作件唔畀揀。
+   拖拉同縮放照舊封鎖：相唔拖得走，雙擊唔放得大。 */
 html { touch-action: manipulation; }               /* 禁雙擊放大 */
-body {
-  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
-  -webkit-touch-callout: none;                      /* iOS 長按選單 */
-}
+body { -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag: none; }
+.hk-nosel, .hk-nosel *,
+.hk-logo, .hk-menu-btn,
+.grain, .vig, .scan, .aur {
+  -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+}
 .hk-selectable, .hk-selectable * { -webkit-user-select: text; user-select: text; }
+::selection { background: rgba(241, 194, 50, .28); }
 
 .hk-blink { display: inline-block; animation: hkBlink 3s infinite; }
 @keyframes hkBlink { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
@@ -132,16 +137,72 @@ img, svg, video, model-viewer, canvas, pre { -webkit-user-drag: none; user-drag:
   display: block; width: 100%; text-align: left;
   font-family: var(--hk-font-sans); font-weight: 700;
   font-size: clamp(30px, 5.6vh, 54px);
-  letter-spacing: -0.02em; line-height: 1.28;
-  padding: clamp(3px, 0.6vh, 8px) 0;
+  letter-spacing: -0.02em; line-height: 1.22;
+  padding: clamp(2px, 0.42vh, 7px) 0;
   color: var(--hk-ink); text-decoration: none;
   touch-action: manipulation;
 }
 .hk-menu-list a:hover, .hk-menu-list button:hover { color: var(--hk-red); }
 /* 當前頁：.now class 由 site.js 標記（暫無視覺樣式，保留俾日後用） */
 
+/* ── photography 組：撳開先展開 about / gallery ── */
+.hk-grp-btn { display: flex !important; align-items: baseline; gap: .34em; }
+.hk-grp-caret {
+  font-style: normal; width: .5em; flex: 0 0 auto;
+  transition: transform .26s cubic-bezier(.3, .9, .35, 1);
+}
+.hk-grp-caret::before { content: '\203A'; }          /* › */
+.hk-grp.open .hk-grp-caret { transform: rotate(90deg); }
+
+.hk-sub {
+  list-style: none; margin: 0; padding: 0;
+  /* 兩個 li 要兩行都係 0fr，唔係淨係第一行 —— 第二個會跌入 implicit row */
+  display: grid; grid-template-rows: 0fr; grid-auto-rows: 0fr;
+  transition: grid-template-rows .3s cubic-bezier(.3, .9, .35, 1),
+              grid-auto-rows .3s cubic-bezier(.3, .9, .35, 1);
+}
+.hk-grp.open .hk-sub { grid-template-rows: 1fr; grid-auto-rows: 1fr; }
+.hk-sub > li { min-height: 0; overflow: hidden; border: 0 !important; }
+.hk-sub a {
+  font-size: clamp(16px, min(2.72vh, 6.1vw), 26px) !important;  /* 細一級，但同大標題一樣靠左 */
+  padding: 0 !important; line-height: 1.32 !important;
+  opacity: 0; transition: opacity .26s ease .04s;
+}
+.hk-grp.open .hk-sub a { opacity: 1; }
+.hk-grp.open .hk-sub { padding-bottom: clamp(4px, .8vh, 10px); }
+
+/* ── 比重：photography / jewel design 係主線，加大；
+   iching / macau17 / rainfall 係 side projects，收細、降對比，
+   一眼就分得出邊啲係搵嘢做、邊啲係玩。 ── */
+/* 字號同時夾住 vh 同 vw：純 vh 嘅話「jewel design」喺窄機會斷行，
+   斷咗行成個 menu 就裝唔落一屏。 */
+.hk-menu-list .hk-grp-btn { font-size: clamp(28px, min(5.5vh, 11.2vw), 56px); }
+/* 分層靠距離，唔靠淡色——用戶唔要灰字。
+   色一律唔寫死：繼承 .hk-menu 嘅 color，咁 rainfall / iching / sky /
+   console / 404 嗰啲紅黑 menu 自己覆寫完，呢兩行就跟住變橙紅，
+   唔會喺深底上面變咗隱形黑字。 */
+.hk-side-h {
+  border-bottom: 0 !important;
+  margin-top: clamp(12px, 2.6vh, 36px); padding-bottom: 3px;
+  font-family: var(--hk-font-mono); font-size: 10px;
+  letter-spacing: .2em; text-transform: uppercase;
+}
+.hk-side a {
+  font-size: clamp(14px, min(2.2vh, 4.8vw), 20px) !important;
+  letter-spacing: 0; line-height: 1.45 !important;
+  padding: clamp(2px, .32vh, 5px) 0 !important;
+}
+.hk-side a:hover { color: var(--hk-red); }
+/* 好矮嘅屏（iPhone SE 一代果類）：收返加大前嘅尺寸，唔好逼到要捲 */
+@media (max-height: 700px) {
+  .hk-sub a { font-size: clamp(14px, min(2.3vh, 5.2vw), 22px) !important; }
+  .hk-side-h { margin-top: clamp(7px, 1.5vh, 16px); }
+  .hk-menu-list .hk-grp-btn { font-size: clamp(25px, min(4.9vh, 10.4vw), 48px); }
+  .hk-menu-contact { margin-top: clamp(8px, 1.5vh, 18px) !important; }
+}
+
 /* Contact block（menu 下半部）——壓縮到保證成頁一屏裝晒 */
-.hk-menu-contact { margin-top: clamp(12px, 2.2vh, 28px); }
+.hk-menu-contact { margin-top: clamp(10px, 1.9vh, 26px); }
 .hk-menu-contact .hk-contact-head {
   font-family: var(--hk-font-sans); font-weight: 700;
   font-size: clamp(22px, 4vh, 40px);
@@ -272,8 +333,8 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
   -webkit-backdrop-filter: blur(20px) saturate(1.1);
   backdrop-filter: blur(20px) saturate(1.1);
   color: var(--hk-ivory);
-  padding: calc(var(--hk-bar-h) + clamp(12px, 2vh, 24px)) var(--hk-pad-x) clamp(14px, 2.5vh, 24px);
-  overflow: hidden;
+  padding: calc(var(--hk-bar-h) + clamp(12px, 2vh, 24px)) var(--hk-pad-x) clamp(20px, 4vh, 40px);
+  overflow-y: auto; overscroll-behavior: contain;   /* 內容高過畫面就捲，唔好再互疊 */
   visibility: hidden; pointer-events: none;
   transform: translateX(102%);
   transition: transform .4s cubic-bezier(.22, .8, .3, 1), visibility .4s;
@@ -285,59 +346,145 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
 .hk-enq-panel input, .hk-enq-panel textarea, .hk-enq-panel button {
   -webkit-user-select: text; user-select: text;   /* 蓋過全站 user-select:none */
 }
+/* ══════════════════════════════════════════════════════════════
+   查詢面板
+   一套字階、一套灰階，唔再每個元素自己定一個大細。
+   ══════════════════════════════════════════════════════════════ */
+.hk-enq-panel {
+  /* 字階 */
+  --enq-label: 11px;        /* >name 之類欄位名 */
+  --enq-field: 15px;        /* 用家打嘅字 */
+  --enq-chip:  12px;        /* type 揀項 */
+  --enq-meta:  12px;        /* 狀態訊息 */
+  /* 灰階 */
+  --enq-dim:   rgba(244, 242, 240, .42);
+  --enq-mid:   rgba(244, 242, 240, .62);
+  --enq-line:  rgba(244, 242, 240, .22);
+  /* 行距節奏：每一行之間用同一個數 */
+  --enq-gap:   clamp(18px, 3.2vh, 30px);
+}
 .hk-enq-close {
-  position: absolute; top: clamp(8px, 1.6vh, 14px); right: var(--hk-pad-x);
+  position: absolute; top: clamp(10px, 2vh, 18px); right: var(--hk-pad-x);
+  z-index: 2;
   appearance: none; background: none; border: 0; cursor: pointer;
   font-family: var(--hk-font-mono); font-weight: 400;
-  color: var(--hk-ivory); font-size: 24px; line-height: 1;
-  padding: 6px 0 6px 12px; touch-action: manipulation;
+  color: var(--enq-mid); font-size: 22px; line-height: 1;
+  width: 44px; height: 44px;                   /* 夠大先撳得準 */
+  display: flex; align-items: center; justify-content: center;
+  transition: color .2s; touch-action: manipulation;
 }
-.hk-enq-close:hover { color: var(--hk-orange); }
-.hk-enq-form { max-width: 560px; width: 100%; margin: 0 auto; font-family: var(--hk-font-mono); }
-.hk-enq-head {
-  font-family: var(--hk-font-sans); font-weight: 700;
-  font-size: clamp(26px, 4.6vh, 44px); letter-spacing: -0.02em; line-height: 1.1;
-  margin-bottom: clamp(4px, 1vh, 10px);
-}
-/* connecting… 三點輪流閃（game 效果） */
-.hk-enq-sub .hk-enq-cite { display: block; margin-top: 3px; color: rgba(244, 242, 240, 0.35); }
-.hk-enq-row { display: flex; gap: 14px; align-items: baseline; margin-bottom: clamp(9px, 1.7vh, 16px); }
-.hk-enq-row > span { flex: 0 0 auto; width: 78px; color: rgba(244, 242, 240, 0.5); font-size: 13px; }
-.hk-enq-row input, .hk-enq-row textarea {
-  flex: 1; min-width: 0; background: none; border: 0;
-  border-bottom: 1px solid rgba(244, 242, 240, 0.3);
-  color: var(--hk-ivory); font-family: var(--hk-font-mono); font-size: 15px;
-  padding: 4px 0; outline: none;
-}
-.hk-enq-row textarea { resize: vertical; line-height: 1.6; }
-.hk-enq-row input:focus, .hk-enq-row textarea:focus { border-bottom-color: var(--hk-orange); }
-.hk-enq-msg { align-items: stretch; }
-.hk-enq-opts { display: flex; flex-wrap: wrap; gap: 8px; }
-.hk-enq-opts button {
-  appearance: none; background: none; cursor: pointer;
-  border: 1px solid rgba(244, 242, 240, 0.3); color: rgba(244, 242, 240, 0.7);
-  font-family: var(--hk-font-mono); font-size: 12px; padding: 5px 11px;
-  transition: color .2s, border-color .2s; touch-action: manipulation;
-}
-.hk-enq-opts button:hover { border-color: var(--hk-orange); }
-.hk-enq-opts button.on { border-color: var(--hk-orange); color: var(--hk-orange); }
-.hk-enq-send {
-  margin-top: clamp(12px, 2.4vh, 22px);
-  appearance: none; background: none; border: 0; cursor: pointer;
-  color: var(--hk-ivory); font-family: var(--hk-font-mono); font-size: 18px;
-  padding: 6px 0; touch-action: manipulation;
-}
-.hk-enq-send:hover { color: var(--hk-orange); }
-.hk-enq-note { margin-top: 8px; font-size: 12px; color: rgba(244, 242, 240, 0.5); min-height: 1em; }
-@media (max-width: 767px) {
-  .hk-enq-row { flex-direction: column; gap: 2px; align-items: stretch; margin-bottom: clamp(8px, 1.5vh, 14px); }
-  .hk-enq-row > span { width: auto; }
-  .hk-enq-head { font-size: clamp(24px, 5vw, 34px); }
+.hk-enq-close:hover, .hk-enq-close:focus-visible { color: var(--hk-orange); }
+
+.hk-enq-form {
+  max-width: 520px; width: 100%; margin: auto;
+  font-family: var(--hk-font-mono);
+  padding: clamp(8px, 2vh, 20px) 0;
 }
 
-/* 減少動態：尊重系統設定（rotator 係內容輪換，唔喺豁免之列） */
+/* ── 標題：connecting → connected ── */
+.hk-enq-head {
+  font-family: var(--hk-font-sans); font-weight: 700;
+  font-size: clamp(30px, 5vh, 46px); letter-spacing: -0.025em; line-height: 1;
+  color: var(--hk-ivory);
+  display: flex; align-items: baseline;
+  transition: color .45s ease;
+}
+.hk-enq-head.is-connected { color: var(--hk-orange); }
+/* 三點＝三粒指示燈，慢慢輪流著，唔再逐個「出現」。
+   三粒永遠佔位，所以 connecting 個字唔會跳。 */
+.hk-enq-dots { font-style: normal; display: inline-flex; }
+.hk-enq-dots b { font-weight: inherit; opacity: .16;
+  animation: enqLamp 3s ease-in-out infinite; }
+.hk-enq-dots b:nth-child(2) { animation-delay: 1s; }
+.hk-enq-dots b:nth-child(3) { animation-delay: 2s; }
+@keyframes enqLamp { 0%, 100% { opacity: .16; } 30%, 44% { opacity: 1; } }
+.hk-enq-head.is-connected .hk-enq-dots { display: none; }
+
+.hk-enq-sub {
+  margin: 10px 0 calc(var(--enq-gap) * 1.25);
+  font-size: var(--enq-meta); line-height: 1.75; color: var(--enq-dim);
+  max-width: 44ch;
+}
+
+/* ── 一行一欄：欄名同輸入格 ── */
+.hk-enq-row {
+  display: grid; grid-template-columns: 82px minmax(0, 1fr);
+  gap: 4px 16px; align-items: center;
+  margin-bottom: var(--enq-gap);
+}
+.hk-enq-row > span {
+  font-size: var(--enq-label); letter-spacing: .1em;
+  color: var(--enq-dim); line-height: 1.6;
+}
+.hk-enq-row input, .hk-enq-row textarea {
+  min-width: 0; background: none; border: 0;
+  border-bottom: 1px solid var(--enq-line);
+  color: var(--hk-ivory); font-family: var(--hk-font-mono);
+  font-size: var(--enq-field); line-height: 1.5;
+  padding: 7px 0; outline: none;
+  transition: border-color .2s;
+}
+.hk-enq-row input::placeholder, .hk-enq-row textarea::placeholder { color: var(--enq-dim); }
+.hk-enq-row textarea { resize: vertical; min-height: 5.4em; }
+.hk-enq-row input:focus, .hk-enq-row textarea:focus { border-bottom-color: var(--hk-orange); }
+.hk-enq-row input[aria-invalid="true"], .hk-enq-row textarea[aria-invalid="true"] {
+  border-bottom-color: var(--hk-orange);
+}
+.hk-enq-msg { align-items: start; }
+.hk-enq-msg > span { padding-top: 7px; }
+
+/* ── type：三個揀項 ── */
+.hk-enq-opts { display: flex; flex-wrap: wrap; gap: 8px; padding: 2px 0; }
+.hk-enq-opts button {
+  appearance: none; background: none; cursor: pointer;
+  border: 1px solid var(--enq-line); border-radius: 2px;
+  color: var(--enq-mid);
+  font-family: var(--hk-font-mono); font-size: var(--enq-chip);
+  letter-spacing: .04em; line-height: 1;
+  padding: 9px 13px;                            /* 夠高，手指撳得中 */
+  transition: color .2s, border-color .2s; touch-action: manipulation;
+}
+.hk-enq-opts button:hover { border-color: var(--enq-mid); color: var(--hk-ivory); }
+.hk-enq-opts button.on { border-color: var(--hk-orange); color: var(--hk-orange); }
+
+/* ── 送出 ── */
+.hk-enq-foot {
+  margin-top: calc(var(--enq-gap) * 1.5);   /* 靠距離分隔，唔再加多條線 */
+}
+.hk-enq-send {
+  appearance: none; background: none; cursor: pointer;
+  border: 1px solid var(--enq-line); border-radius: 2px;
+  color: var(--hk-ivory); font-family: var(--hk-font-mono);
+  font-size: 14px; letter-spacing: .06em;
+  padding: 12px 22px;
+  transition: color .2s, border-color .2s; touch-action: manipulation;
+}
+.hk-enq-send:hover:not(:disabled) { color: var(--hk-orange); border-color: var(--hk-orange); }
+.hk-enq-send:disabled { opacity: .45; cursor: default; }
+.hk-enq-note {
+  margin-top: 12px; font-size: var(--enq-meta); line-height: 1.6;
+  color: var(--enq-mid); min-height: 1.6em;
+}
+@media (max-width: 767px) {
+  .hk-enq-panel { --enq-gap: clamp(16px, 2.6vh, 24px); }
+  .hk-enq-row { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+  .hk-enq-msg > span { padding-top: 0; }
+  .hk-enq-head { font-size: clamp(28px, 8vw, 38px); }
+  .hk-enq-send { width: 100%; text-align: center; }
+}
+
+/* ===== 減少動態：尊重系統設定 =====
+   以前只熄三個 panel transition，閃動嘅 ■ 同各頁動畫照行。
+   WCAG 2.2.2：任何閃動／移動超過五秒都要停得到。 */
+/* 系統開咗「減少動態」嗰陣，以前呢度用 `*` 一刀切熄晒所有動畫同過渡。
+   結果連左上角個 ■ 方塊、console 嘅錶針都一齊死埋——嗰啲係純 opacity
+   閃動同用戶自己扭出嚟嘅指針，面積細、唔會引起前庭不適，而且本身就係
+   呢個網站嘅語言。prefers-reduced-motion 針對嘅係「郁位」，唔係所有動畫，
+   所以而家只收起真係會郁嘅嘢（掃描線、跑馬燈、漂浮光斑、自動捲動），
+   每頁自己嘅位移動畫喺嗰頁自己處理。 */
 @media (prefers-reduced-motion: reduce) {
   .hk-menu, .hk-about, .hk-enq-panel { transition: none; }
+  html { scroll-behavior: auto !important; }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -408,3 +555,33 @@ button.hk-enq { appearance: none; background: none; border: 0; font: inherit; pa
 /* 窄屏冇位：儀器頁面底部已經排滿，寧願唔出都唔可以疊。 */
 @media (max-width: 900px) { .hk-tty { display: none; } }
 @media print { .hk-tty { display: none !important; } }
+
+/* 蜜罐：唔可以用 display:none（部分機械人會跳過），要移出畫面 */
+.hk-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ===== 冇 JS 時嘅後備導航 =====
+   全站 header／menu／聯絡資料都係 site.js 動態砌，以前 JS 一掛就
+   連返首頁都撳唔到。呢條 nav 寫死喺 HTML，爬蟲亦都跟得到。 */
+.hk-fallback-nav {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 1;
+  display: flex; flex-wrap: wrap; gap: 4px 16px;
+  padding: 10px var(--hk-pad-x, 16px);
+  font-family: var(--hk-font-mono); font-size: 12px;
+  background: #0b0705; color: #f4f2f0;
+}
+.hk-fallback-nav a { color: inherit; text-decoration: underline; }
+html.js .hk-fallback-nav { display: none; }        /* JS 上到場就收返 */
+.hk-noscript {
+  position: relative; z-index: 1;
+  margin: 46px var(--hk-pad-x, 16px) 0;
+  font-family: var(--hk-font-mono); font-size: 13px; line-height: 1.7;
+  color: #f4f2f0;
+}
+
+/* ===== 鍵盤焦點 =====
+   之前除咗 index 之外冇一頁有 focus 樣式，用鍵盤行完全唔知自己喺邊。 */
+:focus-visible {
+  outline: 2px solid var(--hk-gold, #f1c232);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

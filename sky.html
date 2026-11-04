@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
+  <script>document.documentElement.className+=" js";</script>
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>sky | hikki photography</title>
+  <title>Sky — the twenty-eight lunar mansions | hikki</title>
   <link rel="icon" href="/favicon.png" type="image/png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/site.css?v=96"/>
-  <script src="/site.js?v=96" defer></script>
+  <link rel="stylesheet" href="/site.css?v=127"/>
+  <script src="/site.js?v=127" defer></script>
   <style>
     *{ margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -198,8 +200,45 @@
       .sky-doc .tbl{ font-size:9.5px; line-height:1.65; white-space:pre-wrap; }
     }
   </style>
+  <meta name="description" content="A real-time star chart of the Chinese twenty-eight lunar mansions, drawn from J2000 catalogue positions for Macau or Victoria BC."/>
+  <link rel="canonical" href="https://hikki.ca/sky.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="Sky — the twenty-eight lunar mansions | hikki"/>
+  <meta property="og:description" content="A real-time star chart of the Chinese twenty-eight lunar mansions, drawn from J2000 catalogue positions for Macau or Victoria BC."/>
+  <meta property="og:url" content="https://hikki.ca/sky.html"/>
+  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta property="og:image:alt" content="A photograph by hikki"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Sky — the twenty-eight lunar mansions | hikki"/>
+  <meta name="twitter:description" content="A real-time star chart of the Chinese twenty-eight lunar mansions, drawn from J2000 catalogue positions for Macau or Victoria BC."/>
+  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#101010"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Sky","url":"https://hikki.ca/sky.html","description":"A real-time chart of the Chinese twenty-eight lunar mansions.","applicationCategory":"EntertainmentApplication","operatingSystem":"Web browser","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},"author":{"@id":"https://hikki.ca/#hikki"},"isPartOf":{"@id":"https://hikki.ca/#website"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},{"@type":"ListItem","position":2,"name":"Sky","item":"https://hikki.ca/sky.html"}]}</script>
 </head>
 <body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
   <div class="chart-wrap">
     <svg id="sky" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"
          aria-label="二十八宿星圖">

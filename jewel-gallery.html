@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.className+=" js";</script>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Jewel gallery — bespoke rings &amp; keepsakes | hikki</title>
+
+
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="site.css?v=127"/>
+  <script src="site.js?v=127" defer></script>
+  <script src="game-logos.js?v=127"></script>
+  <!-- Google model-viewer（自托管，冇第三方依賴） -->
+  <script type="module" src="model-viewer.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --hk-bar-alpha: 0.92; --char: #161616; }
+    html, body {
+      height: 100%;
+      background: var(--char); color: var(--hk-ivory);
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+    body { font-family: var(--hk-font-mono); }
+    .blink-block { display: inline-block; animation: hkBlink 3s infinite; }
+
+    /* ===== 桌面：戒指精準貫穿標題正中（sohub 式） ===== */
+    .stage {
+      position: fixed; inset: 0;
+      height: 100vh; height: 100dvh;
+      display: flex; flex-direction: column;
+      padding: calc(var(--hk-bar-h) + clamp(10px, 2vh, 24px)) var(--hk-pad-x) clamp(16px, 3vh, 32px);
+      max-width: 1440px; margin: 0 auto; width: 100%;
+      left: 50%; transform: translateX(-50%);
+    }
+
+    /* hero：戒指佔滿 header 以下、meta 以上嘅全部空間；標題+詩句靠左疊喺上層 */
+    .hero {
+      flex: 1; min-height: 0; position: relative;
+    }
+
+    /* 標題 + 詩句：靠左，垂直置於戒指預設高度約一半，戒指覆疊 */
+    .title-block {
+      position: absolute; left: 0; right: 0; z-index: 1;
+      top: 50%; transform: translateY(-52%);
+      pointer-events: none;
+    }
+    h1 {
+      font-family: var(--hk-font-sans); font-weight: bold;
+      font-size: clamp(72px, min(15vw, 25vh), 264px);
+      line-height: 0.84; letter-spacing: -0.03em;
+      color: var(--hk-ivory);
+      white-space: nowrap;
+      position: relative; left: -0.04ch;
+      /* 唔接收點擊，避免誤點阻礙拖拉；但揀得、copy 得 */
+      pointer-events: none;
+    }
+    .haiku {
+      margin-top: clamp(0px, 0.3vh, 4px);        /* 更貼近標題 */
+      font-family: var(--hk-font-ja); font-weight: 200;
+      font-size: clamp(13px, 1.62vw, 23px); line-height: 1.5;   /* 桌面放大（比原 20px 大） */
+      letter-spacing: 0.04em; text-align: left;
+      color: rgba(244,242,240,.82);
+      max-width: 40%;                             /* 喺 reima 之後、g 勾子之前收筆 */
+      white-space: nowrap;
+    }
+
+    /* 模型：填滿整個 hero，攞盡展示空間 */
+    .mv-wrap {
+      position: absolute; inset: 0; z-index: 2;
+    }
+    model-viewer {
+      width: 100%; height: 100%;
+      --poster-color: transparent;
+      background: transparent;
+      outline: none;
+    }
+
+    /* 載入遮罩：乾卦六爻進度條（iching 燈箱風，橙色） */
+    .mv-mask {
+      position: absolute; inset: 0; z-index: 5;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      pointer-events: none;
+      transition: opacity .4s ease; opacity: 1;
+    }
+    .mv-mask.off { opacity: 0; }
+    .load-hex {
+      display: flex; flex-direction: column-reverse; gap: 6px;
+      width: clamp(96px, 12vw, 150px);
+    }
+    .load-hex i {
+      display: block; height: 7px;
+      background: rgba(231,76,60,.14);
+      transition: background .3s ease, box-shadow .3s ease;
+    }
+    .load-hex i.on {
+      background: #e74c3c;                                   /* 橙 */
+      box-shadow: 0 0 5px rgba(231,76,60,.6), 0 0 18px rgba(231,76,60,.28); /* 燈箱透光 */
+    }
+    .load-pct {
+      margin-top: 12px;
+      font-family: var(--hk-font-mono); font-size: 12px; letter-spacing: 0.04em;
+      color: #e74c3c; text-align: center;
+    }
+
+    /* 下段：左戒指名單｜中 ASCII 燈箱｜右規格
+       ad 同 specs 用固定同闊欄，切換戒指時位置永遠唔郁 */
+    .meta-row {
+      position: relative; z-index: 6;
+      --mcol: clamp(206px, 18vw, 236px);
+      --mrow: 20.4px;                 /* 兩欄共用嘅行高：名單同 specs 行對行 */
+      display: grid;
+      grid-template-columns: 1fr var(--mcol) var(--mcol);
+      grid-template-areas: "sub ad specs";
+      gap: clamp(20px, 4vw, 56px); align-items: end;
+    }
+    .left  { grid-area: sub; }
+    .specs { grid-area: specs; }
+
+    /* ASCII 燈箱（用 game 嘅 LOGOS，ivory 色）；置中、與資訊欄同闊、底部對齊 */
+    .ad {
+      grid-area: ad; position: relative; overflow: hidden;
+      width: 100%; height: 88px; align-self: end;
+    }
+    .ad-wrap { position: absolute; inset: 0; }
+    .ad-logo {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: 50% 50%;
+      white-space: pre; margin: 0; line-height: 1;
+      font-family: var(--hk-font-mono); font-size: 8px;
+      color: rgba(244,242,240,.5);
+      pointer-events: none;
+    }
+    /* 戒指名單：直排，行距同右邊 specs 一樣（12px × 1.7 ≈ 11px × 1.85），
+       所以兩欄行對行。未出嘅款用 .slot 由上面填落嚟——兩欄都係底對齊，
+       填夠就連頂部都平齊，唔會得兩行名吊喺一片空位入面。 */
+    .switch { font-size: 12px;
+      display: flex; flex-direction: column; align-items: flex-start; }
+    .switch button, .switch .slot {
+      display: block; font-family: var(--hk-font-mono); font-size: 12px;
+      /* 行高減返條底線嘅 1px，六行加埋啱啱 6 × --mrow，同 specs 一樣高 */
+      line-height: calc(var(--mrow) - 1px); padding: 0; white-space: nowrap;
+      border-bottom: 1px solid transparent;
+    }
+    .switch button {
+      appearance: none; border-width: 0 0 1px; border-style: solid;
+      background: none; cursor: pointer;
+      color: rgba(244,242,240,.55);
+      transition: color .2s, border-color .2s;
+      touch-action: manipulation;
+    }
+    .switch button:hover { color: var(--hk-gold); }
+    .switch button.on { color: var(--hk-ivory); border-bottom-color: var(--hk-ivory); }
+    /* 佔位行：淡到幾乎隱形，一睇就知係空格而唔係撳得嘅款 */
+    .switch .slot { color: rgba(244,242,240,.18); cursor: default; }
+    .switch .sep { display: none; }
+
+    .specs {
+      width: 100%;
+      font-family: var(--hk-font-mono); font-size: 11px; line-height: var(--mrow);
+      letter-spacing: -0.01em; white-space: pre; overflow: hidden;
+      color: rgba(244,242,240,.88);
+      text-align: left;
+    }
+
+    /* specs 內「contact for detail」＝ enq 觸發（金字，由 site.js 委派） */
+    .specs .hk-enq { color: var(--hk-gold); text-decoration: none; }
+    .specs .hk-enq:hover { color: var(--hk-ivory); border-bottom-color: var(--hk-ivory); }
+    /* 版權：桌面在 pinch-to-zoom 下面（bottom-left），手機在頁面底部 */
+    .copyright {
+      position: relative; z-index: 6;
+      margin-top: clamp(6px, 1vh, 10px);
+      font-family: var(--hk-font-mono); font-size: 11px; letter-spacing: -0.005em;
+      color: rgba(244,242,240,.5);
+    }
+    .copyright a { color: inherit; }
+    .copyright a:hover { color: var(--hk-gold); }
+
+
+    /* ═══════════════ 蠟模 gallery ═══════════════
+       兩版用同一個 URL：黑底嗰版係 3D，淡紫底嗰版係蠟模相。
+       右上角一隻掣互相去返對面——黑底上面係淡紫字，淡紫底上面係銀色字。
+       轉場唔係 fade：淡紫由下面長出一排 3D 打印支柱，跟住成片浸上嚟
+       食晒塊黑，直接變成蠟模 gallery 嘅底色。返轉頭就係倒帶。 */
+    :root {
+      --wax: #d2cae6;            /* 蠟模 gallery 底色 */
+      --wax-ink: #2b2733;
+      --lilac: #cbbfe6;          /* 黑底上面嗰隻淡紫 */
+    }
+
+    /* 角落掣：貼住 1440 內欄嘅右邊，同 stage 同一條線，唔係貼住窗邊。
+       原本得一行字，冇人知撳得——而家加返個框、有內距、有 hover 反白，
+       同埋前面一粒細方塊（全站都係用 ■ 做「呢度有嘢」嘅記號）。 */
+    .corner {
+      position: fixed; z-index: 7000;
+      top: calc(var(--hk-bar-h) + clamp(10px, 2.2vh, 26px));
+      right: max(var(--hk-pad-x), calc((100vw - 1440px) / 2 + var(--hk-pad-x)));
+      appearance: none; background: none; cursor: pointer;
+      touch-action: manipulation;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 13px;
+      font-family: var(--hk-font-mono); font-size: 11px;
+      letter-spacing: 0.22em; text-transform: uppercase; line-height: 1;
+      border: 1px solid currentColor;
+      transition: background-color .22s ease, color .22s ease,
+                  border-color .22s ease, box-shadow .22s ease;
+    }
+    .corner::before {
+      content: ''; width: 5px; height: 5px; flex: 0 0 auto;
+      background: currentColor;
+      animation: hkBlink 3s infinite;       /* 同全站嗰粒 ■ 同一個拍子 */
+    }
+    .corner:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+    /* 黑底嗰邊：淡紫框淡紫字，hover 入面填滿，字變返黑 */
+    .corner-wax { color: var(--lilac); border-color: rgba(203,191,230,.55); }
+    .corner-wax:hover, .corner-wax:focus-visible {
+      background: var(--lilac); border-color: var(--lilac); color: #161616;
+      box-shadow: 0 0 22px rgba(203,191,230,.22);
+    }
+
+    /* 淡紫底嗰邊：銀框銀字，hover 填深鋼，字變返淡紫 */
+    .corner-silver { color: #474c54; border-color: rgba(71,76,84,.5); }
+    .corner-silver:hover, .corner-silver:focus-visible {
+      background: #474c54; border-color: #474c54; color: var(--wax);
+    }
+    /* 銀：深鋼→亮邊嘅漸變剪落字度。基準色夠深，喺淡紫底上面仲睇得清楚。
+       唔支援 background-clip:text 嘅瀏覽器就跌返落上面嗰隻實色。
+       注意：漸變剪字一定要同 hover 填底分開——兩樣都用 background，
+       撞埋一齊就會變成「填底嗰隻色剪成字形」，即係乜都見唔到。 */
+    @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+      .corner-silver .lb {
+        background: linear-gradient(104deg, #3b4048 0%, #9aa1a9 36%, #434850 58%, #878e96 100%);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .corner-silver:hover .lb, .corner-silver:focus-visible .lb {
+        background: none; -webkit-text-fill-color: var(--wax);
+      }
+    }
+
+    .waxg {
+      position: fixed; inset: 0; z-index: 7500;
+      background: var(--wax); color: var(--wax-ink);
+      display: flex; align-items: center; justify-content: center;
+      padding: calc(var(--hk-bar-h) + clamp(26px, 5vh, 46px)) var(--hk-pad-x) clamp(24px, 5vh, 46px);
+    }
+    .waxg[hidden] { display: none; }
+    .waxg .corner { z-index: 10; }
+
+    /* 細細哋一個 gallery：四欄兩行，冇名冇標籤 */
+    .waxg-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: clamp(8px, 1.3vw, 16px);
+      width: min(720px, 88vw);
+    }
+    .waxg-grid button {
+      appearance: none; border: 0; padding: 0; display: block;
+      background: #bdb3d6; aspect-ratio: 1; overflow: hidden;
+      cursor: zoom-in; touch-action: manipulation;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .42s ease, transform .42s ease;
+    }
+    .waxg.lit .waxg-grid button { opacity: 1; transform: none; }
+    .waxg-grid img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s cubic-bezier(.2,.7,.2,1);
+    }
+    .waxg-grid button:hover img { transform: scale(1.06); }
+    .waxg-grid button:focus-visible { outline: 2px solid var(--wax-ink); outline-offset: 3px; }
+
+    /* 放大：同一塊淡紫底，淨係張相大咗。撳邊度都返得去 gallery */
+    .waxg-zoom {
+      position: fixed; inset: 0; z-index: 20; background: var(--wax);
+      display: flex; align-items: center; justify-content: center;
+      padding: calc(var(--hk-bar-h) + 24px) var(--hk-pad-x) 24px;
+      cursor: zoom-out;
+      opacity: 0; visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .waxg-zoom.on { opacity: 1; visibility: visible; }
+    .waxg-zoom img {
+      max-width: min(1040px, 100%); max-height: 100%;
+      object-fit: contain; display: block;
+      transform: scale(.97); transition: transform .34s cubic-bezier(.2,.7,.2,1);
+    }
+    .waxg-zoom.on img { transform: none; }
+
+    /* ── 支柱樹轉場：跟 SLA 樹脂支撐嘅長法 ──
+       底板長一枝粗主幹上去，主幹一路向上，左右分出斜向上嘅幼枝，
+       幼枝再分更幼嘅，末端收成一粒接觸點。唔係一排針。 */
+    .grow {
+      position: fixed; inset: 0; z-index: 8800;
+      pointer-events: none; overflow: hidden; display: none;
+    }
+    .grow.run { display: block; }
+    .grow svg {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+    }
+    .grow path {
+      fill: none; stroke: var(--wax);
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .grow circle { fill: var(--wax); }      /* 末端接觸點 */
+    .grow .flood {                          /* 跟住浸上嚟嗰片 */
+      position: absolute; left: 0; right: 0; bottom: 0; height: 100%;
+      background: var(--wax);
+      transform-origin: 50% 100%; transform: scaleY(0);
+    }
+
+    @media (max-width: 767px) {
+      .waxg-grid { grid-template-columns: repeat(2, 1fr); width: min(360px, 80vw); }
+      .waxg { padding: calc(var(--hk-bar-h) + 40px) 20px 28px; }
+      .corner { font-size: 10px; right: 20px; padding: 6px 11px; gap: 7px; }
+    }
+
+    /* ===== 手機：header 下 2/3 標題+詩句+戒指，下 1/3 = 左戒指名 / 右資訊 ===== */
+    @media (max-width: 767px) and (orientation: portrait) {
+      html, body { overflow: hidden; }
+      .stage {
+        position: fixed; inset: 0; left: 0; transform: none;
+        height: 100dvh;
+        padding: calc(var(--hk-bar-h) + 12px) 20px 16px;
+      }
+      .hero { flex: 1 1 auto; min-height: 0; }     /* grow：戒指佔上方大部分 */
+      h1 { font-size: min(16vw, 96px); white-space: normal; text-align: left; line-height: 0.88; }
+      .haiku { font-size: 11px; line-height: 1.6; max-width: 46%; }   /* 手機縮小、貼近標題、g 勾子前收筆 */
+      .meta-row {
+        flex: 0 0 auto; min-height: 0;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "sub  specs"
+          "sub  ad";                               /* 資訊在上、燈箱在下（換位） */
+        gap: 10px 14px;
+        align-items: end; align-content: end;
+      }
+      /* 左欄撐滿高度：名單貼住頂，第一行同右邊 OBJECT 嗰行平齊 */
+      .left { align-self: stretch; display: flex; flex-direction: column; justify-content: flex-start; }
+      .meta-row { --mrow: 16.6px; }                /* 手機嘅共用行高 */
+      .switch { font-size: 11px; }
+      .specs { font-size: 9.5px; }
+      .ad { width: min(46vw, 210px); height: 60px; justify-self: end; align-self: end; }
+      /* 版權：整個下方結構升起，版權留喺頁面底部 */
+      .copyright { flex: 0 0 auto; margin-top: clamp(12px, 3vh, 26px); font-size: 10px; }
+    }
+  </style>
+  <meta name="description" content="Bespoke jewellery design by hikki: signet and camellia rings modelled in 3D, made to order. Turn the ring, see the wax pattern, and enquire."/>
+  <link rel="canonical" href="https://hikki.ca/jewel-gallery.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="Jewel gallery — bespoke rings &amp; keepsakes | hikki"/>
+  <meta property="og:description" content="Bespoke jewellery design by hikki: signet and camellia rings modelled in 3D, made to order."/>
+  <meta property="og:url" content="https://hikki.ca/jewel-gallery.html"/>
+  <meta property="og:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta property="og:image:alt" content="Three signet patterns printed in castable wax resin"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Jewel gallery — bespoke rings &amp; keepsakes | hikki"/>
+  <meta name="twitter:description" content="Bespoke jewellery design by hikki: signet and camellia rings modelled in 3D, made to order."/>
+  <meta name="twitter:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#101010"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","serviceType":"Bespoke jewellery design","name":"Bespoke jewellery design","url":"https://hikki.ca/jewel-gallery.html","provider":{"@id":"https://hikki.ca/#business"},"areaServed":{"@type":"Country","name":"Canada"},"description":"Made-to-order rings and keepsakes, modelled in 3D before casting."}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},{"@type":"ListItem","position":2,"name":"Jewellery design","item":"https://hikki.ca/jewel.html"},{"@type":"ListItem","position":3,"name":"Jewel gallery","item":"https://hikki.ca/jewel-gallery.html"}]}</script>
+</head>
+<body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
+
+  <button type="button" class="corner corner-wax" id="toWax"><span class="lb">wax model</span></button>
+
+  <main class="stage">
+    <div class="hero">
+      <div class="mv-wrap" id="mvWrap">
+        <model-viewer id="mv"
+          src="models/ring-signet.glb?v=127"
+          alt="hand-carved silver ring — signet"
+          camera-controls
+          auto-rotate auto-rotate-delay="3500" rotation-per-second="14deg"
+          interaction-prompt="none"
+          exposure="1.15" shadow-intensity="0.5" shadow-softness="0.85"
+          environment-image="neutral"
+          interpolation-decay="100"
+          loading="eager">
+        </model-viewer>
+        <div class="mv-mask" id="mvMask" aria-hidden="true">
+          <div class="load-hex" id="loadHex"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="load-pct"><span id="mvPct">0</span>%</div>
+        </div>
+      </div>
+
+      <div class="title-block">
+        <h1 id="title">reimagined.</h1>
+        <p class="haiku" lang="ja">さびしさや　一尺消えて　ゆくほたる</p>
+      </div>
+    </div>
+
+    <div class="meta-row">
+      <div class="left">
+        <!-- 六款真嘢，按編號排。佔位行冇咗——名單啱啱夠六行，
+             同右邊 specs 一樣高，兩欄照樣行對行。 -->
+        <div class="switch" id="switch">
+          <button data-ring="milgrain">&gt;no.7 milgrain</button>
+          <button data-ring="engagement">&gt;no.55 engagement</button>
+          <button data-ring="camellia">&gt;no.63-G camellia</button>
+          <button data-ring="hexflower">&gt;no.64 hex flower</button>
+          <button class="on" data-ring="signet">&gt;no.103-F signet</button>
+          <button data-ring="emerald">&gt;no.216 emerald</button>
+        </div>
+      </div>
+      <div class="ad" aria-hidden="true"><div class="ad-wrap" id="adWrap"></div></div>
+      <div class="specs" id="specs"></div>
+    </div>
+
+    <p class="copyright" id="copyright">© 2026 hikki photography &amp; philosophy. &nbsp;·&nbsp; <a href="/jewel.html">rates</a></p>
+  </main>
+
+  <!-- 蠟模 gallery：長出嚟之後蓋住成版 3D gallery -->
+  <section class="waxg" id="waxg" hidden aria-hidden="true" aria-label="wax patterns">
+    <button type="button" class="corner corner-silver" id="toDesign"><span class="lb">design</span></button>
+    <div class="waxg-grid" id="waxgGrid"></div>
+    <div class="waxg-zoom" id="waxgZoom"><img alt=""></div>
+  </section>
+
+  <!-- 支柱樹轉場層 -->
+  <div class="grow" id="grow" aria-hidden="true"></div>
+
+  <script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var mv = document.getElementById('mv');
+    var mask = document.getElementById('mvMask');
+    var pct = document.getElementById('mvPct');
+    var specsEl = document.getElementById('specs');
+
+    /* ===== 六隻戒指嘅資料 ===== */
+    function spec(object, cls, size) {
+      return [
+        'OBJECT   ' + object,
+        'DESIGN   Dallas Lau',
+        'CLASS    ' + cls,
+        'SIZE     ' + size,
+        'ORIGIN   burnaby B.C.',
+        'STATUS   contact for detail ■'
+      ].join('\n');
+    }
+    var RINGS = {
+      milgrain:   { src: 'models/ring-milgrain.glb?v=127',
+                    specs: spec('no.7 — milgrain band', 'simple', '7') },
+      engagement: { src: 'models/ring-engagement.glb?v=127',
+                    specs: spec('no.55 — engagement', 'simple', '7') },
+      camellia:   { src: 'models/ring-camellia.glb?v=127',
+                    specs: spec('no.63-G — camellia', 'complex', '7') },
+      hexflower:  { src: 'models/ring-hexflower.glb?v=127',
+                    specs: spec('no.64 — hex flower', 'sculptural', '7') },
+      signet:     { src: 'models/ring-signet.glb?v=127',
+                    specs: spec('no.103-F — signet', 'standard', '10') },
+      emerald:    { src: 'models/ring-emerald.glb?v=127',
+                    specs: spec('no.216 — emerald', 'standard', '7') }
+    };
+
+    function setSpecs(key) {
+      /* 先跑解碼（純文字），完成後把結尾方塊換成閃動 span */
+      specsEl.textContent = RINGS[key].specs;
+      if (window.HikkiCrack) window.HikkiCrack.startOn(window.HikkiCrack.collect(specsEl), { budgetMs: 500 });
+      setTimeout(function () {
+        specsEl.innerHTML = RINGS[key].specs
+          .replace(/[&<>]/g, function (m) { return { '&':'&amp;','<':'&lt;','>':'&gt;' }[m]; })
+          .replace('contact for detail', '<a class="hk-enq" data-enq-source="jewel">contact for detail</a>')
+          .replace('■', '<span class="blink-block">■</span>');
+      }, 620);
+    }
+
+    /* ===== 載入遮罩：乾卦六爻進度條（橙色燈箱） ===== */
+    var loadHex = document.getElementById('loadHex');
+    var hexBars = loadHex ? loadHex.querySelectorAll('i') : [];
+    var maskTimer = 0;
+    function setHex(n) {                       /* 由下至上亮起 n 爻 */
+      for (var i = 0; i < hexBars.length; i++) hexBars[i].classList.toggle('on', i < n);
+    }
+    function hideMask() {
+      clearTimeout(maskTimer);
+      setHex(6); pct.textContent = '100';
+      mask.classList.add('off');
+    }
+    function showMask() {
+      mask.classList.remove('off');
+      setHex(0); pct.textContent = '0';
+      clearTimeout(maskTimer);
+      maskTimer = setTimeout(hideMask, 8000);  /* 保底：一定會消失 */
+    }
+    mv.addEventListener('progress', function (e) {
+      var p = e.detail.totalProgress || 0;
+      pct.textContent = Math.round(p * 100);
+      setHex(Math.round(p * 6));
+      if (p >= 1) hideMask();
+    });
+    mv.addEventListener('load', hideMask);      /* 決定性：模型 ready 就收遮罩 */
+    mv.addEventListener('error', function () { pct.textContent = 'ERR'; });
+    if (mv.loaded) hideMask();                  /* 若已 cache，即刻收 */
+
+    /* ===== 切換戒指 ===== */
+    document.getElementById('switch').addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      var key = b.dataset.ring;
+      document.querySelectorAll('.switch button').forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+      showMask();
+      mv.src = RINGS[key].src;
+      setSpecs(key);
+    });
+
+    /* ===== ASCII 燈箱（用 game 嘅 LOGOS，ivory 色） ===== */
+    (function ascii() {
+      var wrap = document.getElementById('adWrap');
+      if (!wrap || typeof LOGOS === 'undefined' || !LOGOS.length) return;
+      var idx = (Math.random() * LOGOS.length) | 0, el;
+      function make(txt) { var p = document.createElement('pre'); p.className = 'ad-logo'; p.textContent = txt; return p; }
+      /* 量度式 fit：以基準字號量實際 render 尺寸，反推可完整收納嘅字號。
+         任何大致長方形嘅 ASCII 都塞得落，唔會被裁走。 */
+      function fit(pre) {
+        var r = wrap.getBoundingClientRect();
+        var cw = Math.max(1, r.width), ch = Math.max(1, r.height);
+        var BASE = 12;
+        pre.style.transform = 'translate(-50%,-50%)';
+        pre.style.fontSize = BASE + 'px';
+        var w = Math.max(1, pre.scrollWidth), h = Math.max(1, pre.scrollHeight);
+        var fs = BASE * Math.min((cw * 0.96) / w, (ch * 0.96) / h);
+        fs = Math.max(2.5, Math.min(fs, 13));
+        pre.style.fontSize = fs + 'px';
+      }
+      el = make(LOGOS[idx]); wrap.appendChild(el);
+      requestAnimationFrame(function () { fit(el); });
+      function swap() {
+        if (document.hidden) return;
+        var nx; do { nx = (Math.random() * LOGOS.length) | 0; } while (nx === idx && LOGOS.length > 1);
+        wrap.style.transition = 'opacity .35s ease'; wrap.style.opacity = '0';
+        setTimeout(function () { el.textContent = LOGOS[nx]; idx = nx; fit(el); wrap.style.opacity = '1'; }, 380);
+      }
+      setInterval(swap, 8000);
+      window.addEventListener('resize', function () { if (el) requestAnimationFrame(function () { fit(el); }); });
+    })();
+
+    /* 開場：只解碼主標題 */
+    var C = window.HikkiCrack;
+    if (C) {
+      C.startOn(C.collect(document.getElementById('title')));
+    }
+    setSpecs('signet');
+
+    /* ===== 3D gallery ⇄ 蠟模 gallery =====
+       轉場做成 3D 打印嘅支柱樹：淡紫由底部射出一排支柱（每條頂住條針），
+       跟住成片浸上嚟食晒塊黑，變成蠟模 gallery 嘅底色。返轉頭倒帶。 */
+    var WAX = [
+      ['w1', 'Openwork filigree band printed in castable resin, still standing on its support pillars'],
+      ['w2', 'Printed band with milgrained stone seats, a second floral band behind it'],
+      ['w3', 'Ring pattern on its support tree, still attached to the build plate'],
+      ['w4', 'Three signet patterns with engraved intaglio faces'],
+      ['w5', 'Prong cups held up on their support pillars, close up'],
+      ['w6', 'Solitaire pattern with a printed stone and claw setting'],
+      ['w7', 'Ring pattern with a cluster head and prong seats'],
+      ['w8', 'Winged openwork pattern, layered blades']
+    ];
+
+    var waxg = document.getElementById('waxg');
+    var grid = document.getElementById('waxgGrid');
+    var zoom = document.getElementById('waxgZoom');
+    var zimg = zoom.querySelector('img');
+    var toWax = document.getElementById('toWax');
+    var toDesign = document.getElementById('toDesign');
+    var growEl = document.getElementById('grow');
+
+    /* 格仔相唔喺第一眼就搶頻寬：model-viewer 同 GLB 行先，
+       得閒先至執返嗰 114 KB 縮圖。等到有人撳「wax model」嗰陣
+       （最快都要成秒），八張細相早就備好咗。
+       註：<img> 擺喺 display:none 入面，loading="lazy" 係永遠唔會載，
+       所以唔可以靠 lazy——要自己揀時間。 */
+    var waxBtns = WAX.map(function (it) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.full = 'jewel/wax/' + it[0] + '-1400.webp';
+      b.dataset.thumb = 'jewel/wax/' + it[0] + '-640.webp';
+      var im = new Image();
+      im.width = 640; im.height = 640; im.alt = it[1];
+      im.decoding = 'async';
+      b.appendChild(im);
+      grid.appendChild(b);
+      return b;
+    });
+    function loadThumbs() {
+      waxBtns.forEach(function (b) {
+        var im = b.firstChild;
+        if (!im.getAttribute('src')) im.src = b.dataset.thumb;
+      });
+    }
+    if (window.requestIdleCallback) requestIdleCallback(loadThumbs, { timeout: 2500 });
+    else setTimeout(loadThumbs, 1400);
+
+    /* ── 支柱樹：SLA 樹脂支撐嘅長法 ──
+       一棵樹 = 底板上一枝粗主幹，主幹向上行嘅時候左右分出斜向上嘅枝，
+       枝再分更幼嘅枝，末端收成一粒接觸波。分枝一律向上（夾角 clamp 喺
+       74° 以內），唔會有打橫或者向下嘅——樹脂支撐唔可以咁長。
+       時間上，一條枝要等母枝長到佢個分叉點先至開始，所以睇落去係真·生長。 */
+    var NSVG = 'http://www.w3.org/2000/svg';
+    var RAD = Math.PI / 180;
+    var SPEED = [1.45, 1.95, 2.5];        /* px/ms：越幼長得越快 */
+
+    function buildGrow(up) {
+      growEl.textContent = '';
+      var vw = window.innerWidth, vh = window.innerHeight;
+      var svg = document.createElementNS(NSVG, 'svg');
+      svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
+      svg.setAttribute('preserveAspectRatio', 'none');
+      var segs = [], tips = [], maxT = 0;
+
+      function tipAt(x, y, w, t) {
+        var c = document.createElementNS(NSVG, 'circle');
+        c.setAttribute('cx', x.toFixed(1));
+        c.setAttribute('cy', y.toFixed(1));
+        c.setAttribute('r', (w * 0.95 + 0.55).toFixed(2));
+        c.style.opacity = up ? '0' : '1';
+        svg.appendChild(c);
+        tips.push({ el: c, delay: t });
+      }
+
+      function grow(x, y, ang, len, w, depth, t0) {
+        var x2 = x + Math.sin(ang) * len;
+        var y2 = y - Math.cos(ang) * len;
+        var dur = Math.max(70, len / SPEED[depth]);
+        var p = document.createElementNS(NSVG, 'path');
+        p.setAttribute('d', 'M' + x.toFixed(1) + ' ' + y.toFixed(1) +
+                            'L' + x2.toFixed(1) + ' ' + y2.toFixed(1));
+        p.setAttribute('stroke-width', w.toFixed(2));
+        p.setAttribute('stroke-dasharray', len.toFixed(1));
+        p.style.strokeDashoffset = up ? len.toFixed(1) : '0';
+        svg.appendChild(p);
+        segs.push({ el: p, len: len, delay: t0, dur: dur, depth: depth });
+        if (t0 + dur > maxT) maxT = t0 + dur;
+
+        if (depth >= 2) { tipAt(x2, y2, w, t0 + dur); return; }
+
+        /* 分叉位：主幹由 30% 起左右輪流分五次，枝再分兩次。
+           枝要短——真支撐係一枝枝短手斜上，唔係幾條長斜撐。 */
+        var pts = depth === 0 ? [0.30, 0.44, 0.58, 0.71, 0.83] : [0.55, 1];
+        var side = Math.random() < 0.5 ? 1 : -1;
+        for (var k = 0; k < pts.length; k++) {
+          if (depth === 0 && Math.random() < 0.14) { side = -side; continue; }
+          var f = Math.min(1, pts[k] + (Math.random() - 0.5) * 0.05);
+          var bx = x + Math.sin(ang) * len * f;
+          var by = y - Math.cos(ang) * len * f;
+          var ba = ang + (24 + Math.random() * 26) * RAD * side;
+          if (Math.abs(ba) > 72 * RAD) ba = 72 * RAD * (ba < 0 ? -1 : 1);
+          grow(bx, by, ba,
+               len * (depth === 0 ? 0.095 + Math.random() * 0.085
+                                  : 0.40 + Math.random() * 0.24),
+               Math.max(0.9, w * 0.46), depth + 1, t0 + dur * f);
+          side = -side;
+        }
+        /* 主幹頂收一條針尖——真支撐唔會平頭 */
+        if (depth === 0) grow(x2, y2, ang, len * 0.08, w * 0.3, 2, t0 + dur);
+      }
+
+      var n = Math.max(4, Math.round(vw / 160));
+      for (var i = 0; i < n; i++) {
+        var cx = (i + 0.5) / n * vw + (Math.random() - 0.5) * (vw / n) * 0.5;
+        grow(cx, vh, (Math.random() - 0.5) * 6 * RAD,
+             vh * (0.42 + Math.random() * 0.52),
+             5.0 + Math.random() * 3.2, 0, Math.random() * 150);
+      }
+
+      growEl.appendChild(svg);
+      var fl = document.createElement('b');
+      fl.className = 'flood';
+      if (!up) fl.style.transform = 'scaleY(1)';
+      growEl.appendChild(fl);
+      return { flood: fl, segs: segs, tips: tips, maxT: maxT };
+    }
+
+    function ride(el, from, to, dur, delay, ease) {
+      return el.animate([{ transform: from }, { transform: to }],
+        { duration: dur, delay: delay, easing: ease, fill: 'forwards' });
+    }
+    function draw(el, from, to, dur, delay, ease) {
+      /* 要俾字串：strokeDashoffset 收到純數字（Number）會當無效，成條路唔會畫 */
+      return el.animate([{ strokeDashoffset: String(from) },
+                         { strokeDashoffset: String(to) }],
+        { duration: dur, delay: delay, easing: ease, fill: 'forwards' });
+    }
+    function fade(el, from, to, dur, delay) {
+      return el.animate([{ opacity: from }, { opacity: to }],
+        { duration: dur, delay: delay, easing: 'linear', fill: 'forwards' });
+    }
+
+    function growTree(up) {
+      var built = buildGrow(up);
+      growEl.classList.add('run');
+      var all = [], i;
+
+      /* 退場次序啱啱相反：末梢先縮、枝跟住、主幹最後 */
+      var backDelay = [390, 310, 230], backDur = [300, 150, 130];
+
+      for (i = 0; i < built.segs.length; i++) {
+        var g = built.segs[i];
+        all.push(up
+          ? draw(g.el, g.len, 0, g.dur, g.delay, 'cubic-bezier(.22,.7,.3,1)')
+          : draw(g.el, 0, g.len, backDur[g.depth],
+                 backDelay[g.depth] + Math.random() * 110,
+                 'cubic-bezier(.6,.05,.75,.3)'));
+      }
+      for (i = 0; i < built.tips.length; i++) {
+        var tp = built.tips[i];
+        all.push(up ? fade(tp.el, 0, 1, 90, tp.delay)
+                    : fade(tp.el, 1, 0, 90, 200 + Math.random() * 90));
+      }
+
+      var fl = built.flood;
+      /* 浸起嗰片要等棵樹企好晒先至升——唔係就見唔到棵樹 */
+      var fd = Math.round(built.maxT * 0.62), fdur = Math.round(built.maxT * 0.70);
+      var flood = up
+        ? ride(fl, 'scaleY(0)', 'scaleY(1)', fdur, fd, 'cubic-bezier(.3,.72,.22,1)')
+        : ride(fl, 'scaleY(1)', 'scaleY(0)', 470, 0, 'cubic-bezier(.62,.04,.7,.26)');
+      all.push(flood);
+      /* covered = 成塊遮實咗（長上嚟嗰邊最遲係浸起嗰片）；
+         done = 連支柱都收晒（退落去嗰邊最遲係主幹）。兩個時間唔同，
+         用錯就會喺支柱縮到一半嗰陣拆咗成層，啲柱會憑空唔見咗。 */
+      return { covered: flood.finished, done: Promise.all(all.map(function (a) { return a.finished; })) };
+    }
+
+    function clearGrow() { growEl.classList.remove('run'); growEl.textContent = ''; }
+
+    var inWax = false, busy = false;
+    function goWax(on) {
+      if (busy || on === inWax) return;
+      busy = true;
+      if (on) loadThumbs();          /* 保險：未 idle 過就即刻攞 */
+      var run = growTree(on);
+      if (on) {
+        run.covered.then(function () {
+          waxg.hidden = false;
+          waxg.setAttribute('aria-hidden', 'false');
+          toWax.style.visibility = 'hidden';
+          mv.removeAttribute('auto-rotate');
+          clearGrow();
+          inWax = true; busy = false;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () { waxg.classList.add('lit'); });
+          });
+          toDesign.focus({ preventScroll: true });
+        });
+      } else {
+        /* 支柱同浸起嗰片已經係遮住嘅狀態，所以同一幀收起蠟模層唔會穿崩 */
+        zoom.classList.remove('on');
+        waxg.classList.remove('lit');
+        waxg.hidden = true;
+        waxg.setAttribute('aria-hidden', 'true');
+        toWax.style.visibility = '';
+        mv.setAttribute('auto-rotate', '');
+        run.done.then(function () {
+          clearGrow();
+          inWax = false; busy = false;
+          toWax.focus({ preventScroll: true });
+        });
+      }
+    }
+
+    toWax.addEventListener('click', function () { goWax(true); });
+    toDesign.addEventListener('click', function () { goWax(false); });
+
+    /* 撳一下放大，再撳一下返去 */
+    grid.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      zimg.src = b.dataset.full;
+      zimg.alt = b.querySelector('img').alt;
+      zoom.classList.add('on');
+    });
+    zoom.addEventListener('click', function () { zoom.classList.remove('on'); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (zoom.classList.contains('on')) { zoom.classList.remove('on'); return; }
+      if (inWax) goWax(false);
+    });
+  });
+  </script>
+</body>
+</html>

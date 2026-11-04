@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hikki.ca/sitemap.xml
+# 私人／轉址頁唔使爬
+Disallow: /alex/
+Disallow: /alex.html
+Disallow: /build-gallery.py
+
+Sitemap: https://hikki.ca/sitemap-index.xml

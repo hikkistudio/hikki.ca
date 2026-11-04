@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
+  <script>document.documentElement.className+=" js";</script>
+
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>404 | hikki photography</title>
-  <meta name="robots" content="noindex"/>
+  <title>404 — nothing is here | hikki photography</title>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="/site.css?v=96"/>
-  <script src="/site.js?v=96" defer></script>
+  <link rel="stylesheet" href="/site.css?v=127"/>
+  <script src="/site.js?v=127" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    :root{ --hk-bar-alpha:0.96; --amb:#e74c3c; --ink:#0b0705; }
-    html,body{ height:100%; background:var(--ink); color:var(--amb); overflow:hidden; }
+    :root{
+      --hk-bar-alpha:0.96;
+      --ink:#0b0705;              /* 同 rainfall 一樣嘅暖黑 */
+      --amb:#e74c3c;
+      --amb-hair:rgba(231,76,60,.22);
+      --panel:210px;
+    }
+    html,body{ height:100%; background:var(--ink); color:var(--amb);
+      overflow:hidden; -webkit-text-size-adjust:100%; }
     body{ font-family:var(--hk-font-mono); }
 
     /* header / menu：同 rainfall 一套暗油墨 + 橙字 */
@@ -22,238 +30,364 @@
     .hk-menu{ background:rgba(11,7,5,.93) !important; color:var(--amb) !important; }
     .hk-menu-list li{ border-bottom-color:rgba(231,76,60,.26) !important; }
     .hk-menu-list a,.hk-menu-list button{ color:var(--amb) !important; }
+    .hk-menu-list a:hover,.hk-menu-list button:hover{ color:#ffb3a2 !important; }
     .hk-menu-contact li,.hk-menu-contact a{ color:rgba(231,76,60,.78) !important; }
     .hk-menu-contact .hk-contact-head{ color:var(--amb) !important; }
     .hk-menu-geo{ color:rgba(231,76,60,.6) !important; }
     .hk-menu-copy{ color:rgba(231,76,60,.66) !important; border-top-color:rgba(231,76,60,.26) !important; }
-    /* >direct message：紅主題頁面用亮橙 highlight */
     .hk-menu-contact a.hk-enq{ color:#ff9d4a !important;
       border-bottom-color:rgba(255,157,74,.45) !important; }
     .hk-menu-contact a.hk-enq:hover{ color:#ffc48a !important;
       border-bottom-color:#ffc48a !important; }
 
-    .grain{ position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.5;
-      background:repeating-linear-gradient(0deg, rgba(0,0,0,.34) 0 1px, transparent 1px 3px); }
-    .vig{ position:fixed; inset:0; pointer-events:none; z-index:1;
-      background:radial-gradient(120% 90% at 50% 44%, rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%); }
+    /* 雨落喺一片空嘅城市上面——冇樓、冇地、冇街，淨係雨 */
+    #wx{ position:fixed; inset:0; width:100%; height:100%; display:block;
+      z-index:1; pointer-events:none; }
+    .grain{ position:fixed; inset:0; z-index:2; pointer-events:none;
+      background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px);
+      mix-blend-mode:multiply; }
+    .vig{ position:fixed; inset:0; z-index:2; pointer-events:none;
+      background:radial-gradient(120% 90% at 50% 45%, transparent 46%, rgba(11,7,5,.58) 100%); }
 
-    main{ position:fixed; inset:0; height:100dvh; z-index:2;
-      display:flex; align-items:center; justify-content:center;
-      padding:calc(var(--hk-bar-h) + 10px) clamp(12px,4vw,28px) 54px; }
-    .rack{ width:100%; max-width:min(560px,92vw); }
-    svg{ width:100%; height:auto; display:block; overflow:visible; }
+    /* ===== 中央：淨係呢三個字係啱嘅 ===== */
+    .four{ position:fixed; inset:0; z-index:5; display:flex;
+      align-items:center; justify-content:center; pointer-events:none; }
+    .four b{
+      font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(108px, 25vw, 380px); line-height:1;
+      letter-spacing:-0.04em; color:var(--amb);
+      animation:spin404 19s linear infinite;
+      /* 兩層陰影：外面一圈暖黑把底下嘅亂碼壓落去，再加一層橙光 */
+      text-shadow:0 0 26px rgba(11,7,5,.92), 0 0 60px rgba(11,7,5,.8),
+                  0 0 44px rgba(231,76,60,.3);
+    }
+    @keyframes spin404{ to{ transform:rotate(360deg); } }
 
-    /* 純紅線，同 console 一套語言 */
-    .fr{ fill:none; stroke:rgba(231,76,60,.62); stroke-width:1.2; }
-    .fr-in{ fill:none; stroke:rgba(231,76,60,.24); stroke-width:1; }
-    .scr{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:1; }
-    .tick{ stroke:rgba(231,76,60,.38); stroke-width:1; fill:none; }
-    .tick-b{ stroke:rgba(231,76,60,.6); stroke-width:1.3; }
-    .lbl{ fill:rgba(231,76,60,.5); font-family:var(--hk-font-mono);
-      font-size:7px; letter-spacing:.22em; }
-    .lbl-d{ fill:rgba(231,76,60,.3); }
-    .big{ fill:var(--amb); font-family:var(--hk-font-mono);
-      font-size:23px; letter-spacing:.3em; }
-    .sml{ fill:rgba(231,76,60,.72); font-family:var(--hk-font-mono);
-      font-size:8.5px; letter-spacing:.2em; }
+    /* ===== 側邊 UI：rainfall 嗰套，一個都冇少，但全部讀唔到 ===== */
+    .hud{ position:fixed; z-index:4; pointer-events:none;
+      font-size:11px; letter-spacing:.14em; line-height:1.85; color:var(--amb); }
+    .hud-head{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); left:clamp(14px,3vw,38px);
+      width:var(--panel); display:flex; flex-direction:column; align-items:flex-start; }
+    .hud-head .t{ font-family:var(--hk-font-sans); font-weight:700;
+      font-size:34px; letter-spacing:-0.01em; line-height:1; color:var(--amb);
+      font-variant-numeric:tabular-nums; }
+    .hud-head .c{ margin-top:5px; font-size:11px; color:rgba(231,76,60,.62); white-space:nowrap; }
+    .hud-head .dial{ margin-top:7px; padding:2px 0; font-size:10px;
+      letter-spacing:.18em; color:rgba(231,76,60,.62); }
+    .hud-head .src{ margin-top:6px; font-size:10px; letter-spacing:.18em;
+      color:rgba(231,76,60,.6); white-space:nowrap; }
 
-    /* 指針：死咗。唔會歸零，卡喺低位，只會極輕微抽搐。 */
-    .ndl{ stroke:rgba(231,76,60,.52); stroke-width:1.4; stroke-linecap:round; fill:none; }
-    .ndl-pin{ fill:none; stroke:rgba(231,76,60,.5); stroke-width:1; }
+    .hud-read{ top:calc(var(--hk-bar-h) + clamp(10px,2vh,22px)); right:clamp(14px,3vw,38px);
+      text-align:right; min-width:176px; }
+    .hud-read .row{ display:flex; justify-content:flex-end; gap:12px; }
+    .hud-read .k{ color:rgba(231,76,60,.66); }
+    .hud-read .v{ min-width:74px; text-align:right; color:var(--amb); }
+    .hud-read .big{ font-family:var(--hk-font-sans); font-weight:700;
+      font-size:28px; line-height:1.1; letter-spacing:-0.01em; margin:2px 0 6px; }
+    .hud-read .sep{ height:1px; width:118px; margin:7px 0 7px auto; background:rgba(231,76,60,.34); }
+    .hud-read .zone{ font-size:10.5px; color:rgba(231,76,60,.88); letter-spacing:.1em; min-height:1em; }
+    .hud-read .eph{ font-size:9px; line-height:1.65; letter-spacing:.06em; color:rgba(231,76,60,.58); }
+    .iono{ font-size:9px; letter-spacing:.06em; color:rgba(231,76,60,.6); }
+    .io-row{ display:flex; align-items:center; justify-content:flex-end; gap:7px; height:9px; }
+    .io-k{ width:16px; text-align:right; }
+    .io-b{ width:62px; height:3px; background:rgba(231,76,60,.18);
+      display:flex; justify-content:flex-end; }
+    .io-b i{ display:block; height:100%; width:0%; background:rgba(231,76,60,.85);
+      transition:width 1.2s ease; }
 
-    /* 旋鈕：轉得郁，但轉到邊都一樣 */
-    .kb-body{ fill:var(--ink); stroke:rgba(231,76,60,.6); stroke-width:1.5; }
-    .kb-ptr{ stroke:rgba(231,76,60,.75); stroke-width:1.5; stroke-linecap:round; }
-    .kb-rot{ transition:transform .34s cubic-bezier(.28,1.1,.42,1); }
-    #knob{ cursor:grab; touch-action:none; }
-    #knob.turning{ cursor:grabbing; }
-    #knob.turning .kb-rot{ transition:none; }
+    .botL{ position:fixed; z-index:4; left:clamp(14px,3vw,38px); bottom:12px;
+      display:flex; flex-direction:column; gap:7px;
+      width:clamp(230px,26vw,330px); pointer-events:none; color:var(--amb); }
+    .log-h{ display:block; padding:2px 0; font-size:9.5px;
+      letter-spacing:.22em; color:rgba(231,76,60,.5); }
+    .log-body{ margin-top:5px; font-size:9.5px; line-height:1.75; letter-spacing:.06em;
+      color:rgba(231,76,60,.5); }
+    .log-body div{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .log-body b{ font-weight:400; color:rgba(231,76,60,.78); }
+    .metar{ padding-top:5px; border-top:1px solid rgba(231,76,60,.3);
+      font-size:9.5px; letter-spacing:.02em; color:rgba(231,76,60,.82);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .sm-row{ display:flex; align-items:center; gap:8px; }
+    .sm-k{ font-size:9.5px; letter-spacing:.2em; color:rgba(231,76,60,.62); }
+    .sm-bars{ display:flex; align-items:flex-end; gap:2px; height:13px; }
+    .sm-bars i{ display:block; width:2px; background:rgba(231,76,60,.16); }
+    .sm-bars i.on{ background:rgba(231,76,60,.8); }
+    .sm-v{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.92); min-width:38px; }
+    .sm-scale{ display:flex; justify-content:space-between;
+      width:calc(15 * 4px + 46px); margin-left:34px; margin-top:2px;
+      font-size:7.5px; letter-spacing:0; color:rgba(231,76,60,.3); }
+    .site-copy{ font-size:10px; letter-spacing:.1em; color:rgba(231,76,60,.4); }
 
-    /* 燈：全部熄。冇一盞會著。 */
-    .lamp{ fill:none; stroke:rgba(231,76,60,.3); stroke-width:1; }
+    .ctl{ position:fixed; z-index:4; right:clamp(14px,3vw,38px); bottom:clamp(12px,3vh,20px);
+      display:flex; flex-direction:column; align-items:flex-end; gap:4px;
+      pointer-events:none; }
+    .ctl span{ font-size:11px; letter-spacing:.18em;
+      color:rgba(231,76,60,.62); padding:3px 0; text-align:right; }
 
-    .ret{ position:absolute; left:0; right:0; bottom:20px; text-align:center;
-      font-size:12px; letter-spacing:.06em; z-index:3; }
-    .ret a{ color:rgba(231,76,60,.8); text-decoration:none;
-      border-bottom:1px solid rgba(231,76,60,.4); padding-bottom:2px; }
+    /* 唯一讀得明、撳得嘅嘢：出口 */
+    .ret{ position:fixed; left:0; right:0; bottom:clamp(16px,4vh,30px);
+      text-align:center; z-index:6; font-size:12px; letter-spacing:.06em; }
+    .ret a{ color:var(--amb); text-decoration:none;
+      border-bottom:1px solid rgba(231,76,60,.45); padding-bottom:3px;
+      transition:color .2s, border-color .2s; }
     .ret a:hover{ color:#ff9d88; border-bottom-color:#ff9d88; }
-    .site-copy{ position:absolute; left:clamp(12px,4vw,28px); bottom:20px; z-index:3;
-      font-family:var(--hk-font-mono); font-size:10px;
-      color:rgba(231,76,60,.34); pointer-events:none; }
-    @media (max-width:620px){ .site-copy{ display:none; } }
 
-    @media (prefers-reduced-motion: reduce){ .kb-rot{ transition:none; } }
+    @media (max-width:767px){
+      :root{ --panel:168px; }
+      .hud-head .t{ font-size:27px; }
+      .hud-head{ width:auto; }
+      .hud-read{ top:auto; bottom:calc(clamp(12px,3vh,20px) + 148px); right:clamp(14px,3vw,38px); }
+      .botL{ width:min(70vw,290px); bottom:44px; }
+      .ctl{ bottom:44px; }
+      .four b{ font-size:min(30vw,168px); }
+      .ret{ bottom:14px; font-size:11px; }
+    }
+    @media (max-height:520px){
+      .hud-read .eph, .hud-read .iono{ display:none; }
+    }
   </style>
+  <meta name="description" content="The page you were looking for is not here."/>
+  <link rel="canonical" href="https://hikki.ca/404.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="404 — nothing is here | hikki photography"/>
+  <meta property="og:description" content="The page you were looking for is not here."/>
+  <meta property="og:url" content="https://hikki.ca/404.html"/>
+  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta property="og:image:alt" content="A photograph by hikki"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="404 — nothing is here | hikki photography"/>
+  <meta name="twitter:description" content="The page you were looking for is not here."/>
+  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#0b0705"/>
+  <meta name="robots" content="noindex, follow"/>
 </head>
 <body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
+  <canvas id="wx" aria-hidden="true"></canvas>
   <div class="grain"></div><div class="vig"></div>
 
-  <main>
-    <div class="rack">
-    <svg id="rig" viewBox="0 0 560 320" preserveAspectRatio="xMidYMid meet" aria-label="接收機：搵唔到頻率">
-      <rect class="fr"    x="6"  y="6"  width="548" height="308" rx="9"/>
-      <rect class="fr-in" x="12" y="12" width="536" height="296" rx="6"/>
+  <!-- 讀數欄全部保留，但一個字都解唔到。aria-hidden：亂碼唔應該讀出嚟。 -->
+  <div class="hud hud-head" aria-hidden="true">
+    <div class="t" data-g="8">--:--:--</div>
+    <div class="c" data-g="17">-- -- | --- ----</div>
+    <div class="dial" data-g="9">DIAL ○</div>
+    <div class="src" data-g="11">—</div>
+  </div>
 
-      <!-- 主屏：靜電雜訊 -->
-      <rect class="scr" x="30" y="34" width="330" height="150" rx="5"/>
-      <clipPath id="scrClip"><rect x="31" y="35" width="328" height="148" rx="5"/></clipPath>
-      <g clip-path="url(#scrClip)">
-        <path id="noise2" class="ndl" d="" opacity=".22"/>
-        <path id="noise"  class="ndl" d="" opacity=".5"/>
-      </g>
-      <text class="lbl" x="38" y="49">SPECTRUM</text>
-      <text class="lbl lbl-d" x="300" y="49">NO LOCK</text>
-
-      <!-- 大字：搵唔到 -->
-      <text class="big" x="30" y="222">404</text>
-      <text class="sml" x="30" y="244" id="l1">NO SUCH FREQUENCY</text>
-      <text class="sml" x="30" y="262" id="l2" opacity=".55">SWEEP 00.000 &#8212; 99.999 MHz</text>
-      <text class="sml" x="30" y="280" id="l3" opacity=".55">RESULT: &#8212;</text>
-
-      <!-- 訊號錶：指針卡死 -->
-      <g transform="translate(446,96)">
-        <path class="fr-in" d="M-58,16 A62,62 0 0 1 58,16"/>
-        <g class="tick">
-          <line x1="-52" y1="7"   x2="-58" y2="2"/>
-          <line x1="-27" y1="-14" x2="-31" y2="-20"/>
-          <line x1="0"   y1="-22" x2="0"   y2="-29"/>
-          <line x1="27"  y1="-14" x2="31"  y2="-20"/>
-        </g>
-        <line class="tick-b" x1="52" y1="7" x2="58" y2="2"/>
-        <text class="lbl" x="-64" y="26">0</text>
-        <text class="lbl" x="54"  y="26">9</text>
-        <text class="lbl" x="-17" y="42">SIGNAL</text>
-        <g id="ndlRot" transform="rotate(-74)">
-          <line class="ndl" x1="0" y1="14" x2="0" y2="-38"/>
-        </g>
-        <circle class="ndl-pin" cx="0" cy="14" r="3.4"/>
-      </g>
-
-      <!-- 三盞燈，冇一盞著 -->
-      <g transform="translate(390,180)">
-        <circle class="lamp" cx="0"  cy="0" r="4.6"/><text class="lbl lbl-d" x="-10" y="18">PWR</text>
-        <circle class="lamp" cx="46" cy="0" r="4.6"/><text class="lbl lbl-d" x="34"  y="18">LOCK</text>
-        <circle class="lamp" cx="92" cy="0" r="4.6"/><text class="lbl lbl-d" x="80"  y="18">DATA</text>
-      </g>
-
-      <!-- 旋鈕：轉得，但轉到邊都一樣 -->
-      <g id="knob" transform="translate(452,252)">
-        <g class="tick">
-          <line x1="-30" y1="-14" x2="-34" y2="-16"/>
-          <line x1="-18" y1="-27" x2="-20" y2="-31"/>
-          <line x1="0"   y1="-32" x2="0"   y2="-37"/>
-          <line x1="18"  y1="-27" x2="20"  y2="-31"/>
-          <line x1="30"  y1="-14" x2="34"  y2="-16"/>
-        </g>
-        <circle class="kb-body" cx="0" cy="0" r="25"/>
-        <g class="kb-rot" id="knobRot">
-          <line class="kb-ptr" x1="0" y1="0" x2="0" y2="-19"/>
-        </g>
-        <text class="lbl" x="-15" y="48">TUNE</text>
-      </g>
-    </svg>
+  <div class="hud hud-read" aria-hidden="true">
+    <div class="zone" data-g="14">—</div>
+    <div class="k" data-g="10">reading…</div>
+    <div class="big" data-g="5">--</div>
+    <div class="sep"></div>
+    <div class="row"><span class="k" data-g="3">WND</span><span class="v" data-g="8">--</span></div>
+    <div class="row"><span class="k" data-g="3">DIR</span><span class="v" data-g="8">--</span></div>
+    <div class="row"><span class="k" data-g="3">GST</span><span class="v" data-g="8">--</span></div>
+    <div class="row"><span class="k" data-g="3">PRS</span><span class="v" data-g="8">--</span></div>
+    <div class="sep"></div>
+    <div class="row"><span class="k" data-g="3">TID</span><span class="v" data-g="8">--</span></div>
+    <div class="sep"></div>
+    <div class="eph">
+      <div data-g="22">—</div><div data-g="20">—</div><div data-g="24">—</div>
     </div>
-  </main>
+    <div class="sep"></div>
+    <div class="iono">
+      <div class="io-row"><span class="io-k" data-g="2">F2</span><span class="io-b"><i></i></span></div>
+      <div class="io-row"><span class="io-k" data-g="2">F1</span><span class="io-b"><i></i></span></div>
+      <div class="io-row"><span class="io-k" data-g="1">E</span><span class="io-b"><i></i></span></div>
+      <div class="io-row"><span class="io-k" data-g="1">D</span><span class="io-b"><i></i></span></div>
+    </div>
+  </div>
+
+  <div class="botL" aria-hidden="true">
+    <div class="log-h" data-g="15">OBSERVATION LOG</div>
+    <div class="log-body" id="logBody"></div>
+    <div class="metar" data-g="46">—</div>
+    <div class="smeter">
+      <div class="sm-row"><span class="sm-k" data-g="3">SIG</span><span class="sm-bars" id="smBars"></span><span class="sm-v" data-g="3">S0</span></div>
+      <div class="sm-scale"><span>1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>+20</span></div>
+    </div>
+    <p class="site-copy" data-g="34">&copy; 2026 hikki photography &amp; philosophy.</p>
+  </div>
+
+  <div class="ctl" aria-hidden="true">
+    <span data-g="10">STATION ▾</span>
+    <span data-g="10">ARCHIVE ▾</span>
+    <span data-g="8">AUDIO ○</span>
+  </div>
+
+  <div class="four"><b>404</b></div>
 
   <p class="ret"><a href="/">&gt;return to index</a> <span class="hk-blink">■</span></p>
-  <p class="site-copy">&copy; 2026 hikki photography &amp; philosophy.</p>
 
   <script>
   (function(){
-    var $ = function(id){ return document.getElementById(id); };
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    'use strict';
 
-    /* ── 主屏：靜電。轉幾多次台都係呢樣嘢。 ── */
-    var X0 = 31, X1 = 359, YM = 110, N = 82;
-    function noiseLine(amp){
-      var d = '', i, x, y;
-      for(i = 0; i <= N; i++){
-        x = X0 + (X1 - X0) * i / N;
-        y = YM + (Math.random() - 0.5) * amp * (0.35 + Math.random());
-        d += (i ? 'L' : 'M') + x.toFixed(1) + ',' + y.toFixed(1);
-      }
-      return d;
-    }
-    (function hiss(){
-      if(!document.hidden){
-        $('noise').setAttribute('d', noiseLine(46));
-        $('noise2').setAttribute('d', noiseLine(74));
-      }
-      setTimeout(hiss, reduce ? 900 : 62 + Math.random() * 46);
-    })();
+    /* ══════════════════════════════════════════════════════════
+       空城。冇樓、冇街、冇地平線——淨係雨，同埋中間嗰三個字。
+       側邊成套儀器都仲喺度行緊，只不過乜都讀唔到。
+       ══════════════════════════════════════════════════════════ */
 
-    /* ── 指針：死咗。卡喺低位，偶然抽一抽，永遠上唔到。 ── */
-    var DEAD = -74;
-    (function twitch(){
-      if(!document.hidden){
-        var a = DEAD + (Math.random() < 0.14 ? Math.random() * 5 : Math.random() * 1.2);
-        $('ndlRot').setAttribute('transform', 'rotate(' + a.toFixed(2) + ')');
+    /* ── 亂碼 ── */
+    var GLYPH = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&@*+=/\\|<>~^¤§¶±×÷';
+    function noise(n){
+      var s = '', i;
+      for(i = 0; i < n; i++){
+        /* 留返少少空格同分隔符，先至似一行讀數而唔係一嚿字 */
+        var r = Math.random();
+        s += r < 0.07 ? ' ' : (r < 0.11 ? ':' : (r < 0.14 ? '.' :
+             GLYPH.charAt((Math.random() * GLYPH.length) | 0)));
       }
-      setTimeout(twitch, 260 + Math.random() * 900);
-    })();
+      return s;
+    }
 
-    /* ── 掃描讀數：一直搵，一直搵唔到 ── */
-    var l2 = $('l2'), l3 = $('l3');
-    function mhz(){
-      var v = Math.random() * 100;
-      return (v < 10 ? '0' : '') + v.toFixed(3);
-    }
-    (function sweep(){
-      if(!document.hidden){
-        l2.textContent = 'SWEEP ' + mhz() + ' — ' + mhz() + ' MHz';
-        l3.textContent = 'RESULT: ' + (Math.random() < 0.12 ? 'CARRIER? — LOST' : '—');
-      }
-      setTimeout(sweep, reduce ? 2400 : 380 + Math.random() * 620);
-    })();
-
-    /* ── TUNE 旋鈕：轉得郁，但係轉到邊都冇分別。 ── */
-    var kn = $('knob'), rotG = $('knobRot');
-    var ang = 0, dragging = false, startA = 0, startAng = 0, moved = 0;
-    function centre(){
-      var r = kn.getBoundingClientRect();
-      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-    }
-    function angOf(e){
-      var c = centre();
-      return Math.atan2(e.clientX - c.x, -(e.clientY - c.y)) * 180 / Math.PI;
-    }
-    function setAng(a){ ang = a; rotG.setAttribute('transform', 'rotate(' + a.toFixed(1) + ')'); }
-    function futile(){
-      /* 唯一嘅回應：屏幕跳大一下，然後照舊。 */
-      $('noise').setAttribute('d', noiseLine(96));
-      l3.textContent = 'RESULT: —';
-    }
-    kn.addEventListener('pointerdown', function(e){
-      dragging = true; moved = 0; startA = angOf(e); startAng = ang;
-      kn.classList.add('turning');
-      try{ kn.setPointerCapture(e.pointerId); }catch(_){}
-      e.preventDefault();
+    var fields = [].slice.call(document.querySelectorAll('[data-g]'));
+    fields.forEach(function(el){
+      el.dataset.n = el.getAttribute('data-g');
+      el.textContent = noise(+el.dataset.n);
+      /* 每格有自己嘅節奏：有啲一秒跳幾次，有啲成十秒先至動一下 */
+      el.dataset.rate = String(420 + Math.random() * 5200);
+      el.dataset.next = String(Math.random() * 3000);
     });
-    kn.addEventListener('pointermove', function(e){
-      if(!dragging) return;
-      var da = angOf(e) - startA;
-      if(da > 180) da -= 360; if(da < -180) da += 360;
-      moved = Math.max(moved, Math.abs(da));
-      setAng(startAng + da * 0.62);
-      futile();
-    });
-    function end(e){
-      if(!dragging) return;
-      dragging = false; kn.classList.remove('turning');
-      try{ kn.releasePointerCapture(e.pointerId); }catch(_){}
-      if(moved < 6){ setAng(ang + 30); futile(); }   /* 輕撳＝篤一格，一樣冇用 */
-    }
-    kn.addEventListener('pointerup', end);
-    kn.addEventListener('pointercancel', end);
 
-    /* 標題解碼一次，解到嘅都係同一句 */
-    (function crackLater(n){
-      if(window.HikkiCrack){
-        window.HikkiCrack.startOn(window.HikkiCrack.collect($('l1')), { budgetMs: 900 });
-        return;
+    /* 日誌：六行，每行一個時戳 + 一句亂碼 */
+    var logBody = document.getElementById('logBody'), logRows = [];
+    (function(){
+      var h = '', i;
+      for(i = 0; i < 6; i++) h += '<div><b></b> <span></span></div>';
+      logBody.innerHTML = h;
+      logRows = [].slice.call(logBody.querySelectorAll('div'));
+      logRows.forEach(function(r){
+        r.firstChild.textContent = noise(5);
+        r.lastChild.textContent = noise(26);
+      });
+    })();
+
+    /* 訊號強度計：十五條，跳到幾多都冇意思 */
+    var smBars = document.getElementById('smBars');
+    (function(){
+      var h = '', i;
+      for(i = 0; i < 15; i++) h += '<i style="height:' + (4 + i * 0.62).toFixed(1) + 'px"></i>';
+      smBars.innerHTML = h;
+    })();
+    var smI = [].slice.call(smBars.querySelectorAll('i'));
+    var ioI = [].slice.call(document.querySelectorAll('.io-b i'));
+
+    var t0 = performance.now();
+    (function churn(now){
+      if(!document.hidden){
+        var dt = now - t0;
+        fields.forEach(function(el){
+          if(dt < +el.dataset.next) return;
+          el.dataset.next = String(dt + (+el.dataset.rate) * (0.5 + Math.random()));
+          el.textContent = noise(+el.dataset.n);
+        });
       }
-      if(n < 40) setTimeout(function(){ crackLater(n + 1); }, 50);
-    })(0);
+      requestAnimationFrame(churn);
+    })(t0);
+
+    setInterval(function(){
+      if(document.hidden) return;
+      var r = logRows[(Math.random() * logRows.length) | 0];
+      r.firstChild.textContent = noise(5);
+      r.lastChild.textContent = noise(26);
+    }, 1400);
+
+    setInterval(function(){
+      if(document.hidden) return;
+      var lit = (Math.random() * smI.length) | 0;
+      smI.forEach(function(b, i){ b.classList.toggle('on', i < lit); });
+      ioI.forEach(function(b){ b.style.width = (Math.random() * 100).toFixed(0) + '%'; });
+    }, 900);
+
+    /* ══════════════════════════════════════════════════════════
+       雨。rainfall 嗰邊嘅雨跟住地圖投影行，呢度冇地圖，
+       所以改成純畫面座標——同一隻橙、同一種分層質感。
+       ══════════════════════════════════════════════════════════ */
+    var cv = document.getElementById('wx'), wc = cv.getContext('2d');
+    var W = 0, H = 0, DPR = 1, drops = [], NB = 6, segs = [[],[],[],[],[],[]];
+    var slant = 0.17, slantT = 0.17;          /* 風：慢慢飄，唔會一下跳 */
+
+    function resize(){
+      DPR = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth; H = cv.clientHeight;
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      wc.setTransform(DPR, 0, 0, DPR, 0, 0);
+      var target = Math.min(1100, Math.round(Math.sqrt(W * H) * 0.72));
+      while(drops.length < target) drops.push(mk(false));
+      if(drops.length > target) drops.length = target;
+    }
+    function mk(top){
+      var lr = Math.random();
+      return {
+        x: Math.random() * (W + H * 0.6) - H * 0.3,
+        y: top ? -Math.random() * H * 0.3 : Math.random() * H,
+        v: 760 + lr * 1150 + Math.random() * 260,   /* px/s */
+        lr: lr,
+        band: Math.min(NB - 1, (lr * NB) | 0)
+      };
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    var last = performance.now();
+    (function frame(now){
+      requestAnimationFrame(frame);
+      var dt = Math.min(0.05, (now - last) / 1000); last = now;
+      if(document.hidden) return;
+
+      /* 風慢慢行，雨絲斜度跟住變 */
+      slantT += (Math.random() - 0.5) * 0.02;
+      if(slantT > 0.42) slantT = 0.42;
+      if(slantT < -0.12) slantT = -0.12;
+      slant += (slantT - slant) * Math.min(1, dt * 0.6);
+
+      wc.clearRect(0, 0, W, H);
+      var q;
+      for(q = 0; q < NB; q++) segs[q].length = 0;
+
+      for(var i = 0; i < drops.length; i++){
+        var p = drops[i];
+        var dy = p.v * dt;
+        p.y += dy; p.x += dy * slant;
+        if(p.y > H + 40 || p.x < -H * 0.35 || p.x > W + H * 0.35){ drops[i] = mk(true); continue; }
+        var L = 9 + 26 * p.lr;
+        var sg = segs[p.band];
+        sg.push(p.x - L * slant, p.y - L, p.x, p.y);
+      }
+
+      wc.lineCap = 'round';
+      for(q = 0; q < NB; q++){
+        var s = segs[q]; if(!s.length) continue;
+        var lr = (q + 0.5) / NB;
+        wc.strokeStyle = 'rgba(231,76,60,' + (0.16 + 0.62 * Math.pow(lr, 1.2)).toFixed(3) + ')';
+        wc.lineWidth = 0.5 + 1.0 * lr;
+        wc.beginPath();
+        for(var m = 0; m < s.length; m += 4){ wc.moveTo(s[m], s[m+1]); wc.lineTo(s[m+2], s[m+3]); }
+        wc.stroke();
+      }
+    })(last);
   })();
   </script>
 </body>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>document.documentElement.className+=" js";</script>
+
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>How a custom piece gets made — sketch to castable pattern | hikki jewel design</title>
+
+  <meta name="description" content="The whole route from a sketch to a pattern you can cast: what you send, how the 3D model is built around prong seats and wall thickness, two rounds of revisions, the castability check, and a pattern printed at 25 microns in Burnaby, BC."/>
+  <link rel="canonical" href="https://hikki.ca/jewel-process.html"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="How a custom piece gets made — sketch to castable pattern"/>
+  <meta property="og:description" content="What you send, how the model is built, two rounds of revisions, the castability check, and the printed pattern. Burnaby, BC."/>
+  <meta property="og:url" content="https://hikki.ca/jewel-process.html"/>
+  <meta property="og:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta property="og:image:alt" content="Three signet patterns printed in castable wax resin"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="How a custom piece gets made — sketch to castable pattern"/>
+  <meta name="twitter:description" content="Sketch, CAD, two revisions, castability check, printed pattern. Burnaby, BC."/>
+  <meta name="twitter:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#ffffff"/>
+  <link rel="icon" href="/favicon.png" type="image/png"/>
+  <link rel="stylesheet" href="/site.css?v=127"/>
+  <script src="/site.js?v=127" defer></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    /* 同 jewel.html 一條語言：白紙黑字，正文 Courier。
+       紅色大幅收起——淨係留畀每段開頭嗰粒閃動 ■、「免費首件」嗰條側邊、
+       主掣，同埋連結 hover。骨架線一律黑色低透明度，唔再用紅。 */
+    :root {
+      --hk-bar-alpha:.92;
+      --paper:#ffffff;
+      --ink:#111111;
+      --ink-2:rgba(0,0,0,.68);
+      --ink-3:rgba(0,0,0,.48);
+      --gold:#e74c3c;                 /* 用得好慳 */
+      --rule:rgba(0,0,0,.13);
+      --rule-2:rgba(0,0,0,.26);
+      --tint:rgba(0,0,0,.035);
+    }
+    html, body { background:var(--paper); color:var(--ink); }
+    body { font-family:var(--hk-font-mono); line-height:1.8;
+      -webkit-text-size-adjust:100%; }
+    ::selection { background:rgba(0,0,0,.12); }
+
+    .jw { max-width:min(960px, 92vw); margin:0 auto;
+      padding:calc(var(--hk-bar-h) + clamp(30px,7vh,72px)) 0 clamp(44px,8vh,96px); }
+
+    h1 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(34px,6vw,64px); letter-spacing:-.03em; line-height:1.03;
+      color:var(--ink); max-width:17ch; }
+    .jw-sub { margin-top:14px; font-family:var(--hk-font-mono);
+      font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--ink-3); }
+    .lede { margin-top:clamp(20px,3.4vh,30px);
+      font-size:clamp(16px,1.9vw,19px); line-height:1.72;
+      color:var(--ink); max-width:58ch; }
+
+    .sec { margin-top:clamp(38px,6.5vh,72px); }
+    .sec-h { display:flex; align-items:baseline; gap:.7em;
+      font-family:var(--hk-font-mono); font-weight:400;
+      font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+      color:rgba(0,0,0,.52);
+      padding-bottom:10px; border-bottom:1px solid var(--rule-2); }
+    /* 成段標題淨返粒 ■ 係紅——全頁最細嗰一點紅，做記號用 */
+    .sec-h .hk-blink { font-size:8px; line-height:1; color:var(--gold); }
+
+    /* 一步＝一個 h2 ＋ 幾段。左邊一個 Courier 步號，同 specs 嗰種讀數語言一致。 */
+    .step { margin-top:clamp(26px,4.4vh,44px);
+      display:grid; grid-template-columns:3.2em 1fr; gap:0 clamp(14px,2.2vw,26px); }
+    .step-n { font-family:var(--hk-font-mono); font-size:11px; letter-spacing:.12em;
+      color:rgba(0,0,0,.42); padding-top:.55em; font-variant-numeric:tabular-nums; }
+    h2 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(19px,2.5vw,25px); letter-spacing:-.02em; line-height:1.22;
+      color:var(--ink); }
+    .step h2 { grid-column:2; }
+    .step .bd { grid-column:2; }
+    .bd p { margin-top:clamp(11px,1.7vh,15px);
+      font-size:15px; line-height:1.8; color:var(--ink-2); max-width:62ch; }
+    .bd p strong { color:var(--ink); font-weight:700; }
+    .bd a { color:var(--ink); text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,.3); }
+    .bd a:hover { border-bottom-color:var(--gold); }
+    .bd ul { list-style:none; margin-top:clamp(11px,1.7vh,15px); max-width:62ch; }
+    .bd li { position:relative; padding-left:18px;
+      font-size:14.5px; line-height:1.75; color:var(--ink-2); }
+    .bd li + li { margin-top:.45em; }
+    .bd li::before { content:''; position:absolute; left:0; top:.8em;
+      width:9px; height:1px; background:var(--rule-2); }
+
+    /* 數字讀數條：全頁得呢度用大字講規格 */
+    .figs { margin-top:clamp(24px,4vh,40px); display:grid; gap:1px;
+      background:var(--rule); border:1px solid var(--rule);
+      grid-template-columns:1fr; }
+    @media (min-width:620px) { .figs { grid-template-columns:repeat(3,1fr); } }
+    .figs div { background:var(--paper); padding:15px 17px; }
+    .figs dt { font-family:var(--hk-font-mono); font-size:9.5px; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--ink-3); }
+    .figs dd { margin-top:5px; font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(19px,2.5vw,26px); letter-spacing:-.02em; color:var(--ink);
+      font-variant-numeric:tabular-nums; }
+    .figs dd span { font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--ink-3); margin-left:.45em; font-weight:400; }
+
+    .free { margin-top:clamp(26px,4.4vh,42px);
+      background:rgba(0,0,0,.035); border-left:3px solid var(--gold);
+      padding:clamp(16px,2.6vw,24px) clamp(18px,3vw,28px); }
+    .free h3 { font-family:var(--hk-font-sans); font-weight:700;
+      font-size:clamp(16px,2.1vw,20px); letter-spacing:-.015em; color:var(--ink); }
+    .free p { margin-top:8px; font-size:14px; line-height:1.7; color:var(--ink-2);
+      max-width:60ch; }
+
+    .cta { margin-top:clamp(28px,4.6vh,48px); display:flex; flex-wrap:wrap;
+      gap:12px 18px; align-items:center; }
+    .btn, a.btn { appearance:none; cursor:pointer;
+      background:none; border:1px solid var(--gold); border-radius:2px;
+      color:var(--gold); font-family:var(--hk-font-mono);
+      font-size:14px; letter-spacing:.06em; padding:13px 24px;
+      text-decoration:none; display:inline-block;
+      transition:color .2s, border-color .2s, background .2s; touch-action:manipulation; }
+    .btn:hover, a.btn:hover { background:var(--gold);
+      border-color:var(--gold); color:#fff; }
+    .alt { font-size:13px; color:var(--ink-2); }
+    .alt a { color:var(--ink); text-decoration:none;
+      border-bottom:1px solid rgba(0,0,0,.3); }
+    .alt a:hover { border-bottom-color:var(--gold); }
+
+    .foot { margin-top:clamp(40px,7vh,84px); padding-top:15px;
+      border-top:1px solid var(--rule);
+      font-family:var(--hk-font-mono);
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      color:rgba(0,0,0,.56);
+      display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:space-between; }
+    .foot a { color:inherit; }
+    .foot a:hover { color:var(--ink); }
+
+    @media (max-width:640px) {
+      .step { grid-template-columns:1fr; gap:0; }
+      .step-n { padding-top:0; padding-bottom:5px; }
+      .step h2, .step .bd { grid-column:1; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"HowTo","@id":"https://hikki.ca/jewel-process.html#howto",
+   "name":"How a custom jewellery piece goes from a sketch to a castable pattern",
+   "inLanguage":"en-CA","url":"https://hikki.ca/jewel-process.html",
+   "description":"The route a custom piece takes through 3D design and pattern printing, from the first sketch to a pattern ready for your own furnace.",
+   "totalTime":"P10D",
+   "estimatedCost":{"@type":"MonetaryAmount","currency":"CAD","value":"120"},
+   "tool":[{"@type":"HowToTool","name":"CAD software"},{"@type":"HowToTool","name":"Resin printer"}],
+   "supply":[{"@type":"HowToSupply","name":"Wax-filled castable resin"}],
+   "step":[
+     {"@type":"HowToStep","position":1,"name":"You send what you have",
+      "text":"A sketch, a photograph, a written description or a stone with its measurements. Nothing needs to be drawn to scale.",
+      "url":"https://hikki.ca/jewel-process.html#step-1"},
+     {"@type":"HowToStep","position":2,"name":"The first model",
+      "text":"The piece is built in CAD with prong seats, stone seats, wall thickness and sprue placement settled on the screen.",
+      "url":"https://hikki.ca/jewel-process.html#step-2"},
+     {"@type":"HowToStep","position":3,"name":"Two rounds of revisions",
+      "text":"Two rounds of changes are included in every design price.",
+      "url":"https://hikki.ca/jewel-process.html#step-3"},
+     {"@type":"HowToStep","position":4,"name":"The castability check",
+      "text":"The model is checked for wall thickness, seats, sprue placement and trapped volumes before anything is printed.",
+      "url":"https://hikki.ca/jewel-process.html#step-4"},
+     {"@type":"HowToStep","position":5,"name":"The pattern is printed",
+      "text":"Printed at 25 micron layers in a wax-filled castable resin rated at 0.03 percent ash.",
+      "url":"https://hikki.ca/jewel-process.html#step-5"},
+     {"@type":"HowToStep","position":6,"name":"It reaches your bench",
+      "text":"Delivered by hand across Metro Vancouver, or by tracked flat-rate post. Casting, setting and finishing stay with you.",
+      "url":"https://hikki.ca/jewel-process.html#step-6"}],
+   "isPartOf":{"@id":"https://hikki.ca/#website"},
+   "about":{"@id":"https://hikki.ca/#jewel"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},
+    {"@type":"ListItem","position":2,"name":"Jewel design","item":"https://hikki.ca/jewel.html"},
+    {"@type":"ListItem","position":3,"name":"Process","item":"https://hikki.ca/jewel-process.html"}]}
+  </script>
+</head>
+<body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/jewel-process.html">process</a>
+    <a href="/jewel-patterns.html">patterns</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
+  <main class="jw hk-selectable">
+    <h1>From a sketch to something you can cast</h1>
+    <p class="jw-sub">Design process &nbsp;·&nbsp; Burnaby, B.C. &nbsp;·&nbsp; 10 business days</p>
+
+    <p class="lede">Most custom work dies somewhere between the drawing and the bench — a
+      beautiful render that will not cast, a head that cannot be set, a shank that polishes
+      away to nothing. This is the route a piece actually takes here, step by step, so you
+      know what you are buying before you buy it.</p>
+
+    <section class="sec">
+      <h2 class="sec-h">The route <span class="hk-blink">■</span></h2>
+
+      <div class="step" id="step-1">
+        <div class="step-n">01</div>
+        <h2>You send what you have</h2>
+        <div class="bd">
+          <p>A sketch on the back of a receipt is enough. So is a photograph of a ring the
+            customer already owns, a written description, or a stone on its way with its
+            measurements written down. Nothing has to be drawn to scale and nothing has to
+            be named correctly — if you cannot remember whether it is a cathedral or a
+            trellis, describe it and we will find it.</p>
+          <p>If a 3D file already exists, that is the other service: I check it and print
+            it, without redesigning anything. See <a href="/jewel-patterns.html">castable
+            patterns</a>.</p>
+        </div>
+      </div>
+
+      <div class="step" id="step-2">
+        <div class="step-n">02</div>
+        <h2>The piece gets built in 3D</h2>
+        <div class="bd">
+          <p>This is where most of the work lives, and almost none of it shows in a render.
+            Prong seats, stone seats, wall thickness and sprue placement are settled on the
+            screen — not discovered at the bench three weeks later with a torch in hand.</p>
+          <p>I model this way because I have worked at the bench. A model built by someone
+            who has never set a stone will look correct and fight you the whole way through
+            setting. The difference does not appear in a picture; it appears in how much
+            rework the piece needs after it comes out of the flask.</p>
+        </div>
+      </div>
+
+      <div class="step" id="step-3">
+        <div class="step-n">03</div>
+        <h2>Two rounds of revisions</h2>
+        <div class="bd">
+          <p><strong>Two rounds are included in every design price.</strong> Thinner shank,
+            taller gallery, a head moved two millimetres, a stone sitting lower, a different
+            shoulder — that is what the rounds are for, and you are not billed for using them.</p>
+          <p>Most pieces settle inside the two. If a design turns into a genuinely different
+            piece halfway through, I will say so before doing the work rather than after.</p>
+        </div>
+      </div>
+
+      <div class="step" id="step-4">
+        <div class="step-n">04</div>
+        <h2>The castability check</h2>
+        <div class="bd">
+          <p>Included in every design price, and run before anything is printed. What gets
+            looked at:</p>
+          <ul>
+            <li>wall thickness, so nothing disappears under the polisher</li>
+            <li>prong seats and stone seats, so the stones you have actually sit in them</li>
+            <li>sprue placement, so the metal reaches the far end of the piece</li>
+            <li>trapped volumes and closed cavities, where investment cannot get out</li>
+          </ul>
+          <p>None of this is glamorous. It is the difference between a pattern that casts
+            first time and one that comes back as a lesson.</p>
+        </div>
+      </div>
+
+      <div class="step" id="step-5">
+        <div class="step-n">05</div>
+        <h2>The pattern gets printed</h2>
+        <div class="bd">
+          <p>Patterns print at <strong>25&nbsp;µm layers</strong> in a <strong>wax-filled
+            castable resin</strong> the manufacturer rates at <strong>0.03% ash</strong>,
+            with low thermal expansion and shrinkage. Fine detail — milgrain, engraving,
+            bead work — survives the print, and the burnout leaves the flask clean.</p>
+          <p>The technical side of that choice is written up separately in
+            <a href="/jewel-patterns.html">castable patterns, in detail</a>.</p>
+        </div>
+      </div>
+
+      <div class="step" id="step-6">
+        <div class="step-n">06</div>
+        <h2>It arrives at your bench</h2>
+        <div class="bd">
+          <p>Free by hand anywhere in Metro Vancouver — I would rather put the pattern in
+            your hand and let you judge the surface yourself than send you a photograph of
+            it. Elsewhere in British Columbia it is a $20 flat rate, tracked; $22 to the
+            other western provinces and $30 east.</p>
+          <p>From there it is yours. <strong>Casting, setting and finishing stay at your
+            bench</strong> — I do not take that work away from the shops I work with. If you
+            would rather have the finished piece, local masters cast and polish it, and that
+            is quoted per piece.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2 class="sec-h">How long, and what it costs <span class="hk-blink">■</span></h2>
+      <dl class="figs">
+        <div><dt>Simple and standard</dt><dd>10 <span>business days</span></dd></div>
+        <div><dt>Complex and sculptural</dt><dd>by <span>arrangement</span></dd></div>
+        <div><dt>Printing from your file</dt><dd>3 <span>business days</span></dd></div>
+      </dl>
+      <div class="step">
+        <div class="step-n"></div>
+        <div class="bd">
+          <p>Design and pattern runs from $120 for a plain band to $300 for standard work —
+            halo, channel, multi-prong, simple pavé, engraved signet — and from $500 for
+            cathedral settings, extensive pavé and multi-part assemblies. Printing from your
+            own file starts at $35. Every figure is on
+            <a href="/jewel.html">the rates page</a>, in Canadian dollars, per piece,
+            excluding metal and stones.</p>
+        </div>
+      </div>
+
+      <div class="free">
+        <h3>First one&rsquo;s on me.</h3>
+        <p>Any shop in B.C. — I&rsquo;ll print your first test pattern free. Cast it in your
+          own furnace and tell me how it burned out. That&rsquo;s the whole deal, no strings.</p>
+      </div>
+
+      <div class="cta">
+        <a class="btn hk-enq" href="#" data-enq-source="jewel" role="button">&gt;start a piece</a>
+        <span class="alt">or see <a href="/jewel-gallery.html">the pieces</a>,
+          or write to <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a></span>
+      </div>
+    </section>
+
+    <div class="foot">
+      <span>&copy; 2026 hikki photography &amp; philosophy</span>
+      <span><a href="/jewel.html">rates</a> &nbsp;·&nbsp; <a href="/jewel-patterns.html">patterns</a>
+        &nbsp;·&nbsp; <a href="/privacy.html">privacy</a> &nbsp;·&nbsp; <a href="/">index</a></span>
+    </div>
+  </main>
+</body>
+</html>

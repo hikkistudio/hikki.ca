@@ -1,37 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
+  <script>document.documentElement.className+=" js";</script>
+
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-  <title>hikki photography</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>hikki photography — film &amp; documentary photographer, Vancouver &amp; Victoria BC</title>
 
-  <link rel="canonical" href="https://hikki.ca/">
-  <meta name="robots" content="index,follow,max-image-preview:large"/>
 
-  <meta name="description" content="hikki photography &amp; philosophy — filmic portraits, weddings, and cities. Emotions, not imitate perfection. Based in Vancouver, Victoria, Hong Kong, and Macau."/>
-  <meta name="theme-color" content="#000000"/>
-  <meta name="author" content="hikki photography & philosophy"/>
 
   <meta name="application-name" content="hikki photography | hikki photo"/>
   <meta name="apple-mobile-web-app-title" content="hikki photography"/>
-  <meta property="og:see_also" content="https://www.instagram.com/hikki_with_her_camera"/>
-  <meta property="og:locale:alternate" content="en_US"/>
-  <meta property="og:locale:alternate" content="zh_TW"/>
-  <meta property="og:locale:alternate" content="ja_JP"/>
 
-  <meta property="og:title" content="hikki photography"/>
-  <meta property="og:description" content="portraits, weddings, and cities — emotions over perfection."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://hikki.ca/"/>
-  <meta property="og:site_name" content="hikki photography &amp; philosophy"/>
-  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
-  <meta property="og:image:alt" content="hikki photography — portraits, weddings, and city stories"/>
-  <meta property="og:locale" content="zh_HK"/>
 
-  <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="hikki photography"/>
-  <meta name="twitter:description" content="portraits, weddings, and cities — emotions over perfection."/>
-  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
 
   <link rel="icon" href="/favicon.png" type="image/png"/>
 
@@ -40,14 +21,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
   <link rel="preload" as="image" href="hero_poster.jpg"/>
-  <link rel="stylesheet" href="site.css?v=96"/>
-  <script src="site.js?v=96" defer></script>
+  <link rel="stylesheet" href="site.css?v=127"/>
+  <script src="site.js?v=127" defer></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
       height: 100%;
-      background: #000;
+      background: #161616;                 /* 全站統一炭黑 */
       color: #000;
       overflow: hidden;
       overscroll-behavior: none;
@@ -64,7 +45,7 @@
     .bg-video {
       position: fixed; inset: 0; width: 100%;
       height: 100vh; height: 100dvh;
-      object-fit: cover; z-index: 0; background: #000; pointer-events: none;
+      object-fit: cover; z-index: 0; background: #161616; pointer-events: none;
     }
 
     /* ===== 單屏 hero ===== */
@@ -123,6 +104,13 @@
     }
     .chinese .english { display: block; margin-top: 1ch; font-family: var(--hk-font-mono); letter-spacing: -0.005em; }
 
+    .tagline {
+      margin-top: 8px; max-width: 34ch;
+      font-family: var(--hk-font-mono); font-size: clamp(10px, 0.95vw, 12px);
+      line-height: 1.55; letter-spacing: -0.005em;
+      color: inherit; opacity: .72;    /* 跟 hero 嘅字色，唔寫死黑定白 */
+    }
+
     .copyright {
       margin-top: auto; padding-top: 12px;
       font-family: var(--hk-font-mono); font-size: clamp(10px, 1vw, 13px);
@@ -148,6 +136,7 @@
       }
       .left { text-align: left; }  /* 塊內靠左：h3 同 > 及座標對齊 */
       .left h3 { font-size: 14px; white-space: normal; }
+      .tagline { font-size: 10.5px; max-width: 42ch; margin-top: 10px; }  /* 同下面座標行等闊 */
       .locations {
         font-size: 11px; margin-top: 14px;
       }
@@ -177,22 +166,44 @@
     }
   </style>
 
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"hikki photography","url":"https://hikki.ca/"}
-  </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@graph":[
-    {"@type":"Brand","@id":"https://hikki.ca/#brand","name":"hikki photography & philosophy","alternateName":["hikki","hikki photography","hikki photo"],"url":"https://hikki.ca/","logo":"https://hikki.ca/favicon.png","sameAs":["https://www.instagram.com/hikki_with_her_camera"]},
-    {"@type":"Organization","@id":"https://hikki.ca/#org","name":"hikki photography & philosophy","url":"https://hikki.ca/","logo":"https://hikki.ca/favicon.png","brand":{"@id":"https://hikki.ca/#brand"},"contactPoint":[{"@type":"ContactPoint","contactType":"customer service","email":"hikki.pnp@gmail.com","telephone":"+1-250-986-9516","areaServed":["CA","HK","MO","US"],"availableLanguage":["en","zh","ja"]}]},
-    {"@type":"LocalBusiness","@id":"https://hikki.ca/#business","name":"hikki photography","alternateName":["hikki","hikki photography","hikki photo"],"url":"https://hikki.ca/","image":"https://hikki.ca/hero_poster.jpg","priceRange":"$$","areaServed":["Greater Vancouver","Victoria","Hong Kong","Macau"],"address":{"@type":"PostalAddress","addressLocality":"Vancouver","addressRegion":"BC","addressCountry":"CA"},"telephone":"+1-250-986-9516","email":"hikki.pnp@gmail.com","brand":{"@id":"https://hikki.ca/#brand"}},
-    {"@type":"Person","@id":"https://hikki.ca/#founder","name":"Dallas Lau","alternateName":["Hikki","Hikki Photo"],"jobTitle":"Photographer","worksFor":{"@id":"https://hikki.ca/#business"},"url":"https://hikki.ca/","sameAs":["https://www.instagram.com/hikki_with_her_camera"]},
-    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-gallery","name":"gallery","url":"https://hikki.ca/gallery.html"},
-    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-jewel","name":"jeweldesign","url":"https://hikki.ca/jewel.html"},
-    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-iching","name":"I Ching","url":"https://hikki.ca/iching.html"},
-    {"@type":"SiteNavigationElement","@id":"https://hikki.ca/#nav-macau17","name":"Macau17","url":"https://hikki.ca/game.html"}]}
-  </script>
+  <meta name="description" content="Film and documentary photography by hikki. Portraits, weddings, pets and street work across Vancouver, Victoria, Burnaby and Macau. Enquiries welcome."/>
+  <link rel="canonical" href="https://hikki.ca/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="hikki photography — film &amp; documentary photographer, Vancouver &amp; Victoria BC"/>
+  <meta property="og:description" content="Film and documentary photography by hikki. Portraits, weddings, pets and street work across Vancouver, Victoria, Burnaby and Macau. Enquiries welcome."/>
+  <meta property="og:url" content="https://hikki.ca/"/>
+  <meta property="og:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta property="og:image:alt" content="A photograph by hikki"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="hikki photography — film &amp; documentary photographer, Vancouver &amp; Victoria BC"/>
+  <meta name="twitter:description" content="Film and documentary photography by hikki. Portraits, weddings, pets and street work across Vancouver, Victoria, Burnaby and Macau. Enquiries welcome."/>
+  <meta name="twitter:image" content="https://hikki.ca/hero_poster.jpg"/>
+  <meta name="author" content="hikki photography"/>
+  <meta name="theme-color" content="#101010"/>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","LocalBusiness"],"@id":"https://hikki.ca/#business","name":"hikki photography & philosophy","url":"https://hikki.ca/","image":"https://hikki.ca/hero_poster.jpg","logo":"https://hikki.ca/favicon.png","description":"Film and documentary photography, and bespoke jewellery design, serving Metro Vancouver and Victoria, British Columbia.","email":"hikki.pnp@gmail.com","telephone":"+1-250-986-9516","priceRange":"$$","currenciesAccepted":"CAD","address":{"@type":"PostalAddress","addressLocality":"Burnaby","addressRegion":"BC","addressCountry":"CA"},"areaServed":[{"@type":"City","name":"Vancouver"},{"@type":"City","name":"Burnaby"},{"@type":"City","name":"Victoria"},{"@type":"City","name":"Richmond"},{"@type":"City","name":"Coquitlam"},{"@type":"City","name":"Macau"},{"@type":"City","name":"Hong Kong"}],"knowsLanguage":["en","yue","zh-Hant"],"sameAs":["https://www.instagram.com/hikki_with_her_camera"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Portrait photography","description":"Natural-light portrait sessions on film and digital."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Wedding photography","description":"Documentary wedding and engagement coverage."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Pet photography","description":"Portraits of animals and the people they belong to."}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Bespoke jewellery design","description":"Made-to-order rings and keepsakes, modelled in 3D before casting."}}]}},{"@type":"WebSite","@id":"https://hikki.ca/#website","url":"https://hikki.ca/","name":"hikki photography","inLanguage":"en-CA","publisher":{"@id":"https://hikki.ca/#business"}},{"@type":"Person","@id":"https://hikki.ca/#hikki","name":"hikki","jobTitle":"Photographer","worksFor":{"@id":"https://hikki.ca/#business"},"knowsLanguage":["en","yue","zh-Hant"]}]}</script>
 </head>
 <body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。
+       site.js 上到場之後會隱藏佢，改用正式 header bar。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/iching.html">iching</a>
+    <a href="/console.html">rainfall</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+  <noscript>
+    <p class="hk-noscript" lang="yue-Hant-HK">呢個網站嘅相片庫同互動儀器需要 JavaScript。
+      上面嘅連結同聯絡資料唔使 JavaScript 都用得。</p>
+  </noscript>
+
 
   <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster="hero_poster.jpg">
     <source src="hero.webm" type="video/webm">
@@ -206,6 +217,12 @@
     <div class="grid-container">
       <div class="left">
         <h3>hikki photography &amp; philosophy</h3>
+        <!-- 工作室說明句：MONOLOG 嗰種署名下面一行。唔係口號，係講實際做乜、
+             喺邊度做、講咩話——首頁得 54 隻字，而手機版連詩同版權都收埋咗，
+             呢行係唯一兩邊都見得到、又唔會破壞單屏構圖嘅位。 -->
+        <p class="tagline">Film and documentary photography, and bespoke jewellery design.
+          Burnaby-based, working across Metro Vancouver and Victoria, British Columbia.
+          English, Cantonese and Mandarin.</p>
         <ul class="locations" aria-label="service areas and live coordinates">
           <li>&gt;</li>
           <li>Vancouver&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;49.263431&nbsp;|&nbsp;-123.012508</li>
