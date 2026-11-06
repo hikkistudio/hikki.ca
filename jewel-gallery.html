@@ -14,9 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=136"/>
-  <script src="site.js?v=136" defer></script>
-  <script src="game-logos.js?v=136"></script>
+  <link rel="stylesheet" href="site.css?v=137"/>
+  <script src="site.js?v=137" defer></script>
+  <script src="game-logos.js?v=137"></script>
   <!-- Google model-viewer（自托管，冇第三方依賴） -->
   <script type="module" src="model-viewer.min.js"></script>
 
@@ -257,16 +257,6 @@
     .waxg[hidden] { display: none; }
     .waxg .corner { z-index: 10; }
 
-    /* ── 紫色樹脂之海 ──
-       唔用 WebGL：呢一頁已經有 model-viewer 開緊一個 GL context，
-       手機上面開第二個係攞嚟搞。改用 2D canvas 畫一疊由遠至近嘅波形帶——
-       層層疊嘅輪廓線本身就係樹脂打印嘅語言，同蠟模 gallery 啱 key。
-       每幀 58 行 × 88 點，每點四條正弦，大約兩萬次 sin，成本可以忽略。 */
-    .sea {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      display: block; z-index: 0; pointer-events: none;
-    }
-    .waxg-grid { position: relative; z-index: 2; }
 
     /* 細細哋一個 gallery：四欄兩行，冇名冇標籤 */
     .waxg-grid {
@@ -315,7 +305,7 @@
 
     /* ── 支柱樹轉場：跟 SLA 樹脂支撐嘅長法 ──
        底板長一枝粗主幹上去，主幹一路向上，左右分出斜向上嘅幼枝，
-       幼枝再分更幼嘅，末端收成一粒接觸點。唔係一排針。 */
+       幼枝再分更幼嘅，末端收成針尖。唔係一排針。 */
     .grow {
       position: fixed; inset: 0; z-index: 8800;
       pointer-events: none; overflow: hidden; display: none;
@@ -328,7 +318,6 @@
       fill: none; stroke: var(--wax);
       stroke-linecap: round; stroke-linejoin: round;
     }
-    .grow circle { fill: var(--wax); }      /* 末端接觸點 */
     .grow .flood {                          /* 跟住浸上嚟嗰片 */
       position: absolute; left: 0; right: 0; bottom: 0; height: 100%;
       background: var(--wax);
@@ -417,7 +406,7 @@
     <div class="hero">
       <div class="mv-wrap" id="mvWrap">
         <model-viewer id="mv"
-          src="models/ring-signet.glb?v=136"
+          src="models/ring-signet.glb?v=137"
           alt="hand-carved silver ring — signet"
           camera-controls
           auto-rotate auto-rotate-delay="3500" rotation-per-second="14deg"
@@ -461,7 +450,6 @@
 
   <!-- 蠟模 gallery：長出嚟之後蓋住成版 3D gallery -->
   <section class="waxg" id="waxg" hidden aria-hidden="true" aria-label="wax patterns">
-    <canvas class="sea" id="sea" aria-hidden="true"></canvas>
     <button type="button" class="corner corner-silver" id="toDesign"><span class="lb">design</span></button>
     <div class="waxg-grid" id="waxgGrid"></div>
     <div class="waxg-zoom" id="waxgZoom"><img alt=""></div>
@@ -489,17 +477,17 @@
       ].join('\n');
     }
     var RINGS = {
-      milgrain:   { src: 'models/ring-milgrain.glb?v=136',
+      milgrain:   { src: 'models/ring-milgrain.glb?v=137',
                     specs: spec('no.7 — milgrain band', 'simple', '7') },
-      engagement: { src: 'models/ring-engagement.glb?v=136',
+      engagement: { src: 'models/ring-engagement.glb?v=137',
                     specs: spec('no.55 — engagement', 'simple', '7') },
-      camellia:   { src: 'models/ring-camellia.glb?v=136',
+      camellia:   { src: 'models/ring-camellia.glb?v=137',
                     specs: spec('no.63-G — camellia', 'complex', '7') },
-      hexflower:  { src: 'models/ring-hexflower.glb?v=136',
+      hexflower:  { src: 'models/ring-hexflower.glb?v=137',
                     specs: spec('no.64 — hex flower', 'sculptural', '7') },
-      signet:     { src: 'models/ring-signet.glb?v=136',
+      signet:     { src: 'models/ring-signet.glb?v=137',
                     specs: spec('no.103-F — signet', 'standard', '10') },
-      emerald:    { src: 'models/ring-emerald.glb?v=136',
+      emerald:    { src: 'models/ring-emerald.glb?v=137',
                     specs: spec('no.216 — emerald', 'standard', '7') }
     };
 
@@ -653,142 +641,9 @@
     if (window.requestIdleCallback) requestIdleCallback(loadThumbs, { timeout: 2500 });
     else setTimeout(loadThumbs, 1400);
 
-    /* ── 紫色樹脂之海 ──
-       唔用 WebGL：呢一頁已經有 model-viewer 開緊一個 GL context。
-       改為喺一塊細 canvas（闊度 1/5）逐點算高度場，再放大鋪滿成版——
-       放大本身嘅模糊啱啱好，樹脂係稠嘅，唔應該有硬邊。
-       高度 = 四條唔同波長／方向／速度嘅正弦加埋；樹脂重，所以波長長、速度慢。
-       法線靠「同上一點、上一行比較」拎返嚟，所以每點只係四個 sin。 */
-    var Sea = (function () {
-      var cv = document.getElementById('sea');
-      if (!cv) return { start: function () {}, stop: function () {} };
-      var cx = cv.getContext('2d');
-      var off = document.createElement('canvas');
-      var ox = off.getContext('2d');
-      var W = 0, H = 0, OW = 0, OH = 0, img = null, dat = null;
-      var rowA = null, rowB = null;
-      var raf = 0, t0 = 0, running = false;
-
-      /* 正弦查表：Math.sin 行足四萬次就係 25ms，查表得 3ms。
-         `(a*K|0) & MASK` 連負數都繞得返（JS 嘅 & 係 32 位），所以唔使先取模。 */
-      var LN = 4096, LMASK = LN - 1, LK = LN / (Math.PI * 2);
-      var SIN = new Float32Array(LN);
-      for (var li = 0; li < LN; li++) SIN[li] = Math.sin(li * Math.PI * 2 / LN);
-      function sn(a) { return SIN[(a * LK | 0) & LMASK]; }
-
-      function size() {
-        W = Math.max(1, cv.clientWidth || window.innerWidth);
-        H = Math.max(1, cv.clientHeight || window.innerHeight);
-        cv.width = W; cv.height = H;          /* 唔乘 dpr：橫掂係放大圖 */
-        cx.imageSmoothingEnabled = true;
-        /* 固定總點數，唔跟闊度——手機直度高，跟闊度嘅話反而算多過電腦 */
-        OW = Math.max(90, Math.min(240, Math.round(Math.sqrt(22000 * W / H))));
-        OH = Math.max(70, Math.round(OW * H / W));
-        off.width = OW; off.height = OH;
-        img = ox.createImageData(OW, OH);
-        dat = img.data;
-        rowA = new Float32Array(OW);
-        rowB = new Float32Array(OW);
-        for (var i = 3; i < dat.length; i += 4) dat[i] = 255;
-      }
-
-      function hgt(x, z, T) {
-        return sn(x * 1.7 + z * 0.60 - T * 0.19) * 0.74
-             + sn(x * 3.1 - z * 1.10 + T * 0.43) * 1.00
-             + sn(x * 5.3 + z * 2.00 + T * 0.58) * 0.52
-             + sn(x * 9.1 - z * 3.30 + T * 0.27) * 0.26;
-      }
-
-      /* 淡紫 #d2cae6 = (210,202,230)，地平線附近就係佢，所以支柱樹浸上嚟
-         嗰片平色同塊海之間冇接縫。 */
-      var WAX_R = 210, WAX_G = 202, WAX_B = 230;
-
-      function frame(ts) {
-        if (!running) return;
-        if (!t0) t0 = ts;
-        var T = (ts - t0) / 1000;
-        var hor = OH * 0.17;
-        var prev = rowA, cur = rowB, tmp;
-        var p = 0, px, py;
-
-        for (py = 0; py < OH; py++) {
-          if (py < hor) {
-            for (px = 0; px < OW; px++) {
-              dat[p] = WAX_R; dat[p + 1] = WAX_G; dat[p + 2] = WAX_B; p += 4;
-              cur[px] = 0;
-            }
-            tmp = prev; prev = cur; cur = tmp;
-            continue;
-          }
-          var t = (py - hor) / (OH - hor);          /* 0 遠 → 1 近 */
-          var dz = 1 / (t + 0.055);                 /* 透視：遠處壓扁 */
-          var zz = dz * 1.25;
-          var xs = dz * 2.3 / OW;
-          var haze = Math.exp(-t * 5.2);            /* 遠處溶返落平色 */
-          var sx = 7.5 / (dz + 1.2), sz = 5.5 / (dz + 1.2);
-          var hPrev = hgt(-0.5 * OW * xs, zz, T);
-
-          for (px = 0; px < OW; px++) {
-            var h = hgt((px - OW * 0.5) * xs, zz, T);
-            cur[px] = h;
-            var nx = -(h - hPrev) * sx;
-            var nz = -(h - prev[px]) * sz;
-            hPrev = h;
-            var inv = 1 / Math.sqrt(nx * nx + nz * nz + 1);
-            /* 光由左上打落嚟 */
-            var diff = (nx * -0.42 + 1 * 0.80 + nz * 0.43) * inv;
-            if (diff < 0) diff = 0;
-            var d2 = diff * diff; var d4 = d2 * d2; var spec = d4 * d4 * d4 * d2;
-
-            var r = 122 + (222 - 122) * diff + spec * 150;
-            var g = 110 + (216 - 110) * diff + spec * 148;
-            var b = 160 + (240 - 160) * diff + spec * 152;
-            r += (WAX_R - r) * haze; g += (WAX_G - g) * haze; b += (WAX_B - b) * haze;
-
-            dat[p] = r > 255 ? 255 : r;
-            dat[p + 1] = g > 255 ? 255 : g;
-            dat[p + 2] = b > 255 ? 255 : b;
-            p += 4;
-          }
-          tmp = prev; prev = cur; cur = tmp;
-        }
-
-        ox.putImageData(img, 0, 0);
-        cx.drawImage(off, 0, 0, OW, OH, 0, 0, W, H);
-        raf = requestAnimationFrame(frame);
-      }
-
-      function start() {
-        if (running) return;
-        running = true; t0 = 0;
-        size();
-        raf = requestAnimationFrame(frame);
-      }
-      function stop() {
-        running = false;
-        if (raf) cancelAnimationFrame(raf);
-        raf = 0;
-        if (W && H) cx.clearRect(0, 0, W, H);
-      }
-      var rz;
-      window.addEventListener('resize', function () {
-        if (!running) return;
-        clearTimeout(rz); rz = setTimeout(size, 180);
-      });
-      /* 收起個 tab 就唔好燒 CPU */
-      document.addEventListener('visibilitychange', function () {
-        if (document.hidden) {
-          if (running) { running = false; cancelAnimationFrame(raf); }
-        } else if (!running && !waxg.hidden) {
-          running = true; t0 = 0; raf = requestAnimationFrame(frame);
-        }
-      });
-      return { start: start, stop: stop };
-    })();
-
     /* ── 支柱樹：SLA 樹脂支撐嘅長法 ──
        一棵樹 = 底板上一枝粗主幹，主幹向上行嘅時候左右分出斜向上嘅枝，
-       枝再分更幼嘅枝，末端收成一粒接觸波。分枝一律向上（夾角 clamp 喺
+       枝再分更幼嘅枝，末端收成針尖。分枝一律向上（夾角 clamp 喺
        74° 以內），唔會有打橫或者向下嘅——樹脂支撐唔可以咁長。
        時間上，一條枝要等母枝長到佢個分叉點先至開始，所以睇落去係真·生長。 */
     var NSVG = 'http://www.w3.org/2000/svg';
@@ -801,17 +656,7 @@
       var svg = document.createElementNS(NSVG, 'svg');
       svg.setAttribute('viewBox', '0 0 ' + vw + ' ' + vh);
       svg.setAttribute('preserveAspectRatio', 'none');
-      var segs = [], tips = [], maxT = 0;
-
-      function tipAt(x, y, w, t) {
-        var c = document.createElementNS(NSVG, 'circle');
-        c.setAttribute('cx', x.toFixed(1));
-        c.setAttribute('cy', y.toFixed(1));
-        c.setAttribute('r', (w * 0.95 + 0.55).toFixed(2));
-        c.style.opacity = up ? '0' : '1';
-        svg.appendChild(c);
-        tips.push({ el: c, delay: t });
-      }
+      var segs = [], maxT = 0;
 
       function grow(x, y, ang, len, w, depth, t0) {
         var x2 = x + Math.sin(ang) * len;
@@ -827,7 +672,7 @@
         segs.push({ el: p, len: len, delay: t0, dur: dur, depth: depth });
         if (t0 + dur > maxT) maxT = t0 + dur;
 
-        if (depth >= 2) { tipAt(x2, y2, w, t0 + dur); return; }
+        if (depth >= 2) return;                /* 末梢就係針尖，唔加粒波 */
 
         /* 分叉位：主幹由 30% 起左右輪流分五次，枝再分兩次。
            枝要短——真支撐係一枝枝短手斜上，唔係幾條長斜撐。 */
@@ -843,19 +688,21 @@
           grow(bx, by, ba,
                len * (depth === 0 ? 0.095 + Math.random() * 0.085
                                   : 0.40 + Math.random() * 0.24),
-               Math.max(0.9, w * 0.46), depth + 1, t0 + dur * f);
+               Math.max(0.8, w * 0.38), depth + 1, t0 + dur * f);
           side = -side;
         }
         /* 主幹頂收一條針尖——真支撐唔會平頭 */
-        if (depth === 0) grow(x2, y2, ang, len * 0.08, w * 0.3, 2, t0 + dur);
+        if (depth === 0) grow(x2, y2, ang, len * 0.09, w * 0.22, 2, t0 + dur);
       }
 
       var n = Math.max(4, Math.round(vw / 160));
       for (var i = 0; i < n; i++) {
         var cx = (i + 0.5) / n * vw + (Math.random() - 0.5) * (vw / n) * 0.5;
-        grow(cx, vh, (Math.random() - 0.5) * 6 * RAD,
+        /* 傾角細，但唔會係零——完全垂直就變咗柱，唔係樹 */
+        var lean = (Math.random() < 0.5 ? -1 : 1) * (0.8 + Math.random() * 1.5) * RAD;
+        grow(cx, vh, lean,
              vh * (0.42 + Math.random() * 0.52),
-             5.0 + Math.random() * 3.2, 0, Math.random() * 150);
+             8.6 + Math.random() * 4.2, 0, Math.random() * 150);
       }
 
       growEl.appendChild(svg);
@@ -863,7 +710,7 @@
       fl.className = 'flood';
       if (!up) fl.style.transform = 'scaleY(1)';
       growEl.appendChild(fl);
-      return { flood: fl, segs: segs, tips: tips, maxT: maxT };
+      return { flood: fl, segs: segs, maxT: maxT };
     }
 
     function ride(el, from, to, dur, delay, ease) {
@@ -875,10 +722,6 @@
       return el.animate([{ strokeDashoffset: String(from) },
                          { strokeDashoffset: String(to) }],
         { duration: dur, delay: delay, easing: ease, fill: 'forwards' });
-    }
-    function fade(el, from, to, dur, delay) {
-      return el.animate([{ opacity: from }, { opacity: to }],
-        { duration: dur, delay: delay, easing: 'linear', fill: 'forwards' });
     }
 
     function growTree(up) {
@@ -896,11 +739,6 @@
           : draw(g.el, 0, g.len, backDur[g.depth],
                  backDelay[g.depth] + Math.random() * 110,
                  'cubic-bezier(.6,.05,.75,.3)'));
-      }
-      for (i = 0; i < built.tips.length; i++) {
-        var tp = built.tips[i];
-        all.push(up ? fade(tp.el, 0, 1, 90, tp.delay)
-                    : fade(tp.el, 1, 0, 90, 200 + Math.random() * 90));
       }
 
       var fl = built.flood;
@@ -928,7 +766,6 @@
         run.covered.then(function () {
           waxg.hidden = false;
           waxg.setAttribute('aria-hidden', 'false');
-          Sea.start();                 /* 要等 hidden 拆咗先，否則 canvas 量到 0 闊 */
           toWax.style.visibility = 'hidden';
           mv.removeAttribute('auto-rotate');
           clearGrow();
@@ -942,7 +779,6 @@
         /* 支柱同浸起嗰片已經係遮住嘅狀態，所以同一幀收起蠟模層唔會穿崩 */
         zoom.classList.remove('on');
         waxg.classList.remove('lit');
-        Sea.stop();
         waxg.hidden = true;
         waxg.setAttribute('aria-hidden', 'true');
         toWax.style.visibility = '';
