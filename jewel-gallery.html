@@ -14,9 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=131"/>
-  <script src="site.js?v=131" defer></script>
-  <script src="game-logos.js?v=131"></script>
+  <link rel="stylesheet" href="site.css?v=136"/>
+  <script src="site.js?v=136" defer></script>
+  <script src="game-logos.js?v=136"></script>
   <!-- Google model-viewer（自托管，冇第三方依賴） -->
   <script type="module" src="model-viewer.min.js"></script>
 
@@ -257,11 +257,29 @@
     .waxg[hidden] { display: none; }
     .waxg .corner { z-index: 10; }
 
+    /* ── 紫色樹脂之海 ──
+       唔用 WebGL：呢一頁已經有 model-viewer 開緊一個 GL context，
+       手機上面開第二個係攞嚟搞。改用 2D canvas 畫一疊由遠至近嘅波形帶——
+       層層疊嘅輪廓線本身就係樹脂打印嘅語言，同蠟模 gallery 啱 key。
+       每幀 58 行 × 88 點，每點四條正弦，大約兩萬次 sin，成本可以忽略。 */
+    .sea {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      display: block; z-index: 0; pointer-events: none;
+    }
+    .waxg-grid { position: relative; z-index: 2; }
+
     /* 細細哋一個 gallery：四欄兩行，冇名冇標籤 */
     .waxg-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: clamp(8px, 1.3vw, 16px);
-      width: min(720px, 88vw);
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: clamp(7px, 1.1vw, 13px);
+      width: min(760px, 86vw);
+      max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+    }
+    /* 電腦版二十張啱啱一屏，唔會捲，所以索性收起條捲軸；
+       手機要捲十行，就唔好收——冇咗條軸就冇人知仲有嘢喺下面。 */
+    @media (min-width: 768px) {
+      .waxg-grid { scrollbar-width: none; }
+      .waxg-grid::-webkit-scrollbar { display: none; }
     }
     .waxg-grid button {
       appearance: none; border: 0; padding: 0; display: block;
@@ -399,7 +417,7 @@
     <div class="hero">
       <div class="mv-wrap" id="mvWrap">
         <model-viewer id="mv"
-          src="models/ring-signet.glb?v=131"
+          src="models/ring-signet.glb?v=136"
           alt="hand-carved silver ring — signet"
           camera-controls
           auto-rotate auto-rotate-delay="3500" rotation-per-second="14deg"
@@ -443,6 +461,7 @@
 
   <!-- 蠟模 gallery：長出嚟之後蓋住成版 3D gallery -->
   <section class="waxg" id="waxg" hidden aria-hidden="true" aria-label="wax patterns">
+    <canvas class="sea" id="sea" aria-hidden="true"></canvas>
     <button type="button" class="corner corner-silver" id="toDesign"><span class="lb">design</span></button>
     <div class="waxg-grid" id="waxgGrid"></div>
     <div class="waxg-zoom" id="waxgZoom"><img alt=""></div>
@@ -470,17 +489,17 @@
       ].join('\n');
     }
     var RINGS = {
-      milgrain:   { src: 'models/ring-milgrain.glb?v=131',
+      milgrain:   { src: 'models/ring-milgrain.glb?v=136',
                     specs: spec('no.7 — milgrain band', 'simple', '7') },
-      engagement: { src: 'models/ring-engagement.glb?v=131',
+      engagement: { src: 'models/ring-engagement.glb?v=136',
                     specs: spec('no.55 — engagement', 'simple', '7') },
-      camellia:   { src: 'models/ring-camellia.glb?v=131',
+      camellia:   { src: 'models/ring-camellia.glb?v=136',
                     specs: spec('no.63-G — camellia', 'complex', '7') },
-      hexflower:  { src: 'models/ring-hexflower.glb?v=131',
+      hexflower:  { src: 'models/ring-hexflower.glb?v=136',
                     specs: spec('no.64 — hex flower', 'sculptural', '7') },
-      signet:     { src: 'models/ring-signet.glb?v=131',
+      signet:     { src: 'models/ring-signet.glb?v=136',
                     specs: spec('no.103-F — signet', 'standard', '10') },
-      emerald:    { src: 'models/ring-emerald.glb?v=131',
+      emerald:    { src: 'models/ring-emerald.glb?v=136',
                     specs: spec('no.216 — emerald', 'standard', '7') }
     };
 
@@ -578,14 +597,26 @@
        轉場做成 3D 打印嘅支柱樹：淡紫由底部射出一排支柱（每條頂住條針），
        跟住成片浸上嚟食晒塊黑，變成蠟模 gallery 嘅底色。返轉頭倒帶。 */
     var WAX = [
-      ['w1', 'Openwork filigree band printed in castable resin, still standing on its support pillars'],
-      ['w2', 'Printed band with milgrained stone seats, a second floral band behind it'],
-      ['w3', 'Ring pattern on its support tree, still attached to the build plate'],
-      ['w4', 'Three signet patterns with engraved intaglio faces'],
-      ['w5', 'Prong cups held up on their support pillars, close up'],
-      ['w6', 'Solitaire pattern with a printed stone and claw setting'],
-      ['w7', 'Ring pattern with a cluster head and prong seats'],
-      ['w8', 'Winged openwork pattern, layered blades']
+      ['w9',  'A turbaned head and shoulders, printed as a solid resin bust'],
+      ['w12', 'An orchid with curled petals, printed thin enough to light through'],
+      ['w18', 'A signet with an intaglio face carved into the resin'],
+      ['w10', 'A long-coated dog standing, printed solid in castable resin'],
+      ['w1',  'Openwork filigree band printed in castable resin, still standing on its support pillars'],
+      ['w13', 'A flowering pattern on its raft, the supports still holding it up'],
+      ['w15', 'A ring head packed with cabochon seats, printed in castable resin'],
+      ['w4',  'Three signet patterns with engraved intaglio faces'],
+      ['w14', 'A figure group still on its printing raft, supports uncut'],
+      ['w17', 'A ring with a pierced shank and long claw prongs waiting for a stone'],
+      ['w3',  'Ring pattern on its support tree, still attached to the build plate'],
+      ['w19', 'A wide band carved with scrolling foliage'],
+      ['w11', 'A small dog harnessed to a two-wheeled cart'],
+      ['w6',  'Solitaire pattern with a printed stone and claw setting'],
+      ['w16', 'A cluster head on its support pillars, pavé seats cut along the shank'],
+      ['w2',  'Printed band with milgrained stone seats, a second floral band behind it'],
+      ['w20', 'An openwork band standing on edge, pierced the whole way round'],
+      ['w7',  'Ring pattern with a cluster head and prong seats'],
+      ['w5',  'Prong cups held up on their support pillars, close up'],
+      ['w8',  'Winged openwork pattern, layered blades']
     ];
 
     var waxg = document.getElementById('waxg');
@@ -621,6 +652,139 @@
     }
     if (window.requestIdleCallback) requestIdleCallback(loadThumbs, { timeout: 2500 });
     else setTimeout(loadThumbs, 1400);
+
+    /* ── 紫色樹脂之海 ──
+       唔用 WebGL：呢一頁已經有 model-viewer 開緊一個 GL context。
+       改為喺一塊細 canvas（闊度 1/5）逐點算高度場，再放大鋪滿成版——
+       放大本身嘅模糊啱啱好，樹脂係稠嘅，唔應該有硬邊。
+       高度 = 四條唔同波長／方向／速度嘅正弦加埋；樹脂重，所以波長長、速度慢。
+       法線靠「同上一點、上一行比較」拎返嚟，所以每點只係四個 sin。 */
+    var Sea = (function () {
+      var cv = document.getElementById('sea');
+      if (!cv) return { start: function () {}, stop: function () {} };
+      var cx = cv.getContext('2d');
+      var off = document.createElement('canvas');
+      var ox = off.getContext('2d');
+      var W = 0, H = 0, OW = 0, OH = 0, img = null, dat = null;
+      var rowA = null, rowB = null;
+      var raf = 0, t0 = 0, running = false;
+
+      /* 正弦查表：Math.sin 行足四萬次就係 25ms，查表得 3ms。
+         `(a*K|0) & MASK` 連負數都繞得返（JS 嘅 & 係 32 位），所以唔使先取模。 */
+      var LN = 4096, LMASK = LN - 1, LK = LN / (Math.PI * 2);
+      var SIN = new Float32Array(LN);
+      for (var li = 0; li < LN; li++) SIN[li] = Math.sin(li * Math.PI * 2 / LN);
+      function sn(a) { return SIN[(a * LK | 0) & LMASK]; }
+
+      function size() {
+        W = Math.max(1, cv.clientWidth || window.innerWidth);
+        H = Math.max(1, cv.clientHeight || window.innerHeight);
+        cv.width = W; cv.height = H;          /* 唔乘 dpr：橫掂係放大圖 */
+        cx.imageSmoothingEnabled = true;
+        /* 固定總點數，唔跟闊度——手機直度高，跟闊度嘅話反而算多過電腦 */
+        OW = Math.max(90, Math.min(240, Math.round(Math.sqrt(22000 * W / H))));
+        OH = Math.max(70, Math.round(OW * H / W));
+        off.width = OW; off.height = OH;
+        img = ox.createImageData(OW, OH);
+        dat = img.data;
+        rowA = new Float32Array(OW);
+        rowB = new Float32Array(OW);
+        for (var i = 3; i < dat.length; i += 4) dat[i] = 255;
+      }
+
+      function hgt(x, z, T) {
+        return sn(x * 1.7 + z * 0.60 - T * 0.19) * 0.74
+             + sn(x * 3.1 - z * 1.10 + T * 0.43) * 1.00
+             + sn(x * 5.3 + z * 2.00 + T * 0.58) * 0.52
+             + sn(x * 9.1 - z * 3.30 + T * 0.27) * 0.26;
+      }
+
+      /* 淡紫 #d2cae6 = (210,202,230)，地平線附近就係佢，所以支柱樹浸上嚟
+         嗰片平色同塊海之間冇接縫。 */
+      var WAX_R = 210, WAX_G = 202, WAX_B = 230;
+
+      function frame(ts) {
+        if (!running) return;
+        if (!t0) t0 = ts;
+        var T = (ts - t0) / 1000;
+        var hor = OH * 0.17;
+        var prev = rowA, cur = rowB, tmp;
+        var p = 0, px, py;
+
+        for (py = 0; py < OH; py++) {
+          if (py < hor) {
+            for (px = 0; px < OW; px++) {
+              dat[p] = WAX_R; dat[p + 1] = WAX_G; dat[p + 2] = WAX_B; p += 4;
+              cur[px] = 0;
+            }
+            tmp = prev; prev = cur; cur = tmp;
+            continue;
+          }
+          var t = (py - hor) / (OH - hor);          /* 0 遠 → 1 近 */
+          var dz = 1 / (t + 0.055);                 /* 透視：遠處壓扁 */
+          var zz = dz * 1.25;
+          var xs = dz * 2.3 / OW;
+          var haze = Math.exp(-t * 5.2);            /* 遠處溶返落平色 */
+          var sx = 7.5 / (dz + 1.2), sz = 5.5 / (dz + 1.2);
+          var hPrev = hgt(-0.5 * OW * xs, zz, T);
+
+          for (px = 0; px < OW; px++) {
+            var h = hgt((px - OW * 0.5) * xs, zz, T);
+            cur[px] = h;
+            var nx = -(h - hPrev) * sx;
+            var nz = -(h - prev[px]) * sz;
+            hPrev = h;
+            var inv = 1 / Math.sqrt(nx * nx + nz * nz + 1);
+            /* 光由左上打落嚟 */
+            var diff = (nx * -0.42 + 1 * 0.80 + nz * 0.43) * inv;
+            if (diff < 0) diff = 0;
+            var d2 = diff * diff; var d4 = d2 * d2; var spec = d4 * d4 * d4 * d2;
+
+            var r = 122 + (222 - 122) * diff + spec * 150;
+            var g = 110 + (216 - 110) * diff + spec * 148;
+            var b = 160 + (240 - 160) * diff + spec * 152;
+            r += (WAX_R - r) * haze; g += (WAX_G - g) * haze; b += (WAX_B - b) * haze;
+
+            dat[p] = r > 255 ? 255 : r;
+            dat[p + 1] = g > 255 ? 255 : g;
+            dat[p + 2] = b > 255 ? 255 : b;
+            p += 4;
+          }
+          tmp = prev; prev = cur; cur = tmp;
+        }
+
+        ox.putImageData(img, 0, 0);
+        cx.drawImage(off, 0, 0, OW, OH, 0, 0, W, H);
+        raf = requestAnimationFrame(frame);
+      }
+
+      function start() {
+        if (running) return;
+        running = true; t0 = 0;
+        size();
+        raf = requestAnimationFrame(frame);
+      }
+      function stop() {
+        running = false;
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+        if (W && H) cx.clearRect(0, 0, W, H);
+      }
+      var rz;
+      window.addEventListener('resize', function () {
+        if (!running) return;
+        clearTimeout(rz); rz = setTimeout(size, 180);
+      });
+      /* 收起個 tab 就唔好燒 CPU */
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          if (running) { running = false; cancelAnimationFrame(raf); }
+        } else if (!running && !waxg.hidden) {
+          running = true; t0 = 0; raf = requestAnimationFrame(frame);
+        }
+      });
+      return { start: start, stop: stop };
+    })();
 
     /* ── 支柱樹：SLA 樹脂支撐嘅長法 ──
        一棵樹 = 底板上一枝粗主幹，主幹向上行嘅時候左右分出斜向上嘅枝，
@@ -764,6 +928,7 @@
         run.covered.then(function () {
           waxg.hidden = false;
           waxg.setAttribute('aria-hidden', 'false');
+          Sea.start();                 /* 要等 hidden 拆咗先，否則 canvas 量到 0 闊 */
           toWax.style.visibility = 'hidden';
           mv.removeAttribute('auto-rotate');
           clearGrow();
@@ -777,6 +942,7 @@
         /* 支柱同浸起嗰片已經係遮住嘅狀態，所以同一幀收起蠟模層唔會穿崩 */
         zoom.classList.remove('on');
         waxg.classList.remove('lit');
+        Sea.stop();
         waxg.hidden = true;
         waxg.setAttribute('aria-hidden', 'true');
         toWax.style.visibility = '';

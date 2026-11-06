@@ -7,7 +7,7 @@ jewel-gallery.html 右上角嘅「WAX MODEL」掣會開一個蠟模 gallery，
     jewel/wax/w1-640.webp   jewel/wax/w1-1400.webp
     jewel/wax/w2-640.webp   jewel/wax/w2-1400.webp
     ...                     ...
-    jewel/wax/w8-640.webp   jewel/wax/w8-1400.webp
+    jewel/wax/w20-640.webp  jewel/wax/w20-1400.webp
 
   · -640  ＝ 格仔入面嗰張（四欄兩行，正方形裁切）
   · -1400 ＝ 撳落去放大嗰張
@@ -18,12 +18,15 @@ jewel-gallery.html 右上角嘅「WAX MODEL」掣會開一個蠟模 gallery，
 ----------
 由原圖（最好係正方形）直接出兩個尺寸：
 
-    cwebp -q 80 -resize 640 640  -m 6 -sharp_yuv 原圖.jpg -o jewel/wax/w9-640.webp
-    cwebp -q 82 -resize 1400 1400 -m 6 -sharp_yuv 原圖.jpg -o jewel/wax/w9-1400.webp
+    cwebp -q 80 -resize 640 640  -m 6 -sharp_yuv 原圖.jpg -o jewel/wax/w21-640.webp
+    cwebp -q 82 -resize 1400 1400 -m 6 -sharp_yuv 原圖.jpg -o jewel/wax/w21-1400.webp
 
-跟住喺 jewel-gallery.html 嘅 WAX 陣列加一行 ['w9', '一句描述畀讀屏軟件用']。
-格仔係四欄，所以張數最好係 4 嘅倍數，唔係就會尾行唔齊。
-記得順手喺 sitemap-images.xml 嗰個 jewel-gallery.html 區塊加返條 image。
+跟住喺 jewel-gallery.html 嘅 WAX 陣列加一行 ['w21', '一句描述畀讀屏軟件用']。
+電腦版格仔係五欄、手機兩欄，所以張數最好係 10 嘅倍數（而家 20 張 ＝ 5×4，
+啱啱一屏唔使捲）。記得順手喺 sitemap-images.xml 嗰個 jewel-gallery.html
+區塊加返條 image——嗰度係爬蟲唯一見到蠟模相嘅地方。
+
+WAX 陣列嘅次序就係畫面次序，唔使跟檔名號碼；而家係新舊相間排。
 
 圖片要求：
   · 正方形構圖（格仔係 1:1，唔係會 crop 走邊）
