@@ -16,9 +16,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200&display=swap" rel="stylesheet"/>
 
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=142"/>
-  <script src="site.js?v=142" defer></script>
-  <script src="gallery-data.js?v=142"></script>
+  <link rel="stylesheet" href="site.css?v=143"/>
+  <script src="site.js?v=143" defer></script>
+  <script src="gallery-data.js?v=143"></script>
 
   <style>
     :root {
@@ -543,6 +543,16 @@
     }, { passive: true });
 
     renderBatch();
+
+    /* 由網址直接開一個分類：hikki.ca/gallery.html#friends
+       名片同傳單上面嘅 QR 用緊呢條，所以唔好拆。
+       只認得四個已知分類，唔會把網址啲字塞落 selector 度。 */
+    (function () {
+      var want = (location.hash || '').slice(1).toLowerCase();
+      if (['souls', 'times', 'cities', 'friends'].indexOf(want) < 0) return;
+      var btn = document.querySelector('.filter-btn[data-filter="' + want + '"]');
+      if (btn) btn.click();
+    })();
   </script>
 </body>
 </html>
