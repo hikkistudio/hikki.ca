@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Rainfall — live rain over Macau &amp; Victoria | hikki</title>
   <link rel="icon" href="/favicon.png" type="image/png"/>
-  <link rel="stylesheet" href="site.css?v=138"/>
-  <script src="site.js?v=138" defer></script>
+  <link rel="stylesheet" href="site.css?v=140"/>
+  <script src="site.js?v=140" defer></script>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     :root{
@@ -2040,7 +2040,7 @@
       } else setTimeout(bootCheck,240);
     }
     fit(); resetView();
-    fetch(CITY.map+'?v=138')
+    fetch(CITY.map+'?v=140')
       .then(function(r){
         if(!r.ok) throw new Error('HTTP '+r.status+' '+CITY.map);
         return r.json();

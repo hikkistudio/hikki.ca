@@ -14,9 +14,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400&display=swap" rel="stylesheet"/>
 
-  <link rel="stylesheet" href="site.css?v=138"/>
-  <script src="site.js?v=138" defer></script>
-  <script src="game-logos.js?v=138"></script>
+  <link rel="stylesheet" href="site.css?v=140"/>
+  <script src="site.js?v=140" defer></script>
+  <script src="game-logos.js?v=140"></script>
   <!-- Google model-viewer（自托管，冇第三方依賴） -->
   <script type="module" src="model-viewer.min.js"></script>
 
@@ -264,6 +264,9 @@
       gap: clamp(7px, 1.1vw, 13px);
       width: min(760px, 86vw);
       max-height: 100%; overflow-y: auto; overscroll-behavior: contain;
+      /* 行高唔可以畀人攤分：grid 預設 align-content:stretch，一撞到
+         max-height 就會把每行壓扁，aspect-ratio 讓步，相變成一條條。 */
+      align-content: start; grid-auto-rows: max-content;
     }
     /* 電腦版二十張啱啱一屏，唔會捲，所以索性收起條捲軸；
        手機要捲十行，就唔好收——冇咗條軸就冇人知仲有嘢喺下面。 */
@@ -273,14 +276,17 @@
     }
     .waxg-grid button {
       appearance: none; border: 0; padding: 0; display: block;
-      background: #bdb3d6; aspect-ratio: 1; overflow: hidden;
+      background: #bdb3d6; overflow: hidden;
       cursor: zoom-in; touch-action: manipulation;
       opacity: 0; transform: translateY(14px);
       transition: opacity .42s ease, transform .42s ease;
     }
     .waxg.lit .waxg-grid button { opacity: 1; transform: none; }
     .waxg-grid img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+      /* 正方形由張相自己定，唔好寫 height:100% 去問父層攞高度——
+         父層一旦畀壓扁，張相就跟住扁。 */
+      width: 100%; height: auto; aspect-ratio: 1;
+      object-fit: cover; display: block;
       transition: transform .5s cubic-bezier(.2,.7,.2,1);
     }
     .waxg-grid button:hover img { transform: scale(1.06); }
@@ -406,7 +412,7 @@
     <div class="hero">
       <div class="mv-wrap" id="mvWrap">
         <model-viewer id="mv"
-          src="models/ring-signet.glb?v=138"
+          src="models/ring-signet.glb?v=140"
           alt="hand-carved silver ring — signet"
           camera-controls
           auto-rotate auto-rotate-delay="3500" rotation-per-second="14deg"
@@ -477,17 +483,17 @@
       ].join('\n');
     }
     var RINGS = {
-      milgrain:   { src: 'models/ring-milgrain.glb?v=138',
+      milgrain:   { src: 'models/ring-milgrain.glb?v=140',
                     specs: spec('no.7 — milgrain band', 'simple', '7') },
-      engagement: { src: 'models/ring-engagement.glb?v=138',
+      engagement: { src: 'models/ring-engagement.glb?v=140',
                     specs: spec('no.55 — engagement', 'simple', '7') },
-      camellia:   { src: 'models/ring-camellia.glb?v=138',
+      camellia:   { src: 'models/ring-camellia.glb?v=140',
                     specs: spec('no.63-G — camellia', 'complex', '7') },
-      hexflower:  { src: 'models/ring-hexflower.glb?v=138',
+      hexflower:  { src: 'models/ring-hexflower.glb?v=140',
                     specs: spec('no.64 — hex flower', 'sculptural', '7') },
-      signet:     { src: 'models/ring-signet.glb?v=138',
+      signet:     { src: 'models/ring-signet.glb?v=140',
                     specs: spec('no.103-F — signet', 'standard', '10') },
-      emerald:    { src: 'models/ring-emerald.glb?v=138',
+      emerald:    { src: 'models/ring-emerald.glb?v=140',
                     specs: spec('no.216 — emerald', 'standard', '7') }
     };
 

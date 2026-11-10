@@ -7,9 +7,9 @@
   <title>For the bench — 3D design &amp; castable patterns | hikki jewel design</title>
   <meta name="theme-color" content="#e9e5da"/>
   <link rel="icon" href="/favicon.png"/>
-  <link rel="stylesheet" href="/site.css?v=138"/>
-  <script src="/site.js?v=138" defer></script>
-  <script type="module" src="/model-viewer.min.js?v=138" defer></script>
+  <link rel="stylesheet" href="/site.css?v=140"/>
+  <script src="/site.js?v=140" defer></script>
+  <script type="module" src="/model-viewer.min.js?v=140" defer></script>
   <style>
     /* ══════════════════════════════════════════════════════════════
        傳單。唔係畀人欣賞，係畀師傅喺檔口開嚟睇嘅：
@@ -95,7 +95,8 @@
     .row .n { font-size:clamp(19px,2.9vw,30px); font-weight:700; letter-spacing:-.015em; }
     .row .n i { display:block; font-style:normal; font-weight:400;
       font-size:clamp(11px,1.3vw,14px); color:var(--ink-2); letter-spacing:0;
-      line-height:1.35; margin-top:.25em; max-width:46ch; }
+      line-height:1.4; margin-top:.3em; max-width:52ch; }
+    .row .n i + i { margin-top:.12em; }      /* 中文自己一行，唔好跟喺英文後面斷開 */
     .row .f { font-size:clamp(10px,1.2vw,13px); color:var(--ink-2);
       letter-spacing:.14em; text-transform:uppercase; }
     .row .v { font-size:clamp(19px,2.9vw,30px); font-weight:700;
@@ -127,6 +128,8 @@
       margin-top:.75em; }
     .cn-line { font-size:clamp(13px,1.6vw,16.5px); color:var(--ink-2);
       line-height:1.75; max-width:40ch; margin-top:.6em; }
+    .lang { font-size:clamp(14px,1.7vw,18px); font-weight:700;
+      letter-spacing:-.01em; margin-top:1.1em; }
 
     /* ── 蠟模相：格仔大，撳落去睇原圖 ── */
     .shots { display:grid; grid-template-columns:repeat(2,1fr); gap:3px;
@@ -255,7 +258,8 @@
       <div class="head">
         <div class="mark" aria-hidden="true">h</div>
         <div class="cred">
-          <b>Five years of CAD drawing, and hands-on bench experience.</b>
+          <b>Five years of CAD drawing, and hands-on bench experience.
+            Trusted by the industry.</b>
           <span>25&nbsp;µm layer printing &nbsp;·&nbsp; 0.03% ash yield rate</span>
         </div>
         <div class="code bars vert" aria-hidden="true"></div>
@@ -266,13 +270,13 @@
       </div>
       <div class="pad body">
         <p class="say">I draw it, I print it. You cast it.</p>
-        <p>Two services, nothing else. Send a sketch and get back a pattern that is
-          ready for the flask — or send your own file and get it printed. Prong seats,
-          stone seats, wall thickness and sprue placement are settled on the screen,
-          so nothing surprises you at the bench.</p>
-        <p class="cn-line">本人只做兩件事：由草圖做 3D 設計並打印可鑄樣板，
-          或者來圖代印。爪位、石座、壁厚同澆口喺電腦上面已經諗妥，
-          唔會到你手先至出事。可用廣東話、英語、普通話溝通。</p>
+        <p>I offer two services: 3D design from a sketch, delivered as a printed
+          castable pattern — or printing from your own file. Prong seats, stone seats,
+          wall thickness and sprue placement are settled on the screen.</p>
+        <p class="cn-line">本人誠意提供兩項服務：由草圖做 3D 設計並打印可鑄樣板，
+          或者來圖代印。爪位、石座、壁厚同澆口喺電腦上面已經諗妥。</p>
+        <p class="lang">English, Cantonese and Mandarin.</p>
+        <p class="cn-line">可用廣東話、英語、普通話溝通。</p>
       </div>
     </section>
 
@@ -318,7 +322,7 @@
       </div>
       <div class="mv-wrap">
         <model-viewer id="mv"
-          src="models/ring-signet.glb?v=138"
+          src="models/ring-signet.glb?v=140"
           alt="A signet ring modelled in 3D, turned on screen"
           camera-controls auto-rotate auto-rotate-delay="2500" rotation-per-second="14deg"
           interaction-prompt="none" exposure="1.15"
@@ -327,12 +331,12 @@
           loading="lazy"></model-viewer>
       </div>
       <div class="picks" id="picks">
-        <button type="button" data-src="models/ring-signet.glb?v=138" aria-pressed="true">no.103-F signet<i>standard</i></button>
-        <button type="button" data-src="models/ring-milgrain.glb?v=138" aria-pressed="false">no.7 milgrain<i>simple</i></button>
-        <button type="button" data-src="models/ring-engagement.glb?v=138" aria-pressed="false">no.55 engagement<i>simple</i></button>
-        <button type="button" data-src="models/ring-emerald.glb?v=138" aria-pressed="false">no.216 emerald<i>standard</i></button>
-        <button type="button" data-src="models/ring-camellia.glb?v=138" aria-pressed="false">no.63-G camellia<i>complex</i></button>
-        <button type="button" data-src="models/ring-hexflower.glb?v=138" aria-pressed="false">no.64 hex flower<i>sculptural</i></button>
+        <button type="button" data-src="models/ring-signet.glb?v=140" aria-pressed="true">no.103-F signet<i>standard</i></button>
+        <button type="button" data-src="models/ring-milgrain.glb?v=140" aria-pressed="false">no.7 milgrain<i>simple</i></button>
+        <button type="button" data-src="models/ring-engagement.glb?v=140" aria-pressed="false">no.55 engagement<i>simple</i></button>
+        <button type="button" data-src="models/ring-emerald.glb?v=140" aria-pressed="false">no.216 emerald<i>standard</i></button>
+        <button type="button" data-src="models/ring-camellia.glb?v=140" aria-pressed="false">no.63-G camellia<i>complex</i></button>
+        <button type="button" data-src="models/ring-hexflower.glb?v=140" aria-pressed="false">no.64 hex flower<i>sculptural</i></button>
       </div>
     </section>
 
@@ -345,10 +349,10 @@
 
       <h3 class="bar">01 / Design + pattern <span class="cn">設計＋蠟模</span></h3>
       <div class="price">
-        <div class="row"><span class="n">Simple<i>Plain bands, simple solitaires, simple pendants　素圈、單顆簡單爪鑲、簡單墜子</i></span><span class="f"></span><span class="v">$120</span></div>
-        <div class="row"><span class="n">Standard<i>Halo, channel, multi-prong, simple pavé, engraved signet　群鑲、槽鑲、多爪、簡單密鑲、刻字印章戒</i></span><span class="f"></span><span class="v">$300</span></div>
-        <div class="row"><span class="n">Complex<i>Cathedral settings, extensive pavé, multi-part assemblies　教堂式、大面積密鑲、多部件組裝</i></span><span class="f">from</span><span class="v">$500</span></div>
-        <div class="row"><span class="n">Sculptural<i>Figures, animals, relief work　人物、動物、浮雕</i></span><span class="f">from</span><span class="v">$600</span></div>
+        <div class="row"><span class="n">Simple<i>Plain bands, simple solitaires, simple pendants</i><i>素圈、單顆簡單爪鑲、簡單墜子</i></span><span class="f"></span><span class="v">$120</span></div>
+        <div class="row"><span class="n">Standard<i>Halo, channel, multi-prong, simple pavé, engraved signet</i><i>群鑲、槽鑲、多爪、簡單密鑲、刻字印章戒</i></span><span class="f"></span><span class="v">$300</span></div>
+        <div class="row"><span class="n">Complex<i>Cathedral settings, extensive pavé, multi-part assemblies</i><i>教堂式、大面積密鑲、多部件組裝</i></span><span class="f">from</span><span class="v">$500</span></div>
+        <div class="row"><span class="n">Sculptural<i>Figures, animals, relief work</i><i>人物、動物、浮雕</i></span><span class="f">from</span><span class="v">$600</span></div>
       </div>
       <p class="note">Simple and Standard: ten business days. Complex and Sculptural: by
         arrangement. Two rounds of revisions and a castability check are included in
@@ -356,12 +360,12 @@
 
       <h3 class="bar">02 / Pattern from your file <span class="cn">來圖製蠟模</span></h3>
       <div class="price">
-        <div class="row"><span class="n">Small<i>Rings, studs, small pendants　戒指、耳釘、小墜</i></span><span class="f"></span><span class="v">$35</span></div>
-        <div class="row"><span class="n">Medium<i>Heavier rings, mid-size pendants　較厚戒指、中型墜子</i></span><span class="f"></span><span class="v">$55</span></div>
-        <div class="row"><span class="n">Large<i>Large signet rings, heavy pieces　大型印章戒、厚重件</i></span><span class="f"></span><span class="v">$75</span></div>
+        <div class="row"><span class="n">Small<i>Rings, studs, small pendants</i><i>戒指、耳釘、小墜</i></span><span class="f"></span><span class="v">$35</span></div>
+        <div class="row"><span class="n">Medium<i>Heavier rings, mid-size pendants</i><i>較厚戒指、中型墜子</i></span><span class="f"></span><span class="v">$55</span></div>
+        <div class="row"><span class="n">Large<i>Large signet rings, heavy pieces</i><i>大型印章戒、厚重件</i></span><span class="f"></span><span class="v">$75</span></div>
       </div>
-      <p class="note">Ships within three business days. Send the file, I check it for
-        castability first.<br>三個工作天內發貨。收到檔先檢查可鑄性，再開機。</p>
+      <p class="note">Ships within three business days. I check the file for
+        castability before printing.<br>三個工作天內發貨。會先檢查可鑄性再開機。</p>
 
       <h3 class="bar">Volume <span class="cn">同款數量折扣</span></h3>
       <dl class="grid2">
@@ -378,8 +382,9 @@
         <div class="cell"><dt>Western provinces 西部</dt><dd>$22</dd></div>
         <div class="cell"><dt>Eastern provinces 東部</dt><dd>$30</dd></div>
       </dl>
-      <p class="note">Metro Vancouver is delivered by hand. Everywhere else is tracked
-        shipping at a flat rate.<br>大溫地區親自送達，其餘地區追蹤郵寄、一口價。</p>
+      <p class="note">Metro Vancouver is delivered by hand, everywhere else by tracked
+        post. Anything damaged in transit is reprinted free; postage is charged again.
+        <br>大溫地區親自送達，其餘地區追蹤郵寄。（運輸過程損壞免費重印，郵資另收）</p>
       <div class="strip bars" aria-hidden="true"></div>
     </section>
 
@@ -387,11 +392,8 @@
     <section class="card black">
       <div class="pad">
         <p class="say">First one's on me.</p>
-        <p>Any shop in British Columbia: the first test pattern is free. Cast it in your
-          own furnace, and tell me how it burned out. That is the whole deal — no
-          strings, no minimum, no account to open.</p>
-        <p class="cn-line">BC 省內任何金行，首件測試樣板免費。
-          用你自己嘅爐鑄一次，再話我知燒失點樣。就係咁，冇附帶條件。</p>
+        <p>Any shop in British Columbia: the first test pattern is free.</p>
+        <p class="cn-line">BC 省內任何金行，首件測試樣板免費。</p>
         <div class="big-call">
           <a href="tel:+12509869516">250-986-9516</a>
           <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
@@ -402,7 +404,10 @@
     </section>
 
     <p class="foot">
-      <span>&copy; 2026 hikki photography &amp; philosophy</span>
+      <span>&copy; 2026 hikki photography &amp; philosophy &nbsp;·&nbsp;
+        one-page leaflet:
+        <a href="/jewel/hikki-jewel-leaflet-bw.pdf" download>black &amp; white PDF</a> &nbsp;·&nbsp;
+        <a href="/jewel/hikki-jewel-leaflet-colour.pdf" download>colour PDF</a></span>
       <span><a href="/jewel.html">full rates</a> &nbsp;·&nbsp;
         <a href="/jewel-gallery.html">gallery</a> &nbsp;·&nbsp;
         <a href="/privacy.html">privacy</a> &nbsp;·&nbsp;

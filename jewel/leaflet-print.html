@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>hikki jewel design — leaflet (letter)</title>
+<!--
+  兩份 PDF 嘅來源。加 ?bw 就係黑白慳墨版，唔加就係全彩版。
+  出 PDF：
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless=new --disable-gpu --no-pdf-header-footer \
+      --virtual-time-budget=20000 \
+      --print-to-pdf=jewel/hikki-jewel-leaflet-colour.pdf \
+      "http://localhost:8010/jewel/leaflet-print.html"
+  Letter 8.5×11in，四邊留 10mm 唔印嘢——家用噴墨／鐳射都印得晒，唔會切邊。
+-->
+<style>
+  @page { size: letter; margin: 10mm; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --paper:#e9e5da; --card:#faf8f3; --ink:#141414; --ink-2:#55524b; --hair:#cdc8ba;
+  }
+  html.bw { --paper:#fff; --card:#fff; --ink:#000; --ink-2:#444; --hair:#999; }
+  html, body { background:var(--paper); color:var(--ink);
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:Helvetica, Arial, "PingFang TC", "Heiti TC",
+      "Microsoft JhengHei", sans-serif;
+    font-size:8.4pt; line-height:1.38; }
+  /* 196mm = Letter 216mm 減兩邊 10mm 邊。喺螢幕都寫實呢個闊度，
+     咁量到幾高就係印出嚟幾高，唔使靠估。 */
+  .sheet { border:2.2pt solid var(--ink); background:var(--card);
+    width:196mm; height:259mm; margin:0 auto;
+    display:flex; flex-direction:column; overflow:hidden; }
+
+  /* ── 報頭 ── */
+  .head { display:grid; grid-template-columns:auto 1fr auto;
+    border-bottom:2.2pt solid var(--ink); }
+  .mark { background:var(--ink); color:var(--card);
+    font-size:30pt; font-weight:700; line-height:.8;
+    padding:2.6mm 4.2mm 3.4mm; }
+  html.bw .mark { color:#fff; }
+  .cred { padding:2.2mm 3.4mm; border-left:2.2pt solid var(--ink);
+    border-right:2.2pt solid var(--ink);
+    display:flex; flex-direction:column; justify-content:center; }
+  .cred b { font-size:8.8pt; line-height:1.24; }
+  .cred span { font-size:7.2pt; color:var(--ink-2); margin-top:1.2mm;
+    padding-top:1.2mm; border-top:.5pt solid var(--hair); }
+  .code { width:11mm;
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 1.2px, transparent 1.2px 2.6px, var(--ink) 2.6px 3.2px,
+      transparent 3.2px 6px, var(--ink) 6px 8px, transparent 8px 9px); }
+
+  /* ── 標題 ── */
+  .ttl { display:grid; grid-template-columns:1fr auto;
+    border-bottom:2.2pt solid var(--ink); align-items:center; }
+  .ttl h1 { font-size:21pt; font-weight:700; letter-spacing:-.025em;
+    line-height:1; padding:2.2mm 4.2mm; }
+  .ttl .r { border-left:2.2pt solid var(--ink); align-self:stretch;
+    padding:2mm 3.4mm; display:flex; flex-direction:column; justify-content:center; }
+  .ttl .r b { font-size:8.6pt; }
+  .ttl .r span { font-size:7.4pt; color:var(--ink-2); }
+
+  /* ── 導言 ── */
+  .intro { padding:2.6mm 4.2mm; border-bottom:.5pt solid var(--hair); }
+  .say { font-size:12pt; font-weight:700; letter-spacing:-.02em; line-height:1.1; }
+  .intro p.e { margin-top:1.4mm; font-size:8pt; line-height:1.34; }
+  .intro p.c { margin-top:.9mm; font-size:7.6pt; color:var(--ink-2); line-height:1.4; }
+
+  /* ── 黑條 ── */
+  .bar { background:var(--ink); color:var(--card);
+    font-size:7.8pt; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:1.2mm 4.2mm; }
+  html.bw .bar { color:#fff; }
+  .bar i { font-style:normal; font-weight:400; letter-spacing:0;
+    text-transform:none; opacity:.78; margin-left:3mm; }
+
+  /* ── 相 ── */
+  .shots { display:grid; grid-template-columns:repeat(5,1fr); gap:1pt;
+    background:var(--ink); }
+  .shots img { width:100%; aspect-ratio:1; object-fit:cover; display:block;
+    background:var(--card); }
+  html.bw .shots img { filter:grayscale(1) contrast(1.07) brightness(1.04); }
+
+  /* ── 價目 ── */
+  .rates { display:grid; grid-template-columns:1fr 1fr; flex:1 1 auto; }
+  .col { padding:0; }
+  .col + .col { border-left:.5pt solid var(--hair); }
+  .row { display:grid; grid-template-columns:1fr auto auto;
+    align-items:baseline; gap:0 1.4mm; padding:1.5mm 4.2mm;
+    border-bottom:.5pt solid var(--hair); }
+  .row:last-child { border-bottom:0; }
+  .row .n { font-size:10.5pt; font-weight:700; letter-spacing:-.015em; }
+  .row .n i { display:block; font-style:normal; font-weight:400; font-size:6.6pt;
+    color:var(--ink-2); letter-spacing:0; line-height:1.3; margin-top:.4mm; }
+  .row .f { font-size:6.6pt; color:var(--ink-2); letter-spacing:.12em;
+    text-transform:uppercase; }
+  .row .v { font-size:10.5pt; font-weight:700; letter-spacing:-.02em; white-space:nowrap; }
+  .note { padding:1.4mm 4.2mm; font-size:6.6pt; color:var(--ink-2); line-height:1.4; }
+  .mini { display:grid; grid-template-columns:repeat(4,1fr);
+    border-top:.5pt solid var(--hair); }
+  .mini div { padding:1.2mm 2mm; border-right:.5pt solid var(--hair); }
+  .mini div:last-child { border-right:0; }
+  .mini dt { font-size:6.4pt; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-2); }
+  .mini dd { font-size:8.6pt; font-weight:700; letter-spacing:-.02em; margin-top:.3mm; }
+  /* 左欄下面原本吉一截，擺三行賣點落去——師傅想知嘅就係呢三樣 */
+  .why { padding:1.6mm 4.2mm 2mm; border-top:.5pt solid var(--hair); }
+  .why li { list-style:none; font-size:7pt; line-height:1.34; margin-top:1.3mm;
+    padding-left:3.4mm; position:relative; color:var(--ink-2); }
+  .why li:first-child { margin-top:0; }
+  .why li::before { content:''; position:absolute; left:0; top:.52em;
+    width:2mm; height:.5pt; background:var(--ink); }
+  .why b { color:var(--ink); }
+
+  /* ── 收尾 ── */
+  .strip { height:5mm; border-top:2.2pt solid var(--ink);
+    border-bottom:2.2pt solid var(--ink);
+    background-image:repeating-linear-gradient(90deg,
+      var(--ink) 0 1.4px, transparent 1.4px 3px, var(--ink) 3px 3.8px,
+      transparent 3.8px 7px, var(--ink) 7px 9.4px, transparent 9.4px 10.6px); }
+  .foot { background:var(--card); color:var(--ink); padding:3.2mm 4.2mm;
+    border-top:2.2pt solid var(--ink);
+    display:grid; grid-template-columns:1fr auto; gap:4mm; align-items:center; }
+  .foot .free { font-size:12.5pt; font-weight:700; letter-spacing:-.02em; line-height:1.1; }
+  .foot .sub { font-size:8pt; margin-top:1.2mm; color:var(--ink-2); }
+  .foot .cn { font-size:7.6pt; margin-top:.8mm; color:var(--ink-2); }
+  .call { text-align:right; }
+  .call b { display:block; font-size:14pt; font-weight:700; letter-spacing:-.03em;
+    line-height:1.14; }
+  .call span { display:block; font-size:7.4pt; margin-top:1.2mm; color:var(--ink-2); }
+</style>
+<script>
+  if (location.search.indexOf('bw') >= 0) document.documentElement.className = 'bw';
+</script>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="head">
+    <div class="mark">h</div>
+    <div class="cred">
+      <b>Five years of CAD drawing, and hands-on bench experience.<br>Trusted by the industry.</b>
+      <span>25&nbsp;µm layer printing &nbsp;·&nbsp; 0.03% ash yield rate &nbsp;·&nbsp;
+        Burnaby, B.C. &nbsp;·&nbsp; English, Cantonese and Mandarin</span>
+    </div>
+    <div class="code"></div>
+  </div>
+
+  <div class="ttl">
+    <h1>For the bench</h1>
+    <div class="r"><b>CAD</b><span>Excl. metal &amp; stones</span></div>
+  </div>
+
+  <div class="intro">
+    <p class="say">I draw it, I print it. You cast it.</p>
+    <p class="e">Two services: 3D design from a sketch, delivered as a printed castable
+      pattern — or printing from your own file. Prong seats, stone seats, wall thickness
+      and sprue placement are settled on the screen.</p>
+    <p class="c">本人誠意提供兩項服務：由草圖做 3D 設計並打印可鑄樣板，或者來圖代印。爪位、石座、壁厚同澆口喺電腦上面已經諗妥。可用廣東話、英語、普通話溝通。</p>
+  </div>
+
+  <div class="bar">Printed patterns <i>打印樣板　·　25 µm, wax-filled castable resin</i></div>
+  <div class="shots">
+    <img src="wax/w9-640.webp"  alt="">
+    <img src="wax/w12-640.webp" alt="">
+    <img src="wax/w18-640.webp" alt="">
+    <img src="wax/w10-640.webp" alt="">
+    <img src="wax/w13-640.webp" alt="">
+  </div>
+
+  <div class="bar">Rates <i>報價（加幣，不含金屬及石）</i></div>
+  <div class="rates">
+    <div class="col">
+      <div class="bar" style="background:none;color:var(--ink);border-bottom:.5pt solid var(--hair);padding-top:2mm;padding-bottom:1mm">01 / Design + pattern <i>設計＋蠟模</i></div>
+      <div class="row"><span class="n">Simple<i>Plain bands, simple solitaires, simple pendants</i><i>素圈、單顆簡單爪鑲、簡單墜子</i></span><span class="f"></span><span class="v">$120</span></div>
+      <div class="row"><span class="n">Standard<i>Halo, channel, multi-prong, simple pavé, engraved signet</i><i>群鑲、槽鑲、多爪、簡單密鑲、刻字印章戒</i></span><span class="f"></span><span class="v">$300</span></div>
+      <div class="row"><span class="n">Complex<i>Cathedral settings, extensive pavé, multi-part assemblies</i><i>教堂式、大面積密鑲、多部件組裝</i></span><span class="f">from</span><span class="v">$500</span></div>
+      <div class="row"><span class="n">Sculptural<i>Figures, animals, relief work</i><i>人物、動物、浮雕</i></span><span class="f">from</span><span class="v">$600</span></div>
+      <p class="note">Simple and Standard: ten business days. Complex and Sculptural: by
+        arrangement. Two rounds of revisions and a castability check included in every price.<br>
+        簡單款、標準款十個工作天；複雜款同原創雕塑另議。所有價錢已包兩輪修改及可鑄性檢查。</p>
+      <ul class="why">
+        <li><b>Crisp detail, clean burnout.</b> 25&nbsp;µm layers, wax-filled castable
+          resin rated at 0.03% ash, low expansion and shrinkage.<br>
+          細節清晰、燒失乾淨：25 µm 層厚，含蠟可鑄樹脂，灰分 0.03%。</li>
+        <li><b>Drawn from the bench.</b> Prong seats, wall thickness and sprues are
+          decided while modelling, not discovered at your bench.<br>
+          出自工作檯嘅思維：爪位、壁厚、澆口喺建模時已經定好。</li>
+        <li><b>Original work, any subject.</b> Sculpture trained; every design is my own.<br>
+          原創設計，題材多元：兼修雕塑，所有設計均屬原創。</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="bar" style="background:none;color:var(--ink);border-bottom:.5pt solid var(--hair);padding-top:2mm;padding-bottom:1mm">02 / Pattern from your file <i>來圖製蠟模</i></div>
+      <div class="row"><span class="n">Small<i>Rings, studs, small pendants</i><i>戒指、耳釘、小墜</i></span><span class="f"></span><span class="v">$35</span></div>
+      <div class="row"><span class="n">Medium<i>Heavier rings, mid-size pendants</i><i>較厚戒指、中型墜子</i></span><span class="f"></span><span class="v">$55</span></div>
+      <div class="row"><span class="n">Large<i>Large signet rings, heavy pieces</i><i>大型印章戒、厚重件</i></span><span class="f"></span><span class="v">$75</span></div>
+      <p class="note">Ships within three business days. I check the file for castability
+        before printing.<br>三個工作天內發貨。會先檢查可鑄性再開機。</p>
+      <dl class="mini">
+        <div><dt>1 copy</dt><dd>list</dd></div>
+        <div><dt>2–4</dt><dd>−15%</dd></div>
+        <div><dt>5–9</dt><dd>−25%</dd></div>
+        <div><dt>10+</dt><dd>−35%</dd></div>
+      </dl>
+      <dl class="mini">
+        <div><dt>Metro Van 大溫</dt><dd>free</dd></div>
+        <div><dt>In B.C. 省內</dt><dd>$20</dd></div>
+        <div><dt>West 西部</dt><dd>$22</dd></div>
+        <div><dt>East 東部</dt><dd>$30</dd></div>
+      </dl>
+      <p class="note">Metro Vancouver delivered by hand, elsewhere by tracked post.
+        Damaged in transit is reprinted free; postage charged again.<br>
+        大溫地區親自送達，其餘地區追蹤郵寄。（運輸過程損壞免費重印，郵資另收）</p>
+    </div>
+  </div>
+
+  <div class="strip"></div>
+  <div class="foot">
+    <div>
+      <div class="free">First one's on me.</div>
+      <div class="sub">Any shop in British Columbia: the first test pattern is free.</div>
+      <div class="cn">BC 省內任何金行，首件測試樣板免費。</div>
+    </div>
+    <div class="call">
+      <b>250-986-9516</b>
+      <b style="font-size:11.5pt">hikki.pnp@gmail.com</b>
+      <span>Dallas Lau &nbsp;·&nbsp; Hikki Jewel Design &nbsp;·&nbsp; hikki.ca/jewel-portfolio.html</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
