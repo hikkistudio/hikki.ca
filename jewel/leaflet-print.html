@@ -17,10 +17,11 @@
 <style>
   @page { size: letter; margin: 10mm; }
   * { margin:0; padding:0; box-sizing:border-box; }
+  /* 傳單淨係黑同白，冇米白冇灰底——影印、傳真、慳墨模式都唔會糊。
+     彩色版同黑白版唯一分別就係啲相：一個原色，一個轉灰階。 */
   :root {
-    --paper:#e9e5da; --card:#faf8f3; --ink:#141414; --ink-2:#55524b; --hair:#cdc8ba;
+    --paper:#fff; --card:#fff; --ink:#000; --ink-2:#444; --hair:#9a9a9a;
   }
-  html.bw { --paper:#fff; --card:#fff; --ink:#000; --ink-2:#444; --hair:#999; }
   html, body { background:var(--paper); color:var(--ink);
     -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   body { font-family:Helvetica, Arial, "PingFang TC", "Heiti TC",
@@ -36,19 +37,19 @@
   .head { display:grid; grid-template-columns:auto 1fr auto;
     border-bottom:2.2pt solid var(--ink); }
   .mark { background:var(--ink); color:var(--card);
-    font-size:30pt; font-weight:700; line-height:.8;
-    padding:2.6mm 4.2mm 3.4mm; }
-  html.bw .mark { color:#fff; }
+    font-size:46pt; font-weight:700; line-height:.74;
+    padding:3mm 5.4mm 4.6mm; display:flex; align-items:center; }
   .cred { padding:2.2mm 3.4mm; border-left:2.2pt solid var(--ink);
     border-right:2.2pt solid var(--ink);
     display:flex; flex-direction:column; justify-content:center; }
   .cred b { font-size:8.8pt; line-height:1.24; }
   .cred span { font-size:7.2pt; color:var(--ink-2); margin-top:1.2mm;
     padding-top:1.2mm; border-top:.5pt solid var(--hair); }
-  .code { width:11mm;
-    background-image:repeating-linear-gradient(90deg,
-      var(--ink) 0 1.2px, transparent 1.2px 2.6px, var(--ink) 2.6px 3.2px,
-      transparent 3.2px 6px, var(--ink) 6px 8px, transparent 8px 9px); }
+  /* 掃落去就係呢一版嘅網頁版。17mm 闊、33 格，每格 0.52mm——
+     再細就開始掃唔到，所以報頭高度係跟住佢定。 */
+  .code { padding:2mm; display:flex; align-items:center; }
+  .code img { width:17mm; height:17mm; display:block; }
+  .code figcaption { display:none; }
 
   /* ── 標題 ── */
   .ttl { display:grid; grid-template-columns:1fr auto;
@@ -70,7 +71,6 @@
   .bar { background:var(--ink); color:var(--card);
     font-size:7.8pt; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
     padding:1.2mm 4.2mm; }
-  html.bw .bar { color:#fff; }
   .bar i { font-style:normal; font-weight:400; letter-spacing:0;
     text-transform:none; opacity:.78; margin-left:3mm; }
 
@@ -143,7 +143,8 @@
       <span>25&nbsp;µm layer printing &nbsp;·&nbsp; 0.03% ash yield rate &nbsp;·&nbsp;
         Burnaby, B.C. &nbsp;·&nbsp; English, Cantonese and Mandarin</span>
     </div>
-    <div class="code"></div>
+    <div class="code"><img src="qr-jewel.svg" width="330" height="330"
+      alt="QR code to hikki.ca/jewel.html"></div>
   </div>
 
   <div class="ttl">
@@ -161,11 +162,11 @@
 
   <div class="bar">Printed patterns <i>打印樣板　·　25 µm, wax-filled castable resin</i></div>
   <div class="shots">
-    <img src="wax/w9-640.webp"  alt="">
-    <img src="wax/w12-640.webp" alt="">
-    <img src="wax/w18-640.webp" alt="">
+    <img src="wax/w2-640.webp"  alt="">
+    <img src="wax/w4-640.webp"  alt="">
+    <img src="wax/w19-640.webp" alt="">
+    <img src="wax/w7-640.webp"  alt="">
     <img src="wax/w10-640.webp" alt="">
-    <img src="wax/w13-640.webp" alt="">
   </div>
 
   <div class="bar">Rates <i>報價（加幣，不含金屬及石）</i></div>
@@ -225,7 +226,7 @@
     <div class="call">
       <b>250-986-9516</b>
       <b style="font-size:11.5pt">hikki.pnp@gmail.com</b>
-      <span>Dallas Lau &nbsp;·&nbsp; Hikki Jewel Design &nbsp;·&nbsp; hikki.ca/jewel-portfolio.html</span>
+      <span>Dallas Lau &nbsp;·&nbsp; Hikki Jewel Design &nbsp;·&nbsp; hikki.ca/jewel.html</span>
     </div>
   </div>
 

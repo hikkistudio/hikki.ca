@@ -6,7 +6,7 @@
      · HTML / JS / CSS         → network-first，斷網先至拎 cache
      · 其他（API、第三方）      → 完全唔碰
    ===================================================================== */
-const CACHE_VERSION = 'v140';
+const CACHE_VERSION = 'v142';
 const CACHE = 'hikki-' + CACHE_VERSION;
 
 const CACHE_FIRST = [
