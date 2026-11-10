@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <script>document.documentElement.className+=" js";</script>
+  <title>For the bench — 3D design &amp; castable patterns | hikki jewel design</title>
+  <meta name="theme-color" content="#e9e5da"/>
+  <link rel="icon" href="/favicon.png"/>
+  <link rel="stylesheet" href="/site.css?v=138"/>
+  <script src="/site.js?v=138" defer></script>
+  <script type="module" src="/model-viewer.min.js?v=138" defer></script>
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       傳單。唔係畀人欣賞，係畀師傅喺檔口開嚟睇嘅：
+       字大、行清、黑白分明，一眼睇到價錢同點搵人。
+       配色同卡背一樣：米色紙、黑色色塊、Helvetica 粗體、條碼。
+       冇任何動畫、冇 hover 花巧，印出嚟同螢幕上面一樣。
+       ══════════════════════════════════════════════════════════════ */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --hk-bar-alpha:.86;
+      --paper:#e9e5da;          /* 頁底 */
+      --card:#faf8f3;           /* 卡面 */
+      --ink:#141414;
+      --ink-2:#5d5a52;
+      --rule:#141414;
+    }
+    html, body { background:var(--paper); color:var(--ink); }
+    body { font-family:var(--hk-font-sans); line-height:1.5;
+      -webkit-text-size-adjust:100%; }
+    ::selection { background:#141414; color:var(--card); }
+
+    .lf { max-width:960px; margin:0 auto;
+      padding:calc(var(--hk-bar-h) + 18px) clamp(12px,3vw,28px) 0; }
+
+    /* 每一版都係一塊有黑框嘅卡 */
+    .card { background:var(--card); border:3px solid var(--ink);
+      margin-bottom:clamp(14px,2.4vw,22px); }
+    .card + .card { margin-top:0; }
+    .pad { padding:clamp(16px,2.6vw,26px); }
+
+    /* ── 報頭：黑方格 h ＋ 資歷 ＋ 條碼，同卡背一樣 ── */
+    .head { display:grid; grid-template-columns:auto 1fr auto; align-items:stretch;
+      border-bottom:3px solid var(--ink); }
+    .mark { background:var(--ink); color:var(--card);
+      font-weight:700; font-size:clamp(56px,10vw,104px); line-height:.82;
+      padding:clamp(10px,1.6vw,16px) clamp(16px,2.4vw,26px) clamp(16px,2vw,22px);
+      display:flex; align-items:flex-start; }
+    .cred { padding:clamp(12px,1.8vw,18px) clamp(12px,2vw,20px);
+      border-left:3px solid var(--ink); border-right:3px solid var(--ink);
+      display:flex; flex-direction:column; justify-content:center; gap:.5em; }
+    .cred b { font-size:clamp(13px,1.5vw,16px); line-height:1.32; display:block; }
+    .cred span { font-size:clamp(12px,1.35vw,15px); color:var(--ink-2);
+      line-height:1.4; display:block; padding-top:.5em; border-top:1px solid #cfcabc; }
+    .code { width:clamp(44px,7vw,74px); align-self:stretch; }
+
+    /* 條碼：純 CSS 嘅重複漸變，唔使落圖 */
+    .bars { background-image:repeating-linear-gradient(90deg,
+        var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 5px, transparent 5px 9px,
+        var(--ink) 9px 12px, transparent 12px 13px, var(--ink) 13px 14px, transparent 14px 18px);
+      background-color:var(--card); }
+    .bars.vert { background-image:repeating-linear-gradient(90deg,
+        var(--ink) 0 3px, transparent 3px 5px, var(--ink) 5px 6px, transparent 6px 11px,
+        var(--ink) 11px 13px, transparent 13px 14px); }
+    .strip { height:clamp(26px,3.4vw,40px); border-top:3px solid var(--ink);
+      border-bottom:3px solid var(--ink); }
+
+    /* ── 大標題 ── */
+    .ttl { display:grid; grid-template-columns:1fr auto; align-items:center;
+      border-bottom:3px solid var(--ink); }
+    .ttl h1, .ttl h2 { font-size:clamp(34px,6.4vw,62px); font-weight:700;
+      letter-spacing:-.025em; line-height:1;
+      padding:clamp(10px,1.6vw,16px) clamp(16px,2.4vw,26px); }
+    .ttl-r { border-left:3px solid var(--ink); align-self:stretch;
+      padding:clamp(10px,1.6vw,16px) clamp(14px,2vw,22px);
+      display:flex; flex-direction:column; justify-content:center; }
+    .ttl-r b { font-size:clamp(13px,1.5vw,16px); }
+    .ttl-r span { font-size:clamp(11px,1.25vw,14px); color:var(--ink-2); }
+
+    /* ── 黑色段落條 ── */
+    .bar { background:var(--ink); color:var(--card);
+      font-size:clamp(13px,1.6vw,17px); font-weight:700;
+      letter-spacing:.08em; text-transform:uppercase;
+      padding:clamp(7px,1vw,11px) clamp(16px,2.4vw,26px); }
+    .bar .cn { font-weight:400; letter-spacing:.02em; opacity:.72;
+      text-transform:none; margin-left:.7em; }
+
+    /* ── 價目行：名喺左，價喺右，一行一條線 ── */
+    .price { padding:0 clamp(16px,2.4vw,26px); }
+    .row { display:grid; grid-template-columns:1fr auto auto;
+      align-items:baseline; gap:0 .6em;
+      padding:clamp(9px,1.3vw,14px) 0; border-bottom:1px solid #d6d1c4; }
+    .row:last-child { border-bottom:0; }
+    .row .n { font-size:clamp(19px,2.9vw,30px); font-weight:700; letter-spacing:-.015em; }
+    .row .n i { display:block; font-style:normal; font-weight:400;
+      font-size:clamp(11px,1.3vw,14px); color:var(--ink-2); letter-spacing:0;
+      line-height:1.35; margin-top:.25em; max-width:46ch; }
+    .row .f { font-size:clamp(10px,1.2vw,13px); color:var(--ink-2);
+      letter-spacing:.14em; text-transform:uppercase; }
+    .row .v { font-size:clamp(19px,2.9vw,30px); font-weight:700;
+      letter-spacing:-.02em; white-space:nowrap; }
+    .note { padding:clamp(10px,1.4vw,15px) clamp(16px,2.4vw,26px) clamp(14px,1.8vw,20px);
+      font-size:clamp(12px,1.4vw,15px); color:var(--ink-2); line-height:1.5; }
+
+    /* ── 細表（折扣、運費）── */
+    .grid2 { display:grid; grid-template-columns:1fr 1fr;
+      border-top:1px solid #d6d1c4; }
+    @media (min-width:700px) { .grid2 { grid-template-columns:repeat(4,1fr); } }
+    .cell { padding:clamp(10px,1.4vw,15px) clamp(14px,2vw,20px);
+      border-right:1px solid #d6d1c4; border-bottom:1px solid #d6d1c4; }
+    .cell:nth-child(2n) { border-right:0; }
+    @media (min-width:700px) {
+      .cell { border-right:1px solid #d6d1c4; }
+      .cell:nth-child(2n) { border-right:1px solid #d6d1c4; }
+      .cell:nth-child(4n) { border-right:0; }
+    }
+    .cell dt { font-size:clamp(10px,1.2vw,13px); letter-spacing:.12em;
+      text-transform:uppercase; color:var(--ink-2); }
+    .cell dd { font-size:clamp(17px,2.3vw,24px); font-weight:700;
+      letter-spacing:-.02em; margin-top:.15em; }
+
+    /* ── 正文 ── */
+    .say { font-size:clamp(20px,3.2vw,34px); font-weight:700;
+      letter-spacing:-.02em; line-height:1.18; max-width:22ch; }
+    .body p { font-size:clamp(14px,1.7vw,18px); line-height:1.62; max-width:60ch;
+      margin-top:.75em; }
+    .cn-line { font-size:clamp(13px,1.6vw,16.5px); color:var(--ink-2);
+      line-height:1.75; max-width:40ch; margin-top:.6em; }
+
+    /* ── 蠟模相：格仔大，撳落去睇原圖 ── */
+    .shots { display:grid; grid-template-columns:repeat(2,1fr); gap:3px;
+      background:var(--ink); border-top:3px solid var(--ink); }
+    @media (min-width:560px) { .shots { grid-template-columns:repeat(3,1fr); } }
+    @media (min-width:860px) { .shots { grid-template-columns:repeat(4,1fr); } }
+    .shots a { display:block; background:var(--card); }
+    .shots img { width:100%; height:auto; aspect-ratio:1; object-fit:cover;
+      display:block; }
+
+    /* ── 3D ── */
+    .mv-wrap { position:relative; background:#1a1a1a;
+      border-top:3px solid var(--ink); }
+    model-viewer { width:100%; height:clamp(300px,52vw,480px); display:block;
+      background:#1a1a1a; --poster-color:#1a1a1a; }
+    .picks { display:grid; grid-template-columns:repeat(2,1fr);
+      border-top:3px solid var(--ink); }
+    @media (min-width:640px) { .picks { grid-template-columns:repeat(3,1fr); } }
+    .picks button { appearance:none; cursor:pointer; background:var(--card);
+      border:0; border-right:1px solid #d6d1c4; border-bottom:1px solid #d6d1c4;
+      font-family:inherit; color:var(--ink); text-align:left;
+      font-size:clamp(13px,1.6vw,17px); font-weight:700; letter-spacing:-.01em;
+      padding:clamp(11px,1.5vw,16px) clamp(14px,2vw,20px);
+      touch-action:manipulation; }
+    .picks button[aria-pressed="true"] { background:var(--ink); color:var(--card); }
+    .picks button:focus-visible { outline:3px solid var(--ink); outline-offset:-3px; }
+    .picks button i { display:block; font-style:normal; font-weight:400;
+      font-size:clamp(10px,1.2vw,13px); color:var(--ink-2);
+      letter-spacing:.1em; text-transform:uppercase; margin-top:.3em; }
+    .picks button[aria-pressed="true"] i { color:#b9b3a4; }
+
+    /* ── 免費首件 ＋ 聯絡：成塊黑 ── */
+    .black { background:var(--ink); color:var(--card); }
+    .black .say { max-width:none; }
+    .black p { color:#cfc9ba; }
+    .big-call { display:grid; gap:clamp(6px,1vw,10px); margin-top:clamp(14px,2vw,20px); }
+    .big-call a { color:var(--card); text-decoration:none;
+      font-size:clamp(22px,4.4vw,44px); font-weight:700; letter-spacing:-.03em;
+      line-height:1.1; border-bottom:3px solid #4a463c; width:max-content;
+      max-width:100%; word-break:break-word; }
+    .big-call a:hover, .big-call a:focus-visible { border-bottom-color:var(--card); }
+    .black .cn-line { color:#aaa49a; }
+
+    .foot { font-size:clamp(11px,1.3vw,14px); color:var(--ink-2);
+      letter-spacing:.06em; text-transform:uppercase;
+      padding:clamp(14px,2vw,20px) clamp(4px,1vw,10px) clamp(26px,4vw,44px);
+      display:flex; flex-wrap:wrap; gap:6px 20px; justify-content:space-between; }
+    .foot a { color:inherit; }
+
+    @media (max-width:560px) {
+      .head { grid-template-columns:auto 1fr; }
+      .code { display:none; }
+      .cred { border-right:0; }
+      .row { grid-template-columns:1fr auto; }
+      .row .f { grid-column:1; justify-self:start; margin-top:-.2em; }
+    }
+
+    /* 印出嚟：唔好印黑底，慳墨，而且睇得清 */
+    @media print {
+      :root { --paper:#fff; --card:#fff; }
+      .hk-bar, .hk-menu, .hk-fallback-nav, .mv-wrap, .picks { display:none !important; }
+      .lf { padding-top:0; max-width:none; }
+      .card { break-inside:avoid; }
+      .black { background:#fff; color:#141414; border-top:3px solid #141414; }
+      .black p, .black .cn-line { color:#5d5a52; }
+      .big-call a { color:#141414; border-bottom-color:#141414; }
+    }
+  </style>
+  <meta name="description" content="A one-page leaflet for bench jewellers in British Columbia: 3D design and castable pattern printing at 25 µm, printed wax patterns, 3D models you can turn, and the full price list. First test pattern free to any BC shop."/>
+  <meta name="author" content="hikki photography"/>
+  <link rel="canonical" href="https://hikki.ca/jewel-portfolio.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="hikki photography"/>
+  <meta property="og:locale" content="en_CA"/>
+  <meta property="og:title" content="For the bench — 3D design &amp; castable patterns | hikki jewel design"/>
+  <meta property="og:description" content="Patterns at 25 µm in 0.03% ash castable resin. Price list, printed patterns and 3D models. First test pattern free to any BC shop."/>
+  <meta property="og:url" content="https://hikki.ca/jewel-portfolio.html"/>
+  <meta property="og:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <meta property="og:image:alt" content="Three signet patterns printed in castable wax resin"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="For the bench — 3D design &amp; castable patterns | hikki jewel design"/>
+  <meta name="twitter:image" content="https://hikki.ca/jewel/og-jewel.webp"/>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Service","@id":"https://hikki.ca/jewel-portfolio.html#service",
+   "serviceType":"3D jewellery design and castable pattern printing",
+   "name":"3D design and castable pattern printing for bench jewellers",
+   "url":"https://hikki.ca/jewel-portfolio.html",
+   "description":"Trade service for jewellers: 3D design from a sketch, and castable patterns printed at 25 µm in wax-filled resin rated at 0.03% ash. First test pattern free to any shop in British Columbia.",
+   "provider":{"@id":"https://hikki.ca/#jewel"},
+   "areaServed":{"@type":"Country","name":"Canada"},
+   "audience":{"@type":"BusinessAudience","name":"Jewellery shops and bench jewellers"},
+   "availableLanguage":["en","yue","zh-Hant"],
+   "hasOfferCatalog":{"@type":"OfferCatalog","name":"Trade rates","itemListElement":[
+     {"@type":"Offer","priceCurrency":"CAD","price":"120","itemOffered":{"@type":"Service","name":"Design + pattern — simple"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"300","itemOffered":{"@type":"Service","name":"Design + pattern — standard"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"500","itemOffered":{"@type":"Service","name":"Design + pattern — complex"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"600","itemOffered":{"@type":"Service","name":"Design + pattern — sculptural"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"35","itemOffered":{"@type":"Service","name":"Pattern from your file — small"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"55","itemOffered":{"@type":"Service","name":"Pattern from your file — medium"}},
+     {"@type":"Offer","priceCurrency":"CAD","price":"75","itemOffered":{"@type":"Service","name":"Pattern from your file — large"}}]}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"hikki","item":"https://hikki.ca/"},
+    {"@type":"ListItem","position":2,"name":"Jewel design","item":"https://hikki.ca/jewel.html"},
+    {"@type":"ListItem","position":3,"name":"For the bench","item":"https://hikki.ca/jewel-portfolio.html"}]}
+  </script>
+</head>
+<body>
+  <!-- 靜態導航：site.js 載唔到都仲有得去其他頁；爬蟲亦都跟得到。 -->
+  <nav id="hkFallbackNav" class="hk-fallback-nav" aria-label="site">
+    <a href="/">hikki photography</a>
+    <a href="/about.html">about &amp; rates</a>
+    <a href="/gallery.html">gallery</a>
+    <a href="/jewel.html">jewel design</a>
+    <a href="/jewel-gallery.html">jewel gallery</a>
+    <a href="/privacy.html">privacy</a>
+    <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+    <a href="tel:+12509869516">250-986-9516</a>
+  </nav>
+
+  <main class="lf hk-selectable">
+
+    <!-- ══ 報頭 ══ -->
+    <section class="card">
+      <div class="head">
+        <div class="mark" aria-hidden="true">h</div>
+        <div class="cred">
+          <b>Five years of CAD drawing, and hands-on bench experience.</b>
+          <span>25&nbsp;µm layer printing &nbsp;·&nbsp; 0.03% ash yield rate</span>
+        </div>
+        <div class="code bars vert" aria-hidden="true"></div>
+      </div>
+      <div class="ttl">
+        <h1>For the bench</h1>
+        <div class="ttl-r"><b>Burnaby, B.C.</b><span>English · 廣東話 · 普通話</span></div>
+      </div>
+      <div class="pad body">
+        <p class="say">I draw it, I print it. You cast it.</p>
+        <p>Two services, nothing else. Send a sketch and get back a pattern that is
+          ready for the flask — or send your own file and get it printed. Prong seats,
+          stone seats, wall thickness and sprue placement are settled on the screen,
+          so nothing surprises you at the bench.</p>
+        <p class="cn-line">本人只做兩件事：由草圖做 3D 設計並打印可鑄樣板，
+          或者來圖代印。爪位、石座、壁厚同澆口喺電腦上面已經諗妥，
+          唔會到你手先至出事。可用廣東話、英語、普通話溝通。</p>
+      </div>
+    </section>
+
+    <!-- ══ 蠟模相 ══ -->
+    <section class="card">
+      <h2 class="bar">01 / Printed patterns <span class="cn">打印樣板</span></h2>
+      <div class="pad body">
+        <p>Every piece below came off the printer at 25&nbsp;µm in wax-filled castable
+          resin, rated by the maker at 0.03% ash. Tap any photograph to see it full size.</p>
+      </div>
+      <div class="shots">
+        <a href="jewel/wax/w9-1400.webp"><img src="jewel/wax/w9-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A turbaned head and shoulders, printed as a solid resin bust"></a>
+        <a href="jewel/wax/w12-1400.webp"><img src="jewel/wax/w12-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="An orchid with curled petals, printed thin enough to light through"></a>
+        <a href="jewel/wax/w18-1400.webp"><img src="jewel/wax/w18-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A signet with an intaglio face carved into the resin"></a>
+        <a href="jewel/wax/w10-1400.webp"><img src="jewel/wax/w10-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A long-coated dog standing, printed solid in castable resin"></a>
+        <a href="jewel/wax/w1-1400.webp"><img src="jewel/wax/w1-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Openwork filigree band printed in castable resin, still standing on its support pillars"></a>
+        <a href="jewel/wax/w13-1400.webp"><img src="jewel/wax/w13-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A flowering pattern on its raft, the supports still holding it up"></a>
+        <a href="jewel/wax/w15-1400.webp"><img src="jewel/wax/w15-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A ring head packed with cabochon seats, printed in castable resin"></a>
+        <a href="jewel/wax/w4-1400.webp"><img src="jewel/wax/w4-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Three signet patterns with engraved intaglio faces"></a>
+        <a href="jewel/wax/w14-1400.webp"><img src="jewel/wax/w14-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A figure group still on its printing raft, supports uncut"></a>
+        <a href="jewel/wax/w17-1400.webp"><img src="jewel/wax/w17-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A ring with a pierced shank and long claw prongs waiting for a stone"></a>
+        <a href="jewel/wax/w3-1400.webp"><img src="jewel/wax/w3-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Ring pattern on its support tree, still attached to the build plate"></a>
+        <a href="jewel/wax/w19-1400.webp"><img src="jewel/wax/w19-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A wide band carved with scrolling foliage"></a>
+        <a href="jewel/wax/w11-1400.webp"><img src="jewel/wax/w11-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A small dog harnessed to a two-wheeled cart"></a>
+        <a href="jewel/wax/w6-1400.webp"><img src="jewel/wax/w6-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Solitaire pattern with a printed stone and claw setting"></a>
+        <a href="jewel/wax/w16-1400.webp"><img src="jewel/wax/w16-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="A cluster head on its support pillars, pavé seats cut along the shank"></a>
+        <a href="jewel/wax/w2-1400.webp"><img src="jewel/wax/w2-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Printed band with milgrained stone seats, a second floral band behind it"></a>
+        <a href="jewel/wax/w20-1400.webp"><img src="jewel/wax/w20-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="An openwork band standing on edge, pierced the whole way round"></a>
+        <a href="jewel/wax/w7-1400.webp"><img src="jewel/wax/w7-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Ring pattern with a cluster head and prong seats"></a>
+        <a href="jewel/wax/w5-1400.webp"><img src="jewel/wax/w5-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Prong cups held up on their support pillars, close up"></a>
+        <a href="jewel/wax/w8-1400.webp"><img src="jewel/wax/w8-640.webp" width="640" height="640" loading="lazy" decoding="async" alt="Winged openwork pattern, layered blades"></a>
+      </div>
+    </section>
+
+    <!-- ══ 3D ══ -->
+    <section class="card">
+      <h2 class="bar">02 / The models <span class="cn">3D 模型</span></h2>
+      <div class="pad body">
+        <p>This is what you get back before anything is printed. Drag to turn it,
+          pinch or scroll to zoom. Pick a ring below.</p>
+        <p class="cn-line">打印之前你收到嘅就係呢樣。用手指拖可以轉，
+          兩指撐開可以放大。喺下面揀戒指。</p>
+      </div>
+      <div class="mv-wrap">
+        <model-viewer id="mv"
+          src="models/ring-signet.glb?v=138"
+          alt="A signet ring modelled in 3D, turned on screen"
+          camera-controls auto-rotate auto-rotate-delay="2500" rotation-per-second="14deg"
+          interaction-prompt="none" exposure="1.15"
+          shadow-intensity="0.5" shadow-softness="0.85"
+          environment-image="neutral" interpolation-decay="100"
+          loading="lazy"></model-viewer>
+      </div>
+      <div class="picks" id="picks">
+        <button type="button" data-src="models/ring-signet.glb?v=138" aria-pressed="true">no.103-F signet<i>standard</i></button>
+        <button type="button" data-src="models/ring-milgrain.glb?v=138" aria-pressed="false">no.7 milgrain<i>simple</i></button>
+        <button type="button" data-src="models/ring-engagement.glb?v=138" aria-pressed="false">no.55 engagement<i>simple</i></button>
+        <button type="button" data-src="models/ring-emerald.glb?v=138" aria-pressed="false">no.216 emerald<i>standard</i></button>
+        <button type="button" data-src="models/ring-camellia.glb?v=138" aria-pressed="false">no.63-G camellia<i>complex</i></button>
+        <button type="button" data-src="models/ring-hexflower.glb?v=138" aria-pressed="false">no.64 hex flower<i>sculptural</i></button>
+      </div>
+    </section>
+
+    <!-- ══ 價目 ══ -->
+    <section class="card">
+      <div class="ttl">
+        <h2>Rates</h2>
+        <div class="ttl-r"><b>CAD</b><span>Excl. metal &amp; stones</span></div>
+      </div>
+
+      <h3 class="bar">01 / Design + pattern <span class="cn">設計＋蠟模</span></h3>
+      <div class="price">
+        <div class="row"><span class="n">Simple<i>Plain bands, simple solitaires, simple pendants　素圈、單顆簡單爪鑲、簡單墜子</i></span><span class="f"></span><span class="v">$120</span></div>
+        <div class="row"><span class="n">Standard<i>Halo, channel, multi-prong, simple pavé, engraved signet　群鑲、槽鑲、多爪、簡單密鑲、刻字印章戒</i></span><span class="f"></span><span class="v">$300</span></div>
+        <div class="row"><span class="n">Complex<i>Cathedral settings, extensive pavé, multi-part assemblies　教堂式、大面積密鑲、多部件組裝</i></span><span class="f">from</span><span class="v">$500</span></div>
+        <div class="row"><span class="n">Sculptural<i>Figures, animals, relief work　人物、動物、浮雕</i></span><span class="f">from</span><span class="v">$600</span></div>
+      </div>
+      <p class="note">Simple and Standard: ten business days. Complex and Sculptural: by
+        arrangement. Two rounds of revisions and a castability check are included in
+        every price.<br>簡單款、標準款十個工作天；複雜款同原創雕塑另議。所有價錢已包兩輪修改及可鑄性檢查。</p>
+
+      <h3 class="bar">02 / Pattern from your file <span class="cn">來圖製蠟模</span></h3>
+      <div class="price">
+        <div class="row"><span class="n">Small<i>Rings, studs, small pendants　戒指、耳釘、小墜</i></span><span class="f"></span><span class="v">$35</span></div>
+        <div class="row"><span class="n">Medium<i>Heavier rings, mid-size pendants　較厚戒指、中型墜子</i></span><span class="f"></span><span class="v">$55</span></div>
+        <div class="row"><span class="n">Large<i>Large signet rings, heavy pieces　大型印章戒、厚重件</i></span><span class="f"></span><span class="v">$75</span></div>
+      </div>
+      <p class="note">Ships within three business days. Send the file, I check it for
+        castability first.<br>三個工作天內發貨。收到檔先檢查可鑄性，再開機。</p>
+
+      <h3 class="bar">Volume <span class="cn">同款數量折扣</span></h3>
+      <dl class="grid2">
+        <div class="cell"><dt>1 copy</dt><dd>list price</dd></div>
+        <div class="cell"><dt>2–4 copies</dt><dd>−15%</dd></div>
+        <div class="cell"><dt>5–9 copies</dt><dd>−25%</dd></div>
+        <div class="cell"><dt>10 or more</dt><dd>−35%</dd></div>
+      </dl>
+
+      <h3 class="bar">Delivery <span class="cn">交付及運費</span></h3>
+      <dl class="grid2">
+        <div class="cell"><dt>Metro Vancouver 大溫</dt><dd>free</dd></div>
+        <div class="cell"><dt>Elsewhere in B.C. 省內</dt><dd>$20</dd></div>
+        <div class="cell"><dt>Western provinces 西部</dt><dd>$22</dd></div>
+        <div class="cell"><dt>Eastern provinces 東部</dt><dd>$30</dd></div>
+      </dl>
+      <p class="note">Metro Vancouver is delivered by hand. Everywhere else is tracked
+        shipping at a flat rate.<br>大溫地區親自送達，其餘地區追蹤郵寄、一口價。</p>
+      <div class="strip bars" aria-hidden="true"></div>
+    </section>
+
+    <!-- ══ 免費首件 ＋ 聯絡 ══ -->
+    <section class="card black">
+      <div class="pad">
+        <p class="say">First one's on me.</p>
+        <p>Any shop in British Columbia: the first test pattern is free. Cast it in your
+          own furnace, and tell me how it burned out. That is the whole deal — no
+          strings, no minimum, no account to open.</p>
+        <p class="cn-line">BC 省內任何金行，首件測試樣板免費。
+          用你自己嘅爐鑄一次，再話我知燒失點樣。就係咁，冇附帶條件。</p>
+        <div class="big-call">
+          <a href="tel:+12509869516">250-986-9516</a>
+          <a href="mailto:hikki.pnp@gmail.com">hikki.pnp@gmail.com</a>
+        </div>
+        <p class="cn-line">Dallas Lau &nbsp;·&nbsp; Hikki Jewel Design &nbsp;·&nbsp;
+          Burnaby, British Columbia &nbsp;·&nbsp; 可攜樣板及鑄件親自登門</p>
+      </div>
+    </section>
+
+    <p class="foot">
+      <span>&copy; 2026 hikki photography &amp; philosophy</span>
+      <span><a href="/jewel.html">full rates</a> &nbsp;·&nbsp;
+        <a href="/jewel-gallery.html">gallery</a> &nbsp;·&nbsp;
+        <a href="/privacy.html">privacy</a> &nbsp;·&nbsp;
+        <a href="/">index</a></span>
+    </p>
+  </main>
+
+  <script>
+    /* 揀戒指。冇 JS 嘅話預設嗰隻照樣睇得到、價目表同相片一樣睇得到。 */
+    (function () {
+      var mv = document.getElementById('mv'), picks = document.getElementById('picks');
+      if (!mv || !picks) return;
+      picks.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-src]');
+        if (!b) return;
+        var all = picks.querySelectorAll('button');
+        for (var i = 0; i < all.length; i++) all[i].setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-pressed', 'true');
+        mv.src = b.dataset.src;
+        mv.alt = b.firstChild.nodeValue.trim() + ' — a ring modelled in 3D, turned on screen';
+      });
+    })();
+  </script>
+</body>
+</html>
