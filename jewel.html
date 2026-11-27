@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- POLI3-TAKEOVER-START -->
+  <!-- 2026-11-27 夜，台灣大選前：全站暫時轉去 POLI-3。這一段是臨時的。
+       拆返（十分鐘內全站生效，HTML 不經 Cloudflare 快取）：
+         python3 scripts/takeover.py off && python3 bump.py
+       KEEP 裏那幾版不轉：傳單同卡片上面印了 QR，掃下去要見到原本那一頁。
+       想連那幾版都轉，把 KEEP 改成空陣列 []（十五個檔都要改，見 scripts/takeover.py）。
+       網址加 ?stay 可以照看原本那一頁，之後同一個分頁都不會再轉。 -->
+  <script>(function(){var K=['/jewel.html','/gallery.html'],
+    p=location.pathname.replace(/\/index\.html$/,'/');
+    if(p.indexOf('/poli3/')===0||p.indexOf('/alex')===0)return;
+    for(var i=0;i<K.length;i++)if(p===K[i])return;
+    try{if(location.search.indexOf('stay')>=0){sessionStorage.setItem('hk-stay','1');return;}
+        if(sessionStorage.getItem('hk-stay'))return;}catch(e){}
+    location.replace('/poli3/');})();</script>
+  <!-- POLI3-TAKEOVER-END -->
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
   <script>document.documentElement.className+=" js";</script>
   <title>Jewel design — 3D design &amp; castable patterns for the bench | hikki</title>
   <meta name="theme-color" content="#e9e5da"/>
   <link rel="icon" href="/favicon.png"/>
-  <link rel="stylesheet" href="/site.css?v=146"/>
-  <script src="/site.js?v=146" defer></script>
-  <script type="module" src="/model-viewer.min.js?v=146" defer></script>
+  <link rel="stylesheet" href="/site.css?v=147"/>
+  <script src="/site.js?v=147" defer></script>
+  <script type="module" src="/model-viewer.min.js?v=147" defer></script>
   <style>
     /* ══════════════════════════════════════════════════════════════
        傳單。唔係畀人欣賞，係畀師傅喺檔口開嚟睇嘅：
@@ -368,7 +383,7 @@
       </div>
       <div class="mv-wrap">
         <model-viewer id="mv"
-          src="models/ring-signet.glb?v=146"
+          src="models/ring-signet.glb?v=147"
           alt="A signet ring modelled in 3D, turned on screen"
           camera-controls auto-rotate auto-rotate-delay="2500" rotation-per-second="14deg"
           interaction-prompt="none" exposure="1.15"
@@ -377,12 +392,12 @@
           loading="lazy"></model-viewer>
       </div>
       <div class="picks" id="picks">
-        <button type="button" data-src="models/ring-signet.glb?v=146" aria-pressed="true">no.103-F signet<i>standard</i></button>
-        <button type="button" data-src="models/ring-milgrain.glb?v=146" aria-pressed="false">no.7 milgrain<i>simple</i></button>
-        <button type="button" data-src="models/ring-engagement.glb?v=146" aria-pressed="false">no.55 engagement<i>simple</i></button>
-        <button type="button" data-src="models/ring-emerald.glb?v=146" aria-pressed="false">no.216 emerald<i>standard</i></button>
-        <button type="button" data-src="models/ring-camellia.glb?v=146" aria-pressed="false">no.63-G camellia<i>complex</i></button>
-        <button type="button" data-src="models/ring-hexflower.glb?v=146" aria-pressed="false">no.64 hex flower<i>sculptural</i></button>
+        <button type="button" data-src="models/ring-signet.glb?v=147" aria-pressed="true">no.103-F signet<i>standard</i></button>
+        <button type="button" data-src="models/ring-milgrain.glb?v=147" aria-pressed="false">no.7 milgrain<i>simple</i></button>
+        <button type="button" data-src="models/ring-engagement.glb?v=147" aria-pressed="false">no.55 engagement<i>simple</i></button>
+        <button type="button" data-src="models/ring-emerald.glb?v=147" aria-pressed="false">no.216 emerald<i>standard</i></button>
+        <button type="button" data-src="models/ring-camellia.glb?v=147" aria-pressed="false">no.63-G camellia<i>complex</i></button>
+        <button type="button" data-src="models/ring-hexflower.glb?v=147" aria-pressed="false">no.64 hex flower<i>sculptural</i></button>
       </div>
     </section>
 
