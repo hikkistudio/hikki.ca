@@ -1,7 +1,7 @@
 {
   "name": "POLI-3",
   "short_name": "POLI-3",
-  "description": "一個意識形態測試：先替一個世界定下規矩，再活在其中。",
+  "description": "意識形態測試",
   "lang": "zh-Hant",
   "start_url": "./",
   "scope": "./",
