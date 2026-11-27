@@ -7,5 +7,5 @@
 
 # 備份
 *.bak
-# 遊戲唔喺呢個 repo 住。要擺返上嚟就明文解封，唔好靠記性。
-poli3/
+# 2026-11-27 主理人：手機網頁版 b1.0m 正式上架，明文解封。poli3/ 由 ~/Downloads/poli3 的 `npm run build:web`（dist-web/）複製過來，
+# 歷史片段、付費介面、付費說明、釣魚彩蛋都不在這一份建置裏（scratchpad/webscan.sh 掃過）。
